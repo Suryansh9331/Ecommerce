@@ -150,7 +150,7 @@ const ReturnRefund = () => {
                 
                 <Step icon={<Truck size={20} />} title="Ship Your Return">
                   <p>
-                    Package your items securely in the original packaging if possible. Include your order number and return authorization form in the package. Use the provided return label or your own shipping method.
+                    Pack your items securely in the original packaging if possible. Include your order number and return authorization form in the package. Use the provided return label or your own shipping method.
                   </p>
                 </Step>
                 

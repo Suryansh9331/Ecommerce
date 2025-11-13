@@ -654,10 +654,33 @@ const ShippingDelivery = () => {
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
             <div>
-              <p className="text-gray-700"><span className="font-medium">Email:</span> <span className="text-[#FF4D00]">infoaoinstore@gmail.com</span></p>
-              <p className="text-gray-700"><span className="font-medium">Phone/WhatsApp:</span> <span className="text-[#FF4D00]">+91 989 336 1162</span></p>
-              <p className="text-gray-700"><span className="font-medium">Hours:</span> Business hours</p>
+              <p className="text-gray-700">
+                <span className="font-medium">Email:</span>{' '}
+                <a
+                  href="mailto:infoaoinstore@gmail.com"
+                  className="text-[#FF4D00] hover:underline"
+                >
+                  infoaoinstore@gmail.com
+                </a>
+              </p>
+
+              <p className="text-gray-700">
+                <span className="font-medium">Phone/WhatsApp:</span>{' '}
+                <a
+                  href="https://wa.me/919893361162"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#FF4D00] hover:underline"
+                >
+                  +91 989 336 1162
+                </a>
+              </p>
+
+              <p className="text-gray-700">
+                <span className="font-medium">Hours:</span> Business hours
+              </p>
             </div>
+
           </div>
         </div>
       </div>

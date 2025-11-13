@@ -80,7 +80,7 @@ const CancellationPolicy: React.FC = () => {
             </div>
             <div className="flex items-start">
               <div className="h-6 w-6 rounded-full bg-red-100 flex items-center justify-center text-[#FF4D00] mt-0.5 mr-3 flex-shrink-0">✗</div>
-              <p className="text-gray-700"><strong>Custom or personalized items:</strong> Cannot be cancelled once production has begun.</p>
+              <p className="text-gray-700"><strong>Custom or personalized items:</strong> Cannot be cancelled once production has begin.</p>
             </div>
           </div>
           <div className="bg-[#FFF9E5] p-4 rounded-lg">

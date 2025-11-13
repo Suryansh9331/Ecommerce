@@ -88,11 +88,45 @@
     "topics": {
       "order": "Bestellbezogen",
       "shopping": "Einkaufen",
-      "account": "AOIN Konto", 
+      "account": "AOIN Konto",
       "payments": "Zahlungen",
       "sell": "Auf AOIN verkaufen",
       "others": "Andere"
-    }
+    },
+    "faqs": {
+  "order": [
+    { "q": "Wie kann ich die Adresse oder Telefonnummer in meiner Bestellung ändern?", "a": "Gehen Sie zu Ihren Bestellungen, wählen Sie die entsprechende Bestellung aus und klicken Sie auf 'Adresse bearbeiten'. Aktualisieren Sie Ihre Daten und speichern Sie sie." },
+    { "q": "Wie überprüfe ich den aktuellen Status meiner Bestellung?", "a": "Besuchen Sie den Bereich 'Meine Bestellungen' in Ihrem Konto, um den aktuellen Status und die Sendungsverfolgung einzusehen." },
+    { "q": "Was mache ich bei einer fehlgeschlagenen Lieferung?", "a": "Wenn die Lieferung fehlschlägt, kontaktieren Sie bitte unseren Support oder eröffnen Sie ein Ticket. Wir helfen Ihnen umgehend weiter." },
+    { "q": "Warum wird meine Bestellung nicht angezeigt?", "a": "Es kann einige Minuten dauern, bis Bestellungen angezeigt werden. Wenn sie nach einiger Zeit nicht sichtbar ist, aktualisieren Sie bitte die Seite oder kontaktieren Sie den Support." }
+  ],
+  "shopping": [
+    { "q": "Wie kann ich nach Produkten suchen?", "a": "Verwenden Sie die Suchleiste oben auf der Seite, um Produkte nach Name, Marke oder Kategorie zu finden." },
+    { "q": "Kann ich Artikel für später speichern?", "a": "Ja, klicken Sie auf das Herzsymbol bei einem Produkt, um es zu Ihrer Wunschliste hinzuzufügen." },
+    { "q": "Wie löse ich einen Promo-Code ein?", "a": "Sie können während des Bezahlvorgangs im Bereich 'Promo-Code anwenden' einen Code eingeben." }
+  ],
+  "account": [
+    { "q": "Wie erstelle ich ein AOIN-Konto?", "a": "Klicken Sie oben rechts auf 'Registrieren' und füllen Sie Ihre Daten aus, um ein Konto zu erstellen." },
+    { "q": "Ich habe mein Passwort vergessen. Was soll ich tun?", "a": "Klicken Sie auf 'Passwort vergessen' auf der Anmeldeseite und folgen Sie den Anweisungen, um Ihr Passwort zurückzusetzen." },
+    { "q": "Wie aktualisiere ich meine Profilinformationen?", "a": "Gehen Sie zu 'Mein Konto' und klicken Sie auf 'Profil bearbeiten', um Ihre Informationen zu aktualisieren." }
+  ],
+  "payments": [
+    { "q": "Welche Zahlungsmethoden werden akzeptiert?", "a": "Wir akzeptieren Kredit- und Debitkarten, UPI, Online-Banking und ausgewählte digitale Wallets." },
+    { "q": "Warum ist meine Zahlung fehlgeschlagen?", "a": "Zahlungen können aufgrund von Netzwerkproblemen oder falschen Angaben fehlschlagen. Bitte versuchen Sie es erneut oder verwenden Sie eine andere Methode." },
+    { "q": "Wie erhalte ich eine Zahlungsquittung?", "a": "Quittungen sind nach erfolgreicher Zahlung im Bereich 'Meine Bestellungen' verfügbar." }
+  ],
+  "sell": [
+    { "q": "Wie werde ich Verkäufer auf AOIN?", "a": "Gehen Sie zu 'Auf AOIN verkaufen' und füllen Sie das Registrierungsformular aus. Unser Team wird es prüfen und Sie kontaktieren." },
+    { "q": "Welche Dokumente werden zum Verkaufen benötigt?", "a": "Sie benötigen GST-Daten, Bankkontoinformationen und Dokumente zur Geschäftsverifizierung." },
+    { "q": "Wie verwalte ich meine Produkte?", "a": "Verwenden Sie das Verkäufer-Dashboard, um Produkte hinzuzufügen, zu bearbeiten oder zu entfernen." }
+  ],
+  "others": [
+    { "q": "Wie kontaktiere ich den Kundensupport?", "a": "Verwenden Sie den Abschnitt 'Weitere Hilfe benötigt?' unten oder senden Sie uns eine E-Mail an infoaoinstore@gmail.com." },
+    { "q": "Wo finde ich Ihre Rückgaberichtlinien?", "a": "Unsere Rückgaberichtlinien finden Sie unten auf jeder Seite unter 'Richtlinien'." },
+    { "q": "Wie kündige ich E-Mail-Abonnements?", "a": "Klicken Sie auf 'Abmelden' am Ende jeder Werbe-E-Mail, die Sie von uns erhalten." }
+  ]
+}
+
   },
   "footer": {
     "shop": "Shop",
@@ -120,16 +154,16 @@
   },
   "services": {
     "freeShipping": {
-      "title": "Kostenloser Versand",
-      "description": "Für Rechnungen über $1.500"
+      "title": "Schneller Versand",
+      "description": "Bei allen nationalen und internationalen Bestellungen"
     },
     "cashBack": {
-      "title": "Cashback", 
-      "description": "Bei Zahlung für Produkte über Dasun Wallet"
+      "title": "Cashback",
+      "description": "Bei Teilnahme an den Play & Win-Programmen"
     },
     "support": {
       "title": "24/7 Support",
-      "description": "Wenn etwas schief geht"
+      "description": "Wenn etwas schiefgeht"
     }
   },
   "payment": {
@@ -469,8 +503,8 @@
         "customerSupport": "Kundensupport",
         "name": "Aoin E‑Commerce Plattform",
         "address": [
-          "1658 Rosewood Lane",
-          "New York City, NY"
+          "102 B FIRST FLOOR, PROPERTY NO 07 PU-4 SCHEME NO 54 VIJAY NAGAR",
+          "Indore – 452010 Madhya Pradesh, India"
         ]
       }
     }
@@ -479,7 +513,7 @@
     "loading": "Lädt...",
     "error": "Fehler",
     "success": "Erfolgreich",
-  "retry": "Erneut versuchen",
+    "retry": "Erneut versuchen",
     "cancel": "Abbrechen",
     "confirm": "Bestätigen",
     "save": "Speichern",
