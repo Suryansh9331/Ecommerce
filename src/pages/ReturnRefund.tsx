@@ -1,316 +1,130 @@
-import React, { useState } from 'react';
-import { ChevronDown, ChevronUp, Package, RotateCcw, CreditCard, Clock, Truck, AlertCircle } from 'lucide-react';
+import React from 'react';
 
 const ReturnRefund = () => {
-  const [activeTab, setActiveTab] = useState('returns');
-  const [expandedFaq, setExpandedFaq] = useState<string | null>('eligibility');
-
-  const toggleFaq = (id: string) => {
-    setExpandedFaq(expandedFaq === id ? null : id);
-  };
-
-  // Reusable FAQ component
-  const FaqItem = ({ id, question, children }: { id: string, question: string, children: React.ReactNode }) => {
-    const isExpanded = expandedFaq === id;
-    
-    return (
-      <div className="border-b border-gray-200 last:border-b-0">
-        <button 
-          className="flex w-full justify-between items-center py-4 px-1 text-left focus:outline-none"
-          onClick={() => toggleFaq(id)}
-        >
-          <h3 className="text-lg font-medium text-gray-900">{question}</h3>
-          {isExpanded ? <ChevronUp size={20} className="text-[#FF4D00]" /> : <ChevronDown size={20} className="text-[#FF4D00]" />}
-        </button>
-        {isExpanded && (
-          <div className="pb-4 text-gray-600">
-            {children}
-          </div>
-        )}
-      </div>
-    );
-  };
-
-  // Step component
-  const Step = ({ icon, title, children }: { icon: React.ReactNode, title: string, children: React.ReactNode }) => (
-    <div className="flex gap-4 mb-6">
-      <div className="flex-shrink-0 mt-1">
-        <div className="flex items-center justify-center h-10 w-10 rounded-full bg-[#FFF9E5] text-[#FF4D00]">
-          {icon}
-        </div>
-      </div>
-      <div>
-        <h3 className="font-medium text-lg text-gray-900 mb-1">{title}</h3>
-        <div className="text-gray-600">
-          {children}
-        </div>
-      </div>
-    </div>
-  );
-
   return (
     <div className="bg-white min-h-screen">
-      <div className="max-w-[1440px] mx-auto px-4 md:px-6 lg:px-16 xl:px-32 2xl:px-6 py-16">
-        <div className="text-center mb-10">
-          <h1 className="text-[36px] font-medium text-[#FF4D00] mb-2">Returns & Refunds</h1>
-          <p className="text-gray-600">We want you to be completely satisfied with your Aoin purchase. Our hassle-free return policy ensures you can shop with confidence.</p>
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8 lg:px-16 xl:px-32 2xl:px-6 py-8 sm:py-12 lg:py-16">
+        <div className="text-center mb-8 sm:mb-12">
+          <h1 className="text-2xl sm:text-3xl md:text-[36px] font-medium text-[#FF4D00] mb-2">AOINSTORE</h1>
+          <h2 className="text-xl sm:text-2xl md:text-[28px] font-medium text-gray-900 mb-3 sm:mb-4">RETURN AND REFUND POLICY</h2>
         </div>
 
-        {/* Tab navigation */}
-        <div className="flex border-b border-gray-200 mb-8">
-          <button 
-            className={`px-4 py-3 font-medium text-sm ${activeTab === 'returns' ? 'text-[#FF4D00] border-b-2 border-[#FF4D00]' : 'text-gray-500'}`}
-            onClick={() => setActiveTab('returns')}
-          >
-            Returns Policy
-          </button>
-          <button 
-            className={`px-4 py-3 font-medium text-sm ${activeTab === 'refunds' ? 'text-[#FF4D00] border-b-2 border-[#FF4D00]' : 'text-gray-500'}`}
-            onClick={() => setActiveTab('refunds')}
-          >
-            Refund Process
-          </button>
-          <button 
-            className={`px-4 py-3 font-medium text-sm ${activeTab === 'faq' ? 'text-[#FF4D00] border-b-2 border-[#FF4D00]' : 'text-gray-500'}`}
-            onClick={() => setActiveTab('faq')}
-          >
-            FAQ
-          </button>
-        </div>
+        <div className="space-y-6 sm:space-y-8">
+          <section>
+            <h2 className="text-xl sm:text-2xl font-medium text-[#FF4D00] mb-3 sm:mb-4">1. INTRODUCTION</h2>
+            <p className="text-gray-700 mb-4 text-sm sm:text-base">
+              This Return and Refund Policy explains the conditions, procedures, and limitations for returning products and claiming refunds on Aoinstore. This policy is created in accordance with the Consumer Protection Act 2019, Consumer Protection E-Commerce Rules 2020, and other applicable Indian laws. By placing an order on Aoinstore, the user agrees to all terms listed in this policy.
+            </p>
+          </section>
 
-        {/* Returns Policy Tab */}
-        {activeTab === 'returns' && (
-          <div>
-            <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
-              <h2 className="text-xl font-medium mb-4 text-gray-900">Aoin Return Policy</h2>
-              
-              <p className="mb-6">
-                At Aoin, we stand behind our products and want you to love your purchase. We offer a customer-friendly 30-day return policy for most items. To be eligible for a return, your item must be in the same condition that you received it - unworn or unused, with tags attached, and in its original packaging.
-              </p>
-              
-              <div className="bg-[#FFF9E5] p-4 rounded-lg mb-6">
-                <h3 className="font-medium mb-2 text-gray-900">Items that cannot be returned:</h3>
-                <ul className="list-disc pl-5 text-gray-700 space-y-1">
-                  <li>Digital products and downloadable items</li>
-                  <li>Aoin gift cards and promotional credits</li>
-                  <li>Personal care and intimate items (for hygiene reasons)</li>
-                  <li>Custom-made or personalized products</li>
-                  <li>Final sale items (clearly marked as non-returnable)</li>
-                  <li>Items damaged due to customer misuse or negligence</li>
-                  <li>Software, electronics, and tech accessories once opened</li>
-                  <li>Perishable goods and food items</li>
-                </ul>
-              </div>
-              
-              <div className="space-y-4 mb-6">
-                <h3 className="font-medium text-gray-900">Return Timeline:</h3>
-                <p>
-                  To initiate a return, you must contact us within <strong>30 days</strong> of receiving your item. If more than 30 days have passed since delivery, we cannot offer you a refund or exchange. The return period starts from the date of delivery confirmation.
-                </p>
-              </div>
+          <section>
+            <h2 className="text-xl sm:text-2xl font-medium text-[#FF4D00] mb-3 sm:mb-4">2. GENERAL RETURN ELIGIBILITY</h2>
+            <p className="text-gray-700 mb-2 text-sm sm:text-base">Aoinstore follows a structured return framework to ensure fairness for buyers, sellers, and the platform. A product is eligible for return only if the following conditions are met:</p>
+            <ul className="list-disc pl-4 sm:pl-6 text-gray-700 mb-4 space-y-1 text-sm sm:text-base">
+              <li>The product is defective, damaged, expired, or not as described.</li>
+              <li>The product received is incorrect or missing parts.</li>
+              <li>The customer raises a return request within the eligible return window.</li>
+              <li>The product is unused, in original packaging, with all original accessories, manuals, and tags.</li>
+            </ul>
+          </section>
 
-              <div className="bg-gray-50 p-4 rounded-lg mb-6">
-                <h3 className="font-medium mb-2 text-gray-900">Return Process:</h3>
-                <ol className="list-decimal pl-5 text-gray-700 space-y-2">
-                  <li>Log in to your Aoin account and visit the "Orders" section</li>
-                  <li>Select the item(s) you wish to return and provide a reason</li>
-                  <li>Choose your preferred return method (free return label or customer-paid shipping)</li>
-                  <li>Print the return label and packing slip</li>
-                  <li>Pack the item(s) securely with all original tags and packaging</li>
-                  <li>Drop off the package at any authorized shipping location</li>
-                  <li>Track your return using the provided tracking number</li>
-                </ol>
-              </div>
+          <section>
+            <h2 className="text-xl sm:text-2xl font-medium text-[#FF4D00] mb-3 sm:mb-4">3. NON RETURNABLE PRODUCTS</h2>
+            <p className="text-gray-700 mb-2 text-sm sm:text-base">Certain product categories are not eligible for return due to hygiene, safety, or regulatory reasons. These categories include but are not limited to:</p>
+            <ul className="list-disc pl-4 sm:pl-6 text-gray-700 mb-4 space-y-1 text-sm sm:text-base">
+              <li>Innerwear and personal hygiene products.</li>
+              <li>Cosmetics, perfumes, and skincare once opened.</li>
+              <li>Food, groceries, beverages, and perishable items.</li>
+              <li>Digital products or services.</li>
+              <li>Items marked as Non Returnable on the product page.</li>
+            </ul>
+          </section>
 
-              <div className="border-t border-gray-200 pt-6">
-                <h3 className="font-medium mb-2 text-gray-900">Return Shipping Costs:</h3>
-                <ul className="text-gray-700 space-y-1">
-                  <li>• <strong>Free returns:</strong> Available for defective items, wrong items received, or Aoin errors</li>
-                  <li>• <strong>Customer-paid returns:</strong> $7.95 for change of mind returns (deducted from refund)</li>
-                  <li>• <strong>International returns:</strong> Customer responsible for all shipping costs and duties</li>
-                </ul>
-              </div>
-            </div>
-            
-            <div className="bg-white rounded-lg shadow-sm p-6">
-              <h2 className="text-xl font-medium mb-4 text-gray-900">Return Process</h2>
-              
-              <div className="space-y-6">
-                <Step icon={<Package size={20} />} title="Initiate Return">
-                  <p>
-                    Start your return online through your Aoin account or contact our customer service team at <a href="mailto:infoaoinstore@gmail.com" className="text-[#FF4D00] hover:underline">infoaoinstore@gmail.com</a> with your order number and reason for return.
-                  </p>
-                </Step>
-                
-                <Step icon={<RotateCcw size={20} />} title="Receive Return Authorization">
-                  <p>
-                    We'll review your request and send you a return authorization with shipping instructions within 1-2 business days. You'll receive a prepaid return label if eligible for free returns.
-                  </p>
-                </Step>
-                
-                <Step icon={<Truck size={20} />} title="Ship Your Return">
-                  <p>
-                    Pack your items securely in the original packaging if possible. Include your order number and return authorization form in the package. Use the provided return label or your own shipping method.
-                  </p>
-                </Step>
-                
-                <Step icon={<Clock size={20} />} title="Wait for Processing">
-                  <p>
-                    Once we receive your return, we'll inspect the item and process your refund or exchange within 3-5 business days. You'll receive an email notification when your return is processed.
-                  </p>
-                </Step>
-              </div>
-            </div>
-          </div>
-        )}
+          <section>
+            <h2 className="text-xl sm:text-2xl font-medium text-[#FF4D00] mb-3 sm:mb-4">4. RETURN WINDOW</h2>
+            <p className="text-gray-700 mb-4 text-sm sm:text-base">
+              The standard return window on Aoinstore ranges from 2 to 7 days depending on the product category. The exact return period will be mentioned on the respective product page.
+            </p>
+          </section>
 
-        {/* Refunds Tab */}
-        {activeTab === 'refunds' && (
-          <div>
-            <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
-              <h2 className="text-xl font-medium mb-4 text-gray-900">Refund Information</h2>
-              
-              <div className="space-y-6">
-                <div>
-                  <h3 className="font-medium text-gray-900 mb-2">Processing Time:</h3>
-                  <p>
-                    Once your return is received and inspected, we'll send you an email to notify you that we've received your returned item. We'll also notify you of the approval or rejection of your refund. Most refunds are processed within 3-5 business days of receiving your return.
-                  </p>
-                </div>
-                
-                <div>
-                  <h3 className="font-medium text-gray-900 mb-2">Refund Method:</h3>
-                  <p>
-                    If your refund is approved, we'll initiate a refund to your original method of payment. Depending on your payment provider, refunds may take 5-10 business days to appear in your account. Credit card refunds typically appear within 3-5 business days.
-                  </p>
-                </div>
-                
-                <div className="bg-[#FFF9E5] p-4 rounded-lg">
-                  <h3 className="font-medium text-gray-900 mb-2">Late or Missing Refunds:</h3>
-                  <p className="text-gray-700">
-                    If you haven't received a refund yet, first check your bank account again. Then contact your credit card company - it may take some time before your refund is officially posted. Next contact your bank. There is often some processing time before a refund is posted. If you still haven't received your refund after 10 business days, please contact us at <span className="text-[#FF4D00]">infoaoinstore@gmail.com</span>.
-                  </p>
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-white rounded-lg shadow-sm p-6">
-              <h2 className="text-xl font-medium mb-4 text-gray-900">Refund Scenarios</h2>
-              
-              <div className="space-y-6">
-                <div>
-                  <h3 className="font-medium text-gray-900 mb-2">Complete Refunds:</h3>
-                  <p>
-                    If your item is approved for return in its original condition, we'll issue a full refund for the purchase price of the item. Original shipping costs are non-refundable unless the item was defective or incorrectly shipped.
-                  </p>
-                </div>
-                
-                <div>
-                  <h3 className="font-medium text-gray-900 mb-2">Partial Refunds:</h3>
-                  <p>
-                    We may issue partial refunds if:
-                  </p>
-                  <ul className="list-disc pl-5 mt-2 space-y-1 text-gray-600">
-                    <li>An item shows signs of use or handling beyond inspection</li>
-                    <li>Items are not in their original condition or packaging</li>
-                    <li>Items are missing parts, accessories, or original tags</li>
-                    <li>The item has been worn, washed, or altered</li>
-                    <li>Return shipping costs are deducted (for customer-paid returns)</li>
-                  </ul>
-                </div>
-                
-                <div>
-                  <h3 className="font-medium text-gray-900 mb-2">Exchange Options:</h3>
-                  <p>
-                    Instead of a refund, you can choose to exchange your item for:
-                  </p>
-                  <ul className="list-disc pl-5 mt-2 space-y-1 text-gray-600">
-                    <li>A different size or color of the same item</li>
-                    <li>A different item of equal or lesser value</li>
-                    <li>Store credit for future purchases</li>
-                    <li>Gift card for the value of the returned item</li>
-                  </ul>
-                </div>
-                
-                <div>
-                  <h3 className="font-medium text-gray-900 mb-2">Shipping Costs:</h3>
-                  <p>
-                    Original shipping costs are non-refundable unless your item was defective, damaged, or incorrectly shipped. Return shipping costs are the responsibility of the customer except in cases of defective items or Aoin errors.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
+          <section>
+            <h2 className="text-xl sm:text-2xl font-medium text-[#FF4D00] mb-3 sm:mb-4">5. RETURN PROCESS</h2>
+            <p className="text-gray-700 mb-2 text-sm sm:text-base">To initiate a return, the customer must follow these steps:</p>
+            <ul className="list-disc pl-4 sm:pl-6 text-gray-700 mb-4 space-y-1 text-sm sm:text-base">
+              <li>Log into the Aoinstore account.</li>
+              <li>Visit Orders section and click Request Return.</li>
+              <li>Select the return reason and upload necessary images or videos of the issue.</li>
+              <li>Ensure the product is packed securely for pickup.</li>
+            </ul>
+            <p className="text-gray-700 mb-4 text-sm sm:text-base">
+              Aoinstore reserves the right to approve or reject a return request after verification.
+            </p>
+          </section>
 
-        {/* FAQ Tab */}
-        {activeTab === 'faq' && (
-          <div className="bg-white rounded-lg shadow-sm p-6">
-            <h2 className="text-xl font-medium mb-6 text-gray-900">Frequently Asked Questions</h2>
-            
-            <div className="space-y-2">
-              <FaqItem id="eligibility" question="How long do I have to return an item?">
-                <p>
-                  You have 30 days from the delivery date to initiate a return. After this period, we cannot offer you a refund or exchange. The return period starts from the date of delivery confirmation.
-                </p>
-              </FaqItem>
-              
-              <FaqItem id="condition" question="What condition must the items be in?">
-                <p>
-                  Items must be in their original, unused condition with all tags attached and original packaging intact. We inspect all returns carefully before approving refunds. Items that show signs of wear, use, or damage may be subject to partial refunds or rejection.
-                </p>
-              </FaqItem>
-              
-              <FaqItem id="shipping" question="Who pays for return shipping?">
-                <p>
-                  Aoin covers return shipping costs for defective items, wrong items received, or Aoin errors. For change of mind returns, customers pay a $7.95 return shipping fee (deducted from refund). International customers are responsible for all return shipping costs and duties.
-                </p>
-              </FaqItem>
-              
-              <FaqItem id="exchange" question="Can I exchange instead of refund?">
-                <p>
-                  Yes, we offer exchanges for items of equal value. If you want to exchange for a different item, we recommend returning for a refund and placing a new order to avoid delays. Exchanges are subject to item availability.
-                </p>
-              </FaqItem>
-              
-              <FaqItem id="giftreturn" question="How do I return a gift?">
-                <p>
-                  If you received an item as a gift, you can return it for store credit or an exchange. You'll need the order number or gift receipt. Contact our customer service team at <span className="text-[#FF4D00]">infoaoinstore@gmail.com</span> for assistance with gift returns.
-                </p>
-              </FaqItem>
-              
-              <FaqItem id="international" question="Do you accept international returns?">
-                <p>
-                  Yes, we accept international returns. However, international customers are responsible for return shipping costs, duties, and taxes. Please contact us before shipping to get a return authorization and shipping instructions.
-                </p>
-              </FaqItem>
-              
-              <FaqItem id="trackreturn" question="How can I track my return or refund status?">
-                <p>
-                  Once your return has been processed, we'll send you an email notification. You can also check the status in your account under "Order History" or contact our customer service team. Refunds typically appear in your account within 5-10 business days.
-                </p>
-              </FaqItem>
-              
-              <FaqItem id="damaged" question="What if my item arrives damaged?">
-                <p>
-                  If your item arrives damaged, please contact us immediately at <span className="text-[#FF4D00]">infoaoinstore@gmail.com</span> or call 989 336 1162. Take photos of the damage and we'll arrange for a free return and full refund or replacement.
-                </p>
-              </FaqItem>
-              
-              <FaqItem id="wrongitem" question="What if I received the wrong item?">
-                <p>
-                  If you received the wrong item, please contact us immediately. We'll arrange for a free return and send you the correct item or provide a full refund. Please include photos of the item received for faster processing.
-                </p>
-              </FaqItem>
-            </div>
-          </div>
-        )}
+          <section>
+            <h2 className="text-xl sm:text-2xl font-medium text-[#FF4D00] mb-3 sm:mb-4">6. PICKUP AND QUALITY CHECK</h2>
+            <p className="text-gray-700 mb-2 text-sm sm:text-base">Aoinstore or its logistics partner will arrange a pickup from the customer address. A quality check will be conducted at the seller warehouse or Aoinstore returns center. Return approval is subject to:</p>
+            <ul className="list-disc pl-4 sm:pl-6 text-gray-700 mb-4 space-y-1 text-sm sm:text-base">
+              <li>Product being in original condition.</li>
+              <li>Verification that the claimed defect or issue is valid.</li>
+              <li>Product not being altered, used, washed, or damaged by the customer.</li>
+            </ul>
+          </section>
 
-        <div className="mt-8 text-center">
-          <div className="inline-flex items-center gap-2 text-[#FF4D00]">
-            <AlertCircle size={20} />
-            <span>Need help with your return? <a href="mailto:infoaoinstore@gmail.com" className="underline font-medium">Contact our support team</a> or call 989 336 1162</span>
-          </div>
+          <section>
+            <h2 className="text-xl sm:text-2xl font-medium text-[#FF4D00] mb-3 sm:mb-4">7. REFUND POLICY</h2>
+            <p className="text-gray-700 mb-2 text-sm sm:text-base">Refund approval is based on successful quality check of the returned item. Refund method:</p>
+            <ul className="list-disc pl-4 sm:pl-6 text-gray-700 mb-4 space-y-1 text-sm sm:text-base">
+              <li>Prepaid orders: Refunded to original payment mode.</li>
+              <li>COD orders: Refunded to the customer's bank account or Aoinstore Wallet.</li>
+            </ul>
+            <p className="text-gray-700 mb-4 text-sm sm:text-base">
+              Refund processing time is 3 to 7 working days after QC approval. Refund timelines depend on the payment gateway and bank processing.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-xl sm:text-2xl font-medium text-[#FF4D00] mb-3 sm:mb-4">8. SELLER RESPONSIBILITY</h2>
+            <p className="text-gray-700 mb-4 text-sm sm:text-base">
+              Sellers on Aoinstore must ensure accurate listings, proper packaging, and genuine products. If a return is approved due to seller fault such as defects or wrong items, the seller bears the reverse shipping cost and refund liability.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-xl sm:text-2xl font-medium text-[#FF4D00] mb-3 sm:mb-4">9. REJECTION OF RETURNS</h2>
+            <p className="text-gray-700 mb-2 text-sm sm:text-base">Aoinstore reserves the right to reject returns under the following circumstances:</p>
+            <ul className="list-disc pl-4 sm:pl-6 text-gray-700 mb-4 space-y-1 text-sm sm:text-base">
+              <li>Product is used, damaged, or missing accessories.</li>
+              <li>Serial number or IMEI is tampered.</li>
+              <li>Wrong item sent by customer.</li>
+              <li>Return request is raised outside the eligible return window.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2 className="text-xl sm:text-2xl font-medium text-[#FF4D00] mb-3 sm:mb-4">10. FRAUD PREVENTION</h2>
+            <p className="text-gray-700 mb-2 text-sm sm:text-base">Aoinstore implements strict fraud detection for returns. Any misuse, such as frequent returns, switching items, fake claims, or intentional damage, may result in:</p>
+            <ul className="list-disc pl-4 sm:pl-6 text-gray-700 mb-4 space-y-1 text-sm sm:text-base">
+              <li>Return denial.</li>
+              <li>Account suspension.</li>
+              <li>Legal action under IPC fraud sections and IT Act 2000.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2 className="text-xl sm:text-2xl font-medium text-[#FF4D00] mb-3 sm:mb-4">11. LEGAL COMPLIANCE</h2>
+            <p className="text-gray-700 mb-4 text-sm sm:text-base">
+              This policy is compliant with the Consumer Protection Act 2019 and E-Commerce Rules 2020. As an intermediary under IT Act 2000 Section 79, Aoinstore is protected from liability for third-party actions provided due diligence is followed.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-xl sm:text-2xl font-medium text-[#FF4D00] mb-3 sm:mb-4">12. FINAL DECISION AUTHORITY</h2>
+            <p className="text-gray-700 mb-4 text-sm sm:text-base">
+              Aoinstore's decision regarding returns and refunds shall be final and binding. The platform reserves the right to modify or update this policy without prior notice.
+            </p>
+          </section>
+
         </div>
       </div>
     </div>

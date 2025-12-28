@@ -139,6 +139,9 @@ import CancellationPolicy from './pages/CancellationPolicy';
 import ReturnRefund from './pages/ReturnRefund';
 import ShippingDelivery from './pages/ShippingDelivery';
 import UserProfile from './pages/UserProfile';
+import PaymentPolicy from './pages/PaymentPolicy';
+import ReplacementPolicy from './pages/ReplacementPolicy';
+import MerchantNDA from './pages/MerchantNDA';
 import PaymentPage from './pages/PaymentPage';
 import MessengerPopup from './components/MessengerPopup';
 import Refund from './pages/Refund';
@@ -725,6 +728,22 @@ const App: React.FC = () => {
                               <Route
                                 path="/shipping-delivery"
                                 element={<ShippingDelivery />}
+                              />
+                              <Route
+                                path="/payment-policy"
+                                element={<PaymentPolicy />}
+                              />
+                              <Route
+                                path="/privacy-policy"
+                                element={<PrivacyPolicy />}
+                              />
+                              <Route
+                                path="/replacement-policy"
+                                element={<ReplacementPolicy />}
+                              />
+                              <Route
+                                path="/merchant-nda"
+                                element={<MerchantNDA />}
                               />
                               <Route path="/RaiseTicket" element={<RaiseTicket />} />
                               <Route path="/brands/:brandId" element={<Brands />} />

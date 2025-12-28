@@ -102,8 +102,11 @@ const Footer: React.FC = () => {
                 </a>
               </li>
         <li><Link to="/cancellation-policy" className="hover:text-[#F2631F] transition-colors">{t('footer.cancellationPolicy')}</Link></li>
+        <li><Link to="/payment-policy" className="hover:text-[#F2631F] transition-colors">Payment Policy</Link></li>
+        <li><Link to="/replacement-policy" className="hover:text-[#F2631F] transition-colors">Replacement Policy</Link></li>
         <li><Link to="/return-refund" className="hover:text-[#F2631F] transition-colors">{t('footer.returnRefund')}</Link></li>
         <li><Link to="/shipping-delivery" className="hover:text-[#F2631F] transition-colors">{t('footer.shippingDelivery')}</Link></li>
+        <li><Link to="/merchant-nda" className="hover:text-[#F2631F] transition-colors">Merchant NDA</Link></li>
             </ul>
           </div>
 
