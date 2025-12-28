@@ -197,6 +197,7 @@ const BusinessOrderDetail = lazy(() => import('./pages/business/OrderDetail'));
 const BusinessCustomers = lazy(() => import('./pages/business/Customers'));
 const Verification = lazy(() => import('./pages/business/Verification'));
 const ProductPlacements = lazy(() => import('./pages/business/ProductPlacements'));
+const DimensionPresets = lazy(() => import('./pages/business/DimensionPresets'));
 
 // Lazy-loaded catalog pages
 const CatalogProducts = lazy(() => import('./pages/business/catalog/Products'));
@@ -553,6 +554,14 @@ const App: React.FC = () => {
                         element={
                           <Suspense fallback={<LoadingFallback />}>
                             <ProductPlacements />
+                          </Suspense>
+                        }
+                      />
+                      <Route
+                        path="dimension-presets"
+                        element={
+                          <Suspense fallback={<LoadingFallback />}>
+                            <DimensionPresets />
                           </Suspense>
                         }
                       />

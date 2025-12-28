@@ -24,7 +24,7 @@ import {
   StarIcon,
   UserCircleIcon,
 } from "@heroicons/react/24/outline";
-import { Package } from "lucide-react";
+import { Package, Ruler } from "lucide-react";
 import { useTranslation } from "react-i18next";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -48,6 +48,7 @@ const navigationItems = [
   { name: "Inventory", path: "/business/inventory", icon: Package },
   // { name: 'Customers', path: '/business/customers', icon: UserGroupIcon },
   { name: "Promotions", path: "/business/product-placements", icon: TagIcon },
+  { name: "Product Dimensions", path: "/business/dimension-presets", icon: Ruler },
   { name: "Reviews", path: "/business/reviews", icon: StarIcon },
   {
     name: "Reports",

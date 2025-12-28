@@ -1,6 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+interface DimensionPreset {
+  preset_id: number;
+  name: string;
+  length_cm: number;
+  width_cm: number;
+  height_cm: number;
+  weight_kg: number;
+  shipping_class?: string;
+}
 
 interface ShippingUnit {
   value: string;
@@ -74,6 +84,9 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
     height?: string;
     shippingClass?: string;
   }>({});
+  const [presets, setPresets] = useState<DimensionPreset[]>([]);
+  const [selectedPresetId, setSelectedPresetId] = useState<string>('');
+  const [isLoadingPresets, setIsLoadingPresets] = useState(false);
 
   // Validation function
   const validateShippingForm = (): boolean => {
@@ -226,6 +239,68 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
     return value / unitConfig.conversion;
   };
 
+  // Fetch dimension presets
+  useEffect(() => {
+    const fetchPresets = async () => {
+      setIsLoadingPresets(true);
+      try {
+        const token = localStorage.getItem('access_token');
+        const response = await fetch(`${API_BASE_URL}/api/merchant-dashboard/dimension-presets`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setPresets(data);
+        }
+      } catch (err) {
+        console.error('Error fetching dimension presets:', err);
+      } finally {
+        setIsLoadingPresets(false);
+      }
+    };
+
+    fetchPresets();
+  }, []);
+
+  // Handle preset selection
+  const handlePresetChange = (presetId: string) => {
+    setSelectedPresetId(presetId);
+    
+    if (presetId === '') {
+      // Clear preset
+      return;
+    }
+
+    const preset = presets.find(p => p.preset_id.toString() === presetId);
+    if (preset) {
+      // Convert from base units (cm, kg) to selected display units
+      const lengthInDisplayUnit = convertFromBaseUnit(preset.length_cm, dimensionUnit, dimensionUnits);
+      const widthInDisplayUnit = convertFromBaseUnit(preset.width_cm, dimensionUnit, dimensionUnits);
+      const heightInDisplayUnit = convertFromBaseUnit(preset.height_cm, dimensionUnit, dimensionUnits);
+      const weightInDisplayUnit = convertFromBaseUnit(preset.weight_kg, weightUnit, weightUnits);
+
+      // Update dimensions
+      onDimensionsChange('length', lengthInDisplayUnit.toString());
+      onDimensionsChange('width', widthInDisplayUnit.toString());
+      onDimensionsChange('height', heightInDisplayUnit.toString());
+      
+      // Update weight
+      onShippingChange('weight', weightInDisplayUnit.toString());
+      
+      // Update shipping class if preset has one
+      if (preset.shipping_class) {
+        onShippingChange('shippingClass', preset.shipping_class);
+      }
+
+      // Clear validation errors
+      setValidationErrors({});
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center py-8">
@@ -247,6 +322,41 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
           <p className="text-green-700">{success}</p>
         </div>
       )}
+
+      {/* Dimension Preset Selector */}
+      <div>
+        <label htmlFor="dimensionPreset" className="block text-sm font-medium text-gray-700 mb-2">
+          Use Dimension Preset (Optional)
+        </label>
+        <div className="flex gap-2">
+          <select
+            id="dimensionPreset"
+            value={selectedPresetId}
+            onChange={(e) => handlePresetChange(e.target.value)}
+            disabled={isLoadingPresets}
+            className="flex-1 rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm"
+          >
+            <option value="">Select a preset or enter manually...</option>
+            {presets.map((preset) => (
+              <option key={preset.preset_id} value={preset.preset_id.toString()}>
+                {preset.name} ({preset.length_cm}×{preset.width_cm}×{preset.height_cm} cm, {preset.weight_kg} kg)
+              </option>
+            ))}
+          </select>
+          {selectedPresetId && (
+            <button
+              type="button"
+              onClick={() => handlePresetChange('')}
+              className="px-3 py-2 text-sm text-gray-600 hover:text-gray-800 border border-gray-300 rounded-md hover:bg-gray-50"
+            >
+              Clear
+            </button>
+          )}
+        </div>
+        <p className="mt-1 text-xs text-gray-500">
+          Select a preset to auto-fill dimensions. You can still edit the values after selection.
+        </p>
+      </div>
 
       {/* Weight */}
       <div>
