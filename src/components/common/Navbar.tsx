@@ -279,18 +279,18 @@ const Navbar: React.FC = () => {
             <div className="flex flex-start py-2 sm:py-3">
               {/* Social Media Icons - Left top - Hidden on mobile */}
               <div className="hidden sm:flex items-center space-x-4">
-                <Link to="#" className="text-[#F2631F] hover:text-orange-400">
+                <a href="https://www.facebook.com/profile.php?id=61578809217780" target="_blank" rel="noopener noreferrer" className="text-[#F2631F] hover:text-orange-400">
                   <Facebook size={16} />
-                </Link>
-                <Link to="#" className="text-[#F2631F] hover:text-orange-400">
+                </a>
+                <a href="https://www.instagram.com/aoinstore/" target="_blank" rel="noopener noreferrer" className="text-[#F2631F] hover:text-orange-400">
                   <Instagram size={16} />
-                </Link>
-                <Link to="#" className="text-[#F2631F] hover:text-orange-400">
+                </a>
+                <a href="https://x.com/AOIN111111" target="_blank" rel="noopener noreferrer" className="text-[#F2631F] hover:text-orange-400">
                   <Twitter size={16} />
-                </Link>
-                <Link to="#" className="text-[#F2631F] hover:text-orange-400">
+                </a>
+                <a href="mailto:infoaoinstore@gmail.com" className="text-[#F2631F] hover:text-orange-400">
                   <Mail size={16} />
-                </Link>
+                </a>
               </div>
             </div>
 
