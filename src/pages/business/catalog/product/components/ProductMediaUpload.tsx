@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { CloudArrowUpIcon, XMarkIcon, PlayIcon } from '@heroicons/react/24/outline';
+import { CloudArrowUpIcon, XMarkIcon, PlayIcon, Bars3Icon } from '@heroicons/react/24/outline';
 import { useDropzone } from 'react-dropzone';
+import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
 import { toast } from 'react-hot-toast';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -272,6 +273,58 @@ const ProductMediaUpload: React.FC<ProductMediaUploadProps> = ({
     }
   };
 
+  const handleDragEnd = async (result: DropResult) => {
+    if (!result.destination) {
+      return; // Dropped outside the list
+    }
+
+    const sourceIndex = result.source.index;
+    const destinationIndex = result.destination.index;
+
+    if (sourceIndex === destinationIndex) {
+      return; // No change in position
+    }
+
+    // Create a new array with reordered items
+    const reorderedMedia = Array.from(media);
+    const [removed] = reorderedMedia.splice(sourceIndex, 1);
+    reorderedMedia.splice(destinationIndex, 0, removed);
+
+    // Update local state immediately for better UX
+    setMedia(reorderedMedia);
+    onMediaChange?.(reorderedMedia);
+
+    // Update sort orders in the backend
+    try {
+      const updatePromises = reorderedMedia.map((item, index) => {
+        // Only update if the sort order actually changed
+        const newSortOrder = index;
+        if (item.sort_order !== newSortOrder) {
+          return fetch(`${API_BASE_URL}/api/merchant-dashboard/products/media/${item.media_id}/update-order`, {
+            method: 'PUT',
+            headers: {
+              'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ sort_order: newSortOrder }),
+          });
+        }
+        return Promise.resolve(null);
+      });
+
+      await Promise.all(updatePromises.filter(p => p !== null));
+      
+      // Refresh media to get updated sort orders from backend
+      await fetchMedia();
+      toast.success('Media order updated successfully!');
+    } catch (error) {
+      console.error('Error updating media order:', error);
+      // Revert to original order on error
+      await fetchMedia();
+      toast.error('Failed to update media order. Please try again.');
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center p-8">
@@ -350,46 +403,89 @@ const ProductMediaUpload: React.FC<ProductMediaUploadProps> = ({
         </div>
       )}
 
-      {/* Media Grid */}
+      {/* Media Grid with Drag and Drop */}
       {media.length > 0 && (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
-          {media.map((item) => (
-            <div
-              key={item.media_id}
-              className="relative group aspect-square rounded-lg overflow-hidden bg-gray-100"
-            >
-              {item.type.toLowerCase() === 'image' ? (
-                <img
-                  src={item.url}
-                  alt="Product media"
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <div className="relative w-full h-full">
-                  <video
-                    src={item.url}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <PlayIcon className="h-12 w-12 text-white opacity-75" />
-                  </div>
-                </div>
-              )}
-              <button
-                type="button"
-                onClick={() => removeMedia(item.media_id)}
-                className="absolute top-2 right-2 p-1 bg-white rounded-full shadow-sm opacity-0 group-hover:opacity-100 transition-opacity"
+        <DragDropContext onDragEnd={handleDragEnd}>
+          <Droppable droppableId="media-grid" direction="horizontal">
+            {(provided, snapshot) => (
+              <div
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 ${
+                  snapshot.isDraggingOver ? 'bg-blue-50 rounded-lg p-2' : ''
+                }`}
               >
-                <XMarkIcon className="h-4 w-4 text-gray-600" />
-              </button>
-              <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 p-2">
-                <p className="text-xs text-white truncate">
-                  {item.type.toLowerCase() === 'image' ? 'Image' : 'Video'}
-                </p>
+                {media.map((item, index) => (
+                  <Draggable
+                    key={item.media_id}
+                    draggableId={`media-${item.media_id}`}
+                    index={index}
+                  >
+                    {(provided, snapshot) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        className={`relative group aspect-square rounded-lg overflow-hidden bg-gray-100 ${
+                          snapshot.isDragging
+                            ? 'shadow-2xl ring-2 ring-primary-500 z-50 scale-105'
+                            : 'hover:shadow-lg'
+                        } transition-all duration-200`}
+                      >
+                        {item.type.toLowerCase() === 'image' ? (
+                          <img
+                            src={item.url}
+                            alt="Product media"
+                            className="w-full h-full object-cover"
+                            draggable={false}
+                          />
+                        ) : (
+                          <div className="relative w-full h-full">
+                            <video
+                              src={item.url}
+                              className="w-full h-full object-cover"
+                              draggable={false}
+                            />
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <PlayIcon className="h-12 w-12 text-white opacity-75" />
+                            </div>
+                          </div>
+                        )}
+                        {/* Drag Handle */}
+                        <div
+                          {...provided.dragHandleProps}
+                          className="absolute top-2 left-2 p-1.5 bg-white rounded-full shadow-sm opacity-0 group-hover:opacity-100 transition-opacity cursor-grab active:cursor-grabbing"
+                          title="Drag to reorder"
+                        >
+                          <Bars3Icon className="h-4 w-4 text-gray-600" />
+                        </div>
+                        {/* Delete Button */}
+                        <button
+                          type="button"
+                          onClick={() => removeMedia(item.media_id)}
+                          className="absolute top-2 right-2 p-1.5 bg-white rounded-full shadow-sm opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-50"
+                          title="Delete media"
+                        >
+                          <XMarkIcon className="h-4 w-4 text-gray-600 hover:text-red-600" />
+                        </button>
+                        {/* Media Type Label */}
+                        <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 p-2">
+                          <p className="text-xs text-white truncate">
+                            {item.type.toLowerCase() === 'image' ? 'Image' : 'Video'}
+                          </p>
+                        </div>
+                        {/* Order Indicator */}
+                        <div className="absolute top-2 right-2 bg-black bg-opacity-60 text-white text-xs font-semibold px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
+                          #{index + 1}
+                        </div>
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
               </div>
-            </div>
-          ))}
-        </div>
+            )}
+          </Droppable>
+        </DragDropContext>
       )}
 
       {/* Upload Progress */}

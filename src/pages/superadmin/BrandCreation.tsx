@@ -1,5 +1,6 @@
-import React, { useState, useEffect, ChangeEvent, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { PlusCircle, Upload, X, Check, AlertCircle, Edit2, Trash2 } from 'lucide-react';
+import { useDropzone } from 'react-dropzone';
 import SuperAdminLayout from './SuperAdminLayout';
 import { toast } from 'react-hot-toast';
 
@@ -153,12 +154,29 @@ const BrandCreation: React.FC = () => {
         }
     };
 
-    // Handle image upload
-    const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files && e.target.files[0]) {
+    // Handle image upload via dropzone
+    const onDrop = useCallback((acceptedFiles: File[]) => {
+        if (acceptedFiles && acceptedFiles.length > 0) {
             try {
                 setUploadingImage(true);
-                const file = e.target.files[0];
+                const file = acceptedFiles[0];
+                
+                // Validate file type
+                const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'image/svg+xml', 'image/webp'];
+                if (!allowedTypes.includes(file.type)) {
+                    toast.error('Invalid file type. Please upload PNG, JPG, JPEG, GIF, SVG, or WEBP');
+                    setUploadingImage(false);
+                    return;
+                }
+                
+                // Validate file size (max 5MB)
+                const maxSize = 5 * 1024 * 1024; // 5MB
+                if (file.size > maxSize) {
+                    toast.error('File size too large. Maximum size is 5MB');
+                    setUploadingImage(false);
+                    return;
+                }
+                
                 setBrandImage(file);
                 
                 // Create preview URL
@@ -174,14 +192,40 @@ const BrandCreation: React.FC = () => {
                 setUploadingImage(false);
             }
         }
-    };
+    }, []);
 
-    // Handle edit image upload
-    const handleEditImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files && e.target.files[0]) {
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({
+        onDrop,
+        accept: {
+            'image/*': ['.png', '.jpg', '.jpeg', '.gif', '.svg', '.webp']
+        },
+        multiple: false,
+        disabled: uploadingImage
+    });
+
+    // Handle edit image upload via dropzone
+    const onEditDrop = useCallback((acceptedFiles: File[]) => {
+        if (acceptedFiles && acceptedFiles.length > 0) {
             try {
                 setUploadingImage(true);
-                const file = e.target.files[0];
+                const file = acceptedFiles[0];
+                
+                // Validate file type
+                const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'image/svg+xml', 'image/webp'];
+                if (!allowedTypes.includes(file.type)) {
+                    toast.error('Invalid file type. Please upload PNG, JPG, JPEG, GIF, SVG, or WEBP');
+                    setUploadingImage(false);
+                    return;
+                }
+                
+                // Validate file size (max 5MB)
+                const maxSize = 5 * 1024 * 1024; // 5MB
+                if (file.size > maxSize) {
+                    toast.error('File size too large. Maximum size is 5MB');
+                    setUploadingImage(false);
+                    return;
+                }
+                
                 setEditImage(file);
                 
                 // Create preview URL
@@ -197,7 +241,16 @@ const BrandCreation: React.FC = () => {
                 setUploadingImage(false);
             }
         }
-    };
+    }, []);
+
+    const { getRootProps: getEditRootProps, getInputProps: getEditInputProps, isDragActive: isEditDragActive } = useDropzone({
+        onDrop: onEditDrop,
+        accept: {
+            'image/*': ['.png', '.jpg', '.jpeg', '.gif', '.svg', '.webp']
+        },
+        multiple: false,
+        disabled: uploadingImage
+    });
 
     // Clear image selection
     const clearImageSelection = () => {
@@ -641,12 +694,18 @@ const BrandCreation: React.FC = () => {
                                             </button>
                                         </div>
                                     ) : (
-                                        <div className={`
-                                            border-2 border-dashed border-gray-300 rounded-md p-4 text-center cursor-pointer hover:bg-gray-50
-                                            ${uploadingImage ? 'opacity-50 cursor-not-allowed' : ''}
-                                        `}
-                                            onClick={() => !uploadingImage && document.getElementById('brandImageInput')?.click()}
+                                        <div 
+                                            {...getRootProps()}
+                                            className={`
+                                                border-2 border-dashed rounded-md p-4 text-center cursor-pointer transition-colors
+                                                ${isDragActive 
+                                                    ? 'border-[#FF5733] bg-[#FF5733]/10' 
+                                                    : 'border-gray-300 hover:bg-gray-50 hover:border-gray-400'
+                                                }
+                                                ${uploadingImage ? 'opacity-50 cursor-not-allowed' : ''}
+                                            `}
                                         >
+                                            <input {...getInputProps()} />
                                             {uploadingImage ? (
                                                 <div className="flex flex-col items-center">
                                                     <div className="w-8 h-8 border-4 border-[#FF5733] border-t-transparent rounded-full animate-spin mb-2"></div>
@@ -654,22 +713,15 @@ const BrandCreation: React.FC = () => {
                                                 </div>
                                             ) : (
                                                 <>
-                                                    <Upload className="w-6 h-6 mx-auto text-gray-400" />
-                                                    <p className="text-sm text-gray-500 mt-1">Click to upload or drag and drop</p>
-                                                    <p className="text-xs text-gray-400">PNG, JPG, JPEG, GIF, SVG, WEBP</p>
+                                                    <Upload className={`w-6 h-6 mx-auto ${isDragActive ? 'text-[#FF5733]' : 'text-gray-400'}`} />
+                                                    <p className={`text-sm mt-1 ${isDragActive ? 'text-[#FF5733] font-medium' : 'text-gray-500'}`}>
+                                                        {isDragActive ? 'Drop the image here' : 'Click to upload or drag and drop'}
+                                                    </p>
+                                                    <p className="text-xs text-gray-400">PNG, JPG, JPEG, GIF, SVG, WEBP (Max 5MB)</p>
                                                 </>
                                             )}
                                         </div>
                                     )}
-                                    
-                                    <input
-                                        id="brandImageInput"
-                                        type="file"
-                                        onChange={handleImageChange}
-                                        accept="image/png,image/jpeg,image/jpg,image/gif,image/svg+xml,image/webp"
-                                        className="hidden"
-                                        disabled={uploadingImage}
-                                    />
                                 </div>
                                 
                                 <div className="mb-4">
@@ -807,12 +859,18 @@ const BrandCreation: React.FC = () => {
                                         </button>
                                     </div>
                                 ) : (
-                                    <div className={`
-                                        border-2 border-dashed border-gray-300 rounded-md p-4 text-center cursor-pointer hover:bg-gray-50
-                                        ${uploadingImage ? 'opacity-50 cursor-not-allowed' : ''}
-                                    `}
-                                        onClick={() => !uploadingImage && document.getElementById('editBrandImageInput')?.click()}
+                                    <div 
+                                        {...getEditRootProps()}
+                                        className={`
+                                            border-2 border-dashed rounded-md p-4 text-center cursor-pointer transition-colors
+                                            ${isEditDragActive 
+                                                ? 'border-[#FF5733] bg-[#FF5733]/10' 
+                                                : 'border-gray-300 hover:bg-gray-50 hover:border-gray-400'
+                                            }
+                                            ${uploadingImage ? 'opacity-50 cursor-not-allowed' : ''}
+                                        `}
                                     >
+                                        <input {...getEditInputProps()} />
                                         {uploadingImage ? (
                                             <div className="flex flex-col items-center">
                                                 <div className="w-8 h-8 border-4 border-[#FF5733] border-t-transparent rounded-full animate-spin mb-2"></div>
@@ -820,22 +878,15 @@ const BrandCreation: React.FC = () => {
                                             </div>
                                         ) : (
                                             <>
-                                                <Upload className="w-6 h-6 mx-auto text-gray-400" />
-                                                <p className="text-sm text-gray-500 mt-1">Click to upload or drag and drop</p>
-                                                <p className="text-xs text-gray-400">PNG, JPG, JPEG, GIF, SVG, WEBP</p>
+                                                <Upload className={`w-6 h-6 mx-auto ${isEditDragActive ? 'text-[#FF5733]' : 'text-gray-400'}`} />
+                                                <p className={`text-sm mt-1 ${isEditDragActive ? 'text-[#FF5733] font-medium' : 'text-gray-500'}`}>
+                                                    {isEditDragActive ? 'Drop the image here' : 'Click to upload or drag and drop'}
+                                                </p>
+                                                <p className="text-xs text-gray-400">PNG, JPG, JPEG, GIF, SVG, WEBP (Max 5MB)</p>
                                             </>
                                         )}
                                     </div>
                                 )}
-                                
-                                <input
-                                    id="editBrandImageInput"
-                                    type="file"
-                                    onChange={handleEditImageChange}
-                                    accept="image/png,image/jpeg,image/jpg,image/gif,image/svg+xml,image/webp"
-                                    className="hidden"
-                                    disabled={uploadingImage}
-                                />
                             </div>
                             
                             <div className="mb-4">

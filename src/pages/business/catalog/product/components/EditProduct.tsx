@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeftIcon, TrashIcon, PlusIcon, StarIcon, PhotoIcon, SparklesIcon } from '@heroicons/react/24/outline';
+import { ArrowLeftIcon, TrashIcon, PlusIcon, StarIcon, PhotoIcon, SparklesIcon, Bars3Icon, CloudArrowUpIcon } from '@heroicons/react/24/outline';
+import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
+import { useDropzone } from 'react-dropzone';
 import AIProductAssistant from './AIProductAssistant';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -392,9 +394,12 @@ const EditProduct: React.FC = () => {
     }
   };
 
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement> | { target: { files: FileList | File[] | null } }) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
+    
+    // Convert FileList to Array if needed
+    const filesArray = Array.from(files);
 
     // Check if we have space for all files
     const currentMediaCount = product?.media?.length || 0;
@@ -405,17 +410,23 @@ const EditProduct: React.FC = () => {
       return;
     }
 
-    // Validate all files
+    // Validate all files - only images are allowed
     const validFiles: File[] = [];
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-      const isVideo = file.type.startsWith('video/');
+    for (let i = 0; i < filesArray.length; i++) {
+      const file = filesArray[i];
       const isImage = file.type.startsWith('image/');
 
-      if (!isVideo && !isImage) {
-        setError(`Invalid file type: ${file.name}. Please upload only images or videos.`);
+      if (!isImage) {
+        setError(`Invalid file type: ${file.name}. Please upload only images (PNG, JPG, JPEG, GIF, WebP, SVG).`);
         return;
       }
+      
+      // Check file size (10MB max for images)
+      if (file.size > 10 * 1024 * 1024) {
+        setError(`${file.name}: File is too large (${(file.size / (1024 * 1024)).toFixed(2)} MB). Maximum allowed size is 10 MB.`);
+        return;
+      }
+      
       validFiles.push(file);
     }
 
@@ -430,38 +441,108 @@ const EditProduct: React.FC = () => {
       for (let i = 0; i < validFiles.length; i++) {
         const file = validFiles[i];
         const fileName = file.name;
-        const isVideo = file.type.startsWith('video/');
         
         // Update progress for this file
         setUploadProgress(prev => ({ ...prev, [fileName]: 0 }));
 
         const formData = new FormData();
         formData.append('media_file', file);
-        formData.append('type', isVideo ? 'VIDEO' : 'IMAGE');
+        formData.append('type', 'IMAGE'); // Only images are supported
         formData.append('sort_order', '0');
 
-        const response = await fetch(`${API_BASE_URL}/api/merchant-dashboard/products/${id}/media`, {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
-          },
-          body: formData,
-        });
+        // Log request details for debugging
+        console.log(`[UPLOAD] Starting upload for ${fileName}`);
+        console.log(`[UPLOAD] URL: ${API_BASE_URL}/api/merchant-dashboard/products/${id}/media`);
+        console.log(`[UPLOAD] File size: ${(file.size / (1024 * 1024)).toFixed(2)} MB`);
+        console.log(`[UPLOAD] File type: ${file.type}`);
 
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.message || `Failed to upload ${fileName}`);
+        // Create AbortController for timeout (2 minutes for images)
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 120000); // 2 min for images
+        
+        try {
+          const uploadUrl = `${API_BASE_URL}/api/merchant-dashboard/products/${id}/media`;
+          console.log(`[UPLOAD] Sending fetch request to: ${uploadUrl}`);
+          console.log(`[UPLOAD] API_BASE_URL: ${API_BASE_URL}`);
+          
+          // Test if server is reachable first
+          try {
+            const testResponse = await fetch(`${API_BASE_URL}/api/merchant-dashboard/products/${id}/media`, {
+              method: 'OPTIONS',
+              headers: {
+                'Origin': window.location.origin,
+                'Access-Control-Request-Method': 'POST',
+                'Access-Control-Request-Headers': 'Content-Type, Authorization'
+              }
+            });
+            console.log(`[UPLOAD] Preflight test response: ${testResponse.status}`);
+          } catch (preflightError) {
+            console.error(`[UPLOAD] Preflight test failed:`, preflightError);
+          }
+          
+          const response = await fetch(uploadUrl, {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
+              // DO NOT set Content-Type - browser sets it automatically with boundary for FormData
+            },
+            body: formData,
+            signal: controller.signal,
+            credentials: 'include', // Important for CORS with credentials
+            mode: 'cors', // Explicitly set CORS mode
+          });
+          
+          console.log(`[UPLOAD] Response received: ${response.status} ${response.statusText}`);
+          
+          clearTimeout(timeoutId);
+
+          if (!response.ok) {
+            const errorData = await response.json();
+            // Handle specific error types with better messages
+            if (errorData.error_type === 'FileTooLarge') {
+              const fileType = errorData.file_type || 'file';
+              const fileSize = errorData.file_size_mb || 'unknown';
+              const maxSize = errorData.max_size_mb || 'unknown';
+              throw new Error(`${fileName}: ${fileType} file is too large (${fileSize} MB). Maximum allowed size is ${maxSize} MB.`);
+            } else if (errorData.error_type === 'ClientDisconnected') {
+              throw new Error(`${fileName}: Upload failed - connection was closed. This may be due to network issues or timeout. Please try again.`);
+            } else if (errorData.error_type === 'MissingContentLength') {
+              throw new Error(`${fileName}: File size could not be determined. Please try again.`);
+            }
+            throw new Error(errorData.message || `Failed to upload ${fileName}`);
+          }
+
+          // Mark this file as completed
+          setUploadProgress(prev => ({ ...prev, [fileName]: 100 }));
+        } catch (fetchError: any) {
+          clearTimeout(timeoutId);
+          console.error(`[UPLOAD_ERROR] Error details for ${fileName}:`, {
+            name: fetchError.name,
+            message: fetchError.message,
+            stack: fetchError.stack,
+            cause: fetchError.cause
+          });
+          
+          if (fetchError.name === 'AbortError') {
+            throw new Error(`Upload timeout: ${fileName} took too long to upload. Please try a smaller file.`);
+          }
+          
+          // Provide more detailed error message
+          if (fetchError.message === 'Failed to fetch' || fetchError.name === 'TypeError') {
+            throw new Error(`Network error: Could not connect to server. Please check your connection and try again. Original error: ${fetchError.message}`);
+          }
+          
+          throw fetchError;
         }
-
-        // Mark this file as completed
-        setUploadProgress(prev => ({ ...prev, [fileName]: 100 }));
       }
 
       // Fetch the updated product data
       await fetchProduct();
 
-      // Clear the file input
+      // Clear the file input if it's a real input element
+      if (e.target && 'value' in e.target) {
       e.target.value = '';
+      }
     } catch (error) {
       console.error('Error uploading media:', error);
       setError(error instanceof Error ? error.message : 'Failed to upload media. Please try again.');
@@ -471,6 +552,100 @@ const EditProduct: React.FC = () => {
       setUploadProgress({});
     }
   };
+
+  // Drag and drop handler for uploading new files - defined after handleFileUpload
+  const onDrop = useCallback(async (acceptedFiles: File[]) => {
+    if (acceptedFiles.length === 0 || !id) return;
+    
+    // Create a synthetic event for handleFileUpload
+    const syntheticEvent = {
+      target: {
+        files: acceptedFiles,
+        value: ''
+      }
+    } as any;
+    
+    await handleFileUpload(syntheticEvent);
+  }, [id, product?.media?.length]);
+
+  const onDropRejected = useCallback((fileRejections: any[]) => {
+    fileRejections.forEach(({ file, errors }) => {
+      errors.forEach((error: any) => {
+        if (error.code === 'file-too-large') {
+          setError(`${file.name}: ${error.message}`);
+        } else if (error.code === 'file-invalid-type') {
+          setError(`${file.name}: Invalid file type. Please upload only images (PNG, JPG, JPEG, GIF, WebP, SVG).`);
+        } else {
+          setError(`${file.name}: ${error.message}`);
+        }
+      });
+    });
+  }, []);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    onDropRejected,
+    accept: {
+      'image/*': ['.jpeg', '.jpg', '.png', '.gif', '.webp', '.svg'],
+    },
+    maxSize: 10 * 1024 * 1024, // 10MB max for images
+    disabled: isUpdatingMedia || !id,
+    multiple: true,
+    noClick: false,
+    noKeyboard: false,
+    validator: (file) => {
+      // Safety check for file properties
+      if (!file || !file.name) {
+        return {
+          code: "file-invalid",
+          message: `Invalid file. Please try again.`
+        };
+      }
+
+      // Get file extension as fallback if MIME type is not set
+      const fileName = file.name.toLowerCase();
+      const lastDotIndex = fileName.lastIndexOf('.');
+      const fileExtension = lastDotIndex > -1 ? fileName.substring(lastDotIndex) : '';
+      const imageExtensions = ['.jpeg', '.jpg', '.png', '.gif', '.webp', '.svg'];
+      
+      // Check file type by MIME type first, then by extension
+      const hasImageMimeType = file.type && file.type.startsWith('image/');
+      const isImage = hasImageMimeType || imageExtensions.includes(fileExtension);
+      
+      // Reject videos explicitly
+      if (file.type && file.type.startsWith('video/')) {
+        return {
+          code: "file-invalid-type",
+          message: `Video files are not supported. Please upload only images (PNG, JPG, JPEG, GIF, WebP, SVG).`
+        };
+      }
+      
+      // First check file type
+      if (!isImage) {
+        return {
+          code: "file-invalid-type",
+          message: `Invalid file type. Please upload only images (PNG, JPG, JPEG, GIF, WebP, SVG).`
+        };
+      }
+      
+      // Then check file size
+      if (file.size > 10 * 1024 * 1024) {
+        return {
+          code: "file-too-large",
+          message: `Image file is too large. Maximum size is 10MB.`
+        };
+      }
+      
+      if (isImage && file.size > 10 * 1024 * 1024) {
+        return {
+          code: "file-too-large",
+          message: `Image file is too large. Maximum size is 10MB.`
+        };
+      }
+      
+      return null;
+    }
+  });
 
   const openDeleteMediaModal = (mediaId: number) => {
     setMediaIdPendingDelete(mediaId);
@@ -550,6 +725,59 @@ const EditProduct: React.FC = () => {
     } catch (error) {
       console.error('Error setting main image:', error);
       setError('Failed to set main image. Please try again.');
+    } finally {
+      setIsUpdatingMedia(false);
+    }
+  };
+
+  const handleMediaDragEnd = async (result: DropResult) => {
+    if (!result.destination || !product?.media) {
+      return; // Dropped outside the list
+    }
+
+    const sourceIndex = result.source.index;
+    const destinationIndex = result.destination.index;
+
+    if (sourceIndex === destinationIndex) {
+      return; // No change in position
+    }
+
+    // Create a new array with reordered items
+    const reorderedMedia = Array.from(product.media);
+    const [removed] = reorderedMedia.splice(sourceIndex, 1);
+    reorderedMedia.splice(destinationIndex, 0, removed);
+
+    // Update local state immediately for better UX
+    setProduct(prev => prev ? { ...prev, media: reorderedMedia } : null);
+
+    // Update sort orders in the backend
+    try {
+      setIsUpdatingMedia(true);
+      const updatePromises = reorderedMedia.map((item, index) => {
+        // Only update if the sort order actually changed
+        const newSortOrder = index;
+        if (item.sort_order !== newSortOrder) {
+          return fetch(`${API_BASE_URL}/api/merchant-dashboard/products/media/${item.media_id}/update-order`, {
+            method: 'PUT',
+            headers: {
+              'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ sort_order: newSortOrder }),
+          });
+        }
+        return Promise.resolve(null);
+      });
+
+      await Promise.all(updatePromises.filter(p => p !== null));
+      
+      // Refresh product to get updated sort orders from backend
+      await fetchProduct();
+    } catch (error) {
+      console.error('Error updating media order:', error);
+      setError('Failed to update media order. Please try again.');
+      // Revert to original order on error
+      await fetchProduct();
     } finally {
       setIsUpdatingMedia(false);
     }
@@ -896,8 +1124,7 @@ const EditProduct: React.FC = () => {
               <h3 className="text-lg font-medium text-gray-900">Product Media</h3>
               {product?.media && (
                 <p className="text-sm text-gray-500 mt-1">
-                  {product.media.filter(m => m.type.toLowerCase() === 'image').length} {product.media.filter(m => m.type.toLowerCase() === 'image').length === 1 ? 'image' : 'images'}, 
-                  {' '}{product.media.filter(m => m.type.toLowerCase() === 'video').length} {product.media.filter(m => m.type.toLowerCase() === 'video').length === 1 ? 'video' : 'videos'}
+                  {product.media.length} {product.media.length === 1 ? 'image' : 'images'}
                   {' '}({Math.max(0, 5 - product.media.length)} {Math.max(0, 5 - product.media.length) === 1 ? 'slot' : 'slots'} remaining)
                 </p>
               )}
@@ -915,7 +1142,7 @@ const EditProduct: React.FC = () => {
                 <input
                   id="media-upload"
                   type="file"
-                  accept="image/*,video/*"
+                  accept="image/*"
                   multiple
                   onChange={handleFileUpload}
                   className="hidden"
@@ -968,28 +1195,50 @@ const EditProduct: React.FC = () => {
                 </div>
               </div>
 
-              {/* Media Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {product.media.map((media) => (
-                  <div 
+              {/* Media Grid with Drag and Drop */}
+              <DragDropContext onDragEnd={handleMediaDragEnd}>
+                <Droppable droppableId="edit-product-media-grid" direction="horizontal">
+                  {(provided, snapshot) => (
+                    <div
+                      {...provided.droppableProps}
+                      ref={provided.innerRef}
+                      className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ${
+                        snapshot.isDraggingOver ? 'bg-blue-50 rounded-lg p-2' : ''
+                      }`}
+                    >
+                      {product.media.map((media, index) => (
+                        <Draggable
                     key={media.media_id} 
-                    className="relative group bg-gray-50 rounded-lg overflow-hidden border-2 border-gray-200 hover:border-orange-300 transition-all duration-200"
+                          draggableId={`edit-media-${media.media_id}`}
+                          index={index}
+                        >
+                          {(provided, snapshot) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              className={`relative group bg-gray-50 rounded-lg overflow-hidden border-2 ${
+                                snapshot.isDragging
+                                  ? 'border-orange-500 shadow-2xl ring-2 ring-orange-500 z-50 scale-105'
+                                  : 'border-gray-200 hover:border-orange-300'
+                              } transition-all duration-200`}
                   >
                     {/* Media Content */}
                     <div className="aspect-w-16 aspect-h-9 relative">
-                      {media.type.toLowerCase() === 'image' ? (
-                        <img
-                          src={media.url}
-                          alt="Product media"
-                          className="w-full h-48 object-cover"
-                        />
-                      ) : media.type.toLowerCase() === 'video' ? (
-                        <video
-                          src={media.url}
-                          className="w-full h-48 object-cover"
-                          controls
-                        />
-                      ) : null}
+                      <img
+                        src={media.url}
+                        alt="Product media"
+                        className="w-full h-48 object-cover"
+                        draggable={false}
+                      />
+                                
+                                {/* Drag Handle */}
+                                <div
+                                  {...provided.dragHandleProps}
+                                  className="absolute top-2 right-2 p-1.5 bg-white rounded-full shadow-sm opacity-0 group-hover:opacity-100 transition-opacity cursor-grab active:cursor-grabbing z-10"
+                                  title="Drag to reorder"
+                                >
+                                  <Bars3Icon className="h-4 w-4 text-gray-600" />
+                                </div>
                       
                       {/* Status Badges */}
                       <div className="absolute top-2 left-2 flex flex-col gap-1">
@@ -1007,14 +1256,17 @@ const EditProduct: React.FC = () => {
                         )}
                       </div>
 
-                      {/* No drag handle */}
+                                {/* Order Indicator */}
+                                <div className="absolute bottom-2 right-2 bg-black bg-opacity-60 text-white text-xs font-semibold px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
+                                  #{index + 1}
+                                </div>
                     </div>
 
                     {/* Media Info */}
                     <div className="p-3">
                       <div className="flex items-center justify-between mb-2">
                         <span className="text-sm font-medium text-gray-900">
-                          {media.type.toLowerCase() === 'image' ? 'Image' : 'Video'}
+                          Image
                         </span>
                         <span className="text-xs text-gray-500" />
                       </div>
@@ -1068,22 +1320,45 @@ const EditProduct: React.FC = () => {
                       </div>
                     </div>
                   </div>
+                          )}
+                        </Draggable>
                 ))}
+                      {provided.placeholder}
               </div>
+                  )}
+                </Droppable>
+              </DragDropContext>
             </div>
           ) : (
-            <div className="text-center py-12 bg-gray-50 rounded-lg">
-              <div className="text-gray-400 mb-2">
-                <svg className="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-              </div>
-              <p className="text-gray-500">No media uploaded yet</p>
-              {product?.media && product.media.length < 5 && (
-                <p className="text-sm text-gray-400 mt-1">
-                  Click "Add Media Files" to upload multiple images or videos at once
+            <div
+              {...getRootProps()}
+              className={`border-2 border-dashed rounded-lg p-12 text-center cursor-pointer transition-colors ${
+                isDragActive
+                  ? 'border-orange-500 bg-orange-50'
+                  : isUpdatingMedia
+                  ? 'border-gray-300 bg-gray-50 cursor-not-allowed'
+                  : 'border-gray-300 hover:border-orange-500 bg-gray-50'
+              }`}
+            >
+              <input {...getInputProps()} />
+              <CloudArrowUpIcon className={`mx-auto h-16 w-16 ${
+                isUpdatingMedia ? 'text-gray-400' : isDragActive ? 'text-orange-500' : 'text-gray-400'
+              }`} />
+              <div className="mt-4">
+                <p className="text-lg font-medium text-gray-700">
+                  {isUpdatingMedia
+                    ? 'Uploading...'
+                    : isDragActive
+                    ? 'Drop the files here...'
+                    : 'Drag and drop files here, or click to select files'}
                 </p>
-              )}
+                <p className="text-sm text-gray-500 mt-2">
+                  Supported formats: JPEG, PNG, GIF, WebP, SVG (max 10MB)
+                </p>
+                <p className="text-xs text-gray-400 mt-1">
+                  Maximum 5 images allowed.
+                </p>
+              </div>
             </div>
           )}
         </div>

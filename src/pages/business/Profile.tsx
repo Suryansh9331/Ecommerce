@@ -122,7 +122,12 @@ const Profile = () => {
           'Content-Type': 'application/json'
         }
       });
-      if (!res.ok) throw new Error('Failed to fetch profile');
+      
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({ error: 'Unknown error' }));
+        throw new Error(errorData.error || errorData.message || 'Failed to fetch profile');
+      }
+      
       const data = await res.json();
       const p = data.profile || {};
       setProfileData(() => ({
@@ -170,7 +175,8 @@ const Profile = () => {
         iban: p.bank_iban || ''
       });
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Failed to load profile');
+      const errorMessage = e instanceof Error ? e.message : 'Failed to load profile';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -440,7 +446,7 @@ const Profile = () => {
         </div>
         {error && (
           <div className="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
-            {error}
+            <strong>Error:</strong> {error}
           </div>
         )}
 
