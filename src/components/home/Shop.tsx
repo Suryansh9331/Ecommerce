@@ -832,7 +832,7 @@ const Shop = () => {
           </div>
 
           {/* Shutter Overlay */}
-          {!isShopOpen && (
+          {/* {!isShopOpen && (
             <div 
               className="absolute inset-0 z-30 flex items-center justify-center"
               style={{
@@ -865,7 +865,7 @@ const Shop = () => {
                 </div>
               </div> */}
             </div>
-          )}
+          )} */}
         </div>
       </div>
     </div>
