@@ -38,7 +38,7 @@ const Hero: React.FC = () => {
   const fetchCarouselItems = async () => {
     try {
       const response = await fetch(
-        `${API_BASE_URL}/api/homepage/carousels?type=brand`
+        `${API_BASE_URL}/api/homepage/carousels`
       );
       if (!response.ok) throw new Error('Failed to fetch carousel items');
       const data = await response.json();
