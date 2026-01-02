@@ -357,6 +357,7 @@ const HomepageSettings: React.FC = () => {
             formData.append('target_id', selectedId.toString());
             formData.append('shareable_link', link);
             formData.append('image', selectedImage);
+            formData.append('orientation', 'horizontal'); // Both forms are for horizontal banners
             const response = await fetch(`${API_BASE_URL}/api/superadmin/carousels`, {
                 method: 'POST',
                 headers: {
@@ -689,11 +690,12 @@ const HomepageSettings: React.FC = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="bg-white rounded-lg shadow-md p-6">
-                    <h2 className="text-lg font-semibold mb-4">Brand Carousel</h2>
+                    <h2 className="text-lg font-semibold mb-2">Horizontal Banner - Brand Carousel</h2>
+                    <p className="text-xs text-gray-500 mb-4">Main horizontal banner section (appears in center/main area)</p>
                     <div className="space-y-4">
                         {/* Image size suggestion for Brand Carousel */}
-                        <div className="mb-2 p-2 bg-yellow-50 border-l-4 border-yellow-400 rounded text-sm text-yellow-800">
-                            <strong>Suggestion:</strong> For your Brand Carousel, use images that are at least <b>1920 x 450 px</b> or larger, with a wide aspect ratio (16:9, 21:9, or wider).
+                        <div className="mb-2 p-2 bg-blue-50 border-l-4 border-blue-400 rounded text-sm text-blue-800">
+                            <strong>📐 Horizontal Banner:</strong> Use images that are at least <b>1920 x 450 px</b> or larger, with a wide aspect ratio (16:9, 21:9, or wider). This banner appears in the main horizontal carousel section.
                         </div>
                         <div className="flex items-center space-x-4">
                             <label className="flex-1">
@@ -758,7 +760,7 @@ const HomepageSettings: React.FC = () => {
                             disabled={loading}
                         >
                             <PlusCircle className="w-4 h-4 mr-2" />
-                            Upload Brand Carousel Item
+                            Upload Horizontal Brand Banner
                         </button>
                         <div className="mt-4 space-y-2">
                             {brandCarousel.map((item) => {
@@ -791,11 +793,12 @@ const HomepageSettings: React.FC = () => {
                 </div>
 
                 <div className="bg-white rounded-lg shadow-md p-6">
-                    <h2 className="text-lg font-semibold mb-4">Product Group Carousel</h2>
+                    <h2 className="text-lg font-semibold mb-2">Horizontal Banner - Product Group Carousel</h2>
+                    <p className="text-xs text-gray-500 mb-4">Main horizontal banner section (appears in center/main area)</p>
                     <div className="space-y-4">
                         {/* Image size suggestion for Product Carousel */}
-                        <div className="mb-2 p-2 bg-yellow-50 border-l-4 border-yellow-400 rounded text-sm text-yellow-800">
-                            <strong>Suggestion:</strong> For your Product Group Carousel, use images that are at least <b>1920 x 450 px</b> or larger, with a wide aspect ratio (16:9, 21:9, or wider).
+                        <div className="mb-2 p-2 bg-blue-50 border-l-4 border-blue-400 rounded text-sm text-blue-800">
+                            <strong>📐 Horizontal Banner:</strong> Use images that are at least <b>1920 x 450 px</b> or larger, with a wide aspect ratio (16:9, 21:9, or wider). This banner appears in the main horizontal carousel section.
                         </div>
                         <div className="flex items-center space-x-4">
                             <label className="flex-1">
@@ -852,7 +855,7 @@ const HomepageSettings: React.FC = () => {
                             disabled={loading}
                         >
                             <PlusCircle className="w-4 h-4 mr-2" />
-                            Upload Product Group Carousel Item
+                            Upload Horizontal Product Group Banner
                         </button>
                         <div className="mt-4 space-y-2">
                             {productCarousel.map((item) => {
@@ -894,6 +897,120 @@ const HomepageSettings: React.FC = () => {
                             })}
                         </div>
                     </div>
+                </div>
+            </div>
+
+            {/* Vertical Banner Section */}
+            <div className="bg-white rounded-lg shadow-md p-6 mt-8">
+                <h2 className="text-lg font-semibold mb-2">Vertical Banner - Side Carousel</h2>
+                <p className="text-xs text-gray-500 mb-4">Vertical banner section (appears in right side panel - 368x564px)</p>
+                <div className="space-y-4">
+                    {/* Image size suggestion for Vertical Banner */}
+                    <div className="mb-2 p-2 bg-orange-50 border-l-4 border-orange-400 rounded text-sm text-orange-800">
+                        <strong>📐 Vertical Banner:</strong> Use images that are <b>368 x 564 px</b> or maintain a vertical aspect ratio. This banner appears in the right side vertical carousel section.
+                    </div>
+                    <div className="flex items-center space-x-4">
+                        <label className="flex-1">
+                            <span className="block text-sm font-medium text-gray-700 mb-1">Upload Vertical Banner Image</span>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                onChange={handleImageUpload}
+                                className="w-full"
+                            />
+                        </label>
+                        <label className="flex-1">
+                            <span className="block text-sm font-medium text-gray-700 mb-1">Select Product Group</span>
+                            <select
+                                value={selectedProductGroup}
+                                onChange={(e) => {
+                                    const value = e.target.value as 'promo' | 'new' | 'featured';
+                                    setSelectedProductGroup(value);
+                                    setShareableProductLink(generateShareableLink(value, 1));
+                                }}
+                                className="w-full p-2 border rounded"
+                            >
+                                <option value="promo">Promo Products</option>
+                                <option value="new">New Products</option>
+                                <option value="featured">Featured Products</option>
+                            </select>
+                        </label>
+                    </div>
+                    {selectedProductGroup && (
+                        <div className="p-3 bg-gray-50 rounded-lg">
+                            <span className="block text-sm font-medium text-gray-700 mb-1">Shareable Link</span>
+                            <div className="flex items-center space-x-2">
+                                <input
+                                    type="text"
+                                    value={shareableProductLink}
+                                    readOnly
+                                    className="flex-1 p-2 border rounded text-sm"
+                                />
+                                <button
+                                    onClick={() => {
+                                        navigator.clipboard.writeText(shareableProductLink);
+                                        toast.success('Link copied to clipboard');
+                                    }}
+                                    className="bg-gray-200 p-2 rounded hover:bg-gray-300"
+                                >
+                                    Copy
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                    <button
+                        onClick={() => {
+                            const selectedId = 1;
+                            const link = generateShareableLink(selectedProductGroup, 1);
+                            if (!selectedImage || !link) {
+                                toast.error('Please select an image and ensure a shareable link is generated.');
+                                return;
+                            }
+                            const formData = new FormData();
+                            formData.append('type', selectedProductGroup);
+                            formData.append('target_id', selectedId.toString());
+                            formData.append('shareable_link', link);
+                            formData.append('image', selectedImage);
+                            formData.append('orientation', 'vertical'); // Vertical banner
+                            
+                            const token = localStorage.getItem('access_token');
+                            if (!token) {
+                                toast.error('Authentication token not found. Please login again.');
+                                return;
+                            }
+                            
+                            setLoading(true);
+                            fetch(`${API_BASE_URL}/api/superadmin/carousels`, {
+                                method: 'POST',
+                                headers: {
+                                    'Authorization': `Bearer ${token}`
+                                },
+                                body: formData
+                            })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Failed to upload vertical banner');
+                                }
+                                toast.success('Vertical banner uploaded successfully');
+                                setSelectedImage(null);
+                                setSelectedProductGroup('promo');
+                                fetchCarousels();
+                                fetchCarouselItems();
+                            })
+                            .catch(error => {
+                                console.error('Error uploading vertical banner:', error);
+                                toast.error('Failed to upload vertical banner');
+                            })
+                            .finally(() => {
+                                setLoading(false);
+                            });
+                        }}
+                        className="w-full bg-[#FF5733] text-white px-4 py-2 rounded flex items-center justify-center hover:bg-[#FF4500] transition-colors mt-2"
+                        disabled={loading}
+                    >
+                        <PlusCircle className="w-4 h-4 mr-2" />
+                        Upload Vertical Banner
+                    </button>
                 </div>
             </div>
 
