@@ -10,6 +10,7 @@ interface ICarouselItem {
   shareable_link: string;
   display_order: number;
   is_active: boolean;
+  orientation?: 'horizontal' | 'vertical';
 }
 
 const TopSellingCarousel: React.FC = () => {
@@ -32,13 +33,15 @@ const TopSellingCarousel: React.FC = () => {
 
   const fetchCarouselItems = async () => {
     try {
-      // Fetch all product group types
-      const response = await fetch(`${API_BASE_URL}/api/homepage/carousels?type=promo,new,featured`);
+      // Fetch horizontal product group types for left panel carousel
+      const response = await fetch(`${API_BASE_URL}/api/homepage/carousels?type=promo,new,featured&orientation=horizontal`);
       if (!response.ok) throw new Error('Failed to fetch carousel items');
       const data = await response.json();
-      // Filter active items and sort by display_order
+      // Filter active items, ensure horizontal orientation, and sort by display_order
       const activeItems = data
-        .filter((item: ICarouselItem) => item.is_active)
+        .filter((item: ICarouselItem) => 
+          item.is_active && (!item.orientation || item.orientation === 'horizontal')
+        )
         .sort((a: ICarouselItem, b: ICarouselItem) => a.display_order - b.display_order);
       setCarouselItems(activeItems);
     } catch (error) {

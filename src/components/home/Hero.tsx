@@ -13,6 +13,7 @@ interface ICarouselItem {
   image_url: string;
   shareable_link: string;
   display_order: number;
+  orientation?: string;
 }
 
 // --- SVG Placeholders ---
@@ -37,12 +38,19 @@ const Hero: React.FC = () => {
 
   const fetchCarouselItems = async () => {
     try {
+      // Fetch ONLY horizontal brand banners for the main carousel section
       const response = await fetch(
-        `${API_BASE_URL}/api/homepage/carousels`
+        `${API_BASE_URL}/api/homepage/carousels?type=brand&orientation=horizontal`
       );
       if (!response.ok) throw new Error('Failed to fetch carousel items');
       const data = await response.json();
-      setCarouselItems(data);
+      // Filter to ensure only horizontal brand banners (double-check on frontend)
+      const horizontalBanners = data
+        .filter((item: ICarouselItem) => 
+          (!item.orientation || item.orientation === 'horizontal')
+        )
+        .sort((a: ICarouselItem, b: ICarouselItem) => a.display_order - b.display_order);
+      setCarouselItems(horizontalBanners);
     } catch (error) {
       console.error('Error fetching carousel items:', error);
     }

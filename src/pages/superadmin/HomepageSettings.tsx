@@ -58,6 +58,7 @@ interface ICarouselItem {
     display_order: number;
     is_active: boolean;
     shareable_link?: string;
+    orientation?: 'horizontal' | 'vertical';
 }
 
 const HomepageSettings: React.FC = () => {
@@ -67,6 +68,7 @@ const HomepageSettings: React.FC = () => {
     const [products, setProducts] = useState<IProduct[]>([]);
     const [brandCarousel, setBrandCarousel] = useState<ICarouselItem[]>([]);
     const [productCarousel, setProductCarousel] = useState<ICarouselItem[]>([]);
+    const [verticalCarousel, setVerticalCarousel] = useState<ICarouselItem[]>([]);
     const [loading, setLoading] = useState(false);
     const [expandedCategories, setExpandedCategories] = useState<Record<number, boolean>>({});
     const [selectedImage, setSelectedImage] = useState<File | null>(null);
@@ -229,8 +231,17 @@ const HomepageSettings: React.FC = () => {
             }
 
             const data = await response.json();
-            setBrandCarousel(data.filter((item: ICarouselItem) => item.type === 'brand'));
-            setProductCarousel(data.filter((item: ICarouselItem) => item.type === 'product'));
+            // Filter by type AND orientation
+            setBrandCarousel(data.filter((item: ICarouselItem) => 
+                item.type === 'brand' && (!item.orientation || item.orientation === 'horizontal')
+            ));
+            setProductCarousel(data.filter((item: ICarouselItem) => 
+                (item.type === 'promo' || item.type === 'new' || item.type === 'featured') && 
+                (!item.orientation || item.orientation === 'horizontal')
+            ));
+            setVerticalCarousel(data.filter((item: ICarouselItem) => 
+                item.orientation === 'vertical'
+            ));
         } catch (error) {
             console.error('Error fetching carousels:', error);
             toast.error('Failed to fetch carousels');
@@ -334,7 +345,10 @@ const HomepageSettings: React.FC = () => {
         }
     };
 
-    const handleCarouselUpload = async (carouselType: 'brand' | 'product' | 'promo' | 'new' | 'featured') => {
+    const handleCarouselUpload = async (
+        carouselType: 'brand' | 'product' | 'promo' | 'new' | 'featured',
+        orientation: 'horizontal' | 'vertical' = 'horizontal'
+    ) => {
         const selectedId = carouselType === 'brand' ? selectedBrand : 1;
         if (!selectedId && carouselType === 'brand') {
             toast.error('Please select a brand');
@@ -357,7 +371,7 @@ const HomepageSettings: React.FC = () => {
             formData.append('target_id', selectedId.toString());
             formData.append('shareable_link', link);
             formData.append('image', selectedImage);
-            formData.append('orientation', 'horizontal'); // Both forms are for horizontal banners
+            formData.append('orientation', orientation); // Pass orientation parameter
             const response = await fetch(`${API_BASE_URL}/api/superadmin/carousels`, {
                 method: 'POST',
                 headers: {
@@ -688,16 +702,41 @@ const HomepageSettings: React.FC = () => {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-white rounded-lg shadow-md p-6">
-                    <h2 className="text-lg font-semibold mb-2">Horizontal Banner - Brand Carousel</h2>
-                    <p className="text-xs text-gray-500 mb-4">Main horizontal banner section (appears in center/main area)</p>
-                    <div className="space-y-4">
-                        {/* Image size suggestion for Brand Carousel */}
-                        <div className="mb-2 p-2 bg-blue-50 border-l-4 border-blue-400 rounded text-sm text-blue-800">
-                            <strong>📐 Horizontal Banner:</strong> Use images that are at least <b>1920 x 450 px</b> or larger, with a wide aspect ratio (16:9, 21:9, or wider). This banner appears in the main horizontal carousel section.
+            {/* Main Carousel Section - Brand Banners */}
+            <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+                <div className="flex items-center justify-between mb-4">
+                    <div>
+                        <h2 className="text-xl font-bold text-gray-800 mb-1">Main Carousel</h2>
+                        <p className="text-sm text-gray-600">Brand banners displayed in the center/main carousel section</p>
+                    </div>
+                    <div className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold">
+                        Center Area
+                    </div>
+                </div>
+                
+                <div className="mb-4 p-3 bg-blue-50 border-l-4 border-blue-500 rounded">
+                    <div className="flex items-start">
+                        <div className="flex-shrink-0 mr-3">
+                            <svg className="w-5 h-5 text-blue-600 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                            </svg>
                         </div>
-                        <div className="flex items-center space-x-4">
+                        <div className="flex-1">
+                            <p className="text-sm font-medium text-blue-900 mb-1">Recommended Image Size</p>
+                            <p className="text-sm text-blue-800">
+                                <strong>1920 x 450 px</strong> or larger with wide aspect ratio (16:9, 21:9, or wider)
+                            </p>
+                            <p className="text-xs text-blue-700 mt-1">This banner appears in the main horizontal carousel at the center of the homepage</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="space-y-4">
+                    {/* Image size suggestion for Brand Carousel */}
+                    <div className="mb-2 p-2 bg-blue-50 border-l-4 border-blue-400 rounded text-sm text-blue-800">
+                        <strong>📐 Horizontal Banner:</strong> Use images that are at least <b>1920 x 450 px</b> or larger, with a wide aspect ratio (16:9, 21:9, or wider). This banner appears in the main horizontal carousel section.
+                    </div>
+                    <div className="flex items-center space-x-4">
                             <label className="flex-1">
                                 <span className="block text-sm font-medium text-gray-700 mb-1">Upload Image</span>
                                 <input
@@ -731,8 +770,8 @@ const HomepageSettings: React.FC = () => {
                                     ))}
                                 </select>
                             </label>
-                        </div>
-                        {selectedBrand && shareableBrandLink && (
+                    </div>
+                    {selectedBrand && shareableBrandLink && (
                             <div className="p-3 bg-gray-50 rounded-lg">
                                 <span className="block text-sm font-medium text-gray-700 mb-1">Shareable Link</span>
                                 <div className="flex items-center space-x-2">
@@ -754,52 +793,89 @@ const HomepageSettings: React.FC = () => {
                                 </div>
                             </div>
                         )}
-                        <button
-                            onClick={() => handleCarouselUpload('brand')}
-                            className="w-full bg-[#FF5733] text-white px-4 py-2 rounded flex items-center justify-center hover:bg-[#FF4500] transition-colors mt-2"
-                            disabled={loading}
-                        >
-                            <PlusCircle className="w-4 h-4 mr-2" />
-                            Upload Horizontal Brand Banner
-                        </button>
-                        <div className="mt-4 space-y-2">
-                            {brandCarousel.map((item) => {
-                                const brand = brands.find(b => b.brand_id === item.target_id);
-                                return (
-                                    <div key={item.id} className="flex items-center justify-between p-2 bg-gray-50 rounded">
-                                        <div className="flex items-center space-x-2">
-                                            <img src={item.image_url} alt={brand?.name} className="w-10 h-10 object-cover rounded" />
-                                            <span>{brand?.name}</span>
+                    <button
+                        onClick={() => handleCarouselUpload('brand', 'horizontal')}
+                        className="w-full bg-blue-600 text-white px-4 py-3 rounded-lg flex items-center justify-center hover:bg-blue-700 transition-colors shadow-md font-medium"
+                        disabled={loading || !selectedBrand || !selectedImage}
+                    >
+                        <PlusCircle className="w-5 h-5 mr-2" />
+                        {loading ? 'Uploading...' : 'Add Brand Banner to Main Carousel'}
+                    </button>
+                    
+                    {/* Uploaded Main Carousel Banners */}
+                    {brandCarousel.length > 0 && (
+                        <div className="mt-6">
+                            <h3 className="text-sm font-semibold text-gray-700 mb-3 flex items-center">
+                                <span className="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
+                                Current Main Carousel Banners ({brandCarousel.length})
+                            </h3>
+                            <div className="space-y-2">
+                                {brandCarousel.map((item) => {
+                                    const brand = brands.find(b => b.brand_id === item.target_id);
+                                    return (
+                                        <div key={item.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 transition-colors">
+                                            <div className="flex items-center space-x-3">
+                                                <img src={item.image_url} alt={brand?.name} className="w-12 h-12 object-cover rounded border border-gray-300" />
+                                                <div>
+                                                    <p className="font-medium text-gray-800">{brand?.name || 'Unknown Brand'}</p>
+                                                    <p className="text-xs text-gray-500">Display Order: {item.display_order}</p>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center space-x-2">
+                                                <button
+                                                    onClick={() => handleEditCarousel(item)}
+                                                    className="p-2 text-blue-600 hover:bg-blue-50 rounded transition-colors"
+                                                    title="Edit banner"
+                                                >
+                                                    <Edit2 size={18} />
+                                                </button>
+                                                <button
+                                                    onClick={() => handleDeleteCarousel(item.id)}
+                                                    className="p-2 text-red-600 hover:bg-red-50 rounded transition-colors"
+                                                    title="Delete banner"
+                                                >
+                                                    <Trash2 size={18} />
+                                                </button>
+                                            </div>
                                         </div>
-                                        <div className="flex items-center space-x-2">
-                                            <button
-                                                onClick={() => handleEditCarousel(item)}
-                                                className="text-blue-500 hover:text-blue-700"
-                                            >
-                                                <Edit2 size={16} />
-                                            </button>
-                                            <button
-                                                onClick={() => handleDeleteCarousel(item.id)}
-                                                className="text-red-500 hover:text-red-700"
-                                            >
-                                                <Trash2 size={16} />
-                                            </button>
-                                        </div>
-                                    </div>
-                                );
-                            })}
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </div>
+
+            {/* Left Panel Carousel Section - Product Group Banners */}
+            <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+                <div className="flex items-center justify-between mb-4">
+                    <div>
+                        <h2 className="text-xl font-bold text-gray-800 mb-1">Left Panel Carousel</h2>
+                        <p className="text-sm text-gray-600">Product group banners displayed in the left side panel (TopSelling section)</p>
+                    </div>
+                    <div className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-semibold">
+                        Left Side Panel
+                    </div>
+                </div>
+                
+                <div className="mb-4 p-3 bg-green-50 border-l-4 border-green-500 rounded">
+                    <div className="flex items-start">
+                        <div className="flex-shrink-0 mr-3">
+                            <svg className="w-5 h-5 text-green-600 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                            </svg>
+                        </div>
+                        <div className="flex-1">
+                            <p className="text-sm font-medium text-green-900 mb-1">Recommended Image Size</p>
+                            <p className="text-sm text-green-800">
+                                <strong>270 x 367 px</strong> or maintain vertical/tall aspect ratio
+                            </p>
+                            <p className="text-xs text-green-700 mt-1">This banner appears in the left side panel carousel (TopSelling section)</p>
                         </div>
                     </div>
                 </div>
 
-                <div className="bg-white rounded-lg shadow-md p-6">
-                    <h2 className="text-lg font-semibold mb-2">Horizontal Banner - Product Group Carousel</h2>
-                    <p className="text-xs text-gray-500 mb-4">Main horizontal banner section (appears in center/main area)</p>
-                    <div className="space-y-4">
-                        {/* Image size suggestion for Product Carousel */}
-                        <div className="mb-2 p-2 bg-blue-50 border-l-4 border-blue-400 rounded text-sm text-blue-800">
-                            <strong>📐 Horizontal Banner:</strong> Use images that are at least <b>1920 x 450 px</b> or larger, with a wide aspect ratio (16:9, 21:9, or wider). This banner appears in the main horizontal carousel section.
-                        </div>
+                <div className="space-y-4">
                         <div className="flex items-center space-x-4">
                             <label className="flex-1">
                                 <span className="block text-sm font-medium text-gray-700 mb-1">Upload Image</span>
@@ -849,170 +925,72 @@ const HomepageSettings: React.FC = () => {
                                 </div>
                             </div>
                         )}
-                        <button
-                            onClick={() => handleCarouselUpload(selectedProductGroup)}
-                            className="w-full bg-[#FF5733] text-white px-4 py-2 rounded flex items-center justify-center hover:bg-[#FF4500] transition-colors mt-2"
-                            disabled={loading}
-                        >
-                            <PlusCircle className="w-4 h-4 mr-2" />
-                            Upload Horizontal Product Group Banner
-                        </button>
-                        <div className="mt-4 space-y-2">
-                            {productCarousel.map((item) => {
-                                const groupName = item.type === 'promo' ? 'Promo Products' :
-                                    item.type === 'new' ? 'New Products' :
-                                        item.type === 'featured' ? 'Featured Products' : '';
-                                return (
-                                    <div key={item.id} className="flex items-center justify-between p-2 bg-gray-50 rounded">
-                                        <div className="flex items-center space-x-2">
-                                            <img src={item.image_url} alt={groupName} className="w-10 h-10 object-cover rounded" />
-                                            <div className="flex flex-col">
-                                                <span className="font-medium">{groupName}</span>
+                    <button
+                        onClick={() => handleCarouselUpload(selectedProductGroup, 'horizontal')}
+                        className="w-full bg-green-600 text-white px-4 py-3 rounded-lg flex items-center justify-center hover:bg-green-700 transition-colors shadow-md font-medium"
+                        disabled={loading || !selectedImage}
+                    >
+                        <PlusCircle className="w-5 h-5 mr-2" />
+                        {loading ? 'Uploading...' : `Add ${selectedProductGroup === 'promo' ? 'Promo' : selectedProductGroup === 'new' ? 'New' : 'Featured'} Banner to Left Panel`}
+                    </button>
+                    
+                    {/* Uploaded Left Panel Carousel Banners */}
+                    {productCarousel.length > 0 && (
+                        <div className="mt-6">
+                            <h3 className="text-sm font-semibold text-gray-700 mb-3 flex items-center">
+                                <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                                Current Left Panel Banners ({productCarousel.length})
+                            </h3>
+                            <div className="space-y-2">
+                                {productCarousel.map((item) => {
+                                    const groupName = item.type === 'promo' ? 'Promo Products' :
+                                        item.type === 'new' ? 'New Products' :
+                                            item.type === 'featured' ? 'Featured Products' : '';
+                                    return (
+                                        <div key={item.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 transition-colors">
+                                            <div className="flex items-center space-x-3">
+                                                <img src={item.image_url} alt={groupName} className="w-12 h-12 object-cover rounded border border-gray-300" />
+                                                <div>
+                                                    <p className="font-medium text-gray-800">{groupName}</p>
+                                                    <p className="text-xs text-gray-500">Display Order: {item.display_order}</p>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center space-x-2">
+                                                {item.shareable_link && (
+                                                    <a
+                                                        href={item.shareable_link}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="p-2 text-blue-600 hover:bg-blue-50 rounded transition-colors"
+                                                        title="View link"
+                                                    >
+                                                        <LinkIcon size={18} />
+                                                    </a>
+                                                )}
+                                                <button
+                                                    onClick={() => handleEditCarousel(item)}
+                                                    className="p-2 text-blue-600 hover:bg-blue-50 rounded transition-colors"
+                                                    title="Edit banner"
+                                                >
+                                                    <Edit2 size={18} />
+                                                </button>
+                                                <button
+                                                    onClick={() => handleDeleteCarousel(item.id)}
+                                                    className="p-2 text-red-600 hover:bg-red-50 rounded transition-colors"
+                                                    title="Delete banner"
+                                                >
+                                                    <Trash2 size={18} />
+                                                </button>
                                             </div>
                                         </div>
-                                        <div className="flex items-center space-x-2">
-                                            <a
-                                                href={item.shareable_link}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="text-blue-500 hover:text-blue-700"
-                                            >
-                                                <LinkIcon size={16} />
-                                            </a>
-                                            <button
-                                                onClick={() => handleEditCarousel(item)}
-                                                className="text-blue-500 hover:text-blue-700"
-                                            >
-                                                <Edit2 size={16} />
-                                            </button>
-                                            <button
-                                                onClick={() => handleDeleteCarousel(item.id)}
-                                                className="text-red-500 hover:text-red-700"
-                                            >
-                                                <Trash2 size={16} />
-                                            </button>
-                                        </div>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {/* Vertical Banner Section */}
-            <div className="bg-white rounded-lg shadow-md p-6 mt-8">
-                <h2 className="text-lg font-semibold mb-2">Vertical Banner - Side Carousel</h2>
-                <p className="text-xs text-gray-500 mb-4">Vertical banner section (appears in right side panel - 368x564px)</p>
-                <div className="space-y-4">
-                    {/* Image size suggestion for Vertical Banner */}
-                    <div className="mb-2 p-2 bg-orange-50 border-l-4 border-orange-400 rounded text-sm text-orange-800">
-                        <strong>📐 Vertical Banner:</strong> Use images that are <b>368 x 564 px</b> or maintain a vertical aspect ratio. This banner appears in the right side vertical carousel section.
-                    </div>
-                    <div className="flex items-center space-x-4">
-                        <label className="flex-1">
-                            <span className="block text-sm font-medium text-gray-700 mb-1">Upload Vertical Banner Image</span>
-                            <input
-                                type="file"
-                                accept="image/*"
-                                onChange={handleImageUpload}
-                                className="w-full"
-                            />
-                        </label>
-                        <label className="flex-1">
-                            <span className="block text-sm font-medium text-gray-700 mb-1">Select Product Group</span>
-                            <select
-                                value={selectedProductGroup}
-                                onChange={(e) => {
-                                    const value = e.target.value as 'promo' | 'new' | 'featured';
-                                    setSelectedProductGroup(value);
-                                    setShareableProductLink(generateShareableLink(value, 1));
-                                }}
-                                className="w-full p-2 border rounded"
-                            >
-                                <option value="promo">Promo Products</option>
-                                <option value="new">New Products</option>
-                                <option value="featured">Featured Products</option>
-                            </select>
-                        </label>
-                    </div>
-                    {selectedProductGroup && (
-                        <div className="p-3 bg-gray-50 rounded-lg">
-                            <span className="block text-sm font-medium text-gray-700 mb-1">Shareable Link</span>
-                            <div className="flex items-center space-x-2">
-                                <input
-                                    type="text"
-                                    value={shareableProductLink}
-                                    readOnly
-                                    className="flex-1 p-2 border rounded text-sm"
-                                />
-                                <button
-                                    onClick={() => {
-                                        navigator.clipboard.writeText(shareableProductLink);
-                                        toast.success('Link copied to clipboard');
-                                    }}
-                                    className="bg-gray-200 p-2 rounded hover:bg-gray-300"
-                                >
-                                    Copy
-                                </button>
+                                    );
+                                })}
                             </div>
                         </div>
                     )}
-                    <button
-                        onClick={() => {
-                            const selectedId = 1;
-                            const link = generateShareableLink(selectedProductGroup, 1);
-                            if (!selectedImage || !link) {
-                                toast.error('Please select an image and ensure a shareable link is generated.');
-                                return;
-                            }
-                            const formData = new FormData();
-                            formData.append('type', selectedProductGroup);
-                            formData.append('target_id', selectedId.toString());
-                            formData.append('shareable_link', link);
-                            formData.append('image', selectedImage);
-                            formData.append('orientation', 'vertical'); // Vertical banner
-                            
-                            const token = localStorage.getItem('access_token');
-                            if (!token) {
-                                toast.error('Authentication token not found. Please login again.');
-                                return;
-                            }
-                            
-                            setLoading(true);
-                            fetch(`${API_BASE_URL}/api/superadmin/carousels`, {
-                                method: 'POST',
-                                headers: {
-                                    'Authorization': `Bearer ${token}`
-                                },
-                                body: formData
-                            })
-                            .then(response => {
-                                if (!response.ok) {
-                                    throw new Error('Failed to upload vertical banner');
-                                }
-                                toast.success('Vertical banner uploaded successfully');
-                                setSelectedImage(null);
-                                setSelectedProductGroup('promo');
-                                fetchCarousels();
-                                fetchCarouselItems();
-                            })
-                            .catch(error => {
-                                console.error('Error uploading vertical banner:', error);
-                                toast.error('Failed to upload vertical banner');
-                            })
-                            .finally(() => {
-                                setLoading(false);
-                            });
-                        }}
-                        className="w-full bg-[#FF5733] text-white px-4 py-2 rounded flex items-center justify-center hover:bg-[#FF4500] transition-colors mt-2"
-                        disabled={loading}
-                    >
-                        <PlusCircle className="w-4 h-4 mr-2" />
-                        Upload Vertical Banner
-                    </button>
                 </div>
             </div>
+
 
             {/* Carousel Order Management Section */}
             <div className="bg-white rounded-lg shadow-md p-6 mt-8">
