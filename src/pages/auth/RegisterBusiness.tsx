@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '../../context/AuthContext';
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, CheckCircle2, XCircle, Loader2 } from 'lucide-react';
+import { validateUsernameFormat, checkUsernameAvailability, debounce, generateUsernameSuggestion } from '../../utils/usernameValidation';
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 interface Country {
@@ -37,6 +38,7 @@ const RegisterBusiness: React.FC = () => {
     phone: '',
     password: '',
     confirm_password: '',
+    username: '',  // Optional username field
     
     // Business details
     business_name: '',
@@ -60,6 +62,11 @@ const RegisterBusiness: React.FC = () => {
   const [countryConfig, setCountryConfig] = useState<CountryConfig | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [usernameStatus, setUsernameStatus] = useState<{ checking: boolean; available: boolean | null; message: string }>({
+    checking: false,
+    available: null,
+    message: ''
+  });
   
   const navigate = useNavigate();
 
@@ -102,6 +109,31 @@ const RegisterBusiness: React.FC = () => {
     fetchCountryConfig();
   }, [formData.country_code]);
 
+  // Debounced username availability check
+  const debouncedUsernameCheck = useCallback(
+    debounce(async (username: string) => {
+      if (!username) {
+        setUsernameStatus({ checking: false, available: null, message: '' });
+        return;
+      }
+      
+      const formatCheck = validateUsernameFormat(username);
+      if (!formatCheck.isValid) {
+        setUsernameStatus({ checking: false, available: false, message: formatCheck.error || '' });
+        return;
+      }
+      
+      setUsernameStatus(prev => ({ ...prev, checking: true }));
+      const result = await checkUsernameAvailability(username);
+      setUsernameStatus({
+        checking: false,
+        available: result.available,
+        message: result.error || (result.available ? 'Username is available' : 'Username is already taken')
+      });
+    }, 500),
+    []
+  );
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -112,6 +144,23 @@ const RegisterBusiness: React.FC = () => {
     // Clear password error when user starts typing
     if (name === 'password' || name === 'confirm_password') {
       setPasswordError('');
+    }
+    
+    // Handle username validation
+    if (name === 'username') {
+      setUsernameStatus({ checking: false, available: null, message: '' });
+      debouncedUsernameCheck(value);
+    }
+    
+    // Auto-suggest username when business_name or first_name changes
+    if ((name === 'business_name' || name === 'first_name') && !formData.username) {
+      const suggestion = generateUsernameSuggestion(
+        name === 'business_name' ? value : formData.business_name,
+        name === 'first_name' ? value : formData.first_name
+      );
+      if (suggestion) {
+        // Don't auto-fill, just show as placeholder hint
+      }
     }
   };
 
@@ -211,6 +260,7 @@ const RegisterBusiness: React.FC = () => {
         last_name: apiData.last_name,
         phone: apiData.phone || '',
         password: apiData.password,
+        username: apiData.username || undefined,  // Include username if provided
         business_name: apiData.business_name,
         business_description: apiData.business_description || '',
         business_email: apiData.business_email,
@@ -340,6 +390,48 @@ const RegisterBusiness: React.FC = () => {
                     className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                     placeholder="Phone number"
                   />
+                </div>
+                
+                <div>
+                  <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
+                    Username <span className="text-gray-500 text-xs font-normal">(Optional - will be auto-generated if left empty)</span>
+                  </label>
+                  <div className="relative">
+                    <input
+                      id="username"
+                      name="username"
+                      type="text"
+                      value={formData.username}
+                      onChange={handleChange}
+                      className={`w-full px-4 py-3 pr-10 border rounded-md focus:outline-none focus:ring-2 focus:border-transparent ${
+                        usernameStatus.available === true
+                          ? 'border-green-300 focus:ring-green-500'
+                          : usernameStatus.available === false
+                          ? 'border-red-300 focus:ring-red-500'
+                          : 'border-gray-300 focus:ring-primary-500'
+                      }`}
+                      placeholder={generateUsernameSuggestion(formData.business_name, formData.first_name) || 'Username (3-30 chars, alphanumeric + underscore)'}
+                      maxLength={30}
+                    />
+                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                      {usernameStatus.checking ? (
+                        <Loader2 className="w-5 h-5 text-gray-400 animate-spin" />
+                      ) : usernameStatus.available === true ? (
+                        <CheckCircle2 className="w-5 h-5 text-green-500" />
+                      ) : usernameStatus.available === false ? (
+                        <XCircle className="w-5 h-5 text-red-500" />
+                      ) : null}
+                    </div>
+                  </div>
+                  {usernameStatus.message && (
+                    <p className={`mt-1 text-sm ${
+                      usernameStatus.available === true ? 'text-green-600' : 
+                      usernameStatus.available === false ? 'text-red-600' : 
+                      'text-gray-500'
+                    }`}>
+                      {usernameStatus.message}
+                    </p>
+                  )}
                 </div>
               </div>
               
