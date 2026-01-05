@@ -3,9 +3,9 @@ import { motion } from "framer-motion";
 import { Link } from 'react-router-dom';
 
 const images = [
-  "https://res.cloudinary.com/do3vxz4gw/image/upload/v1751544854/svg_assets/newproductcarousel_Image1.svg",
-  "https://res.cloudinary.com/do3vxz4gw/image/upload/v1751544854/svg_assets/newproductcarousel_Image2.svg",
-  "https://res.cloudinary.com/do3vxz4gw/image/upload/v1751544854/svg_assets/newproductcarousel_Image3.svg"
+  "https://res.cloudinary.com/drp7ga4sn/image/upload/v1767616800/WhatsApp_Image_2026-01-05_at_12.54.18_PM_1_gyrmau.jpg",
+  "https://res.cloudinary.com/drp7ga4sn/image/upload/v1767616799/WhatsApp_Image_2026-01-05_at_12.54.19_PM_1_lbwmr2.jpg",
+  "https://res.cloudinary.com/drp7ga4sn/image/upload/v1767616799/WhatsApp_Image_2026-01-05_at_12.54.17_PM_1_dkbawc.jpg"
 ];
 
 const NewProductCarousel: React.FC = () => {
