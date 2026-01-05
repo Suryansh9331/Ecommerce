@@ -36,5 +36,14 @@ export default defineConfig({
     hmr: {
       overlay: false
     }
+  },
+  preview: {
+    host: true,
+    allowedHosts: [
+      'aoinstore.com',
+      'www.aoinstore.com',
+      'localhost',
+      '127.0.0.1'
+    ]
   }
 });
