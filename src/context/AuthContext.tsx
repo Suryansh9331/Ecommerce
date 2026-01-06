@@ -239,7 +239,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const verifyEmail = async (token: string) => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/verify-email/${token}`, {
+      console.log('Verifying email with token:', token);
+      const apiUrl = `${import.meta.env.VITE_API_BASE_URL}/api/auth/verify-email/${token}`;
+      console.log('API URL:', apiUrl);
+      
+      const response = await fetch(apiUrl, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -247,9 +251,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       });
 
       const data = await response.json();
+      console.log('Verification response:', response.status, data);
 
       if (!response.ok) {
-        throw new Error(data.error || 'Verification failed');
+        const errorMessage = data.error || data.message || 'Verification failed';
+        console.error('Verification failed:', errorMessage);
+        throw new Error(errorMessage);
       }
 
       // Update user's email verification status
@@ -267,8 +274,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       return true;
     } catch (error) {
-      console.error('Email verification failed:', error);
-      return false;
+      console.error('Email verification error:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Network error. Please try again.';
+      throw new Error(errorMessage);
     }
   };
   

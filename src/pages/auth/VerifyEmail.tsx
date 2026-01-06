@@ -27,8 +27,14 @@ const VerifyEmail: React.FC = () => {
           throw new Error('Verification failed');
         }
       } catch (err) {
+        console.error('Email verification error:', err);
         setStatus('error');
-        setError(err instanceof Error ? err.message : 'Verification failed');
+        const errorMessage = err instanceof Error ? err.message : 'Verification failed';
+        setError(errorMessage);
+        // If it's a network error or API error, provide helpful message
+        if (errorMessage.includes('fetch') || errorMessage.includes('network')) {
+          setError('Network error. Please check your internet connection and try again.');
+        }
       } finally {
         isVerifying.current = false;
       }
@@ -58,8 +64,20 @@ const VerifyEmail: React.FC = () => {
     }
   };
 
+  // Ensure content is always displayed, even if there's an error
+  useEffect(() => {
+    console.log('VerifyEmail component mounted, token:', token, 'status:', status);
+    if (!token) {
+      setStatus('error');
+      setError('Invalid verification link. Token is missing.');
+    }
+  }, [token, status]);
+
+  // Ensure we always have a valid status
+  const displayStatus = status || 'verifying';
+
   return (
-    <div className="bg-gray-50 flex items-center justify-center px-4 py-8">
+    <div className="bg-gray-50 min-h-screen flex items-center justify-center px-4 py-8" style={{ minHeight: 'calc(100vh - 200px)' }}>
       <motion.div
         className="max-w-md w-full bg-white rounded-xl shadow-sm overflow-hidden p-8"
         initial={{ opacity: 0, y: 20 }}
@@ -67,11 +85,12 @@ const VerifyEmail: React.FC = () => {
         transition={{ duration: 0.5 }}
       >
         <div className="text-center">
-          {status === 'verifying' && (
+          {displayStatus === 'verifying' && (
             <>
               <h2 className="text-2xl font-bold text-gray-900 mb-4">Verifying your email...</h2>
-              <div className="flex justify-center">
-                <svg className="animate-spin h-8 w-8 text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <p className="text-gray-600 mb-4">Please wait while we verify your email address.</p>
+              <div className="flex justify-center mb-4">
+                <svg className="animate-spin h-8 w-8 text-[#F2631F]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                 </svg>
@@ -79,31 +98,53 @@ const VerifyEmail: React.FC = () => {
             </>
           )}
 
-          {status === 'success' && (
+          {displayStatus === 'success' && (
             <>
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">Email Verified!</h2>
-              <p className="text-gray-600 mb-4">
-                Your email has been successfully verified. Redirecting you to the home page...
-              </p>
-              <div className="flex justify-center">
-                <svg className="h-12 w-12 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+              <div className="flex justify-center mb-4">
+                <svg className="h-16 w-16 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">Email Verified Successfully!</h2>
+              <p className="text-gray-600 mb-6">
+                Your email address has been successfully verified. You can now access all features.
+              </p>
+              <button
+                onClick={() => navigate('/')}
+                className="bg-[#F2631F] text-white py-2 px-6 rounded-md hover:bg-orange-600 transition-colors"
+              >
+                Go to Home Page
+              </button>
             </>
           )}
 
-          {status === 'error' && (
+          {displayStatus === 'error' && (
             <>
+              <div className="flex justify-center mb-4">
+                <svg className="h-16 w-16 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
               <h2 className="text-2xl font-bold text-gray-900 mb-4">Verification Failed</h2>
-              <p className="text-red-600 mb-4">{error}</p>
+              <p className="text-red-600 mb-4">
+                {error || 'The verification link is invalid or has expired. Please request a new verification email.'}
+              </p>
 
-              <button
-                onClick={() => navigate('/signup')}
-                className="mt-4 bg-primary-600 text-white py-2 px-4 rounded-md hover:bg-primary-700 transition-colors"
-              >
-                Return to Sign Up
-              </button>
+              <div className="space-y-3">
+                <button
+                  onClick={() => navigate('/sign-in')}
+                  className="w-full bg-[#F2631F] text-white py-2 px-4 rounded-md hover:bg-orange-600 transition-colors"
+                >
+                  Go to Sign In
+                </button>
+                
+                <button
+                  onClick={() => navigate('/signup')}
+                  className="w-full bg-gray-200 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-300 transition-colors"
+                >
+                  Return to Sign Up
+                </button>
+              </div>
 
               <div className="mt-6">
                 <p className="text-sm text-gray-700 mb-2">Resend verification email:</p>
