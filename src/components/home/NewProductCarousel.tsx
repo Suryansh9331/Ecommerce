@@ -77,7 +77,7 @@ const NewProductCarousel: React.FC = () => {
                 <img 
                   src={src} 
                   alt={`Carousel ${idx + 1}`} 
-                  className="w-full h-full object-fit sm:object-cover"
+                  className="w-full h-full object-fit sm:object-fit"
                   style={{
                     backgroundColor: '#f8f8f8'
                   }}
