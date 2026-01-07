@@ -83,7 +83,7 @@ const Hero: React.FC = () => {
               <img
                   src={current.image_url}
                   alt="Carousel"
-                  className="w-full h-full object-cover rounded-lg"
+                  className="w-full h-full object-fit rounded-lg"
                   style={{ objectPosition: 'center' }}
                 />
                 <button
@@ -147,7 +147,7 @@ const Hero: React.FC = () => {
                 <img
                   src={current.image_url}
                   alt="Carousel"
-                  className="w-full h-full object-cover rounded-lg"
+                  className="w-full h-full object-fit rounded-lg"
                   style={{ objectPosition: 'center' }}
                 />
                 <button
