@@ -13,21 +13,53 @@ const VerifyEmail: React.FC = () => {
   const navigate = useNavigate();
   const isVerifying = useRef(false);
 
+  // Debug logging
+  useEffect(() => {
+    console.log('🔍 VerifyEmail Component Rendered');
+    console.log('Token from URL:', token);
+    console.log('Current status:', status);
+  }, [token, status]);
+
   useEffect(() => {
     const verifyEmailToken = async () => {
-      if (isVerifying.current || !token) return;
+      console.log('🚀 Starting email verification...');
+      console.log('Token:', token);
+      console.log('isVerifying.current:', isVerifying.current);
+      
+      if (isVerifying.current) {
+        console.log('⚠️ Already verifying, skipping...');
+        return;
+      }
+      
+      if (!token) {
+        console.error('❌ No token provided');
+        setStatus('error');
+        setError('Invalid verification link. Token is missing.');
+        return;
+      }
+      
       isVerifying.current = true;
+      setStatus('verifying');
+      setError('');
 
       try {
+        console.log('📡 Calling verifyEmail API...');
         const success = await verifyEmail(token);
+        console.log('✅ verifyEmail returned:', success);
+        
         if (success) {
+          console.log('✅ Verification successful!');
           setStatus('success');
-          setTimeout(() => navigate('/'), 2000);
+          setTimeout(() => {
+            console.log('🔄 Redirecting to home...');
+            navigate('/');
+          }, 2000);
         } else {
-          throw new Error('Verification failed');
+          console.error('❌ Verification returned false');
+          throw new Error('Verification failed - please try again');
         }
       } catch (err) {
-        console.error('Email verification error:', err);
+        console.error('❌ Email verification error:', err);
         setStatus('error');
         const errorMessage = err instanceof Error ? err.message : 'Verification failed';
         setError(errorMessage);
@@ -37,6 +69,7 @@ const VerifyEmail: React.FC = () => {
         }
       } finally {
         isVerifying.current = false;
+        console.log('🏁 Verification process completed');
       }
     };
 
@@ -76,16 +109,43 @@ const VerifyEmail: React.FC = () => {
   // Ensure we always have a valid status
   const displayStatus = status || 'verifying';
 
+  // Always render something, even if there's an issue
+  if (!token && status === 'verifying') {
+    console.warn('⚠️ No token found in URL params');
+  }
+
   return (
-    <div className="bg-gray-50 min-h-screen flex items-center justify-center px-4 py-8" style={{ minHeight: 'calc(100vh - 200px)' }}>
+    <div 
+      className="bg-gray-50 w-full flex items-center justify-center px-4 py-8" 
+      style={{ 
+        minHeight: 'calc(100vh - 200px)',
+        position: 'relative',
+        zIndex: 1,
+        paddingTop: '100px',
+        paddingBottom: '100px',
+        width: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: '0',
+        marginBottom: '0'
+      }}
+    >
       <motion.div
-        className="max-w-md w-full bg-white rounded-xl shadow-sm overflow-hidden p-8"
+        className="max-w-md w-full bg-white rounded-xl shadow-lg overflow-hidden p-8"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
+        style={{ 
+          position: 'relative', 
+          zIndex: 10, 
+          width: '100%', 
+          maxWidth: '500px',
+          margin: '0 auto'
+        }}
       >
-        <div className="text-center">
-          {displayStatus === 'verifying' && (
+        <div className="text-center" style={{ width: '100%' }}>
+          {(displayStatus === 'verifying' || !displayStatus) && (
             <>
               <h2 className="text-2xl font-bold text-gray-900 mb-4">Verifying your email...</h2>
               <p className="text-gray-600 mb-4">Please wait while we verify your email address.</p>
