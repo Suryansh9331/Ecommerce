@@ -5,6 +5,7 @@ import ProductMeta from './ProductMeta';
 import ProductVariants from './ProductVariants';
 import AttributeSelection from './AttributeSelection';
 import { CheckCircleIcon, ShieldExclamationIcon } from '@heroicons/react/24/solid';
+import { PlusIcon, XMarkIcon } from '@heroicons/react/24/outline';
 
 const labelClassName = "block text-sm font-medium text-gray-700";
 const inputClassName = (hasError: boolean = false) => `mt-1 block w-full rounded-md ${hasError ? 'border-red-300' : 'border-gray-300'} shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm`;
@@ -101,6 +102,14 @@ const CoreProductInfo: React.FC<CoreProductInfoProps> = ({
   const [isUpdatingStock, setIsUpdatingStock] = useState(false);
   const [stockError, setStockError] = useState<string | null>(null);
   const [stockSuccess, setStockSuccess] = useState<string | null>(null);
+
+  // Size-quantity state
+  const [hasSize, setHasSize] = useState(false);
+  const [sizeQuantities, setSizeQuantities] = useState<Array<{ size: string; quantity: string }>>([
+    { size: '', quantity: '0' }
+  ]);
+  const [sizeAttributeId, setSizeAttributeId] = useState<number | null>(null);
+  const [hasExistingVariants, setHasExistingVariants] = useState(false);
 
   // Meta state
   const [metaTitle, setMetaTitle] = useState('');
@@ -261,6 +270,42 @@ const CoreProductInfo: React.FC<CoreProductInfoProps> = ({
     fetchBrandName();
   }, [categoryId, brandId]);
 
+  // Check for existing variants when productId is available
+  useEffect(() => {
+    if (productId) {
+      checkExistingVariants(productId);
+    } else {
+      setHasExistingVariants(false);
+    }
+  }, [productId]);
+
+  // Check for Size attribute when category changes
+  useEffect(() => {
+    if (categoryId) {
+      checkSizeAttribute(categoryId);
+    } else {
+      setSizeAttributeId(null);
+    }
+  }, [categoryId]);
+
+  // Handle toggle change
+  useEffect(() => {
+    if (hasSize) {
+      // When enabling, check if size attribute exists
+      if (categoryId && !sizeAttributeId) {
+        checkSizeAttribute(categoryId).then((attrId) => {
+          if (!attrId) {
+            setHasSize(false);
+            setStockError('Size attribute not found for this category. Please contact admin to set it up.');
+          }
+        });
+      }
+    } else {
+      // When disabling, reset size quantities
+      setSizeQuantities([{ size: '', quantity: '0' }]);
+    }
+  }, [hasSize, categoryId, sizeAttributeId]);
+
   const generateSKU = (productName: string) => {
     if (!productName) return '';
     const cleanName = productName
@@ -291,6 +336,109 @@ const CoreProductInfo: React.FC<CoreProductInfoProps> = ({
       setDiscount(0);
     }
   }, [costPrice, sellingPrice]);
+
+  // Check for Size attribute in category
+  const checkSizeAttribute = async (categoryId: number) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/merchant-dashboard/categories/${categoryId}/attributes`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        return null;
+      }
+
+      const attributes = await response.json();
+      const sizeAttribute = attributes.find((attr: any) => 
+        attr.name && attr.name.toLowerCase() === 'size'
+      );
+
+      if (sizeAttribute) {
+        setSizeAttributeId(sizeAttribute.attribute_id);
+        return sizeAttribute.attribute_id;
+      }
+      return null;
+    } catch (error) {
+      console.error('Error checking size attribute:', error);
+      return null;
+    }
+  };
+
+  // Check if product has existing variants
+  const checkExistingVariants = async (productId: number) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/merchant-dashboard/products/${productId}/variants`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        const variants = await response.json();
+        setHasExistingVariants(variants && variants.length > 0);
+        return variants && variants.length > 0;
+      }
+      return false;
+    } catch (error) {
+      console.error('Error checking existing variants:', error);
+      return false;
+    }
+  };
+
+  // Handle size-quantity changes
+  const handleSizeQuantityChange = (index: number, field: 'size' | 'quantity', value: string) => {
+    const updated = [...sizeQuantities];
+    updated[index] = { ...updated[index], [field]: value };
+    setSizeQuantities(updated);
+    setStockError(null);
+  };
+
+  // Add new size-quantity row
+  const addSizeQuantityRow = () => {
+    setSizeQuantities([...sizeQuantities, { size: '', quantity: '0' }]);
+  };
+
+  // Remove size-quantity row
+  const removeSizeQuantityRow = (index: number) => {
+    if (sizeQuantities.length > 1) {
+      setSizeQuantities(sizeQuantities.filter((_, i) => i !== index));
+    }
+  };
+
+  // Validate size-quantity pairs
+  const validateSizeQuantities = (): { valid: boolean; error?: string } => {
+    if (!hasSize) {
+      return { valid: true };
+    }
+
+    // Check for empty sizes
+    const emptySizes = sizeQuantities.filter(sq => !sq.size.trim());
+    if (emptySizes.length > 0) {
+      return { valid: false, error: 'All sizes must be filled in' };
+    }
+
+    // Check for duplicate sizes
+    const sizes = sizeQuantities.map(sq => sq.size.trim().toLowerCase());
+    const uniqueSizes = new Set(sizes);
+    if (sizes.length !== uniqueSizes.size) {
+      return { valid: false, error: 'Duplicate sizes are not allowed' };
+    }
+
+    // Check for valid quantities
+    const invalidQuantities = sizeQuantities.filter(sq => {
+      const qty = parseInt(sq.quantity);
+      return isNaN(qty) || qty < 0;
+    });
+    if (invalidQuantities.length > 0) {
+      return { valid: false, error: 'All quantities must be valid non-negative numbers' };
+    }
+
+    return { valid: true };
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -368,9 +516,80 @@ const CoreProductInfo: React.FC<CoreProductInfoProps> = ({
     }
   };
 
+  const handleBulkSizeQuantityUpdate = async () => {
+    if (!productId) {
+      setStockError('Product ID is required to update stock. Save core product info first.');
+      return;
+    }
+
+    // Validate size-quantity pairs
+    const validation = validateSizeQuantities();
+    if (!validation.valid) {
+      setStockError(validation.error || 'Invalid size-quantity data');
+      return;
+    }
+
+    if (!sizeAttributeId) {
+      setStockError('Size attribute not found for this category. Please contact admin to set it up.');
+      return;
+    }
+
+    try {
+      setIsUpdatingStock(true);
+      setStockError(null);
+      setStockSuccess(null);
+      
+      const sizeQuantitiesData = sizeQuantities.map(sq => ({
+        size: sq.size.trim(),
+        quantity: parseInt(sq.quantity) || 0
+      }));
+
+      const requestData = {
+        size_quantities: sizeQuantitiesData,
+        low_stock_threshold: parseInt(lowStockThreshold) || 0
+      };
+      
+      const response = await fetch(`${API_BASE_URL}/api/merchant-dashboard/products/${productId}/size-quantities`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestData),
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to create size variants');
+      }
+      
+      const result = await response.json();
+      setStockSuccess(`Successfully created ${result.variants?.length || sizeQuantitiesData.length} size variants!`);
+      
+      // Refresh variants list
+      if (onProductCreated) {
+        // Trigger variant refresh by calling the callback
+        setTimeout(() => {
+          window.location.reload(); // Simple refresh, or we could add a callback
+        }, 1000);
+      }
+    } catch (error) {
+      console.error('Error creating size variants:', error);
+      setStockError(error instanceof Error ? error.message : 'Failed to create size variants');
+    } finally {
+      setIsUpdatingStock(false);
+    }
+  };
+
   const handleUpdateStock = async () => {
     if (!productId) {
       setStockError('Product ID is required to update stock. Save core product info first.');
+      return;
+    }
+
+    // If hasSize is enabled, use bulk size-quantity update
+    if (hasSize) {
+      await handleBulkSizeQuantityUpdate();
       return;
     }
 
@@ -771,50 +990,159 @@ const CoreProductInfo: React.FC<CoreProductInfoProps> = ({
                   <p className="text-green-700 text-sm">{stockSuccess}</p>
                 </div>
               )}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label htmlFor="stock_qty" className={labelClassName}>
-                    Stock Quantity *
-                  </label>
-                  <input 
-                    type="number" 
-                    id="stock_qty" 
-                    value={stockQty} 
+
+              {/* Toggle for Has Size */}
+              <div className="mb-6">
+                <label className="flex items-center space-x-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={hasSize}
                     onChange={(e) => {
-                      setStockQty(e.target.value);
+                      if (hasExistingVariants) {
+                        setStockError('This product already has variants. Please manage them in the Variants section.');
+                        return;
+                      }
+                      setHasSize(e.target.checked);
                       setStockError(null);
                     }}
-                    min="0" 
-                    className={inputClassName()} 
-                    required
+                    disabled={hasExistingVariants}
+                    className="h-5 w-5 text-orange-600 focus:ring-orange-500 border-gray-300 rounded disabled:opacity-50 disabled:cursor-not-allowed"
                   />
-                </div>
-                <div>
-                  <label htmlFor="low_stock_threshold" className={labelClassName}>
-                    Low Stock Threshold *
-                  </label>
-                  <input 
-                    type="number" 
-                    id="low_stock_threshold" 
-                    value={lowStockThreshold} 
-                    onChange={(e) => {
-                      setLowStockThreshold(e.target.value);
-                      setStockError(null);
-                    }}
-                    min="0" 
-                    className={inputClassName()} 
-                    required
-                  />
-                </div>
+                  <span className={`text-sm font-medium text-gray-700 ${hasExistingVariants ? 'text-gray-400' : ''}`}>
+                    This product has sizes (e.g., S, M, L, XL)
+                  </span>
+                </label>
+                {hasExistingVariants && (
+                  <p className="mt-2 text-sm text-gray-500">
+                    This product already has variants. Please manage them in the Variants section.
+                  </p>
+                )}
               </div>
+
+              {hasSize ? (
+                /* Size-Quantity Matrix */
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-sm font-medium text-gray-900">Size & Quantity</h3>
+                  </div>
+                  
+                  {sizeQuantities.map((sq, index) => (
+                    <div key={index} className="flex items-center gap-4 p-4 border border-gray-200 rounded-lg bg-gray-50">
+                      <div className="flex-1">
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Size
+                        </label>
+                        <input
+                          type="text"
+                          value={sq.size}
+                          onChange={(e) => handleSizeQuantityChange(index, 'size', e.target.value)}
+                          placeholder="e.g., S, M, L, XL, 8, 10"
+                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm"
+                        />
+                      </div>
+                      <div className="flex-1">
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Quantity
+                        </label>
+                        <input
+                          type="number"
+                          value={sq.quantity}
+                          onChange={(e) => handleSizeQuantityChange(index, 'quantity', e.target.value)}
+                          min="0"
+                          placeholder="0"
+                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm"
+                        />
+                      </div>
+                      <div className="flex items-end">
+                        {sizeQuantities.length > 1 && (
+                          <button
+                            type="button"
+                            onClick={() => removeSizeQuantityRow(index)}
+                            className="p-2 text-red-600 hover:text-red-800 hover:bg-red-50 rounded-md transition-colors"
+                            title="Remove this size"
+                          >
+                            <XMarkIcon className="h-5 w-5" />
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+
+                  <button
+                    type="button"
+                    onClick={addSizeQuantityRow}
+                    className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+                  >
+                    <PlusIcon className="h-5 w-5 mr-2" />
+                    Add Size
+                  </button>
+
+                  <div className="mt-4">
+                    <label htmlFor="low_stock_threshold_size" className={labelClassName}>
+                      Low Stock Threshold *
+                    </label>
+                    <input 
+                      type="number" 
+                      id="low_stock_threshold_size" 
+                      value={lowStockThreshold} 
+                      onChange={(e) => {
+                        setLowStockThreshold(e.target.value);
+                        setStockError(null);
+                      }}
+                      min="0" 
+                      className={inputClassName()} 
+                      required
+                    />
+                  </div>
+                </div>
+              ) : (
+                /* Regular Stock Input */
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label htmlFor="stock_qty" className={labelClassName}>
+                      Stock Quantity *
+                    </label>
+                    <input 
+                      type="number" 
+                      id="stock_qty" 
+                      value={stockQty} 
+                      onChange={(e) => {
+                        setStockQty(e.target.value);
+                        setStockError(null);
+                      }}
+                      min="0" 
+                      className={inputClassName()} 
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="low_stock_threshold" className={labelClassName}>
+                      Low Stock Threshold *
+                    </label>
+                    <input 
+                      type="number" 
+                      id="low_stock_threshold" 
+                      value={lowStockThreshold} 
+                      onChange={(e) => {
+                        setLowStockThreshold(e.target.value);
+                        setStockError(null);
+                      }}
+                      min="0" 
+                      className={inputClassName()} 
+                      required
+                    />
+                  </div>
+                </div>
+              )}
+
               <div className="mt-6 flex justify-end">
                 <button
                   onClick={handleUpdateStock}
-                  disabled={isUpdatingStock || !isStockFormValid()}
+                  disabled={isUpdatingStock || (hasSize ? !validateSizeQuantities().valid : !isStockFormValid())}
                   className="px-4 py-2 text-sm font-medium text-white bg-orange-600 border border-transparent rounded-md hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed"
-                  title={!isStockFormValid() ? 'Please enter valid stock values' : ''}
+                  title={hasSize ? (!validateSizeQuantities().valid ? validateSizeQuantities().error : '') : (!isStockFormValid() ? 'Please enter valid stock values' : '')}
                 >
-                  {isUpdatingStock ? 'Updating Stock...' : 'Update Stock'}
+                  {isUpdatingStock ? (hasSize ? 'Creating Variants...' : 'Updating Stock...') : (hasSize ? 'Create Size Variants' : 'Update Stock')}
                 </button>
               </div>
             </div>
