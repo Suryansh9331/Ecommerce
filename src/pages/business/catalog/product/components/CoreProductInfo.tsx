@@ -566,12 +566,9 @@ const CoreProductInfo: React.FC<CoreProductInfoProps> = ({
       const result = await response.json();
       setStockSuccess(`Successfully created ${result.variants?.length || sizeQuantitiesData.length} size variants!`);
       
-      // Refresh variants list
-      if (onProductCreated) {
-        // Trigger variant refresh by calling the callback
-        setTimeout(() => {
-          window.location.reload(); // Simple refresh, or we could add a callback
-        }, 1000);
+      // Refresh variants list without page reload
+      if (productId) {
+        await checkExistingVariants(productId);
       }
     } catch (error) {
       console.error('Error creating size variants:', error);
