@@ -128,7 +128,7 @@ const NewProductCarousel: React.FC = () => {
       >
         <Link to="/new-product" className="block w-full h-full">
           <img
-            src='assets/Banner/ProductBanner.jpg'
+            src='/assets/Banner/ProductBanner.jpg'
             alt="New Product Banner"
             className="w-full h-full object-cover"
             style={{ backgroundColor: "#f8f8f8" }}
