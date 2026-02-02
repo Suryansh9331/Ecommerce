@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 
 const images = [
-  "https://res.cloudinary.com/do3vxz4gw/image/upload/v1751544854/svg_assets/bottom2crousel_Image1.svg",
-  "https://res.cloudinary.com/do3vxz4gw/image/upload/v1751544854/svg_assets/bottom2crousel_Image2.svg",
-  "https://res.cloudinary.com/do3vxz4gw/image/upload/v1751544854/svg_assets/bottom2crousel_Image3.svg"
+  // "https://res.cloudinary.com/do3vxz4gw/image/upload/v1751544854/svg_assets/bottom2crousel_Image1.svg",
+  // "https://res.cloudinary.com/do3vxz4gw/image/upload/v1751544854/svg_assets/bottom2crousel_Image2.svg",
+  // "https://res.cloudinary.com/do3vxz4gw/image/upload/v1751544854/svg_assets/bottom2crousel_Image3.svg"
+  "/assets/Banner/banner5.jpg",
+  "/assets/Banner/banner1.jpg",
+  "/assets/Banner/ProductBanner.jpg"
 ];
 
 const CAROUSEL_HEIGHT = 172; // px, same as Bottom1Carousel

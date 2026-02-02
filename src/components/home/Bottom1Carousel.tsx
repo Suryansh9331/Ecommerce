@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 
 const images = [
-  "https://res.cloudinary.com/do3vxz4gw/image/upload/v1751544854/svg_assets/bottom1crousel_Image1.svg",
-  "https://res.cloudinary.com/do3vxz4gw/image/upload/v1751544854/svg_assets/bottom1crousel_Image2.svg",
-  "https://res.cloudinary.com/do3vxz4gw/image/upload/v1751544854/svg_assets/bottom1crousel_Image3.svg"
+  "/assets/Banner/banner2.jpg",
+  "/assets/Banner/banner3.jpg",
+  "/assets/Banner/banner4.jpg",
 ];
 
 const CAROUSEL_HEIGHT = 172; // px, updated as requested
@@ -60,3 +60,7 @@ const Bottom1Carousel: React.FC = () => {
 };
 
 export default Bottom1Carousel;
+
+// "https://res.cloudinary.com/do3vxz4gw/image/upload/v1751544854/svg_assets/bottom1crousel_Image1.svg",
+  // "https://res.cloudinary.com/do3vxz4gw/image/upload/v1751544854/svg_assets/bottom1crousel_Image2.svg",
+  // "https://res.cloudinary.com/do3vxz4gw/image/upload/v1751544854/svg_assets/bottom1crousel_Image3.svg"
