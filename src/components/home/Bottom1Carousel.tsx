@@ -60,7 +60,7 @@ const Bottom1Carousel: React.FC = () => {
 };
 
 export default Bottom1Carousel;
-
+//backup images links for future
 // "https://res.cloudinary.com/do3vxz4gw/image/upload/v1751544854/svg_assets/bottom1crousel_Image1.svg",
   // "https://res.cloudinary.com/do3vxz4gw/image/upload/v1751544854/svg_assets/bottom1crousel_Image2.svg",
   // "https://res.cloudinary.com/do3vxz4gw/image/upload/v1751544854/svg_assets/bottom1crousel_Image3.svg"
