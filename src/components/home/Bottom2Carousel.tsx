@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 
 const images = [
   "/assets/Banner/banner5.jpg",
-  "/assets/Banner/banner1.jpg",
+  "/assets/Banner/banner2.jpg",
   "/assets/Banner/ProductBanner.jpg"
 ];
 
