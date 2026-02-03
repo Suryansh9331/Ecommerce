@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 
 const images = [
-  "/assets/Banner/banner2.jpg",
-  "/assets/Banner/banner3.jpg",
-  "/assets/Banner/banner4.jpg",
+  // "https://res.cloudinary.com/do3vxz4gw/image/upload/v1751544854/svg_assets/bottom1crousel_Image1.svg",
+  // "https://res.cloudinary.com/do3vxz4gw/image/upload/v1751544854/svg_assets/bottom1crousel_Image2.svg",
+  // "https://res.cloudinary.com/do3vxz4gw/image/upload/v1751544854/svg_assets/bottom1crousel_Image3.svg"
+  "https://res.cloudinary.com/djimsqy66/image/upload/v1770105245/banner2_xzrfp0.jpg",
+  "https://res.cloudinary.com/djimsqy66/image/upload/v1770105246/banner5_y4j38t.jpg",
+  "https://res.cloudinary.com/djimsqy66/image/upload/v1770105246/banner4_me34jb.jpg",
 ];
 
 const CAROUSEL_HEIGHT = 172; // px, updated as requested
@@ -60,7 +63,5 @@ const Bottom1Carousel: React.FC = () => {
 };
 
 export default Bottom1Carousel;
-//backup images links for future
-// "https://res.cloudinary.com/do3vxz4gw/image/upload/v1751544854/svg_assets/bottom1crousel_Image1.svg",
-  // "https://res.cloudinary.com/do3vxz4gw/image/upload/v1751544854/svg_assets/bottom1crousel_Image2.svg",
-  // "https://res.cloudinary.com/do3vxz4gw/image/upload/v1751544854/svg_assets/bottom1crousel_Image3.svg"
+
+
