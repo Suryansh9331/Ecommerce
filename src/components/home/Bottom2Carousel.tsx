@@ -63,3 +63,7 @@ const Bottom2Carousel: React.FC = () => {
 };
 
 export default Bottom2Carousel;
+//images links for future backup
+ // "https://res.cloudinary.com/do3vxz4gw/image/upload/v1751544854/svg_assets/bottom2crousel_Image1.svg",
+  // "https://res.cloudinary.com/do3vxz4gw/image/upload/v1751544854/svg_assets/bottom2crousel_Image2.svg",
+  // "https://res.cloudinary.com/do3vxz4gw/image/upload/v1751544854/svg_assets/bottom2crousel_Image3.svg"
