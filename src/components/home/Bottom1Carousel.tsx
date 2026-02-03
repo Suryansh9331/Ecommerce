@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 
 const images = [
-  "/assets/Banner/banner2.jpg",
-  "/assets/Banner/banner3.jpg",
-  "/assets/Banner/banner4.jpg",
+  "https://res.cloudinary.com/djimsqy66/image/upload/v1770105245/banner2_xzrfp0.jpg",
+  "https://res.cloudinary.com/djimsqy66/image/upload/v1770105246/banner5_y4j38t.jpg",
+  "https://res.cloudinary.com/djimsqy66/image/upload/v1770105246/banner4_me34jb.jpg",
 ];
 
 const CAROUSEL_HEIGHT = 172; // px, updated as requested
