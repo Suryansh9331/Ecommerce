@@ -242,7 +242,10 @@ const HomepageProducts: React.FC = () => {
     const activeCategory = categoryState?.activeCategory || categoryData.category.name;
 
     if (activeCategory === 'All') {
-      return categoryData.subcategories.flatMap(sub => sub.products || []);
+      // Include main category's direct products plus all subcategory products
+      const mainProducts = categoryData.products || [];
+      const subcategoryProducts = categoryData.subcategories.flatMap(sub => sub.products || []);
+      return [...mainProducts, ...subcategoryProducts];
     }
 
     const selectedSubcategory = categoryData.subcategories.find(
