@@ -9,8 +9,23 @@ interface Category {
   category_id: number;
   name: string;
   slug: string;
-  icon_url: string;
+  icon_url: string | null;
 }
+
+// Premium fallback colors for categories without image (stable per category_id)
+const FALLBACK_COLORS = [
+  'bg-amber-100',
+  'bg-rose-100',
+  'bg-sky-100',
+  'bg-emerald-100',
+  'bg-violet-100',
+  'bg-teal-100',
+  'bg-orange-100',
+  'bg-pink-100',
+];
+
+const getFallbackColorClass = (categoryId: number) =>
+  FALLBACK_COLORS[categoryId % FALLBACK_COLORS.length];
 
 const Categories: React.FC = () => {
   const { t, i18n } = useTranslation();
@@ -24,11 +39,11 @@ const Categories: React.FC = () => {
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
   const scrollLeft = () => {
-    scrollRef.current?.scrollBy({ left: -200, behavior: 'smooth' });
+    scrollRef.current?.scrollBy({ left: -220, behavior: 'smooth' });
   };
 
   const scrollRight = () => {
-    scrollRef.current?.scrollBy({ left: 200, behavior: 'smooth' });
+    scrollRef.current?.scrollBy({ left: 220, behavior: 'smooth' });
   };
 
   useEffect(() => {
@@ -95,12 +110,12 @@ const Categories: React.FC = () => {
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold">{t('home.sections.categoriesTitle')}</h2>
           </div>
-          <div className="flex space-x-4 overflow-x-auto pb-4 pt-2 pl-2">
+          <div className="flex gap-8 overflow-x-auto pb-4 pt-2 pl-2 scrollbar-hide">
             {[...Array(6)].map((_, index) => (
-              <div 
-                key={index}
-                className="flex-shrink-0 w-36 h-40 bg-gray-100 rounded-lg animate-pulse"
-              />
+              <div key={index} className="flex-shrink-0 flex flex-col items-center gap-3">
+                <div className="w-24 h-24 rounded-full bg-gray-200 animate-pulse" />
+                <div className="h-4 w-20 bg-gray-200 rounded animate-pulse" />
+              </div>
             ))}
           </div>
         </div>
@@ -155,33 +170,49 @@ const Categories: React.FC = () => {
           </div>
         </div>
         
-        {/* Categories slider */}
-        <div 
+        {/* Categories slider - premium circular UI */}
+        <div
           ref={scrollRef}
-          className="flex gap-9 overflow-x-auto pb-4 pt-2 pl-2 scroll-smooth"
+          className="flex gap-10 overflow-x-auto pb-6 pt-2 pl-2 scroll-smooth scrollbar-hide"
         >
           {categories.map((category) => (
-            <div 
-            key={category.category_id} 
-            onClick={() => {
-              navigate(`/all-products?category=${category.category_id}`);
-            }}
-            className="  hover:category-hover-shadow relative overflow-hidden z-10 flex-shrink-0 w-[155px] h-[155px] bg-[#FFEEE2] rounded-full shadow-[4px_4px_4px_0px_rgba(205,160,160,0.25)] flex flex-col items-center justify-center text-center px-2 py-[26px] transition duration-300 hover:bg-[#FFDADE]"
-          >
-            <div className="w-12 h-12 mb-4 flex items-center justify-center p-[6px] z-10">
-              {category.icon_url ? (
-                <img 
-                  src={category.icon_url} 
-                  alt={getCategoryName(category)}
-                  className="w-full h-full object-contain"
-                />
-              ) : (
-                <span className="text-3xl">📦</span>
-              )}
-            </div>
-            <h3 className="font-semibold text-lg font-worksans z-10">{getCategoryName(category)}</h3>
-          </div>
-          
+            <button
+              key={category.category_id}
+              type="button"
+              onClick={() => navigate(`/all-products?category=${category.category_id}`)}
+              className="group flex-shrink-0 flex flex-col items-center gap-3 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F2631F] focus-visible:ring-offset-2 rounded-2xl"
+            >
+              {/* Circular image / colored circle with orange border and hover */}
+              <div
+                className={`
+                  w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden
+                  border-2 border-[#F2631F]/40 bg-gray-50
+                  transition-all duration-300 ease-out
+                  group-hover:border-[#F2631F] group-hover:shadow-lg group-hover:shadow-orange-200/50
+                  group-hover:scale-105 group-active:scale-[0.98]
+                  flex items-center justify-center
+                `}
+              >
+                {category.icon_url ? (
+                  <img
+                    src={category.icon_url}
+                    alt={getCategoryName(category)}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <span
+                    className={`w-full h-full rounded-full ${getFallbackColorClass(category.category_id)} flex items-center justify-center text-2xl sm:text-3xl select-none`}
+                    aria-hidden
+                  >
+                    📦
+                  </span>
+                )}
+              </div>
+              {/* Category name below */}
+              <span className="font-medium text-sm sm:text-base font-worksans text-gray-800 group-hover:text-[#F2631F] transition-colors duration-200 max-w-[7rem] text-center leading-tight line-clamp-2">
+                {getCategoryName(category)}
+              </span>
+            </button>
           ))}
         </div>
       </div>
