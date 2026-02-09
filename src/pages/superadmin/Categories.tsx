@@ -12,6 +12,7 @@ interface Category {
   description?: string;
   parent_id?: number;
   icon_url?: string;
+  is_active?: boolean;
   created_at: string;
   updated_at: string;
   subcategories?: Category[];
@@ -38,6 +39,7 @@ export default function Categories() {
   const [subcategoryParent, setSubcategoryParent] = useState<Category | null>(null);
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
   const [showConfirmDialog, setShowConfirmDialog] = useState<{ visible: boolean; categoryId: number | null; categoryName: string; } | null>(null);
+  const [togglingActiveId, setTogglingActiveId] = useState<number | null>(null);
 
   useEffect(() => {
     fetchCategories();
@@ -365,6 +367,33 @@ export default function Categories() {
     setShowConfirmDialog(null);
   };
 
+  const handleSetCategoryActive = async (categoryId: number, isActive: boolean) => {
+    setTogglingActiveId(categoryId);
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/superadmin/categories/${categoryId}/active`, {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({ is_active: isActive }),
+      });
+      if (!response.ok) {
+        const data = await response.json().catch(() => ({}));
+        throw new Error((data as { message?: string }).message || 'Failed to update category');
+      }
+      toast.success(isActive ? 'Category enabled' : 'Category disabled');
+      await fetchCategories();
+    } catch (error) {
+      console.error('Error toggling category active:', error);
+      toast.error(error instanceof Error ? error.message : 'Failed to update category');
+    } finally {
+      setTogglingActiveId(null);
+    }
+  };
+
   const toggleCategoryExpand = (categoryId: number) => {
     setExpandedCategories({
       ...expandedCategories,
@@ -401,6 +430,9 @@ export default function Categories() {
                 />
               )}
               <span className="font-medium capitalize">{category.name}</span>
+              {category.is_active === false && (
+                <span className="ml-2 px-2 py-0.5 text-xs font-medium bg-amber-100 text-amber-800 rounded">Disabled</span>
+              )}
               {/* Create Subcategory Button */}
               <button
                 className="ml-2 px-2 py-1 text-xs bg-[#FF5733]/10 text-[#FF5733] rounded hover:bg-[#FF5733]/20 transition-colors"
@@ -413,6 +445,14 @@ export default function Categories() {
           </td>
           <td className="px-6 py-4">{category.slug}</td>
           <td className="px-6 py-4 text-right space-x-2">
+            <button
+              className="px-2 py-1 text-xs rounded border border-gray-300 hover:bg-gray-50 disabled:opacity-50"
+              onClick={() => handleSetCategoryActive(category.category_id, category.is_active !== false)}
+              disabled={togglingActiveId === category.category_id}
+              title={category.is_active === false ? 'Enable category' : 'Disable category'}
+            >
+              {togglingActiveId === category.category_id ? '…' : category.is_active === false ? 'Enable' : 'Disable'}
+            </button>
             <button 
               className="p-1 text-gray-500 hover:text-blue-600 rounded" 
               onClick={() => handleEditDialog(category)}

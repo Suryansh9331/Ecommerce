@@ -8,6 +8,7 @@ interface Category {
   name: string;
   slug: string;
   parent_id: number | null;
+  is_active?: boolean;
   children?: Category[];
 }
 
@@ -77,7 +78,8 @@ const CategorySelection: React.FC<CategorySelectionProps> = ({
       }
 
       const data = await response.json();
-      const tree = buildCategoryTree(data);
+      const activeCategories = Array.isArray(data) ? data.filter((c: Category) => c.is_active !== false) : data;
+      const tree = buildCategoryTree(activeCategories);
       setCategories(tree);
     } catch (error) {
       console.error('Error fetching categories:', error);

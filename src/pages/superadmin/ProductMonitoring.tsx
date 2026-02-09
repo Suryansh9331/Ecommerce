@@ -37,6 +37,7 @@ interface Product {
         created_at: string;
         icon_url: string | null;
         parent_id: number;
+        is_active?: boolean;
     };
     media?: Array<{
         media_id: number;
@@ -196,7 +197,12 @@ const ProductViewer: React.FC<ProductViewerProps> = ({
                                 </div>
                                 <div>
                                     <h4 className="text-sm font-medium text-gray-500">Category</h4>
-                                    <p className="mt-1 text-gray-900">{product.category?.name || 'N/A'}</p>
+                                    <p className="mt-1 text-gray-900 flex items-center gap-2">
+                                        {product.category?.name || 'N/A'}
+                                        {product.category && product.category.is_active === false && (
+                                            <span className="px-2 py-0.5 text-xs font-medium bg-amber-100 text-amber-800 rounded">Category disabled</span>
+                                        )}
+                                    </p>
                                 </div>
                                 <div>
                                     <h4 className="text-sm font-medium text-gray-500">Brand</h4>
@@ -638,14 +644,17 @@ const ProductMonitoring: React.FC = () => {
                                 </div>
 
                                 <div className="mt-4 space-y-2 w-full">
-                                    <div className="flex justify-between text-sm">
+                                    <div className="flex justify-between items-center text-sm gap-2">
                                         <span className="text-gray-500">Category:</span>
-                                        <span className="text-gray-900">
+                                        <span className="text-gray-900 flex items-center gap-1 flex-wrap justify-end">
                                             {product.category?.name
                                                 ? product.category.name.length > 10
                                                     ? `${product.category.name.slice(0, 10)}...`
                                                     : product.category.name
                                                 : 'N/A'}
+                                            {product.category && product.category.is_active === false && (
+                                                <span className="px-2 py-0.5 text-xs font-medium bg-amber-100 text-amber-800 rounded shrink-0">Category disabled</span>
+                                            )}
                                         </span>
                                     </div>
                                     <div className="flex justify-between text-sm">

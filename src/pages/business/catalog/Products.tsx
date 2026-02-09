@@ -18,6 +18,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 interface Category {
   category_id: number;
   name: string;
+  is_active?: boolean;
 }
 
 interface Brand {
@@ -397,7 +398,7 @@ const Products: React.FC = () => {
                         )}
                       </div>
                     </td>
-                    <td className="px-2 py-1 whitespace-normal max-w-xs"><div className="text-gray-900 break-words">{(product.category && tCategoryNames[product.category.category_id]) || product.category?.name || 'No Category'}</div><div className="text-gray-500 break-words">{(product.brand && tBrandNames[product.brand.brand_id]) || product.brand?.name || 'No Brand'}</div></td>
+                    <td className="px-2 py-1 whitespace-normal max-w-xs"><div className="text-gray-900 break-words flex items-center gap-2 flex-wrap">{(product.category && tCategoryNames[product.category.category_id]) || product.category?.name || 'No Category'}{product.category && product.category.is_active === false && (<span className="px-2 py-0.5 text-xs font-medium bg-amber-100 text-amber-800 rounded shrink-0">Category disabled</span>)}</div><div className="text-gray-500 break-words">{(product.brand && tBrandNames[product.brand.brand_id]) || product.brand?.name || 'No Brand'}</div></td>
                     <td className="px-2 py-1 whitespace-nowrap"><StatusBadge active={product.active_flag} /></td>
                     <td className="px-1 py-1 whitespace-nowrap text-center align-middle">
                       <div className="flex justify-center items-center h-full">
