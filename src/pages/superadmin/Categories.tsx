@@ -447,7 +447,7 @@ export default function Categories() {
           <td className="px-6 py-4 text-right space-x-2">
             <button
               className="px-2 py-1 text-xs rounded border border-gray-300 hover:bg-gray-50 disabled:opacity-50"
-              onClick={() => handleSetCategoryActive(category.category_id, category.is_active !== false)}
+              onClick={() => handleSetCategoryActive(category.category_id, category.is_active === false)}
               disabled={togglingActiveId === category.category_id}
               title={category.is_active === false ? 'Enable category' : 'Disable category'}
             >
