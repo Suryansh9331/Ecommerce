@@ -323,38 +323,39 @@ export default function Categories() {
 
     try {
       setLoading(true);
-      const response = await toast.promise(
-        fetch(`${API_BASE_URL}/api/superadmin/categories/${categoryIdToDelete}`, {
-          method: 'DELETE',
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-          },
-          credentials: 'include',
-        }),
+      await toast.promise(
+        (async () => {
+          const res = await fetch(`${API_BASE_URL}/api/superadmin/categories/${categoryIdToDelete}`, {
+            method: 'DELETE',
+            headers: {
+              'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
+            credentials: 'include',
+          });
+          if (!res.ok) {
+            const data = await res.json().catch(() => ({}));
+            throw new Error((data as { message?: string }).message || 'Failed to delete category');
+          }
+          return res;
+        })(),
         {
           loading: `Deleting category '${categoryNameToDelete}'...`,
           success: `Category '${categoryNameToDelete}' deleted successfully!`,
-          error: `Failed to delete category '${categoryNameToDelete}'.`,
+          error: (err) => (err instanceof Error ? err.message : 'Failed to delete category'),
         }
       );
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({ message: 'Failed to delete category' }));
-        throw new Error(errorData.message || 'Failed to delete category');
-      }
 
       await fetchCategories(); // Refresh the categories list
     } catch (error) {
       console.error('Error deleting category:', error);
       if (error instanceof TypeError && error.message === 'Failed to fetch') {
         toast.error('Network error: Please check your connection and try again');
-      } else if (error instanceof Error) {
-        // Error message already handled by toast.promise
-      } else {
+      } else if (!(error instanceof Error) || error.message === 'Failed to delete category') {
         toast.error('Failed to delete category');
       }
+      // Backend error message already shown by toast.promise
     } finally {
       setLoading(false);
     }
