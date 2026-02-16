@@ -10,6 +10,7 @@ import TrendingDeals from '../components/home/TrendingDeals';
 import Brands from '../components/home/brands';
 // import Shop from '../components/home/Shop';
 import Services from '../components/home/Services';
+import NewSection from '../components/home/NewSection';
 import HomepageProducts from '../components/home/HomepageProducts';
 import SearchResults from '../components/common/SearchResults';
 import useClickOutside from '../hooks/useClickOutside';
@@ -70,7 +71,7 @@ const Home = () => {
                 />
                 {/* Category Select */}
                 <div className="relative flex items-center bg-gray-100">
-                  <select 
+                  <select
                     className="h-full appearance-none bg-transparent py-1.5 pl-3 pr-8 text-gray-900 focus:ring-0 focus:outline-none text-sm"
                     value={searchType}
                     onChange={(e) => setSearchType(e.target.value as 'all' | 'products' | 'categories')}
@@ -82,7 +83,7 @@ const Home = () => {
                 </div>
               </div>
               {/* Search Button */}
-              <button 
+              <button
                 type="submit"
                 className="bg-[#F2631F] text-white py-1.5 px-6 rounded-md text-base hover:bg-orange-600 transition-colors"
               >
@@ -103,31 +104,31 @@ const Home = () => {
                   onFocus={() => searchQuery.length >= 2 && setShowSearchResults(true)}
                 />
               </div>
-              {/* Category Dropdown Button and Search Button */}              
+              {/* Category Dropdown Button and Search Button */}
               <div className="flex items-center gap-2">
-                 {/* Category Select - styled as a button */}
-                 <select
-                    className="flex-1 appearance-none bg-gray-100 border border-gray-300 rounded-md shadow-sm py-2 px-4 text-base text-gray-900 focus:ring-0 focus:outline-none pr-8"
-                    value={searchType}
-                    onChange={(e) => setSearchType(e.target.value as 'all' | 'products' | 'categories')}
-                 >
-                    <option value="all">{t('home.searchCategories.all')}</option>
-                    <option value="products">{t('home.searchCategories.products')}</option>
-                    <option value="categories">{t('home.searchCategories.categories')}</option>
-                 </select>
-                 {/* Search Button */}
-                 <button 
-                   type="submit"
-                   className="flex-1 bg-[#F2631F] text-white py-2 px-4 rounded-md text-base hover:bg-orange-600 transition-colors"
-                 >
-                   {t('home.searchButton')}
-                 </button>
+                {/* Category Select - styled as a button */}
+                <select
+                  className="flex-1 appearance-none bg-gray-100 border border-gray-300 rounded-md shadow-sm py-2 px-4 text-base text-gray-900 focus:ring-0 focus:outline-none pr-8"
+                  value={searchType}
+                  onChange={(e) => setSearchType(e.target.value as 'all' | 'products' | 'categories')}
+                >
+                  <option value="all">{t('home.searchCategories.all')}</option>
+                  <option value="products">{t('home.searchCategories.products')}</option>
+                  <option value="categories">{t('home.searchCategories.categories')}</option>
+                </select>
+                {/* Search Button */}
+                <button
+                  type="submit"
+                  className="flex-1 bg-[#F2631F] text-white py-2 px-4 rounded-md text-base hover:bg-orange-600 transition-colors"
+                >
+                  {t('home.searchButton')}
+                </button>
               </div>
             </div>
 
             {/* SearchResults positioned below the flex container */}
-            <SearchResults 
-              isVisible={showSearchResults} 
+            <SearchResults
+              isVisible={showSearchResults}
               searchQuery={searchQuery}
               searchType={searchType}
               onItemClick={() => {
@@ -152,6 +153,7 @@ const Home = () => {
           <ConditionalPromoProducts />
           <NewProductCarousel />
           <TrendingDeals />
+          <NewSection />
           <HomepageProducts />
           <Services />
         </div>
