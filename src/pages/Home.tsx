@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ChevronDown } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -23,7 +23,12 @@ const Home = () => {
   const [showSearchResults, setShowSearchResults] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
-
+  // #region agent log
+  useEffect(() => {
+    const t = performance.now();
+    fetch('http://127.0.0.1:7247/ingest/59cab846-9e60-4704-8103-2f60eefca997',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'f7305f'},body:JSON.stringify({sessionId:'f7305f',location:'Home.tsx:useEffect',message:'home_mounted',data:{t},timestamp:Date.now(),hypothesisId:'H5'})}).catch(()=>{});
+  }, []);
+  // #endregion
   useClickOutside(searchRef, () => {
     setShowSearchResults(false);
   });

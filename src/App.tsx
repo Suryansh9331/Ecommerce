@@ -169,6 +169,7 @@ import Subscription from './pages/business/Subscription';
 
 import FeaturedProductsPage from './pages/FeaturedProductsPage';
 import PromoProductsPage from './pages/PromoProductsPage';
+import HoliGiveawayPage from './pages/HoliGiveawayPage';
 
 import UserSupport from './pages/superadmin/UserSupport';
 import MerchantSupport from './pages/superadmin/MerchantSupport';
@@ -263,12 +264,20 @@ const VisitTracker: React.FC<{ children: React.ReactNode }> = ({ children }) => 
 
 // Main App component
 const App: React.FC = () => {
+  // #region agent log
+  const _appRenderT = performance.now();
+  fetch('http://127.0.0.1:7247/ingest/59cab846-9e60-4704-8103-2f60eefca997',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'f7305f'},body:JSON.stringify({sessionId:'f7305f',location:'App.tsx:render',message:'app_render_start',data:{t:_appRenderT},timestamp:Date.now(),hypothesisId:'H2'})}).catch(()=>{});
+  // #endregion
   const { i18n } = useTranslation();
   useEffect(() => {
-    // const isRtl = i18n.language === 'ar' || i18n.language?.startsWith('ar');
-    // document.documentElement.dir = isRtl ? 'rtl' : 'ltr';
     document.documentElement.dir = 'ltr';
   }, [i18n.language]);
+  // #region agent log
+  useEffect(() => {
+    const t = performance.now();
+    fetch('http://127.0.0.1:7247/ingest/59cab846-9e60-4704-8103-2f60eefca997',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'f7305f'},body:JSON.stringify({sessionId:'f7305f',location:'App.tsx:useEffect',message:'app_mounted',data:{t,deltaFromRender:Math.round(t-_appRenderT)},timestamp:Date.now(),hypothesisId:'H2'})}).catch(()=>{});
+  }, []);
+  // #endregion
   return (
     <ToastProvider>
       <AuthProvider>
@@ -651,6 +660,7 @@ const App: React.FC = () => {
                               <Route path="/featured-products" element={<FeaturedProductsPage />} />
                               <Route path="/promo-products" element={<PromoProductsPage />} />
                               <Route path="/trendy-deals" element={<TrendyDealsPage />} />
+                              <Route path="/holi-giveaway" element={<HoliGiveawayPage />} />
                               <Route path="/shop/:shopId" element={<ShopProducts />} />
                               <Route path="/products/:categoryId" element={<Products />} />
                               <Route path="/product/:productId" element={<ProductDetail />} />

@@ -54,11 +54,16 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     if (!accessToken || user?.role !== 'customer') {
       setCart([]);
       setLoading(false);
+      // #region agent log
+      fetch('http://127.0.0.1:7247/ingest/59cab846-9e60-4704-8103-2f60eefca997',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'f7305f'},body:JSON.stringify({sessionId:'f7305f',location:'CartContext.tsx:fetchCart',message:'cart_skip',data:{reason:'no_token_or_not_customer'},timestamp:Date.now(),hypothesisId:'H4'})}).catch(()=>{});
+      // #endregion
       return;
     }
-    
+    // #region agent log
+    const _cartStart = performance.now();
+    fetch('http://127.0.0.1:7247/ingest/59cab846-9e60-4704-8103-2f60eefca997',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'f7305f'},body:JSON.stringify({sessionId:'f7305f',location:'CartContext.tsx:fetchCart',message:'cart_fetch_start',data:{t:_cartStart},timestamp:Date.now(),hypothesisId:'H4'})}).catch(()=>{});
+    // #endregion
     try {
-      // console.log('Fetching cart items...');
       const response = await fetch(`${API_BASE_URL}/api/cart/items`, {
         headers: {
           'Authorization': `Bearer ${accessToken}`,
@@ -99,6 +104,10 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       toast.error('Failed to load cart');
     } finally {
       setLoading(false);
+      // #region agent log
+      const dur = Math.round(performance.now() - _cartStart);
+      fetch('http://127.0.0.1:7247/ingest/59cab846-9e60-4704-8103-2f60eefca997',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'f7305f'},body:JSON.stringify({sessionId:'f7305f',location:'CartContext.tsx:fetchCart',message:'cart_fetch_end',data:{durationMs:dur},timestamp:Date.now(),hypothesisId:'H4'})}).catch(()=>{});
+      // #endregion
     }
   };
 
