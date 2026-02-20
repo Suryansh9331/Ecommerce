@@ -87,10 +87,10 @@ const Hero: React.FC = () => {
                   style={{ objectPosition: 'center' }}
                 />
                 <button
-                  onClick={() => navigate('/all-products')}
+                  onClick={() => navigate('/holi-giveaway')}
                   className="absolute bottom-6 left-1/2 transform -translate-x-1/2 bg-[#F2631F] text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-[#E25818] transition-colors shadow-md"
                 >
-                  Order Now
+                  Register
                 </button>
               </div>
             </div>
@@ -151,10 +151,10 @@ const Hero: React.FC = () => {
                   style={{ objectPosition: 'center' }}
                 />
                 <button
-                  onClick={() => navigate('/all-products')}
+                  onClick={() => navigate('/holi-giveaway')}
                   className="absolute bottom-8 left-1/2 transform -translate-x-1/2 bg-[#F2631F] text-white px-4 sm:px-6 py-2 rounded font-medium hover:bg-[#E25818] transition-colors text-sm sm:text-base shadow-lg"
                 >
-                  Order Now
+                  Register
                 </button>
               </div>
             </div>
