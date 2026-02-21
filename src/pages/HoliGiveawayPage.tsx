@@ -1,21 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronRight, Gift, Clock, Trophy, CheckCircle, Loader2 } from 'lucide-react';
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+type RegisteredUser = { id?: number; name: string; phone: string; registeredAt: string };
 
 const HoliGiveawayPage: React.FC = () => {
   const [form, setForm] = useState({ name: '', phone: '' });
   const [errors, setErrors] = useState<{ name?: string; phone?: string }>({});
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [registeredUsers, setRegisteredUsers] = useState<{ name: string; phone: string; registeredAt: string }[]>([
-    { name: 'Priya Sharma', phone: '9876543210', registeredAt: '14 Mar, 09:15 AM' },
-    { name: 'Rahul Verma', phone: '9812345678', registeredAt: '14 Mar, 09:42 AM' },
-    { name: 'Anjali Gupta', phone: '9754321098', registeredAt: '14 Mar, 10:05 AM' },
-    { name: 'Rohan Mehta', phone: '9632587410', registeredAt: '14 Mar, 10:28 AM' },
-    { name: 'Sneha Patel', phone: '9988776655', registeredAt: '14 Mar, 11:00 AM' },
-    { name: 'Vikram Singh', phone: '9123456789', registeredAt: '14 Mar, 11:33 AM' },
-    { name: 'Kavya Nair', phone: '8765432109', registeredAt: '14 Mar, 12:10 PM' },
-  ]);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [registeredUsers, setRegisteredUsers] = useState<RegisteredUser[]>([]);
+  const [listLoading, setListLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchRegistrations = async () => {
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/holi-giveaway/registrations`);
+        if (res.ok) {
+          const data = await res.json();
+          setRegisteredUsers(data.map((r: { id?: number; name: string; phone: string; registeredAt: string }) => ({
+            id: r.id,
+            name: r.name,
+            phone: r.phone,
+            registeredAt: r.registeredAt,
+          })));
+        }
+      } catch {
+        // keep empty list on error
+      } finally {
+        setListLoading(false);
+      }
+    };
+    fetchRegistrations();
+  }, []);
 
   const validate = () => {
     const newErrors: { name?: string; phone?: string } = {};
@@ -31,22 +51,47 @@ const HoliGiveawayPage: React.FC = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
     setLoading(true);
-    setTimeout(() => {
-      const now = new Date();
-      const registeredAt = now.toLocaleString('en-IN', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
-      setRegisteredUsers(prev => [...prev, { name: form.name.trim(), phone: form.phone.trim(), registeredAt }]);
-      setLoading(false);
+    setSubmitError(null);
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/holi-giveaway/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: form.name.trim(), phone: form.phone.trim() }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setSubmitError(data.message || 'Registration failed. Please try again.');
+        return;
+      }
       setSubmitted(true);
-      // Reset form after short delay so success message shows
+      if (data.registration) {
+        setRegisteredUsers(prev => [{
+          id: data.registration.id,
+          name: data.registration.name,
+          phone: data.registration.phone,
+          registeredAt: data.registration.registeredAt,
+        }, ...prev]);
+      } else {
+        // Refetch list if backend didn't return registration
+        const listRes = await fetch(`${API_BASE_URL}/api/holi-giveaway/registrations`);
+        if (listRes.ok) {
+          const list = await listRes.json();
+          setRegisteredUsers(list.map((r: RegisteredUser) => ({ id: r.id, name: r.name, phone: r.phone, registeredAt: r.registeredAt })));
+        }
+      }
       setTimeout(() => {
         setForm({ name: '', phone: '' });
         setSubmitted(false);
       }, 2500);
-    }, 1200);
+    } catch {
+      setSubmitError('Registration failed. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const steps = [
@@ -272,6 +317,9 @@ const HoliGiveawayPage: React.FC = () => {
                         )}
                       </button>
 
+                      {submitError && (
+                        <p className="text-center text-sm text-red-500 font-medium mt-1">{submitError}</p>
+                      )}
                       <p className="text-center text-xs text-gray-400 mt-1">
                         By registering, you agree to be contacted about this giveaway.
                       </p>
@@ -323,7 +371,12 @@ const HoliGiveawayPage: React.FC = () => {
               </h3>
             </div>
 
-            {registeredUsers.length === 0 ? (
+            {listLoading ? (
+              <div className="text-center py-10 text-gray-500">
+                <Loader2 className="w-8 h-8 animate-spin mx-auto mb-2" />
+                <p className="font-semibold">Loading participants…</p>
+              </div>
+            ) : registeredUsers.length === 0 ? (
               <div className="text-center py-10 rounded-2xl border-2 border-dashed border-gray-200 text-gray-400">
                 <p className="font-semibold">No registrations yet.</p>
                 <p className="text-sm mt-1">Be the first to register above!</p>
@@ -342,7 +395,7 @@ const HoliGiveawayPage: React.FC = () => {
                   <tbody>
                     {registeredUsers.map((user, i) => (
                       <tr
-                        key={i}
+                        key={user.id ?? i}
                         className={`border-t border-gray-100 transition-colors ${i % 2 === 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-pink-50`}
                       >
                         <td className="px-5 py-3.5 font-bold text-gray-400">{i + 1}</td>
