@@ -5,7 +5,7 @@ interface User {
   id: string;
   email: string;
   name?: string;
-  role: 'customer' | 'merchant' | 'admin';
+  role: 'customer' | 'merchant' | 'admin' | 'creator';
   isEmailVerified?: boolean;
   verificationStatus?: 'pending' | 'approved' | 'rejected' | 'not_submitted';
 }
@@ -127,7 +127,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const createUserObject = (userData: any): User => {
     // Determine the role with proper handling of admin roles
-    let role: 'customer' | 'merchant' | 'admin' = 'customer';
+    let role: 'customer' | 'merchant' | 'admin' | 'creator' = 'customer';
     const userRole = (userData.role || '').toLowerCase();
     
     if (userRole === 'merchant') {
@@ -135,6 +135,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     } else if (userRole.includes('admin')) {
       // Handle any role that contains 'admin' (admin, super_admin, etc.)
       role = 'admin';
+    } else if (userRole === 'creator') {
+      role = 'creator';
     }
     
     // console.log('Original role from backend:', userData.role);

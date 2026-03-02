@@ -174,6 +174,7 @@ import HoliGiveawayPage from './pages/HoliGiveawayPage';
 import UserSupport from './pages/superadmin/UserSupport';
 import MerchantSupport from './pages/superadmin/MerchantSupport';
 import RaiseTicket from './pages/RaiseTicket';
+import CreatorSignup from './pages/creator/CreatorSignup';
 
 import { useVisitTracking } from './hooks/useVisitTracking';
 import SearchResultsPage from './pages/SearchResultsPage';
@@ -702,6 +703,7 @@ const App: React.FC = () => {
 
                               <Route path="/sign-in" element={<SignIn />} />
                               <Route path="/register" element={<Register />} />
+                              <Route path="/creator/signup" element={<CreatorSignup />} />
 
                               <Route
                                 path="/become-merchant"
