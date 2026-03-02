@@ -129,7 +129,8 @@ const CreatorSignup: React.FC = () => {
     setStep2Error('');
     try {
       await creatorResendOtp({ phone });
-      toast.success('OTP sent again.');
+      setOtp('');
+      toast.success('OTP sent again. Enter the new code.');
       setResendCooldown(RESEND_COOLDOWN_SEC);
     } catch (err: unknown) {
       const apiErr = err as { status?: number; error?: string };
