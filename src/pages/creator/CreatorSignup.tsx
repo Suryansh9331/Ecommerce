@@ -53,8 +53,22 @@ const CreatorSignup: React.FC = () => {
     return () => clearInterval(t);
   }, [resendCooldown]);
 
-  const normalizePhone = (p: string) => p.trim();
-  const isValidPhone = (p: string) => /^\+?[0-9]{10,15}$/.test(p.replace(/\s/g, ''));
+  const normalizePhone = (p: string) => p.trim().replace(/[\s\-\(\)]/g, '');
+  const digitsOnly = (p: string) => p.replace(/\D/g, '');
+  /** Normalize to E.164 for API: e.g. 9876543210 → +919876543210, 919876543210 → +919876543210 */
+  const toE164 = (p: string): string => {
+    const raw = normalizePhone(p);
+    const digits = digitsOnly(raw);
+    if (digits.length < 10 || digits.length > 15) return raw.startsWith('+') ? raw : '';
+    if (digits.length === 10 && /^[6-9]/.test(digits)) return `+91${digits}`;
+    if (digits.length === 11 && digits.startsWith('91')) return `+${digits}`;
+    if (digits.length >= 10 && digits.length <= 15) return `+${digits}`;
+    return raw.startsWith('+') ? raw : `+${digits}`;
+  };
+  const isValidPhone = (p: string) => {
+    const d = digitsOnly(normalizePhone(p));
+    return d.length >= 10 && d.length <= 15;
+  };
   const isValidEmail = (e: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.trim());
 
   const handleStep1Submit = async (e: React.FormEvent) => {
@@ -74,9 +88,10 @@ const CreatorSignup: React.FC = () => {
       return;
     }
     if (!isValidPhone(ph)) {
-      setStep1Error('Invalid phone number format. Use E.164 (e.g. +919876543210).');
+      setStep1Error('Enter a valid 10–15 digit phone number (e.g. 9876543210 or +919876543210).');
       return;
     }
+    const phoneE164 = toE164(ph);
 
     setIsSubmitting1(true);
     try {
@@ -84,10 +99,11 @@ const CreatorSignup: React.FC = () => {
         first_name: f,
         last_name: l,
         email: em,
-        phone: ph,
+        phone: phoneE164,
       });
       toast.success('OTP sent to your phone.');
       setStep(2);
+      setPhone(phoneE164);
       setResendCooldown(RESEND_COOLDOWN_SEC);
     } catch (err: unknown) {
       const apiErr = err as { status?: number; error?: string };
@@ -109,11 +125,10 @@ const CreatorSignup: React.FC = () => {
 
   const handleResendOtp = async () => {
     if (resendCooldown > 0) return;
-    const ph = normalizePhone(phone);
-    if (!ph) return;
+    if (!phone) return;
     setStep2Error('');
     try {
-      await creatorResendOtp({ phone: ph });
+      await creatorResendOtp({ phone });
       toast.success('OTP sent again.');
       setResendCooldown(RESEND_COOLDOWN_SEC);
     } catch (err: unknown) {
@@ -127,7 +142,6 @@ const CreatorSignup: React.FC = () => {
   const handleStep2Submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStep2Error('');
-    const ph = normalizePhone(phone);
     const code = otp.replace(/\D/g, '');
     if (code.length !== 6) {
       setStep2Error('Please enter a 6-digit OTP.');
@@ -136,7 +150,7 @@ const CreatorSignup: React.FC = () => {
 
     setIsSubmitting2(true);
     try {
-      const data = await creatorVerifyOtp({ phone: ph, otp: code });
+      const data = await creatorVerifyOtp({ phone, otp: code });
       setAccessToken(data.access_token);
       await setAuthState({
         accessToken: data.access_token,
@@ -227,12 +241,12 @@ const CreatorSignup: React.FC = () => {
   };
 
   return (
-    <div className="min-h-[70vh] flex flex-col items-center justify-center py-10 px-4">
-      <div className="w-full max-w-md">
+    <div className="min-h-[70vh] flex flex-col items-center justify-center bg-[#FAFAFA] py-10 px-4">
+      <div className="w-full max-w-md bg-white rounded-xl shadow-sm p-8 md:p-10">
         <div className="flex items-center justify-center gap-2 mb-8">
           <span
             className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-              step >= 1 ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-500'
+              step >= 1 ? 'bg-[#FF4D00] text-white' : 'bg-gray-200 text-gray-500'
             }`}
           >
             1
@@ -240,7 +254,7 @@ const CreatorSignup: React.FC = () => {
           <span className="h-0.5 w-8 bg-gray-300" />
           <span
             className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-              step >= 2 ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-500'
+              step >= 2 ? 'bg-[#FF4D00] text-white' : 'bg-gray-200 text-gray-500'
             }`}
           >
             2
@@ -248,7 +262,7 @@ const CreatorSignup: React.FC = () => {
           <span className="h-0.5 w-8 bg-gray-300" />
           <span
             className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-              step >= 3 ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-500'
+              step >= 3 ? 'bg-[#FF4D00] text-white' : 'bg-gray-200 text-gray-500'
             }`}
           >
             3
@@ -257,7 +271,7 @@ const CreatorSignup: React.FC = () => {
         <h1 className="text-2xl font-semibold text-center text-gray-900 mb-2">
           Creator Sign Up
         </h1>
-        <p className="text-center text-gray-500 text-sm mb-6">
+        <p className="text-center text-gray-600 text-sm mb-6">
           {step === 1 && 'Enter your details to get started'}
           {step === 2 && `We sent a code to ${phone || 'your phone'}`}
           {step === 3 && 'Select 5 categories you create content for'}
@@ -271,7 +285,7 @@ const CreatorSignup: React.FC = () => {
                 type="text"
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#F2631F] focus:border-transparent"
                 placeholder="Jane"
                 maxLength={100}
                 required
@@ -283,7 +297,7 @@ const CreatorSignup: React.FC = () => {
                 type="text"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#F2631F] focus:border-transparent"
                 placeholder="Creator"
                 maxLength={100}
                 required
@@ -295,19 +309,19 @@ const CreatorSignup: React.FC = () => {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#F2631F] focus:border-transparent"
                 placeholder="jane@example.com"
                 required
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Phone (E.164)</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
               <input
                 type="tel"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                placeholder="+919876543210"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#F2631F] focus:border-transparent"
+                placeholder="9876543210 or +919876543210"
               />
             </div>
             {step1Error && (
@@ -318,7 +332,7 @@ const CreatorSignup: React.FC = () => {
             <button
               type="submit"
               disabled={isSubmitting1}
-              className="w-full bg-indigo-600 text-white py-2.5 rounded-lg font-medium hover:bg-indigo-700 disabled:opacity-50"
+              className="w-full bg-[#FF4D00] text-white py-2.5 rounded-lg font-medium hover:bg-[#e64500] disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-[#F2631F] focus:ring-offset-2"
             >
               {isSubmitting1 ? 'Sending…' : 'Send OTP'}
             </button>
@@ -335,7 +349,7 @@ const CreatorSignup: React.FC = () => {
                 autoComplete="one-time-code"
                 value={otp}
                 onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-center text-lg tracking-widest focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-center text-lg tracking-widest focus:outline-none focus:ring-2 focus:ring-[#F2631F] focus:border-transparent"
                 placeholder="123456"
                 maxLength={6}
               />
@@ -345,7 +359,7 @@ const CreatorSignup: React.FC = () => {
                 type="button"
                 onClick={handleResendOtp}
                 disabled={resendCooldown > 0}
-                className="text-indigo-600 hover:underline disabled:opacity-50 disabled:no-underline"
+                className="text-[#F2631F] hover:underline disabled:opacity-50 disabled:no-underline"
               >
                 {resendCooldown > 0 ? `Resend in ${resendCooldown}s` : 'Resend OTP'}
               </button>
@@ -358,7 +372,7 @@ const CreatorSignup: React.FC = () => {
             <button
               type="submit"
               disabled={isSubmitting2 || otp.replace(/\D/g, '').length !== 6}
-              className="w-full bg-indigo-600 text-white py-2.5 rounded-lg font-medium hover:bg-indigo-700 disabled:opacity-50"
+              className="w-full bg-[#FF4D00] text-white py-2.5 rounded-lg font-medium hover:bg-[#e64500] disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-[#F2631F] focus:ring-offset-2"
             >
               {isSubmitting2 ? 'Verifying…' : 'Verify & continue'}
             </button>
@@ -380,7 +394,7 @@ const CreatorSignup: React.FC = () => {
                       key={cat.category_id}
                       className={`flex items-center gap-2 p-2 rounded cursor-pointer ${
                         selectedCategoryIds.includes(cat.category_id)
-                          ? 'bg-indigo-50 border border-indigo-200'
+                          ? 'bg-orange-50 border border-orange-200'
                           : 'hover:bg-gray-50'
                       }`}
                     >
@@ -388,7 +402,7 @@ const CreatorSignup: React.FC = () => {
                         type="checkbox"
                         checked={selectedCategoryIds.includes(cat.category_id)}
                         onChange={() => toggleCategory(cat.category_id)}
-                        className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                        className="rounded border-gray-300 text-[#FF4D00] focus:ring-[#F2631F]"
                       />
                       <span className="text-sm font-medium text-gray-800">{cat.name}</span>
                     </label>
@@ -399,7 +413,7 @@ const CreatorSignup: React.FC = () => {
                   <select
                     value={availability}
                     onChange={(e) => setAvailability(e.target.value as 'available' | 'busy')}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#F2631F] focus:border-transparent"
                   >
                     <option value="available">Available</option>
                     <option value="busy">Busy</option>
@@ -413,7 +427,7 @@ const CreatorSignup: React.FC = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting3 || selectedCategoryIds.length < 5}
-                  className="w-full bg-indigo-600 text-white py-2.5 rounded-lg font-medium hover:bg-indigo-700 disabled:opacity-50"
+                  className="w-full bg-[#FF4D00] text-white py-2.5 rounded-lg font-medium hover:bg-[#e64500] disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-[#F2631F] focus:ring-offset-2"
                 >
                   {isSubmitting3 ? 'Completing…' : 'Complete sign up'}
                 </button>
@@ -424,7 +438,7 @@ const CreatorSignup: React.FC = () => {
 
         <p className="mt-6 text-center text-sm text-gray-500">
           Already have an account?{' '}
-          <Link to="/sign-in" className="text-indigo-600 hover:underline">
+          <Link to="/sign-in" className="text-[#F2631F] hover:underline">
             Sign in
           </Link>
         </p>
