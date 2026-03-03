@@ -10,7 +10,7 @@ const NewSection: React.FC = () => {
             title: "LIMITED TIME EDITION",
             subtitles: ["Heartfelt creations", "Made with love"],
             buttonText: "SHOP ALL",
-            link: "/shop"
+            link: "/all-products"
         },
         {
             id: 2,
@@ -18,7 +18,7 @@ const NewSection: React.FC = () => {
             title: "BUY 2 GET 1 FREE",
             subtitles: ["Add 3 products to cart and offer applies automatically"],
             buttonText: "PLACE ORDER NOW",
-            link: "/shop"
+            link: "/all-products"
         }
     ];
 
