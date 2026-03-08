@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import toast from 'react-hot-toast';
+import { Check, LayoutGrid, Sparkles, Calendar, Clock } from 'lucide-react';
 import {
   creatorSignupRequest,
   creatorResendOtp,
@@ -381,57 +382,169 @@ const CreatorSignup: React.FC = () => {
         )}
 
         {step === 3 && (
-          <form onSubmit={handleStep3Submit} className="space-y-4">
+          <form onSubmit={handleStep3Submit} className="space-y-6">
             {categoriesLoading ? (
-              <p className="text-center text-gray-500">Loading categories…</p>
-            ) : (
-              <>
-                <p className="text-sm text-gray-600">
-                  Select exactly 5 categories ({selectedCategoryIds.length}/5 selected).
-                </p>
-                <div className="max-h-64 overflow-y-auto border border-gray-200 rounded-lg p-2 space-y-1">
-                  {categories.map((cat) => (
-                    <label
-                      key={cat.category_id}
-                      className={`flex items-center gap-2 p-2 rounded cursor-pointer ${
-                        selectedCategoryIds.includes(cat.category_id)
-                          ? 'bg-orange-50 border border-orange-200'
-                          : 'hover:bg-gray-50'
-                      }`}
-                    >
-                      <input
-                        type="checkbox"
-                        checked={selectedCategoryIds.includes(cat.category_id)}
-                        onChange={() => toggleCategory(cat.category_id)}
-                        className="rounded border-gray-300 text-[#FF4D00] focus:ring-[#F2631F]"
-                      />
-                      <span className="text-sm font-medium text-gray-800">{cat.name}</span>
-                    </label>
+              <div className="py-12 space-y-4">
+                <div className="flex justify-center">
+                  <div className="w-10 h-10 border-2 border-[#FF4D00] border-t-transparent rounded-full animate-spin" />
+                </div>
+                <p className="text-center text-gray-500 text-sm">Loading your categories…</p>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                  {[1, 2, 3, 4, 5, 6].map((i) => (
+                    <div
+                      key={i}
+                      className="h-20 rounded-xl bg-gray-100 animate-pulse"
+                      style={{ animationDelay: `${i * 50}ms` }}
+                    />
                   ))}
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Availability</label>
-                  <select
-                    value={availability}
-                    onChange={(e) => setAvailability(e.target.value as 'available' | 'busy')}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#F2631F] focus:border-transparent"
-                  >
-                    <option value="available">Available</option>
-                    <option value="busy">Busy</option>
-                  </select>
-                </div>
-                {step3Error && (
-                  <p className="text-sm text-red-600" role="alert">
-                    {step3Error}
+              </div>
+            ) : (
+              <>
+                <div className="text-center space-y-1">
+                  <div className="inline-flex items-center gap-1.5 text-[#FF4D00] text-sm font-medium mb-2">
+                    <Sparkles className="w-4 h-4" />
+                    <span>Almost there</span>
+                  </div>
+                  <h2 className="text-xl font-semibold text-gray-900">
+                    What do you create?
+                  </h2>
+                  <p className="text-gray-500 text-sm max-w-xs mx-auto">
+                    Pick 5 categories so brands can find you for the right campaigns.
                   </p>
+                </div>
+
+                <div className="rounded-xl bg-gray-50 border border-gray-100 p-3">
+                  <div className="flex items-center justify-between gap-2 mb-2">
+                    <span className="text-sm font-medium text-gray-700 flex items-center gap-1.5">
+                      <LayoutGrid className="w-4 h-4 text-[#FF4D00]" />
+                      Categories
+                    </span>
+                    <span
+                      className={`text-sm font-semibold tabular-nums ${
+                        selectedCategoryIds.length >= 5 ? 'text-[#FF4D00]' : 'text-gray-500'
+                      }`}
+                    >
+                      {selectedCategoryIds.length}/5
+                    </span>
+                  </div>
+                  <div className="h-1.5 rounded-full bg-gray-200 overflow-hidden">
+                    <div
+                      className="h-full rounded-full bg-[#FF4D00] transition-all duration-300 ease-out"
+                      style={{ width: `${(selectedCategoryIds.length / 5) * 100}%` }}
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-56 overflow-y-auto pr-1">
+                  {categories.map((cat) => {
+                    const isSelected = selectedCategoryIds.includes(cat.category_id);
+                    return (
+                      <button
+                        key={cat.category_id}
+                        type="button"
+                        onClick={() => toggleCategory(cat.category_id)}
+                        className={`relative flex flex-col items-center justify-center gap-1.5 p-3 rounded-xl border-2 text-left transition-all duration-200 ease-out min-h-[72px] ${
+                          isSelected
+                            ? 'border-[#FF4D00] bg-[#FFF5F0] shadow-sm'
+                            : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'
+                        }`}
+                      >
+                        {isSelected && (
+                          <span className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-[#FF4D00] flex items-center justify-center">
+                            <Check className="w-3 h-3 text-white" strokeWidth={2.5} />
+                          </span>
+                        )}
+                        {cat.icon_url ? (
+                          <img
+                            src={cat.icon_url}
+                            alt=""
+                            className="w-8 h-8 object-contain rounded-lg"
+                          />
+                        ) : (
+                          <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center">
+                            <LayoutGrid className="w-4 h-4 text-gray-400" />
+                          </div>
+                        )}
+                        <span
+                          className={`text-xs font-medium leading-tight line-clamp-2 ${
+                            isSelected ? 'text-gray-900' : 'text-gray-600'
+                          }`}
+                        >
+                          {cat.name}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                <div className="space-y-2">
+                  <span className="text-sm font-medium text-gray-700 flex items-center gap-1.5">
+                    <Calendar className="w-4 h-4 text-[#FF4D00]" />
+                    Availability
+                  </span>
+                  <div className="grid grid-cols-2 gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setAvailability('available')}
+                      className={`flex items-center justify-center gap-2 py-3 px-4 rounded-xl border-2 transition-all duration-200 ${
+                        availability === 'available'
+                          ? 'border-[#FF4D00] bg-[#FFF5F0] text-gray-900'
+                          : 'border-gray-200 bg-white text-gray-600 hover:border-gray-300'
+                      }`}
+                    >
+                      <Check
+                        className={`w-4 h-4 ${availability === 'available' ? 'text-[#FF4D00]' : 'text-gray-300'}`}
+                        strokeWidth={2}
+                      />
+                      <span className="text-sm font-medium">Available</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setAvailability('busy')}
+                      className={`flex items-center justify-center gap-2 py-3 px-4 rounded-xl border-2 transition-all duration-200 ${
+                        availability === 'busy'
+                          ? 'border-[#FF4D00] bg-[#FFF5F0] text-gray-900'
+                          : 'border-gray-200 bg-white text-gray-600 hover:border-gray-300'
+                      }`}
+                    >
+                      <Clock
+                        className={`w-4 h-4 ${availability === 'busy' ? 'text-[#FF4D00]' : 'text-gray-300'}`}
+                        strokeWidth={2}
+                      />
+                      <span className="text-sm font-medium">Busy</span>
+                    </button>
+                  </div>
+                </div>
+
+                {step3Error && (
+                  <div
+                    className="flex items-center gap-2 p-3 rounded-lg bg-red-50 border border-red-100 text-red-700 text-sm"
+                    role="alert"
+                  >
+                    {step3Error}
+                  </div>
                 )}
-                <button
-                  type="submit"
-                  disabled={isSubmitting3 || selectedCategoryIds.length < 5}
-                  className="w-full bg-[#FF4D00] text-white py-2.5 rounded-lg font-medium hover:bg-[#e64500] disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-[#F2631F] focus:ring-offset-2"
-                >
-                  {isSubmitting3 ? 'Completing…' : 'Complete sign up'}
-                </button>
+
+                <div className="space-y-2 pt-1">
+                  <p className="text-center text-xs text-gray-400">
+                    You can update categories later from your profile.
+                  </p>
+                  <button
+                    type="submit"
+                    disabled={isSubmitting3 || selectedCategoryIds.length < 5}
+                    className="w-full bg-[#FF4D00] text-white py-3 rounded-xl font-semibold hover:bg-[#e64500] disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-[#F2631F] focus:ring-offset-2 transition-colors"
+                  >
+                    {isSubmitting3 ? (
+                      <span className="inline-flex items-center gap-2">
+                        <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        Completing…
+                      </span>
+                    ) : (
+                      'Complete my profile'
+                    )}
+                  </button>
+                </div>
               </>
             )}
           </form>
