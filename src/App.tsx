@@ -175,6 +175,15 @@ import UserSupport from './pages/superadmin/UserSupport';
 import MerchantSupport from './pages/superadmin/MerchantSupport';
 import RaiseTicket from './pages/RaiseTicket';
 import CreatorSignup from './pages/creator/CreatorSignup';
+import CreatorLogin from './pages/creator/CreatorLogin';
+import CreatorLayout from './pages/creator/CreatorLayout';
+import CreatorDashboard from './pages/creator/CreatorDashboard';
+import CreatorCategories from './pages/creator/CreatorCategories';
+import CreatorPortfolio from './pages/creator/CreatorPortfolio';
+import CreatorDeals from './pages/creator/CreatorDeals';
+import CreatorUploadReel from './pages/creator/CreatorUploadReel';
+import CreatorEarnings from './pages/creator/CreatorEarnings';
+import CreatorSettings from './pages/creator/CreatorSettings';
 
 import { useVisitTracking } from './hooks/useVisitTracking';
 import SearchResultsPage from './pages/SearchResultsPage';
@@ -648,6 +657,18 @@ const App: React.FC = () => {
                     
                   </Route>
 
+                    {/* Creator Dashboard — no Navbar, own layout */}
+                    <Route path="/creator" element={<CreatorLayout />}>
+                      <Route index element={<Navigate to="/creator/dashboard" replace />} />
+                      <Route path="dashboard" element={<CreatorDashboard />} />
+                      <Route path="categories" element={<CreatorCategories />} />
+                      <Route path="portfolio" element={<CreatorPortfolio />} />
+                      <Route path="deals" element={<CreatorDeals />} />
+                      <Route path="upload-reel" element={<CreatorUploadReel />} />
+                      <Route path="earnings" element={<CreatorEarnings />} />
+                      <Route path="settings" element={<CreatorSettings />} />
+                    </Route>
+
                     {/* Public Routes with header/footer */}
                     <Route
                       path="/*"
@@ -704,6 +725,7 @@ const App: React.FC = () => {
                               <Route path="/sign-in" element={<SignIn />} />
                               <Route path="/register" element={<Register />} />
                               <Route path="/creator/signup" element={<CreatorSignup />} />
+                              <Route path="/creator/login" element={<CreatorLogin />} />
 
                               <Route
                                 path="/become-merchant"

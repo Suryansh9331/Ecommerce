@@ -107,14 +107,13 @@ const CreatorSignup: React.FC = () => {
       setPhone(phoneE164);
       setResendCooldown(RESEND_COOLDOWN_SEC);
     } catch (err: unknown) {
-      const apiErr = err as { status?: number; error?: string };
+      const apiErr = err as { status?: number; error?: string; code?: string; detail?: { field?: string } };
       const msg = apiErr?.error || 'Something went wrong.';
-      if (apiErr?.status === 409) {
-        if (msg.toLowerCase().includes('phone')) {
-          setStep1Error('This number is already registered. Try logging in.');
-        } else {
-          setStep1Error('This email is already registered.');
-        }
+      const code = apiErr?.code;
+      if (code === 'ALREADY_REGISTERED' || apiErr?.status === 409) {
+        setStep1Error('Already registered. Try logging in.');
+      } else if (code === 'VALIDATION_ERROR' && apiErr?.detail?.field) {
+        setStep1Error(msg);
       } else {
         setStep1Error(msg);
       }
@@ -134,9 +133,18 @@ const CreatorSignup: React.FC = () => {
       toast.success('OTP sent again. Enter the new code.');
       setResendCooldown(RESEND_COOLDOWN_SEC);
     } catch (err: unknown) {
-      const apiErr = err as { status?: number; error?: string };
+      const apiErr = err as { status?: number; error?: string; code?: string; detail?: { retry_after_seconds?: number } };
       const msg = apiErr?.error || 'Failed to resend OTP.';
-      setStep2Error(msg);
+      if (apiErr?.code === 'SESSION_EXPIRED' || (apiErr?.status === 400 && msg.toLowerCase().includes('session expired'))) {
+        setStep2Error('Session expired. Please enter your details again.');
+        setStep(1);
+      } else if (apiErr?.status === 429) {
+        const sec = apiErr?.detail?.retry_after_seconds;
+        setResendCooldown(typeof sec === 'number' && sec > 0 ? sec : RESEND_COOLDOWN_SEC);
+        setStep2Error(msg);
+      } else {
+        setStep2Error(msg);
+      }
       toast.error(msg);
     }
   };
@@ -166,16 +174,21 @@ const CreatorSignup: React.FC = () => {
           businessName: '',
         },
       });
-      toast.success('Account created. Select your categories.');
+      toast.success(data.message || 'Account created. Complete your profile by selecting 5 categories.');
       setStep(3);
     } catch (err: unknown) {
-      const apiErr = err as { status?: number; error?: string };
+      const apiErr = err as { status?: number; error?: string; code?: string };
       const msg = apiErr?.error || 'Verification failed.';
-      if (msg.toLowerCase().includes('invalid or expired')) {
-        setStep2Error('Wrong or expired code. Try again or resend OTP.');
-      } else if (msg.toLowerCase().includes('session expired')) {
+      const code = apiErr?.code;
+      if (code === 'OTP_INVALID' || msg.toLowerCase().includes('invalid or expired')) {
+        setStep2Error('Invalid or expired code. Try again or resend.');
+      } else if (code === 'OTP_ALREADY_USED' || msg.toLowerCase().includes('already used')) {
+        setStep2Error('This code was already used. Request a new OTP.');
+      } else if (code === 'SESSION_EXPIRED' || (msg.toLowerCase().includes('session expired'))) {
         setStep2Error('Session expired. Please enter your details again.');
         setStep(1);
+      } else if (code === 'ALREADY_REGISTERED' || apiErr?.status === 409) {
+        setStep2Error('Already registered. Try logging in.');
       } else {
         setStep2Error(msg);
       }
@@ -230,10 +243,10 @@ const CreatorSignup: React.FC = () => {
         },
         accessToken
       );
-      toast.success('You’re all set! Welcome to the creator program.');
-      navigate('/', { replace: true });
+      toast.success('Onboarding completed. Your creator account is ready.');
+      navigate('/creator/dashboard', { replace: true });
     } catch (err: unknown) {
-      const apiErr = err as { status?: number; error?: string };
+      const apiErr = err as { status?: number; error?: string; code?: string };
       const msg = apiErr?.error || 'Failed to complete onboarding.';
       setStep3Error(msg);
       toast.error(msg);
@@ -552,8 +565,8 @@ const CreatorSignup: React.FC = () => {
 
         <p className="mt-6 text-center text-sm text-gray-500">
           Already have an account?{' '}
-          <Link to="/sign-in" className="text-[#F2631F] hover:underline">
-            Sign in
+          <Link to="/creator/login" className="text-[#F2631F] hover:underline">
+            Log in
           </Link>
         </p>
       </div>
