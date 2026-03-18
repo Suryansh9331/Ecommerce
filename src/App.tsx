@@ -1,206 +1,163 @@
 import { useEffect, lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, useNavigationType, Outlet } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, useNavigationType } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import Navbar from './components/common/Navbar';
-import Shop1Header from './components/shop/shop1/Header';
 import Footer from './components/common/Footer';
-import Home from './pages/Home';
-import Products from './pages/Products';
-import ShopProducts from './pages/ShopProducts';
-import ProductDetail from './pages/ProductDetail';
-import Cart from './pages/Cart';
-import SignIn from './pages/auth/SignIn';
-import SignUp from './pages/auth/SignUp';
-import ShippingMethods from './pages/ShippingMethods';
-import Shop1LandingPage from './pages/Shop1LandingPage';
-import Shop1About from './pages/shop1/About';
-import Shop1Services from './pages/shop1/Services';
-import Shop2LandingPage from './pages/Shop2LandingPage';
-import Shop3LandingPage from './pages/Shop3LandingPage';
-import Shop4LandingPage from './pages/Shop4LandingPage';
-import VerificationPending from './pages/auth/VerificationPending';
-import TrendyDealsPage from './pages/TrendyDealsPage';
-import Shop1Wishlist from './pages/Shop/Shop1Wishlist';
-import Shop2Wishlist from './pages/Shop/Shop2Wishlist';
-import Shop3Wishlist from './pages/Shop/Shop3Wishlist';
-import Shop4Wishlist from './pages/Shop/Shop4Wishlist';
-import { Shop1Cart, Shop2Cart, Shop3Cart, Shop4Cart } from './pages/Shop/ShopCartWrapper';
-import { Shop1Order, Shop2Order, Shop3Order, Shop4Order } from './pages/Shop/ShopOrderWrapper';
-import { Shop1OrderConfirmation, Shop2OrderConfirmation, Shop3OrderConfirmation, Shop4OrderConfirmation } from './pages/Shop/ShopOrderConfirmationWrapper';
-import { Shop1OrderDetail, Shop2OrderDetail, Shop3OrderDetail, Shop4OrderDetail } from './pages/Shop/ShopOrderDetailWrapper';
-import PasswordReset from './pages/auth/PasswordReset';
-import VerifyEmail from './pages/auth/VerifyEmail';
-import RequestPasswordReset from './pages/auth/RequestPasswordReset';
-
-import Register from './pages/auth/Register';
-import WishList from './pages/WishList';
-import Games from './pages/Games';
-
-// import Wholesale from './pages/Wholesale';
-
-import BecomeMerchant from './pages/BecomeMerchant';
-import Order from './pages/Order';
-import TrackOrder from './pages/TrackOrder';
-import NewProduct from './pages/NewProduct';
-import BusinessLogin from './pages/auth/BusinessLogin';
-import RegisterBusiness from './pages/auth/RegisterBusiness';
+import MessengerPopup from './components/MessengerPopup';
+import AdminLayout from './components/business/AdminLayout';
+import CreatorLayout from './pages/creator/CreatorLayout';
+import SuperAdminLayout from './pages/superadmin/SuperAdminLayout';
 
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
 import { ToastProvider } from './context/ToastContext';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import AdminLayout from './components/business/AdminLayout';
-
-import Dashboard from "./pages/superadmin/Dashboard";
-import UserActivity from './pages/superadmin/UserActivity';
-import UserManagement from './pages/superadmin/Usermanagement';
-import ContentModeration from './pages/superadmin/ContentModeration';
-import ProductMonitoring from './pages/superadmin/ProductMonitoring';
-import Settings from './pages/superadmin/Settings';
-import RefundAndReturnManagement from './pages/superadmin/RefundAndReturnManagement';
-import Promotions from './pages/superadmin/Promotions';
-
-import TrafficAnalytics from './pages/superadmin/TrafficAnalytics';
-import SalesReportPage from './pages/superadmin/SalesReport';
-import FraudDetection from './pages/superadmin/FraudDetection';
-import MarketplaceHealth from './pages/superadmin/MarketplaceHealth';
-import PlatformPerformance from './pages/superadmin/PlatformPerformance';
-import MerchantManagement from './pages/superadmin/MerchantManagement';
-import Notification from './pages/superadmin/Notifications';
-import GSTRuleManagement from './pages/superadmin/GSTRuleManagement';
-import Categories from './pages/superadmin/Categories';
-import Attribute from './pages/superadmin/Attribute';
-import BrandCreation from './pages/superadmin/BrandCreation';
-import HomepageSettings from './pages/superadmin/HomepageSettings';
-import Shop1Productpage from './pages/Shop1Productpage';
-import Shop2Productpage from './pages/Shop2Productpage';
-import Shop3ProductPage from './pages/Shop3ProductPage';
-import Shop4Productpage from './pages/Shop4Productpage';
-import Shop1AllProductpage from './pages/Shop1AllProductpage';
-import Shop2AllProductpage from './pages/Shop2AllProductpage';
-import Shop3AllProductpage from './pages/Shop3AllProductpage';
-import Shop4AllProductpage from './pages/Shop4AllProductpage';
-import FAQ from './pages/FAQ';
-  // Shop4 Footer Pages
-  import Shop4ShippingDelivery from './pages/shop4/ShippingDelivery';
-  import Shop4ReturnsRefunds from './pages/shop4/ReturnsRefunds';
-  import Shop4GiftWrapping from './pages/shop4/GiftWrapping';
-  import Shop4FollowYourOrder from './pages/shop4/FollowYourOrder';
-  import Shop4Stores from './pages/shop4/Stores';
-  import Shop4AboutUs from './pages/shop4/AboutUs';
-  import Shop4FAQ from './pages/shop4/FAQ';
-  import Shop4SizeCharts from './pages/shop4/SizeCharts';
-  import Shop4GiftCards from './pages/shop4/GiftCards';
-  import Shop4GeneralInquiries from './pages/shop4/GeneralInquiries';
-  // Shop3 Footer Pages
-  import ManCollection from './pages/shop3/ManCollection';
-  import WomanCollection from './pages/shop3/WomanCollection';
-  import KidsCollection from './pages/shop3/KidsCollection';
-  import RefundShop3 from './pages/shop3/Refund';
-  import SizeChart from './pages/shop3/SizeChart';
-  import Blog from './pages/shop3/Blog';
-  import AboutShop3 from './pages/shop3/About';
-
-// Shop2 Footer Pages
-import Shop2ShippingDelivery from './pages/shop2/ShippingDelivery';
-import ReturnsRefunds from './pages/shop2/ReturnsRefunds';
-import GiftWrapping from './pages/shop2/GiftWrapping';
-import FollowYourOrder from './pages/shop2/FollowYourOrder';
-import Stores from './pages/shop2/Stores';
-import AboutUs from './pages/shop2/AboutUs';
-import FAQShop2 from './pages/shop2/FAQ';
-import SizeCharts from './pages/shop2/SizeCharts';
-import GiftCards from './pages/shop2/GiftCards';
-import TermsPrivacy from './pages/shop2/TermsPrivacy';
-import GeneralInquiries from './pages/shop2/GeneralInquiries';
-
-import Contact from './pages/Contact';
-import ShippingPolicy from './pages/ShippingPolicy';
-import Returns from './pages/Returns';
-import Privacy from './pages/Privacy';
-import CookiesPage from './pages/Cookies';
-import Terms from './pages/Terms';
-import SuperAdminLayout from './pages/superadmin/SuperAdminLayout';
-import MerchantDetails from './pages/superadmin/MerchantDetails';
-import SuperAdminLogin from './pages/superadmin/SuperAdminLogin';
-import Profile from './pages/superadmin/Profile';
-import Shops from './pages/superadmin/shop-management/Shops';
-import ShopCategories from './pages/superadmin/shop-management/ShopCategories';
-import ShopBrands from './pages/superadmin/shop-management/ShopBrands';
-import ShopAttributes from './pages/superadmin/shop-management/ShopAttributes';
-import AdminShopProducts from './pages/superadmin/shop-management/ShopProducts';
-import ShopGSTManagement from './components/superadmin/shop/ShopGSTManagement';
-import YouTubeManagement from './pages/superadmin/YouTubeManagement';
-import Brands from './components/home/brands';
-import Inventory from './pages/business/Inventory';
-import VerificationStatus from './pages/business/VerificationStatus';
-import PrivacyPolicy from './pages/PrivacyPolicy';
-import CancellationPolicy from './pages/CancellationPolicy';
-import ReturnRefund from './pages/ReturnRefund';
-import ShippingDelivery from './pages/ShippingDelivery';
-import UserProfile from './pages/UserProfile';
-import PaymentPolicy from './pages/PaymentPolicy';
-import ReplacementPolicy from './pages/ReplacementPolicy';
-import MerchantNDA from './pages/MerchantNDA';
-import PaymentPage from './pages/PaymentPage';
-import MessengerPopup from './components/MessengerPopup';
-import Refund from './pages/Refund';
-import Exchange from './pages/Exchange';
-import Review from './pages/Review';
-import LiveShop from './pages/LiveShop';
-import FashionPage from './components/sections/Fashionpage';
-import AoinLivePage from './components/sections/AoinLivePage';
-import ComingSoonPage from './components/sections/ComingSoonPage';
-import FashionFactoryPage from './components/sections/FashionFactoryPage';
-import SundayFundayPage from './components/sections/SundayFundayPage';
-import LiveShopProductDetailPage from './pages/LiveShopProductDetailPage';
-import Reviews from './pages/business/Reviews';
-import Sales from './pages/business/reports/Sales';
-import CustomersReport from './pages/business/reports/CustomersReport';
-import ProductsReport from './pages/business/reports/ProductsReport';
-import Support from './pages/business/Support';
-import Settingss from './pages/business/Settings';
-import Profilee from './pages/business/Profile';
 import { WishlistProvider } from './context/WishlistContext';
 import { ShopWishlistProvider } from './context/ShopWishlistContext';
 import { ShopCartProvider } from './context/ShopCartContext';
-import OrderConfirmationPage from './pages/OrderConfirmationPage';
-import Subscription from './pages/business/Subscription';
-
-import FeaturedProductsPage from './pages/FeaturedProductsPage';
-import PromoProductsPage from './pages/PromoProductsPage';
-import HoliGiveawayPage from './pages/HoliGiveawayPage';
-
-import UserSupport from './pages/superadmin/UserSupport';
-import MerchantSupport from './pages/superadmin/MerchantSupport';
-import RaiseTicket from './pages/RaiseTicket';
-import CreatorSignup from './pages/creator/CreatorSignup';
-import CreatorLogin from './pages/creator/CreatorLogin';
-import CreatorLayout from './pages/creator/CreatorLayout';
-import CreatorDashboard from './pages/creator/CreatorDashboard';
-import CreatorCategories from './pages/creator/CreatorCategories';
-import CreatorPortfolio from './pages/creator/CreatorPortfolio';
-import CreatorDeals from './pages/creator/CreatorDeals';
-import CreatorUploadReel from './pages/creator/CreatorUploadReel';
-import CreatorEarnings from './pages/creator/CreatorEarnings';
-import CreatorSettings from './pages/creator/CreatorSettings';
 
 import { useVisitTracking } from './hooks/useVisitTracking';
-import SearchResultsPage from './pages/SearchResultsPage';
-import MerchantPaymentReport from './pages/superadmin/reports/MerchantPaymentReport';
-import MerchantSubscription from './pages/MerchantSubscription';
-import NewsletterSubscribers from './pages/superadmin/NewsletterSubscribers';
-
-import Aoinlive from './pages/business/Aoinlive';
-import LiveStreamView from './pages/LiveStreamView';
-import ShopAnalytics from './pages/superadmin/shop/ShopAnalytics';
-import ShopInventoryManagement from './pages/superadmin/shop/ShopInventoryManagement';
-import ShopOrders from './pages/superadmin/shop/ShopOrders';
-import OrderManagementPage from './pages/superadmin/shop/OrderManagementPage';
-import ShopReviews from './pages/superadmin/shop/ShopReviews';
 import { useTranslation } from 'react-i18next';
 
-// Lazy-loaded business dashboard pages
+// Lazy-loaded pages — shop landing & product pages
+const Shop1LandingPage = lazy(() => import('./pages/Shop1LandingPage'));
+const Shop1About = lazy(() => import('./pages/shop1/About'));
+const Shop1Services = lazy(() => import('./pages/shop1/Services'));
+const Shop1Productpage = lazy(() => import('./pages/Shop1Productpage'));
+const Shop1AllProductpage = lazy(() => import('./pages/Shop1AllProductpage'));
+const Shop2LandingPage = lazy(() => import('./pages/Shop2LandingPage'));
+const Shop2Productpage = lazy(() => import('./pages/Shop2Productpage'));
+const Shop2AllProductpage = lazy(() => import('./pages/Shop2AllProductpage'));
+const Shop3LandingPage = lazy(() => import('./pages/Shop3LandingPage'));
+const Shop3ProductPage = lazy(() => import('./pages/Shop3ProductPage'));
+const Shop3AllProductpage = lazy(() => import('./pages/Shop3AllProductpage'));
+const Shop4LandingPage = lazy(() => import('./pages/Shop4LandingPage'));
+const Shop4Productpage = lazy(() => import('./pages/Shop4Productpage'));
+const Shop4AllProductpage = lazy(() => import('./pages/Shop4AllProductpage'));
+
+const Shop1Wishlist = lazy(() => import('./pages/Shop/Shop1Wishlist'));
+const Shop2Wishlist = lazy(() => import('./pages/Shop/Shop2Wishlist'));
+const Shop3Wishlist = lazy(() => import('./pages/Shop/Shop3Wishlist'));
+const Shop4Wishlist = lazy(() => import('./pages/Shop/Shop4Wishlist'));
+
+const Shop1Cart = lazy(() => import('./pages/Shop/ShopCartWrapper').then((m) => ({ default: m.Shop1Cart })));
+const Shop2Cart = lazy(() => import('./pages/Shop/ShopCartWrapper').then((m) => ({ default: m.Shop2Cart })));
+const Shop3Cart = lazy(() => import('./pages/Shop/ShopCartWrapper').then((m) => ({ default: m.Shop3Cart })));
+const Shop4Cart = lazy(() => import('./pages/Shop/ShopCartWrapper').then((m) => ({ default: m.Shop4Cart })));
+
+const Shop1Order = lazy(() => import('./pages/Shop/ShopOrderWrapper').then((m) => ({ default: m.Shop1Order })));
+const Shop2Order = lazy(() => import('./pages/Shop/ShopOrderWrapper').then((m) => ({ default: m.Shop2Order })));
+const Shop3Order = lazy(() => import('./pages/Shop/ShopOrderWrapper').then((m) => ({ default: m.Shop3Order })));
+const Shop4Order = lazy(() => import('./pages/Shop/ShopOrderWrapper').then((m) => ({ default: m.Shop4Order })));
+
+const Shop1OrderConfirmation = lazy(() => import('./pages/Shop/ShopOrderConfirmationWrapper').then((m) => ({ default: m.Shop1OrderConfirmation })));
+const Shop2OrderConfirmation = lazy(() => import('./pages/Shop/ShopOrderConfirmationWrapper').then((m) => ({ default: m.Shop2OrderConfirmation })));
+const Shop3OrderConfirmation = lazy(() => import('./pages/Shop/ShopOrderConfirmationWrapper').then((m) => ({ default: m.Shop3OrderConfirmation })));
+const Shop4OrderConfirmation = lazy(() => import('./pages/Shop/ShopOrderConfirmationWrapper').then((m) => ({ default: m.Shop4OrderConfirmation })));
+
+const Shop1OrderDetail = lazy(() => import('./pages/Shop/ShopOrderDetailWrapper').then((m) => ({ default: m.Shop1OrderDetail })));
+const Shop2OrderDetail = lazy(() => import('./pages/Shop/ShopOrderDetailWrapper').then((m) => ({ default: m.Shop2OrderDetail })));
+const Shop3OrderDetail = lazy(() => import('./pages/Shop/ShopOrderDetailWrapper').then((m) => ({ default: m.Shop3OrderDetail })));
+const Shop4OrderDetail = lazy(() => import('./pages/Shop/ShopOrderDetailWrapper').then((m) => ({ default: m.Shop4OrderDetail })));
+
+// Shop2 footer
+const Shop2ShippingDelivery = lazy(() => import('./pages/shop2/ShippingDelivery'));
+const ReturnsRefunds = lazy(() => import('./pages/shop2/ReturnsRefunds'));
+const GiftWrapping = lazy(() => import('./pages/shop2/GiftWrapping'));
+const FollowYourOrder = lazy(() => import('./pages/shop2/FollowYourOrder'));
+const Stores = lazy(() => import('./pages/shop2/Stores'));
+const AboutUs = lazy(() => import('./pages/shop2/AboutUs'));
+const FAQShop2 = lazy(() => import('./pages/shop2/FAQ'));
+const SizeCharts = lazy(() => import('./pages/shop2/SizeCharts'));
+const GiftCards = lazy(() => import('./pages/shop2/GiftCards'));
+const TermsPrivacy = lazy(() => import('./pages/shop2/TermsPrivacy'));
+const GeneralInquiries = lazy(() => import('./pages/shop2/GeneralInquiries'));
+
+// Shop3 footer
+const ManCollection = lazy(() => import('./pages/shop3/ManCollection'));
+const WomanCollection = lazy(() => import('./pages/shop3/WomanCollection'));
+const KidsCollection = lazy(() => import('./pages/shop3/KidsCollection'));
+const RefundShop3 = lazy(() => import('./pages/shop3/Refund'));
+const SizeChart = lazy(() => import('./pages/shop3/SizeChart'));
+const Blog = lazy(() => import('./pages/shop3/Blog'));
+const AboutShop3 = lazy(() => import('./pages/shop3/About'));
+
+// Shop4 footer
+const Shop4ShippingDelivery = lazy(() => import('./pages/shop4/ShippingDelivery'));
+const Shop4ReturnsRefunds = lazy(() => import('./pages/shop4/ReturnsRefunds'));
+const Shop4GiftWrapping = lazy(() => import('./pages/shop4/GiftWrapping'));
+const Shop4FollowYourOrder = lazy(() => import('./pages/shop4/FollowYourOrder'));
+const Shop4Stores = lazy(() => import('./pages/shop4/Stores'));
+const Shop4AboutUs = lazy(() => import('./pages/shop4/AboutUs'));
+const Shop4FAQ = lazy(() => import('./pages/shop4/FAQ'));
+const Shop4SizeCharts = lazy(() => import('./pages/shop4/SizeCharts'));
+const Shop4GiftCards = lazy(() => import('./pages/shop4/GiftCards'));
+const Shop4GeneralInquiries = lazy(() => import('./pages/shop4/GeneralInquiries'));
+
+// Auth & public
+const Home = lazy(() => import('./pages/Home'));
+const Products = lazy(() => import('./pages/Products'));
+const ShopProducts = lazy(() => import('./pages/ShopProducts'));
+const ProductDetail = lazy(() => import('./pages/ProductDetail'));
+const Cart = lazy(() => import('./pages/Cart'));
+const SignIn = lazy(() => import('./pages/auth/SignIn'));
+const SignUp = lazy(() => import('./pages/auth/SignUp'));
+const Register = lazy(() => import('./pages/auth/Register'));
+const ShippingMethods = lazy(() => import('./pages/ShippingMethods'));
+const VerificationPending = lazy(() => import('./pages/auth/VerificationPending'));
+const TrendyDealsPage = lazy(() => import('./pages/TrendyDealsPage'));
+const PasswordReset = lazy(() => import('./pages/auth/PasswordReset'));
+const VerifyEmail = lazy(() => import('./pages/auth/VerifyEmail'));
+const RequestPasswordReset = lazy(() => import('./pages/auth/RequestPasswordReset'));
+const BusinessLogin = lazy(() => import('./pages/auth/BusinessLogin'));
+const RegisterBusiness = lazy(() => import('./pages/auth/RegisterBusiness'));
+const SuperAdminLogin = lazy(() => import('./pages/superadmin/SuperAdminLogin'));
+
+const WishList = lazy(() => import('./pages/WishList'));
+const Games = lazy(() => import('./pages/Games'));
+const BecomeMerchant = lazy(() => import('./pages/BecomeMerchant'));
+const Order = lazy(() => import('./pages/Order'));
+const TrackOrder = lazy(() => import('./pages/TrackOrder'));
+const NewProduct = lazy(() => import('./pages/NewProduct'));
+const OrderConfirmationPage = lazy(() => import('./pages/OrderConfirmationPage'));
+const PaymentPage = lazy(() => import('./pages/PaymentPage'));
+const SearchResultsPage = lazy(() => import('./pages/SearchResultsPage'));
+
+const FeaturedProductsPage = lazy(() => import('./pages/FeaturedProductsPage'));
+const PromoProductsPage = lazy(() => import('./pages/PromoProductsPage'));
+const HoliGiveawayPage = lazy(() => import('./pages/HoliGiveawayPage'));
+
+const Contact = lazy(() => import('./pages/Contact'));
+const ShippingPolicy = lazy(() => import('./pages/ShippingPolicy'));
+const Returns = lazy(() => import('./pages/Returns'));
+const Privacy = lazy(() => import('./pages/Privacy'));
+const CookiesPage = lazy(() => import('./pages/Cookies'));
+const Terms = lazy(() => import('./pages/Terms'));
+const FAQ = lazy(() => import('./pages/FAQ'));
+const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
+const CancellationPolicy = lazy(() => import('./pages/CancellationPolicy'));
+const ReturnRefund = lazy(() => import('./pages/ReturnRefund'));
+const ShippingDelivery = lazy(() => import('./pages/ShippingDelivery'));
+const UserProfile = lazy(() => import('./pages/UserProfile'));
+const PaymentPolicy = lazy(() => import('./pages/PaymentPolicy'));
+const ReplacementPolicy = lazy(() => import('./pages/ReplacementPolicy'));
+const MerchantNDA = lazy(() => import('./pages/MerchantNDA'));
+const Refund = lazy(() => import('./pages/Refund'));
+const Exchange = lazy(() => import('./pages/Exchange'));
+const Review = lazy(() => import('./pages/Review'));
+const RaiseTicket = lazy(() => import('./pages/RaiseTicket'));
+const Brands = lazy(() => import('./components/home/brands'));
+
+const LiveShop = lazy(() => import('./pages/LiveShop'));
+const FashionPage = lazy(() => import('./components/sections/Fashionpage'));
+const AoinLivePage = lazy(() => import('./components/sections/AoinLivePage'));
+const ComingSoonPage = lazy(() => import('./components/sections/ComingSoonPage'));
+const FashionFactoryPage = lazy(() => import('./components/sections/FashionFactoryPage'));
+const SundayFundayPage = lazy(() => import('./components/sections/SundayFundayPage'));
+const LiveShopProductDetailPage = lazy(() => import('./pages/LiveShopProductDetailPage'));
+const LiveStreamView = lazy(() => import('./pages/LiveStreamView'));
+
+// Business dashboard (lazy)
 const BusinessDashboard = lazy(() => import('./pages/business/Dashboard'));
 const BusinessProducts = lazy(() => import('./pages/business/catalog/Products'));
 const BusinessOrders = lazy(() => import('./pages/business/Orders'));
@@ -209,11 +166,72 @@ const BusinessCustomers = lazy(() => import('./pages/business/Customers'));
 const Verification = lazy(() => import('./pages/business/Verification'));
 const ProductPlacements = lazy(() => import('./pages/business/ProductPlacements'));
 const DimensionPresets = lazy(() => import('./pages/business/DimensionPresets'));
+const Subscription = lazy(() => import('./pages/business/Subscription'));
+const Inventory = lazy(() => import('./pages/business/Inventory'));
+const VerificationStatus = lazy(() => import('./pages/business/VerificationStatus'));
+const Reviews = lazy(() => import('./pages/business/Reviews'));
+const Sales = lazy(() => import('./pages/business/reports/Sales'));
+const CustomersReport = lazy(() => import('./pages/business/reports/CustomersReport'));
+const ProductsReport = lazy(() => import('./pages/business/reports/ProductsReport'));
+const Support = lazy(() => import('./pages/business/Support'));
+const Settingss = lazy(() => import('./pages/business/Settings'));
+const Profilee = lazy(() => import('./pages/business/Profile'));
+const Aoinlive = lazy(() => import('./pages/business/Aoinlive'));
 
-// Lazy-loaded catalog pages
 const CatalogProducts = lazy(() => import('./pages/business/catalog/Products'));
 const AddProducts = lazy(() => import('./pages/business/catalog/product/steps/AddProducts'));
 const EditProduct = lazy(() => import('./pages/business/catalog/product/components/EditProduct'));
+
+// Superadmin
+const Dashboard = lazy(() => import('./pages/superadmin/Dashboard'));
+const UserActivity = lazy(() => import('./pages/superadmin/UserActivity'));
+const UserManagement = lazy(() => import('./pages/superadmin/Usermanagement'));
+const ContentModeration = lazy(() => import('./pages/superadmin/ContentModeration'));
+const ProductMonitoring = lazy(() => import('./pages/superadmin/ProductMonitoring'));
+const Settings = lazy(() => import('./pages/superadmin/Settings'));
+const RefundAndReturnManagement = lazy(() => import('./pages/superadmin/RefundAndReturnManagement'));
+const Promotions = lazy(() => import('./pages/superadmin/Promotions'));
+const TrafficAnalytics = lazy(() => import('./pages/superadmin/TrafficAnalytics'));
+const SalesReportPage = lazy(() => import('./pages/superadmin/SalesReport'));
+const FraudDetection = lazy(() => import('./pages/superadmin/FraudDetection'));
+const MarketplaceHealth = lazy(() => import('./pages/superadmin/MarketplaceHealth'));
+const PlatformPerformance = lazy(() => import('./pages/superadmin/PlatformPerformance'));
+const MerchantManagement = lazy(() => import('./pages/superadmin/MerchantManagement'));
+const GSTRuleManagement = lazy(() => import('./pages/superadmin/GSTRuleManagement'));
+const Categories = lazy(() => import('./pages/superadmin/Categories'));
+const Attribute = lazy(() => import('./pages/superadmin/Attribute'));
+const BrandCreation = lazy(() => import('./pages/superadmin/BrandCreation'));
+const HomepageSettings = lazy(() => import('./pages/superadmin/HomepageSettings'));
+const UserSupport = lazy(() => import('./pages/superadmin/UserSupport'));
+const MerchantSupport = lazy(() => import('./pages/superadmin/MerchantSupport'));
+const MerchantDetails = lazy(() => import('./pages/superadmin/MerchantDetails'));
+const Profile = lazy(() => import('./pages/superadmin/Profile'));
+const Shops = lazy(() => import('./pages/superadmin/shop-management/Shops'));
+const ShopCategories = lazy(() => import('./pages/superadmin/shop-management/ShopCategories'));
+const ShopBrands = lazy(() => import('./pages/superadmin/shop-management/ShopBrands'));
+const ShopAttributes = lazy(() => import('./pages/superadmin/shop-management/ShopAttributes'));
+const AdminShopProducts = lazy(() => import('./pages/superadmin/shop-management/ShopProducts'));
+const ShopGSTManagement = lazy(() => import('./components/superadmin/shop/ShopGSTManagement'));
+const YouTubeManagement = lazy(() => import('./pages/superadmin/YouTubeManagement'));
+const MerchantPaymentReport = lazy(() => import('./pages/superadmin/reports/MerchantPaymentReport'));
+const NewsletterSubscribers = lazy(() => import('./pages/superadmin/NewsletterSubscribers'));
+const ShopAnalytics = lazy(() => import('./pages/superadmin/shop/ShopAnalytics'));
+const ShopInventoryManagement = lazy(() => import('./pages/superadmin/shop/ShopInventoryManagement'));
+const ShopOrders = lazy(() => import('./pages/superadmin/shop/ShopOrders'));
+const OrderManagementPage = lazy(() => import('./pages/superadmin/shop/OrderManagementPage'));
+const ShopReviews = lazy(() => import('./pages/superadmin/shop/ShopReviews'));
+const MerchantSubscription = lazy(() => import('./pages/MerchantSubscription'));
+
+// Creator
+const CreatorSignup = lazy(() => import('./pages/creator/CreatorSignup'));
+const CreatorLogin = lazy(() => import('./pages/creator/CreatorLogin'));
+const CreatorDashboard = lazy(() => import('./pages/creator/CreatorDashboard'));
+const CreatorCategories = lazy(() => import('./pages/creator/CreatorCategories'));
+const CreatorPortfolio = lazy(() => import('./pages/creator/CreatorPortfolio'));
+const CreatorDeals = lazy(() => import('./pages/creator/CreatorDeals'));
+const CreatorUploadReel = lazy(() => import('./pages/creator/CreatorUploadReel'));
+const CreatorEarnings = lazy(() => import('./pages/creator/CreatorEarnings'));
+const CreatorSettings = lazy(() => import('./pages/creator/CreatorSettings'));
 
 const LoadingFallback = () => (
   <div className="w-full h-full min-h-screen flex items-center justify-center">
@@ -261,14 +279,7 @@ const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
 // Create a wrapper component for visit tracking
 const VisitTracker: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { markAsConverted } = useVisitTracking();
-
-  // Add this to your login/signup success handler
-  const handleAuthSuccess = (userId: string) => {
-    markAsConverted(userId);
-    // ... rest of your auth success handling
-  };
-
+  useVisitTracking();
   return <>{children}</>;
 };
 
@@ -300,6 +311,7 @@ const App: React.FC = () => {
               <VisitTracker>
                 <ScrollToTop />
                 <div className="flex flex-col min-h-screen overflow-x-hidden w-full">
+                  <Suspense fallback={<LoadingFallback />}>
                    <Routes>
                       <Route path="/shop1" element={<Shop1LandingPage />} />
                       <Route path="/shop1/about" element={<Shop1About />} />
@@ -389,201 +401,34 @@ const App: React.FC = () => {
                         index
                         element={<Navigate to="/business/dashboard" replace />}
                       />
-                      <Route
-                        path="dashboard"
-                        element={
-                          <Suspense fallback={<LoadingFallback />}>
-                            <BusinessDashboard />
-                          </Suspense>
-                        }
-                      />
-                      <Route
-                        path="subscription"
-                        element={
-                          <Suspense fallback={<LoadingFallback />}>
-                            <Subscription />
-                          </Suspense>
-                        }
-                      />
-                      <Route
-                        path="products"
-                        element={
-                          <Suspense fallback={<LoadingFallback />}>
-                            <BusinessProducts />
-                          </Suspense>
-                        }
-                      />
-                      <Route
-                        path="inventory"
-                        element={
-                          <Suspense fallback={<LoadingFallback />}>
-                            <Inventory />
-                          </Suspense>
-                        }
-                      />
-                      <Route
-                        path="verification"
-                        element={
-                          <Suspense fallback={<LoadingFallback />}>
-                            <Verification />
-                          </Suspense>
-                        }
-                      />
-                      <Route
-                        path="verification-pending"
-                        element={
-                          <Suspense fallback={<LoadingFallback />}>
-                            <VerificationStatus />
-                          </Suspense>
-                        }
-                      />
-                      <Route
-                        path="orders"
-                        element={
-                          <Suspense fallback={<LoadingFallback />}>
-                            <BusinessOrders />
-                          </Suspense>
-                        }
-                      />
-                      <Route
-                        path="orders/:orderId"
-                        element={
-                          <Suspense fallback={<LoadingFallback />}>
-                            <BusinessOrderDetail />
-                          </Suspense>
-                        }
-                      />
-                      <Route
-                        path="customers"
-                        element={
-                          <Suspense fallback={<LoadingFallback />}>
-                            <BusinessCustomers />
-                          </Suspense>
-                        }
-                      />
-                      <Route
-                        path="reviews"
-                        element={
-                          <Suspense fallback={<LoadingFallback />}>
-                            <Reviews />
-                          </Suspense>
-                        }
-                      />
-
-                      <Route
-                        path="reports/sales"
-                        element={
-                          <Suspense fallback={<LoadingFallback />}>
-                            <Sales />
-                          </Suspense>
-                        }
-                      />
-
-                      <Route
-                        path="reports/customers"
-                        element={
-                          <Suspense fallback={<LoadingFallback />}>
-                            <CustomersReport />
-                          </Suspense>
-                        }
-                      />
-
-                      <Route
-                        path="reports/products"
-                        element={
-                          <Suspense fallback={<LoadingFallback />}>
-                            <ProductsReport />
-                          </Suspense>
-                        }
-                      />
-
-                      <Route
-                        path="settings"
-                        element={
-                          <Suspense fallback={<LoadingFallback />}>
-                            <Settingss />
-                          </Suspense>
-                        }
-                      />
-
-                      <Route
-                        path="support"
-                        element={
-                          <Suspense fallback={<LoadingFallback />}>
-                            <Support />
-                          </Suspense>
-                        }
-                      />
-
-                      <Route
-                        path="profile"
-                        element={
-                          <Suspense fallback={<LoadingFallback />}>
-                            <Profilee />
-                          </Suspense>
-                        }
-                      />
+                      <Route path="dashboard" element={<BusinessDashboard />} />
+                      <Route path="subscription" element={<Subscription />} />
+                      <Route path="products" element={<BusinessProducts />} />
+                      <Route path="inventory" element={<Inventory />} />
+                      <Route path="verification" element={<Verification />} />
+                      <Route path="verification-pending" element={<VerificationStatus />} />
+                      <Route path="orders" element={<BusinessOrders />} />
+                      <Route path="orders/:orderId" element={<BusinessOrderDetail />} />
+                      <Route path="customers" element={<BusinessCustomers />} />
+                      <Route path="reviews" element={<Reviews />} />
+                      <Route path="reports/sales" element={<Sales />} />
+                      <Route path="reports/customers" element={<CustomersReport />} />
+                      <Route path="reports/products" element={<ProductsReport />} />
+                      <Route path="settings" element={<Settingss />} />
+                      <Route path="support" element={<Support />} />
+                      <Route path="profile" element={<Profilee />} />
 
                       {/* Catalog Routes */}
                       <Route path="catalog">
-                        <Route
-                          path="products"
-                          element={
-                            <Suspense fallback={<LoadingFallback />}>
-                              <CatalogProducts />
-                            </Suspense>
-                          }
-                        />
-                        <Route
-                          path="aoinlive"
-                          element={
-                            <Suspense fallback={<LoadingFallback />}>
-                              <Aoinlive />
-                            </Suspense>
-                          }
-                        />
-                        <Route
-                          path="product/new"
-                          element={
-                            <Suspense fallback={<LoadingFallback />}>
-                              <AddProducts />
-                            </Suspense>
-                          }
-                        />
-                        <Route
-                          path="product/:id/view"
-                          element={
-                            <Suspense fallback={<LoadingFallback />}>
-                              <AddProducts mode="view" />
-                            </Suspense>
-                          }
-                        />
-                        <Route
-                          path="product/:id/edit"
-                          element={
-                            <Suspense fallback={<LoadingFallback />}>
-                              <EditProduct />
-                            </Suspense>
-                          }
-                        />
+                        <Route path="products" element={<CatalogProducts />} />
+                        <Route path="aoinlive" element={<Aoinlive />} />
+                        <Route path="product/new" element={<AddProducts />} />
+                        <Route path="product/:id/view" element={<AddProducts mode="view" />} />
+                        <Route path="product/:id/edit" element={<EditProduct />} />
                       </Route>
 
-                      <Route
-                        path="product-placements"
-                        element={
-                          <Suspense fallback={<LoadingFallback />}>
-                            <ProductPlacements />
-                          </Suspense>
-                        }
-                      />
-                      <Route
-                        path="dimension-presets"
-                        element={
-                          <Suspense fallback={<LoadingFallback />}>
-                            <DimensionPresets />
-                          </Suspense>
-                        }
-                      />
+                      <Route path="product-placements" element={<ProductPlacements />} />
+                      <Route path="dimension-presets" element={<DimensionPresets />} />
                     </Route>
 
                     {/* Superadmin Routes - Protected by role check in the component */}
@@ -809,6 +654,7 @@ const App: React.FC = () => {
                     {/* Add this route outside of /business and /superadmin, so it's public */}
 
                   </Routes>
+                  </Suspense>
                 </div>
                 {/* Add MessengerPopup here, outside of routes so it appears on all pages */}
                 <MessengerPopup />
