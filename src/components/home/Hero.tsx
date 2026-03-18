@@ -74,10 +74,10 @@ const Hero: React.FC = () => {
 
   return (
     <section className="w-full max-w-[1680px] mx-auto px-1 sm:px-2 lg:px-4 pt-2 sm:pt-4">
-      {/* Mobile/Tablet Layout - Below mid screen (1080px) */}
+      {/* Mobile/Tablet Layout - Below mid screen (1080px); reduced height on mobile */}
       <div className="block mid:hidden">
-        <div className="relative w-full">
-          <div className="bg-gradient-to-r from-purple-500 to-orange-400 rounded-lg overflow-hidden relative h-[367px]">
+        <div className="relative w-full flex flex-col">
+          <div className="bg-gradient-to-r from-purple-500 to-orange-400 rounded-lg overflow-hidden relative h-[220px] sm:h-[220px]">
             <div className="absolute inset-0 flex flex-col justify-center items-center">
               <div className="w-full h-full relative">
               <img
@@ -87,24 +87,12 @@ const Hero: React.FC = () => {
                   style={{ objectPosition: 'center' }}
                 />
                 <button
-                  onClick={() => navigate('/holi-giveaway')}
-                  className="absolute bottom-6 left-1/2 transform -translate-x-1/2 bg-[#F2631F] text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-[#E25818] transition-colors shadow-md"
+                  onClick={() => navigate('/all-products')}
+                  className="absolute bottom-3 sm:bottom-6 left-1/2 transform -translate-x-1/2 bg-[#F2631F] text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-[#E25818] transition-colors shadow-md hidden md:block"
                 >
-                  Register
+                  Explore
                 </button>
               </div>
-            </div>
-            {/* Pagination dots */}
-            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex items-center space-x-2">
-              {carouselItems.map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => goToSlide(idx)}
-                  className={`h-1.5 sm:h-2 w-6 sm:w-8 rounded-full transition-all ${
-                    currentSlide === idx ? 'bg-[#F2631F]' : 'bg-[#F2631F]/50'
-                  }`}
-                />
-              ))}
             </div>
             {/* Arrows */}
             <div className="absolute top-1/2 transform -translate-y-1/2 w-full px-4 flex justify-between">
@@ -115,6 +103,21 @@ const Hero: React.FC = () => {
                 <ChevronRight size={20} />
               </button>
             </div>
+          </div>
+          {/* Pagination dots - below image on mobile, gray circles */}
+          <div className="flex justify-center items-center gap-2 mt-2">
+            {carouselItems.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => goToSlide(idx)}
+                className={`rounded-full transition-all shrink-0 ${
+                  currentSlide === idx
+                    ? 'bg-gray-600 w-2.5 h-2.5 sm:w-2 sm:h-2'
+                    : 'bg-gray-300 w-2 h-2 sm:w-1.5 sm:h-1.5'
+                }`}
+                aria-label={`Go to slide ${idx + 1}`}
+              />
+            ))}
           </div>
         </div>
       </div>
@@ -151,10 +154,10 @@ const Hero: React.FC = () => {
                   style={{ objectPosition: 'center' }}
                 />
                 <button
-                  onClick={() => navigate('/holi-giveaway')}
-                  className="absolute bottom-8 left-1/2 transform -translate-x-1/2 bg-[#F2631F] text-white px-4 sm:px-6 py-2 rounded font-medium hover:bg-[#E25818] transition-colors text-sm sm:text-base shadow-lg"
+                  onClick={() => navigate('/all-products')}
+                  className="absolute bottom-8 left-1/2 transform -translate-x-1/2 bg-[#F2631F] text-white px-4 sm:px-4 py-1 rounded font-medium hover:bg-[#E25818] transition-colors text-sm sm:text-base shadow-lg"
                 >
-                  Register
+                  Explore
                 </button>
               </div>
             </div>
@@ -164,7 +167,7 @@ const Hero: React.FC = () => {
                 <button
                   key={idx}
                   onClick={() => goToSlide(idx)}
-                  className={`h-1.5 sm:h-2 w-6 sm:w-8 rounded-full transition-all ${
+                  className={`h-1.5 sm:h-2 w-3 sm:w-3 rounded-full transition-all ${
                     currentSlide === idx ? 'bg-[#F2631F]' : 'bg-[#F2631F]/50'
                   }`}
                 />

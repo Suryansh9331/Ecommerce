@@ -84,6 +84,10 @@ const Categories: React.FC = () => {
     return translatedCategories[category.category_id] || category.name;
   };
 
+  // Mobile: truncate to 7 characters then ".."
+  const truncateName = (name: string, maxLen = 7) =>
+    name.length > maxLen ? name.slice(0, maxLen) + '..' : name;
+
   const fetchCategories = async () => {
     try {
       setLoading(true);
@@ -105,18 +109,28 @@ const Categories: React.FC = () => {
 
   if (loading) {
     return (
-      <section className="pt-8">
+      <section className="pt-4 nav:pt-8">
         <div className="container mx-auto px-4 xl:px-14">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold">{t('home.sections.categoriesTitle')}</h2>
-          </div>
-          <div className="flex gap-8 overflow-x-auto pb-4 pt-2 pl-2 scrollbar-hide">
-            {[...Array(6)].map((_, index) => (
-              <div key={index} className="flex-shrink-0 flex flex-col items-center gap-3">
-                <div className="w-24 h-24 rounded-full bg-gray-200 animate-pulse" />
-                <div className="h-4 w-20 bg-gray-200 rounded animate-pulse" />
+          <div className="nav:hidden flex gap-5 overflow-x-auto pb-3 scrollbar-hide">
+            {[...Array(8)].map((_, i) => (
+              <div key={i} className="flex-shrink-0 flex flex-col items-center gap-1.5">
+                <div className="w-14 h-14 rounded-lg bg-gray-200 animate-pulse" />
+                <div className="h-3 w-12 bg-gray-200 rounded animate-pulse" />
               </div>
             ))}
+          </div>
+          <div className="hidden nav:block">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold">{t('home.sections.categoriesTitle')}</h2>
+            </div>
+            <div className="flex gap-8 overflow-x-auto pb-4 pt-2 pl-2 scrollbar-hide">
+              {[...Array(6)].map((_, index) => (
+                <div key={index} className="flex-shrink-0 flex flex-col items-center gap-3">
+                  <div className="w-24 h-24 rounded-lg bg-gray-200 animate-pulse" />
+                  <div className="h-4 w-20 bg-gray-200 rounded animate-pulse" />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -142,14 +156,49 @@ const Categories: React.FC = () => {
   }
 
   return (
-    <section className="pt-8 py-4">
+    <section className="pt-1.5 pb-0.5 nav:pt-8 nav:py-4">
       <div className="container mx-auto px-4 xl:px-14">
-        {/* Categories header with navigation */}
-        <div className="flex justify-between items-center mb-6">
-      <h6 className="text-xl font-medium font-worksans">{t('home.sections.categoriesTitle')}</h6>
-          <div className="flex items-center">
-            <Link to="/all-products" className="text-orange-500 text-sm font-medium mr-3 sm:mr-10">
-        {t('home.seeAll')}
+        {/* Mobile only: compact category strip before hero - no heading, no see all, no arrows */}
+        <div className="nav:hidden overflow-x-auto pb-1 scroll-smooth scrollbar-hide">
+          <div className="flex  min-w-0">
+            {categories.map((category) => (
+              <button
+                key={category.category_id}
+                type="button"
+                onClick={() => navigate(`/all-products?category=${category.category_id}`)}
+                className="group flex-shrink-0 flex flex-col items-center gap-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F2631F] focus-visible:ring-offset-2 rounded-lg"
+              >
+                <div className="w-14 h-14 rounded-lg overflow-hidden bg-gray-50 flex items-center justify-center transition-shadow duration-200 group-hover:shadow-[0_4px_12px_-2px_rgba(249,115,22,0.2)]">
+                  {category.icon_url ? (
+                    <img
+                      src={category.icon_url}
+                      alt={getCategoryName(category)}
+                      className="w-full h-full object-cover transition-transform duration-300 ease-out group-hover:scale-110"
+                    />
+                  ) : (
+                    <span className={`w-full h-full rounded-lg ${getFallbackColorClass(category.category_id)} flex items-center justify-center text-xl`} aria-hidden>
+                      📦
+                    </span>
+                  )}
+                </div>
+                <span className="text-xs font-medium text-gray-700 text-center w-[4.5rem] leading-tight truncate" title={getCategoryName(category)}>
+                  {truncateName(getCategoryName(category))}
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Desktop: heading, see all, arrows, larger slider */}
+        <div className="hidden nav:block">
+          <div className="text-center mb-2">
+            <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 font-['Playfair_Display',serif] tracking-tight">
+              {t('home.sections.categoriesTitle')}
+            </h2>
+          </div>
+          <div className="flex justify-end items-center mb-6">
+            <Link to="/all-products" className="text-orange-500 text-sm font-medium mr-3 sm:mr-6">
+              {t('home.seeAll')}
             </Link>
             <div className="flex items-center space-x-1 sm:space-x-3">
               <button
@@ -168,28 +217,25 @@ const Categories: React.FC = () => {
               </button>
             </div>
           </div>
-        </div>
-        
-        {/* Categories slider - premium circular UI */}
-        <div
-          ref={scrollRef}
-          className="flex gap-10 overflow-x-auto pb-6 pt-2 pl-2 scroll-smooth scrollbar-hide"
-        >
+
+          <div
+            ref={scrollRef}
+            className="flex gap-10 overflow-x-auto pb-6 pt-2 pl-2 scroll-smooth scrollbar-hide"
+          >
           {categories.map((category) => (
             <button
               key={category.category_id}
               type="button"
               onClick={() => navigate(`/all-products?category=${category.category_id}`)}
-              className="group flex-shrink-0 flex flex-col items-center gap-3 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F2631F] focus-visible:ring-offset-2 rounded-2xl"
+              className="group flex-shrink-0 flex flex-col items-center gap-3 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F2631F] focus-visible:ring-offset-2 rounded-xl"
             >
-              {/* Circular image / colored circle with orange border and hover */}
+              {/* Square image container - fixed size; image zooms inside, light orange shadow on hover */}
               <div
                 className={`
-                  w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden
-                  border-2 border-[#F2631F]/40 bg-gray-50
-                  transition-all duration-300 ease-out
-                  group-hover:border-[#F2631F] group-hover:shadow-lg group-hover:shadow-orange-200/50
-                  group-hover:scale-105 group-active:scale-[0.98]
+                  w-24 h-24 sm:w-28 sm:h-28 rounded-lg overflow-hidden
+                  bg-gray-50
+                  transition-shadow duration-300 ease-out
+                  group-hover:shadow-[0_8px_24px_-4px_rgba(249,115,22,0.2)]
                   flex items-center justify-center
                 `}
               >
@@ -197,11 +243,11 @@ const Categories: React.FC = () => {
                   <img
                     src={category.icon_url}
                     alt={getCategoryName(category)}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover transition-transform duration-300 ease-out group-hover:scale-110"
                   />
                 ) : (
                   <span
-                    className={`w-full h-full rounded-full ${getFallbackColorClass(category.category_id)} flex items-center justify-center text-2xl sm:text-3xl select-none`}
+                    className={`w-full h-full rounded-lg ${getFallbackColorClass(category.category_id)} flex items-center justify-center text-2xl sm:text-3xl select-none transition-transform duration-300 ease-out group-hover:scale-110`}
                     aria-hidden
                   >
                     📦
@@ -214,6 +260,7 @@ const Categories: React.FC = () => {
               </span>
             </button>
           ))}
+          </div>
         </div>
       </div>
     </section>
