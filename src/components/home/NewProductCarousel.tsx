@@ -117,7 +117,7 @@ import { Link } from "react-router-dom";
 
 const NewProductCarousel: React.FC = () => {
   return (
-    <div className="w-full relative py-2 pb-3">
+    <div className="w-full relative py-0">
       <div
         className="relative w-full h-auto aspect-[16/6] sm:aspect-[16/5] md:aspect-[16/4.5] lg:aspect-[16/4]"
         style={{

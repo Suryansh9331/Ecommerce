@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Heart, ShoppingCart } from "lucide-react";
+import { Heart, ShoppingCart, Star } from "lucide-react";
 import { Product } from "../../types";
 import { useCart } from "../../context/CartContext";
 import { useAuth } from "../../context/AuthContext";
@@ -8,6 +8,12 @@ import { useWishlist } from "../../context/WishlistContext";
 import { toast } from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import { useAmazonTranslate } from "../../hooks/useAmazonTranslate";
+
+// Stable dummy rating 4.5–4.9 per product id
+const getDisplayRating = (id: string | number): number => {
+  const n = String(id).split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
+  return 4.5 + (n % 5) / 10;
+};
 
 interface ProductCardProps {
   product: Product;
@@ -172,123 +178,141 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
 
 
-  console.log("stock : ", product.stock);
+  const originalPrice =
+    (product as { original_price?: number }).original_price ??
+    (product as { originalPrice?: number }).originalPrice;
+  const currentPrice = Number(product.price);
 
-  // Calculate sale percentage if original price exists
   const calculateSalePercentage = () => {
-    if (product.original_price && product.price) {
-      const percentage =
-        ((product.original_price - product.price) / product.original_price) *
-        100;
-      return Math.round(percentage);
+    if (originalPrice && currentPrice && originalPrice > currentPrice) {
+      return Math.round(((originalPrice - currentPrice) / originalPrice) * 100);
     }
     return 0;
   };
 
+  const discountPct = salePercentage ?? calculateSalePercentage();
+  const displayRating = getDisplayRating(product.id);
+
+  const firstImage =
+    product.primary_image ||
+    (product as { image_url?: string }).image_url ||
+    (product as { image?: string }).image ||
+    (product.images && product.images[0]) ||
+    "/placeholder-image.png";
+  const secondImage = product.images && product.images.length > 1 ? product.images[1] : null;
+
   return (
-    <div className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer  flex flex-col w-full h-[450px] border border-gray-100">
-      <div className="relative h-72 w-full bg-white">
-        {/* Product badges */}
-        <div className="absolute top-2 left-2 flex flex-col gap-1.5 z-10">
-          {product.stock === 0 && (
-            <span className="bg-gray-400 text-black text-[10px] px-1.5 py-0.5 rounded">
-              Sold Out
-            </span>
-          )}
-          {product.stock > 0 &&
-            (salePercentage || calculateSalePercentage() > 0) && (
-              <span className="bg-[#F2631F] text-white text-[10px] px-1.5 py-0.5 rounded">
-                -{salePercentage || calculateSalePercentage()}%
-              </span>
-            )}
-        </div>
-
-        {/* Wishlist button */}
-        <button
-          className={`absolute top-2 right-2 p-1.5 z-10 rounded-full transition-all duration-300 ${isInWishlist(Number(product.id))
-              ? "text-[#F2631F] bg-white shadow-md"
-              : "text-gray-400 hover:text-[#F2631F] hover:bg-white hover:shadow-md"
-            }`}
-          onClick={handleWishlist}
-          disabled={wishlistLoading}
-        >
-          <Heart
-            className={`w-4 h-4 ${isInWishlist(Number(product.id)) ? "fill-current" : ""
-              }`}
-          />
-        </button>
-
-        {/* Product image */}
-        <Link to={`/product/${product.id}`} className="block h-full">
-          <img
-            src={
-              product.primary_image ||
-              product.image_url ||
-              "/placeholder-image.png"
-            }
-            alt={product.name}
-            className="w-full  h-full object-contain rounded-lg"
-            onError={(e) => {
-              const target = e.target as HTMLImageElement;
-              target.src = "/placeholder-image.png";
+    <div className="group bg-white rounded-2xl overflow-visible shadow-sm hover:shadow-md transition-all duration-300 flex flex-col w-full border border-gray-200 p-3">
+      <Link to={`/product/${product.id}`} className="flex flex-col flex-grow">
+        {/* Image area: first image default, second image on hover */}
+        <div className="relative w-full aspect-square bg-gray-50 overflow-hidden rounded-t-xl rounded-b-2xl">
+          <div
+            className="absolute inset-0 z-0"
+            style={{
+              clipPath: "polygon(0 0, 100% 0, 97% 100%, 3% 100%)",
             }}
-          />
-        </Link>
-      </div>
-
-      <div className="p-4 flex flex-col flex-grow">
-        <Link to={`/product/${product.id}`} className="block">
-          <h3 className="text-sm font-normal mb-1 line-clamp-2 font-['Work_Sans']">
-            {translatedName || product.name}
-          </h3>
-          {/* <p className="text-xs text-gray-500">
-            SKU: {product.sku}
-          </p> */}
-        </Link>
-
-        <div className="mt-auto w-full">
-          <div className="flex flex-wrap sm:flex-nowrap items-center space-x-2 mb-4">
-            <span className="text-lg font-semibold">
-              ₹{Number(product.price).toFixed(2)}
-            </span>
-            {product.original_price && (
-              <span className="text-gray-400 text-sm line-through">
-                ₹{Number(product.original_price).toFixed(2)}
-              </span>
+          >
+            <img
+              src={firstImage}
+              alt={product.name}
+              className={`w-full h-full object-cover transition-opacity duration-300 ${secondImage ? "group-hover:opacity-0" : ""}`}
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.src = "/placeholder-image.png";
+              }}
+            />
+            {secondImage && (
+              <img
+                src={secondImage}
+                alt={`${product.name} - view 2`}
+                className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.src = "/placeholder-image.png";
+                }}
+              />
             )}
           </div>
-          <div className="flex gap-2 w-full">
-<button
-  className={`w-1/2 text-base font-worksans font-medium py-2 rounded-xl duration-300 transition shadow-md ${
-    product.stock === 0 || user?.role === "merchant" || user?.role === "admin"
-      ? "bg-orange-400 text-white cursor-not-allowed"
-      : "bg-[#F2631F] text-white hover:bg-orange-600"
-  }`}
-  onClick={handleBuyNow}
-  disabled={
-    product.stock === 0 ||
-    user?.role === "merchant" ||
-    user?.role === "admin"
-  }
->
-  Buy Now
-</button>
 
-            <button
-              className="w-1/2 flex items-center justify-center bg-gray-200 text-black rounded-xl shadow-md hover:bg-gray-300 transition"
-              onClick={handleAddToCart}
-              disabled={
-                product.stock === 0 ||
-                user?.role === "merchant" ||
-                user?.role === "admin"
-              }
-              aria-label="Add to Cart"
-            >
-              <ShoppingCart className="w-7 h-7" />
-            </button>
+          {/* Sold out overlay */}
+          {product.stock === 0 && (
+            <div className="absolute inset-0 bg-black/40 flex items-center justify-center z-10 rounded-t-xl rounded-b-2xl">
+              <span className="bg-gray-600 text-white text-sm font-medium px-3 py-1.5 rounded-lg">
+                Sold Out
+              </span>
+            </div>
+          )}
+
+          {/* Wishlist - top right (small) */}
+          <button
+            type="button"
+            className="absolute top-2 right-2 p-1.5 z-20 rounded-full bg-white/90 shadow-sm border border-gray-200 text-gray-800 hover:bg-white hover:shadow transition-all"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              handleWishlist(e);
+            }}
+            disabled={wishlistLoading}
+            aria-label="Wishlist"
+          >
+            <Heart
+              className={`w-4 h-4 ${isInWishlist(Number(product.id)) ? "fill-current text-[#F2631F]" : ""
+                }`}
+              strokeWidth={2}
+            />
+          </button>
+
+          {/* Cart - bottom right, circular orange button (large) */}
+          <button
+            type="button"
+            className="absolute bottom-2 right-4 p-2 z-20 rounded-full bg-[#F2631F] text-white shadow-md hover:bg-[#e55a1a] transition-all disabled:opacity-50 disabled:pointer-events-none"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              handleAddToCart(e);
+            }}
+            disabled={
+              product.stock === 0 ||
+              user?.role === "merchant" ||
+              user?.role === "admin"
+            }
+            aria-label="Add to Cart"
+          >
+            <ShoppingCart className="w-5 h-5" strokeWidth={2} />
+          </button>
+        </div>
+
+        {/* Product details - smaller text on mobile */}
+        <div className="px-1 pt-2 sm:pt-3 flex flex-col gap-1 sm:gap-1.5">
+          {/* Line 1: name + rating */}
+          <div className="flex items-center justify-between gap-1.5 sm:gap-2 min-w-0">
+            <h3 className="text-xs sm:text-sm font-bold text-gray-900 truncate flex-1 font-['Work_Sans']">
+              {translatedName || product.name}
+            </h3>
+            <span className="flex items-center gap-0.5 shrink-0 text-gray-700">
+              <Star className="w-3 h-3 sm:w-4 sm:h-4 fill-amber-400 text-amber-400" strokeWidth={0} />
+              <span className="text-[10px] sm:text-sm font-medium">{displayRating.toFixed(1)}</span>
+            </span>
+          </div>
+
+          {/* Line 2: price, original price, discount badge */}
+          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+            <span className="text-sm sm:text-base font-bold text-gray-900">
+              Rs.{currentPrice.toFixed(2)}
+            </span>
+            {originalPrice != null && originalPrice > currentPrice && (
+              <>
+                <span className="text-[10px] sm:text-xs text-gray-500 line-through">
+                  Rs.{Number(originalPrice).toFixed(2)}
+                </span>
+                <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-orange-100 text-[#F2631F] text-[9px] sm:text-[10px] font-semibold">
+                  {discountPct}% OFF
+                </span>
+              </>
+            )}
           </div>
         </div>
-      </div>
+      </Link>
     </div>
   );
 };

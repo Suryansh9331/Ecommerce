@@ -154,6 +154,10 @@
     "support": {
       "title": "دعم على مدار الساعة",
       "description": "عندما يحدث خطأ ما"
+    },
+    "highQuality": {
+      "title": "جودة عالية",
+      "description": "منتجات مختارة يمكنك الوثوق بها"
     }
   },
   "payment": {

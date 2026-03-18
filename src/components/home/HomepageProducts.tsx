@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import ProductCard from '../product/ProductCard';
 import { useHorizontalScroll } from '../../hooks/useHorizontalScroll';
@@ -68,17 +67,13 @@ interface CategoryState {
   currentPage: number;
 }
 
-const HomepageProducts: React.FC = () => {
-  const [categoriesWithProducts, setCategoriesWithProducts] = useState<CategoryWithProducts[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [categoryStates, setCategoryStates] = useState<Record<number, CategoryState>>({});
-  const [itemsPerView, setItemsPerView] = useState(4);
-  const navigate = useNavigate();
-  const { i18n } = useTranslation();
-  const { translateBatch } = useAmazonTranslate();
-  const [translatedCategories, setTranslatedCategories] = useState<Record<number, string>>({});
-  const hasFetched = useRef(false);
+// Scrollable product carousel with its own ref (one per category so each section scrolls)
+const ProductCarousel: React.FC<{
+  products: Product[];
+  renderCard: (product: Product) => React.ReactNode;
+  itemsPerView: number;
+  gapPx: number;
+}> = ({ products, renderCard, itemsPerView, gapPx }) => {
   const {
     containerRef,
     isDragging,
@@ -87,30 +82,66 @@ const HomepageProducts: React.FC = () => {
     handleMouseMove,
     handleTouchStart,
     handleTouchMove,
-    handleTouchEnd
+    handleTouchEnd,
   } = useHorizontalScroll({
     snapToItems: true,
-    itemWidth: window.innerWidth < 640 ? window.innerWidth - 32 : // 1 item on mobile (accounting for padding)
-               window.innerWidth < 768 ? (window.innerWidth - 32) / 2 - 6 : // 2 items on tablet
-               window.innerWidth < 1024 ? (window.innerWidth - 32) / 3 - 8 : // 3 items on laptop
-               window.innerWidth < 1280 ? (window.innerWidth - 32) / 4 - 9 : // 4 items on desktop
-               (window.innerWidth - 32) / 5 - 10, // 5 items on large desktop
-    gap: 12
+    itemWidth: window.innerWidth < 640 ? (window.innerWidth - 32 - 12) / 2 : window.innerWidth < 768 ? (window.innerWidth - 32) / 2 - 6 : window.innerWidth < 1024 ? (window.innerWidth - 32) / 3 - 8 : window.innerWidth < 1280 ? (window.innerWidth - 32) / 4 - 9 : (window.innerWidth - 32) / 5 - 10,
+    gap: 12,
   });
 
-  // Update items per view based on screen size
+  return (
+    <div
+      ref={containerRef}
+      className="flex overflow-x-auto gap-3 sm:gap-7 pb-4 scrollbar-hide scroll-smooth snap-x min-w-0"
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseUp}
+      onMouseMove={handleMouseMove}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+      style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
+    >
+      {products.map((product) => (
+        <div
+          key={product.product_id}
+          className="flex-none snap-start min-w-0"
+          style={{ width: `calc(${100 / itemsPerView}% - ${(itemsPerView - 1) * gapPx / itemsPerView}px)` }}
+        >
+          {renderCard(product)}
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const HomepageProducts: React.FC = () => {
+  const [categoriesWithProducts, setCategoriesWithProducts] = useState<CategoryWithProducts[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [categoryStates, setCategoryStates] = useState<Record<number, CategoryState>>({});
+  const [itemsPerView, setItemsPerView] = useState(4);
+  const [gapPx, setGapPx] = useState(28);
+  const navigate = useNavigate();
+  const { i18n } = useTranslation();
+  const { translateBatch } = useAmazonTranslate();
+  const [translatedCategories, setTranslatedCategories] = useState<Record<number, string>>({});
+  const hasFetched = useRef(false);
+
+  // Update items per view and gap based on screen size (mobile: 2 cards, smaller gap)
   useEffect(() => {
     const updateItemsPerView = () => {
       const width = window.innerWidth;
-      if (width < 640) { // sm breakpoint
-        setItemsPerView(1);
-      } else if (width < 768) { // md breakpoint
+      setGapPx(width < 640 ? 12 : 28); // gap-3 on mobile, gap-7 on sm+
+      if (width < 640) {
         setItemsPerView(2);
-      } else if (width < 1024) { // lg breakpoint
+      } else if (width < 768) {
+        setItemsPerView(2);
+      } else if (width < 1024) {
         setItemsPerView(3);
-      } else if (width < 1280) { // xl breakpoint
+      } else if (width < 1280) {
         setItemsPerView(4);
-      } else { // 2xl breakpoint
+      } else {
         setItemsPerView(5);
       }
     };
@@ -259,22 +290,6 @@ const HomepageProducts: React.FC = () => {
     return [];
   };
 
-  // Get visible products for a specific category
-  const getVisibleProducts = (categoryData: CategoryWithProducts) => {
-    const categoryState = categoryStates[categoryData.category.category_id];
-    const currentPage = categoryState?.currentPage || 1;
-    const allProducts = getActiveCategoryProducts(categoryData);
-    const startIndex = (currentPage - 1) * itemsPerView;
-    const endIndex = startIndex + itemsPerView;
-    return allProducts.slice(startIndex, endIndex);
-  };
-
-  // Calculate total pages for a specific category
-  const getTotalPages = (categoryData: CategoryWithProducts) => {
-    const totalProducts = getActiveCategoryProducts(categoryData).length;
-    return Math.ceil(totalProducts / itemsPerView);
-  };
-
   // Handle category change for a specific section
   const handleCategoryChange = (categoryId: number, categoryName: string) => {
     setCategoryStates(prev => ({
@@ -283,27 +298,6 @@ const HomepageProducts: React.FC = () => {
         ...prev[categoryId],
         activeCategory: categoryName,
         currentPage: 1
-      }
-    }));
-  };
-
-  // Handle page navigation for a specific section
-  const handlePrevPage = (categoryId: number) => {
-    setCategoryStates(prev => ({
-      ...prev,
-      [categoryId]: {
-        ...prev[categoryId],
-        currentPage: Math.max(prev[categoryId].currentPage - 1, 1)
-      }
-    }));
-  };
-
-  const handleNextPage = (categoryId: number) => {
-    setCategoryStates(prev => ({
-      ...prev,
-      [categoryId]: {
-        ...prev[categoryId],
-        currentPage: Math.min(prev[categoryId].currentPage + 1, getTotalPages(categoriesWithProducts.find(c => c.category.category_id === categoryId)!))
       }
     }));
   };
@@ -320,120 +314,62 @@ const HomepageProducts: React.FC = () => {
     <div className=" py-4">
       {categoriesWithProducts.map((categoryData) => (
         <section key={categoryData.category.category_id} className="pb-12">
+          {/* Full-width category banner with icon_url and overlay */}
+          <div
+            className="relative w-full h-[220px] md:h-[560px] overflow-hidden bg-gray-200 mb-6"
+            style={{
+              backgroundImage: categoryData.category.icon_url
+                ? `url(${categoryData.category.icon_url})`
+                : undefined,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
+          >
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 flex items-end justify-start px-4 sm:px-6 md:px-8 lg:px-14 py-6">
+              <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight font-worksans drop-shadow-lg">
+                {getCategoryName(categoryData.category)}
+              </h2>
+            </div>
+          </div>
+
           <div className="container mx-auto px-4 xl:px-14">
             <div className="flex flex-col space-y-6">
-              {/* Header with navigation */}
-              <div className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0">
-                {/* Category name and arrows for mobile */}
-                <div className="flex items-center justify-between w-full md:w-auto">
-                  <h6 className="text-xl font-medium font-worksans">{getCategoryName(categoryData.category)}</h6>
-                  {/* Arrows: visible only on mobile (md:hidden) */}
-                  <div className="flex items-center space-x-3 md:hidden ml-auto">
-                    <button 
-                      className={
-                        categoryStates[categoryData.category.category_id]?.currentPage === 1 
-                          ? 'text-gray-400 cursor-not-allowed' 
-                          : 'hover:text-black text-gray-500 transition-colors'
-                      }
-                      onClick={() => handlePrevPage(categoryData.category.category_id)}
-                      disabled={categoryStates[categoryData.category.category_id]?.currentPage === 1}
-                      aria-label="Previous products"
-                    >
-                      <ChevronLeft size={20} />
-                    </button>
-                    <button 
-                      className={
-                        categoryStates[categoryData.category.category_id]?.currentPage === getTotalPages(categoryData)
-                          ? 'text-gray-400 cursor-not-allowed'
-                          : 'hover:text-black text-gray-500 transition-colors'
-                      }
-                      onClick={() => handleNextPage(categoryData.category.category_id)}
-                      disabled={categoryStates[categoryData.category.category_id]?.currentPage === getTotalPages(categoryData)}
-                      aria-label="Next products"
-                    >
-                      <ChevronRight size={20} />
-                    </button>
-                  </div>
-                </div>
-                {/* Categories and Navigation (arrows here only for md+) */}
-                <div className="flex items-center w-full md:w-auto overflow-x-auto pb-2 md:pb-0 space-x-6">
+              {/* Category tabs (All + subcategories) - no heading, no arrows */}
+              <div className="flex items-center w-full overflow-x-auto pb-2 space-x-6 scrollbar-hide">
+                <button
+                  className={`whitespace-nowrap ${
+                    categoryStates[categoryData.category.category_id]?.activeCategory === 'All'
+                      ? 'text-[#F2631F] border-b-2 border-[#F2631F]'
+                      : 'text-gray-600 hover:text-[#F2631F]'
+                  } pb-1`}
+                  onClick={() => handleCategoryChange(categoryData.category.category_id, 'All')}
+                >
+                  All
+                </button>
+                {categoryData.subcategories.map((subcategory) => (
                   <button
+                    key={subcategory.category.category_id}
                     className={`whitespace-nowrap ${
-                      categoryStates[categoryData.category.category_id]?.activeCategory === 'All'
+                      categoryStates[categoryData.category.category_id]?.activeCategory === subcategory.category.name
                         ? 'text-[#F2631F] border-b-2 border-[#F2631F]'
                         : 'text-gray-600 hover:text-[#F2631F]'
                     } pb-1`}
-                    onClick={() => handleCategoryChange(categoryData.category.category_id, 'All')}
+                    onClick={() => handleCategoryChange(categoryData.category.category_id, subcategory.category.name)}
                   >
-                    All
+                    {getCategoryName(subcategory.category)}
                   </button>
-                  {categoryData.subcategories.map((subcategory) => (
-                    <button
-                      key={subcategory.category.category_id}
-                      className={`whitespace-nowrap ${
-                        categoryStates[categoryData.category.category_id]?.activeCategory === subcategory.category.name
-                          ? 'text-[#F2631F] border-b-2 border-[#F2631F]'
-                          : 'text-gray-600 hover:text-[#F2631F]'
-                      } pb-1`}
-                      onClick={() => handleCategoryChange(categoryData.category.category_id, subcategory.category.name)}
-                    >
-                      {getCategoryName(subcategory.category)}
-                    </button>
-                  ))}
-                  {/* Arrows for md+ */}
-                  <div className="hidden md:flex items-center space-x-3">
-                    <button 
-                      className={
-                        categoryStates[categoryData.category.category_id]?.currentPage === 1 
-                          ? 'text-gray-400 cursor-not-allowed' 
-                          : 'hover:text-black text-gray-500 transition-colors'
-                      }
-                      onClick={() => handlePrevPage(categoryData.category.category_id)}
-                      disabled={categoryStates[categoryData.category.category_id]?.currentPage === 1}
-                      aria-label="Previous products"
-                    >
-                      <ChevronLeft size={20} />
-                    </button>
-                    <button 
-                      className={
-                        categoryStates[categoryData.category.category_id]?.currentPage === getTotalPages(categoryData)
-                          ? 'text-gray-400 cursor-not-allowed'
-                          : 'hover:text-black text-gray-500 transition-colors'
-                      }
-                      onClick={() => handleNextPage(categoryData.category.category_id)}
-                      disabled={categoryStates[categoryData.category.category_id]?.currentPage === getTotalPages(categoryData)}
-                      aria-label="Next products"
-                    >
-                      <ChevronRight size={20} />
-                    </button>
-                  </div>
-                </div>
+                ))}
               </div>
 
-              {/* Products carousel */}
-              <div className="relative">
-                <div
-                  ref={containerRef}
-                  className="flex overflow-x-auto gap-3 pb-4 scrollbar-hide scroll-smooth snap-x"
-                  onMouseDown={handleMouseDown}
-                  onMouseUp={handleMouseUp}
-                  onMouseLeave={handleMouseUp}
-                  onMouseMove={handleMouseMove}
-                  onTouchStart={handleTouchStart}
-                  onTouchMove={handleTouchMove}
-                  onTouchEnd={handleTouchEnd}
-                  style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
-                >
-                  {getVisibleProducts(categoryData).map((product) => (
-                    <div 
-                      key={product.product_id} 
-                      className="flex-none snap-start"
-                      style={{ width: `calc(${100 / itemsPerView}% - ${(itemsPerView - 1) * 12 / itemsPerView}px)` }}
-                    >
-                      {renderProductCard(product)}
-                    </div>
-                  ))}
-                </div>
+              {/* Products carousel - all products, horizontally scrollable */}
+              <div className="relative min-w-0">
+                <ProductCarousel
+                  products={getActiveCategoryProducts(categoryData)}
+                  renderCard={renderProductCard}
+                  itemsPerView={itemsPerView}
+                  gapPx={gapPx}
+                />
               </div>
             </div>
           </div>

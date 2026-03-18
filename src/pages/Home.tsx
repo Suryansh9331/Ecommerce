@@ -1,14 +1,16 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import Hero from '../components/home/Hero';
+import HeavyDiscountProducts from '../components/home/HeavyDiscountProducts';
 import ConditionalFeaturedProducts from '../components/home/ConditionalFeaturedProducts';
 import Categories from '../components/home/Categories';
 import ConditionalPromoProducts from '../components/home/ConditionalPromoProducts';
 import TrendingDeals from '../components/home/TrendingDeals';
-import Brands from '../components/home/brands';
 import Services from '../components/home/Services';
 import NewSection from '../components/home/NewSection';
 import HomepageProducts from '../components/home/HomepageProducts';
 import NewProductCarousel from '../components/home/NewProductCarousel';
+import ShopFromReel from '../components/home/ShopFromReel';
+import Testimonials from '../components/home/Testimonials';
 
 const Home = () => {
   // #region agent log
@@ -29,15 +31,17 @@ const Home = () => {
           <div className="order-2 nav:order-1">
             <Hero />
           </div>
-          <div className="order-3">
-            <Brands />
-            {/* <Shop /> */}
-            <ConditionalFeaturedProducts />
-            <ConditionalPromoProducts />
+          <div className="order-3 flex flex-col gap-8 nav:gap-16">
+            <HeavyDiscountProducts />
+            {/* <ConditionalFeaturedProducts /> */}
+            {/* <ConditionalPromoProducts /> */}
             <NewProductCarousel />
+         
             <TrendingDeals />
             <NewSection />
             <HomepageProducts />
+            <ShopFromReel />
+            <Testimonials />
             <Services />
           </div>
         </div>

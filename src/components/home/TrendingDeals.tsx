@@ -11,6 +11,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const TrendingDeals: React.FC = () => {
   const { t } = useTranslation();
   const [itemsPerView, setItemsPerView] = useState(4);
+  const [gapPx, setGapPx] = useState(28);
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -27,7 +28,7 @@ const TrendingDeals: React.FC = () => {
     scroll
   } = useHorizontalScroll({
     snapToItems: true,
-    itemWidth: window.innerWidth < 640 ? window.innerWidth - 32 : // 1 item on mobile (accounting for padding)
+    itemWidth: window.innerWidth < 640 ? (window.innerWidth - 32 - 12) / 2 : // 2 items on mobile (padding + gap-3)
                window.innerWidth < 768 ? (window.innerWidth - 32) / 2 - 6 : // 2 items on tablet
                window.innerWidth < 1024 ? (window.innerWidth - 32) / 3 - 8 : // 3 items on laptop
                window.innerWidth < 1280 ? (window.innerWidth - 32) / 4 - 9 : // 4 items on desktop
@@ -88,19 +89,20 @@ const TrendingDeals: React.FC = () => {
     fetchTrendingDeals();
   }, []);
 
-  // Update items per view based on screen size
+  // Update items per view and gap based on screen size (mobile: 2 cards, smaller gap)
   useEffect(() => {
     const updateItemsPerView = () => {
       const width = window.innerWidth;
-      if (width < 640) { // sm breakpoint
-        setItemsPerView(1);
-      } else if (width < 768) { // md breakpoint
+      setGapPx(width < 640 ? 12 : 28); // gap-3 on mobile, gap-7 on sm+
+      if (width < 640) {
         setItemsPerView(2);
-      } else if (width < 1024) { // lg breakpoint
+      } else if (width < 768) {
+        setItemsPerView(2);
+      } else if (width < 1024) {
         setItemsPerView(3);
-      } else if (width < 1280) { // xl breakpoint
+      } else if (width < 1280) {
         setItemsPerView(4);
-      } else { // 2xl breakpoint
+      } else {
         setItemsPerView(5);
       }
     };
@@ -141,7 +143,7 @@ const TrendingDeals: React.FC = () => {
   }
 
   return (
-    <section className="py-4">
+    <section className="pt-0 pb-4 nav:pt-0 nav:pb-6">
       <div className="container mx-auto px-4 xl:px-14">
 
         <div className="flex flex-col space-y-6">
@@ -176,7 +178,7 @@ const TrendingDeals: React.FC = () => {
           <div className="relative">
             <div
               ref={containerRef}
-              className="flex overflow-x-auto gap-3 pb-4 scrollbar-hide scroll-smooth snap-x"
+              className="flex overflow-x-auto gap-3 sm:gap-7 pb-4 scrollbar-hide scroll-smooth snap-x"
               onMouseDown={handleMouseDown}
               onMouseUp={handleMouseUp}
               onMouseLeave={handleMouseUp}
@@ -190,7 +192,7 @@ const TrendingDeals: React.FC = () => {
                 <div 
                   key={product.id} 
                   className="flex-none snap-start"
-                  style={{ width: `calc(${100 / itemsPerView}% - ${(itemsPerView - 1) * 12 / itemsPerView}px)` }}
+                  style={{ width: `calc(${100 / itemsPerView}% - ${(itemsPerView - 1) * gapPx / itemsPerView}px)` }}
                 >
                   <ProductCard 
                     product={product}

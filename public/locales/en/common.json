@@ -166,6 +166,10 @@
     "support": {
       "title": "24/7 Support",
       "description": "When something goes wrong"
+    },
+    "highQuality": {
+      "title": "High Quality",
+      "description": "Curated products you can trust"
     }
   },
   "payment": {
