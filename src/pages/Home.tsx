@@ -42,7 +42,7 @@ const Home = () => {
             <HomepageProducts />
             <ShopFromReel />
             <Testimonials />
-            <Services />
+            <Servic₹es />
           </div>
         </div>
       </div>

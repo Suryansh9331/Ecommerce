@@ -11,14 +11,14 @@ const REEL_VIDEOS = [
   'https://res.cloudinary.com/ddnb10zkq/video/upload/v1773750954/WhatsApp_Video_2026-03-17_at_18.02.49_1_qhbx22.mp4',
 ];
 
-// Dummy product overlay data per reel (name, price, originalPrice) — thumbnail is the video first frame
+// Product overlay per reel (name, price, originalPrice) — matches reel content
 const REEL_PRODUCTS = [
-  { name: 'Forever Yours Heart Box', price: 1199, originalPrice: 2199 },
-  { name: 'Silk Saree Collection', price: 2499, originalPrice: 3999 },
-  { name: 'Handcrafted Ceramic Set', price: 899, originalPrice: 1299 },
-  { name: 'Designer Kurti', price: 699, originalPrice: 999 },
-  { name: 'Brass Diya Set', price: 449, originalPrice: 699 },
-  { name: 'Boho Earrings', price: 349, originalPrice: 599 },
+  { name: 'Men\'s Premium Casual Wear Collection', price: 1199, originalPrice: 2199 },
+  { name: 'Classic Stud Earrings', price: 449, originalPrice: 699 },
+  { name: 'Luxury Analog Watches', price: 2499, originalPrice: 3999 },
+  { name: 'Elegant Jewelry Set', price: 899, originalPrice: 1299 },
+  { name: 'Women\'s Office Formal Dresses', price: 699, originalPrice: 999 },
+  { name: 'Delicate Pendant Necklace', price: 349, originalPrice: 599 },
 ];
 
 // Random counts in range (seeded by index so they're stable)
