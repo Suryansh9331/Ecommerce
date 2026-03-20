@@ -10,6 +10,7 @@ import {
   Edit3,
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext"; 
+import LogoutConfirmationPopup from "../components/LogoutConfirmationPopup";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import ConfirmationModal from "../components/common/ConfirmationModal";
@@ -123,7 +124,7 @@ const AVATAR_OPTIONS: AvatarOption[] = [
 ];
 
 const UserProfile: React.FC = () => {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
 
   // --- State Declarations ---
@@ -200,6 +201,7 @@ const UserProfile: React.FC = () => {
 
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [addressToDelete, setAddressToDelete] = useState<Address | null>(null);
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
   // --- Data Fetching and Side Effects ---
   const fetchUserProfile = async () => {
@@ -450,6 +452,17 @@ const UserProfile: React.FC = () => {
   const handleCancelEdit = () => {
     setEditedUserInfo(userInfo);
     setIsEditing(false);
+  };
+
+  const handleLogoutClick = () => {
+    setIsLogoutModalOpen(true);
+  };
+
+  const handleConfirmLogout = () => {
+    logout();
+    setIsLogoutModalOpen(false);
+    toast.success("Logged out successfully.");
+    navigate("/sign-in");
   };
 
   // --- Address Handlers ---
@@ -920,6 +933,13 @@ const UserProfile: React.FC = () => {
               <span>
                 {userInfo.profile_img ? "Update Image" : "Upload Photo"}
               </span>
+            </button>
+
+            <button
+              onClick={handleLogoutClick}
+              className="mt-4 w-full flex items-center justify-center gap-2 px-4 py-2 bg-red-500 text-white text-sm font-semibold rounded-lg hover:bg-red-600 transition-colors disabled:opacity-50"
+            >
+              Logout
             </button>
           </div>
         </aside>
@@ -2155,6 +2175,12 @@ const UserProfile: React.FC = () => {
             <Trash2 className="w-8 h-8 text-orange-500" />
           </span>
         }
+      />
+
+      <LogoutConfirmationPopup
+        isOpen={isLogoutModalOpen}
+        onClose={() => setIsLogoutModalOpen(false)}
+        onConfirm={handleConfirmLogout}
       />
     </div>
   );

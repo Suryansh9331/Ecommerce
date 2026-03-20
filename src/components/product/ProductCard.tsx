@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Heart, ShoppingCart, Star } from "lucide-react";
+import { ChevronLeft, ChevronRight, Heart, ShoppingCart, Star } from "lucide-react";
 import { Product } from "../../types";
 import { useCart } from "../../context/CartContext";
 import { useAuth } from "../../context/AuthContext";
@@ -23,7 +23,6 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({
   product,
-  isBuiltIn = false,
   salePercentage,
 }) => {
   const { addToCart } = useCart();
@@ -39,6 +38,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const { i18n } = useTranslation();
   const { translateBatch } = useAmazonTranslate(import.meta.env.VITE_API_BASE_URL);
   const [translatedName, setTranslatedName] = useState<string>('');
+
+  console.log("inside product card", product);
 
   // Translate product name when language changes
   useEffect(() => {
@@ -81,58 +82,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
     } catch (error) {
       toast.error("Failed to add item to cart");
     }
-  };
-
-  const handleBuyNow = async (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    if (!isAuthenticated) {
-      toast.error("Please sign in to proceed with purchase");
-      const returnUrl = encodeURIComponent(window.location.pathname);
-      navigate(`/sign-in?returnUrl=${returnUrl}`);
-      return;
-    }
-
-    // Check if user is a merchant or admin
-    if (user?.role === "merchant" || user?.role === "admin") {
-      toast.error("Merchants and admins cannot make purchases");
-      return;
-    }
-
-    // Create direct purchase item with default attributes (if any)
-    const defaultAttributes: { [key: number]: string | string[] } = {};
-    if (product.attributes && product.attributes.length > 0) {
-      // For product cards, we'll use first available attribute values as defaults
-      product.attributes.forEach((attr: any) => {
-        if (!defaultAttributes[attr.attribute_id]) {
-          defaultAttributes[attr.attribute_id] =
-            attr.value_text || attr.value_label;
-        }
-      });
-    }
-
-    const directPurchaseItem = {
-      product: {
-        ...product,
-        image_url: product.image_url || product.primary_image || "/placeholder-image.png",
-      },
-      quantity: 1,
-      selected_attributes:
-        Object.keys(defaultAttributes).length > 0
-          ? defaultAttributes
-          : undefined,
-    };
-
-    // Navigate to payment page with direct purchase data
-    navigate("/payment", {
-      state: {
-        directPurchase: directPurchaseItem,
-        discount: 0,
-        appliedPromo: null,
-        itemDiscounts: {},
-      },
-    });
   };
 
   const handleWishlist = async (e: React.MouseEvent) => {
@@ -199,12 +148,82 @@ const ProductCard: React.FC<ProductCardProps> = ({
     (product as { image?: string }).image ||
     (product.images && product.images[0]) ||
     "/placeholder-image.png";
-  const secondImage = product.images && product.images.length > 1 ? product.images[1] : null;
+
+  const mediaImages = Array.isArray((product as any).media)
+    ? (product as any).media
+        .map((m: any) => m?.url || m?.image_url || m?.src)
+        .filter(Boolean)
+    : [];
+
+  const images = Array.from(
+    new Set([
+      firstImage,
+      ...(product.images && product.images.length > 0 ? product.images : []),
+      ...mediaImages,
+    ].filter(Boolean))
+  );
+  const hasMultipleImages = images.length > 1;
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [prevImageIndex, setPrevImageIndex] = useState(0);
+  const [slideDirection, setSlideDirection] = useState<1 | -1>(1); // 1 => next, -1 => prev
+  const [slidePhase, setSlidePhase] = useState<"idle" | "initial" | "animating">("idle");
+  const slideTimeoutRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    setActiveImageIndex(0);
+    setPrevImageIndex(0);
+    setSlidePhase("idle");
+    setSlideDirection(1);
+  }, [product.id]);
+
+  useEffect(() => {
+    return () => {
+      if (slideTimeoutRef.current) window.clearTimeout(slideTimeoutRef.current);
+    };
+  }, []);
+
+  const handlePrevImage = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!hasMultipleImages) return;
+    if (slidePhase !== "idle") return;
+
+    const nextIndex = (activeImageIndex - 1 + images.length) % images.length;
+    setPrevImageIndex(activeImageIndex);
+    setSlideDirection(-1);
+    setActiveImageIndex(nextIndex);
+    setSlidePhase("initial");
+
+    requestAnimationFrame(() => setSlidePhase("animating"));
+    if (slideTimeoutRef.current) window.clearTimeout(slideTimeoutRef.current);
+    slideTimeoutRef.current = window.setTimeout(() => {
+      setSlidePhase("idle");
+    }, 260);
+  };
+
+  const handleNextImage = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!hasMultipleImages) return;
+    if (slidePhase !== "idle") return;
+
+    const nextIndex = (activeImageIndex + 1) % images.length;
+    setPrevImageIndex(activeImageIndex);
+    setSlideDirection(1);
+    setActiveImageIndex(nextIndex);
+    setSlidePhase("initial");
+
+    requestAnimationFrame(() => setSlidePhase("animating"));
+    if (slideTimeoutRef.current) window.clearTimeout(slideTimeoutRef.current);
+    slideTimeoutRef.current = window.setTimeout(() => {
+      setSlidePhase("idle");
+    }, 260);
+  };
 
   return (
     <div className="group bg-white rounded-2xl overflow-visible shadow-sm hover:shadow-md transition-all duration-300 flex flex-col w-full border border-gray-200 p-3">
       <Link to={`/product/${product.id}`} className="flex flex-col flex-grow">
-        {/* Image area: first image default, second image on hover */}
+        {/* Image area */}
         <div className="relative w-full aspect-square bg-gray-50 overflow-hidden rounded-t-xl rounded-b-2xl">
           <div
             className="absolute inset-0 z-0"
@@ -212,27 +231,87 @@ const ProductCard: React.FC<ProductCardProps> = ({
               clipPath: "polygon(0 0, 100% 0, 97% 100%, 3% 100%)",
             }}
           >
+          {slidePhase === "idle" ? (
             <img
-              src={firstImage}
+              src={images[activeImageIndex] || firstImage}
               alt={product.name}
-              className={`w-full h-full object-cover transition-opacity duration-300 ${secondImage ? "group-hover:opacity-0" : ""}`}
+              className="w-full h-full object-cover"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
                 target.src = "/placeholder-image.png";
               }}
             />
-            {secondImage && (
+          ) : (
+            <>
+              {/* Previous image layer */}
               <img
-                src={secondImage}
-                alt={`${product.name} - view 2`}
-                className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                src={images[prevImageIndex] || firstImage}
+                alt={product.name}
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 ease-in-out"
+                style={{
+                  transform:
+                    slidePhase === "initial"
+                      ? "translateX(0%)"
+                      : slideDirection === 1
+                        ? "translateX(-100%)"
+                        : "translateX(100%)",
+                }}
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
                   target.src = "/placeholder-image.png";
                 }}
               />
-            )}
+
+              {/* Active (incoming) image layer */}
+              <img
+                src={images[activeImageIndex] || firstImage}
+                alt={product.name}
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 ease-in-out"
+                style={{
+                  transform:
+                    slidePhase === "initial"
+                      ? slideDirection === 1
+                        ? "translateX(100%)"
+                        : "translateX(-100%)"
+                      : "translateX(0%)",
+                }}
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.src = "/placeholder-image.png";
+                }}
+              />
+              {/* Transition effect via Tailwind transition classes */}
+            </>
+          )}
           </div>
+
+          {!hasMultipleImages && (
+            <>
+            <p className="absolute bottom-2 left-2 text-white text-xs font-medium">no multiple images</p>
+            </>
+          )}
+
+          {/* Image navigation arrows */}
+          {hasMultipleImages && (
+            <>
+              <button
+                type="button"
+                onClick={handlePrevImage}
+                className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 z-30 p-1.5 rounded-full bg-white/95 border border-gray-200 text-gray-700 hover:bg-white shadow-sm transition-opacity opacity-100 md:opacity-0 group-hover:opacity-100"
+                aria-label="Previous image"
+              >
+                <ChevronLeft className="w-3 h-3 sm:w-4 sm:h-4" strokeWidth={2.5} />
+              </button>
+              <button
+                type="button"
+                onClick={handleNextImage}
+                className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 z-30 p-1.5 rounded-full bg-white/95 border border-gray-200 text-gray-700 hover:bg-white shadow-sm transition-opacity opacity-100 md:opacity-0 group-hover:opacity-100"
+                aria-label="Next image"
+              >
+                <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4" strokeWidth={2.5} />
+              </button>
+            </>
+          )}
 
           {/* Sold out overlay */}
           {product.stock === 0 && (
