@@ -33,6 +33,7 @@ const Home = () => {
           </div>
           <div className="order-3 flex flex-col gap-8 nav:gap-16">
             <HeavyDiscountProducts />
+            <ShopFromReel />
             {/* <ConditionalFeaturedProducts /> */}
             {/* <ConditionalPromoProducts /> */}
             <NewProductCarousel />
@@ -40,7 +41,7 @@ const Home = () => {
             <TrendingDeals />
             <NewSection />
             <HomepageProducts />
-            <ShopFromReel />
+            
             <Testimonials />
             <Services />
           </div>
