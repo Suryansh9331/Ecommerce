@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import { ReelCampaignsProvider } from './state/ReelCampaignsStore';
 
 type SubPageKey = 'campaigns' | 'creators' | 'submissions' | 'sales' | 'payouts';
 
@@ -25,16 +26,18 @@ const ReelCampaigns: React.FC = () => {
   const activeMeta = SUBPAGES.find((x) => x.key === (activeKey ?? 'campaigns')) ?? SUBPAGES[0];
 
   return (
-    <div className="space-y-4 lg:space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
-        <div>
-          <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">Reel Campaigns</h1>
-          <p className="text-sm text-gray-500 mt-1">{activeMeta.subtitle}</p>
+    <ReelCampaignsProvider>
+      <div className="space-y-4 lg:space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+          <div>
+            <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">Reel Campaigns</h1>
+            <p className="text-sm text-gray-500 mt-1">{activeMeta.subtitle}</p>
+          </div>
         </div>
-      </div>
 
-      {activeKey == null ? <Navigate to="/business/reel-campaigns/campaigns" replace /> : <Outlet />}
-    </div>
+        {activeKey == null ? <Navigate to="/business/reel-campaigns/campaigns" replace /> : <Outlet />}
+      </div>
+    </ReelCampaignsProvider>
   );
 };
 

@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { MOCK_CAMPAIGNS, MOCK_CREATORS, MOCK_PRODUCTS } from '../mock/seed';
 import type { CommissionType, MockCampaign, MockCreator, MockProduct } from '../mock/types';
 import { StatusChip } from '../ui/StatusChip';
 import { RightDrawer } from '../ui/RightDrawer';
 import { ConfirmModal } from '../ui/ConfirmModal';
+import { useReelCampaignsStore } from '../state/ReelCampaignsStore';
 
 function fmtDate(d: Date) {
   return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
@@ -27,11 +27,29 @@ function readMode(search: string): 'create' | null {
   return raw === 'create' ? 'create' : null;
 }
 
+function readCreatorId(search: string): number | null {
+  const raw = new URLSearchParams(search).get('creatorId');
+  if (!raw) return null;
+  const n = Number(raw);
+  if (!Number.isFinite(n) || !Number.isInteger(n) || n <= 0) return null;
+  return n;
+}
+
+function stripParam(search: string, key: string): string {
+  const sp = new URLSearchParams(search);
+  sp.delete(key);
+  const next = sp.toString();
+  return next ? `?${next}` : '';
+}
+
 const CampaignsPage: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [campaigns, setCampaigns] = useState<MockCampaign[]>(() => MOCK_CAMPAIGNS);
+  const { state, dispatch } = useReelCampaignsStore();
+  const campaigns = state.campaigns;
+  const products = state.products;
+  const creators = state.creators;
 
   const [q, setQ] = useState('');
   const [status, setStatus] = useState<'all' | MockCampaign['status']>('all');
@@ -44,6 +62,7 @@ const CampaignsPage: React.FC = () => {
 
   const mode = useMemo(() => readMode(location.search), [location.search]);
   const createFromUrl = mode === 'create';
+  const creatorIdFromUrl = useMemo(() => readCreatorId(location.search), [location.search]);
 
   const [createOpen, setCreateOpen] = useState(false);
   const [createStep, setCreateStep] = useState<1 | 2 | 3 | 4 | 5>(1);
@@ -71,13 +90,21 @@ const CampaignsPage: React.FC = () => {
     if (createFromUrl) setCreateOpen(true);
   }, [createFromUrl]);
 
+  useEffect(() => {
+    if (!createFromUrl) return;
+    if (!creatorIdFromUrl) return;
+    // Preselect creator if deep-linked from Creators module
+    if (!selectedCreatorId) setSelectedCreatorId(creatorIdFromUrl);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [createFromUrl, creatorIdFromUrl]);
+
   const selectedProduct: MockProduct | null = useMemo(
-    () => (selectedProductId ? MOCK_PRODUCTS.find((p) => p.id === selectedProductId) ?? null : null),
-    [selectedProductId]
+    () => (selectedProductId ? products.find((p) => p.id === selectedProductId) ?? null : null),
+    [products, selectedProductId]
   );
   const selectedCreator: MockCreator | null = useMemo(
-    () => (selectedCreatorId ? MOCK_CREATORS.find((x) => x.id === selectedCreatorId) ?? null : null),
-    [selectedCreatorId]
+    () => (selectedCreatorId ? creators.find((x) => x.id === selectedCreatorId) ?? null : null),
+    [creators, selectedCreatorId]
   );
 
   const filtered = useMemo(() => {
@@ -136,6 +163,9 @@ const CampaignsPage: React.FC = () => {
     setCreateOpen(false);
     setConfirmSend(false);
     setIsSendingOffer(false);
+    // When create closes, remove creatorId preselect too (if it was used)
+    const searchWithoutCreator = stripParam(location.search, 'creatorId');
+    navigate({ pathname: location.pathname, search: searchWithoutCreator }, { replace: true });
     clearCreateModeFromUrl();
     resetCreateForm();
   };
@@ -168,14 +198,14 @@ const CampaignsPage: React.FC = () => {
       createdAt: now,
       updatedAt: now,
     };
-    setCampaigns((prev) => [newCampaign, ...prev]);
+    dispatch({ type: 'campaign/create', campaign: newCampaign });
     setLastCreatedCampaignId(newCampaign.id);
     return newCampaign.id;
   };
 
   const [cancelId, setCancelId] = useState<number | null>(null);
   const cancelCampaign = (id: number) => {
-    setCampaigns((prev) => prev.map((c) => (c.id === id ? { ...c, status: 'Cancelled', updatedAt: new Date() } : c)));
+    dispatch({ type: 'campaign/cancel', campaignId: id });
     setCancelId(null);
   };
 
@@ -416,7 +446,7 @@ const CampaignsPage: React.FC = () => {
                 <div className="space-y-3">
                   <p className="text-sm font-semibold text-gray-900">Select product</p>
                   <div className="grid sm:grid-cols-2 gap-3">
-                    {MOCK_PRODUCTS.map((p) => {
+                    {products.map((p) => {
                       const active = selectedProductId === p.id;
                       return (
                         <button
@@ -442,7 +472,7 @@ const CampaignsPage: React.FC = () => {
                 <div className="space-y-3">
                   <p className="text-sm font-semibold text-gray-900">Select creator</p>
                   <div className="grid sm:grid-cols-2 gap-3">
-                    {MOCK_CREATORS.map((c) => {
+                    {creators.map((c) => {
                       const active = selectedCreatorId === c.id;
                       return (
                         <button
