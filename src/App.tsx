@@ -177,6 +177,12 @@ const Support = lazy(() => import('./pages/business/Support'));
 const Settingss = lazy(() => import('./pages/business/Settings'));
 const Profilee = lazy(() => import('./pages/business/Profile'));
 const Aoinlive = lazy(() => import('./pages/business/Aoinlive'));
+const BusinessReelCampaigns = lazy(() => import('./pages/business/reel-campaigns/ReelCampaigns'));
+const BusinessReelCampaignsCampaigns = lazy(() => import('./pages/business/reel-campaigns/pages/CampaignsPage'));
+const BusinessReelCampaignsCreators = lazy(() => import('./pages/business/reel-campaigns/pages/CreatorsPage'));
+const BusinessReelCampaignsSubmissions = lazy(() => import('./pages/business/reel-campaigns/pages/SubmissionsPage'));
+const BusinessReelCampaignsSales = lazy(() => import('./pages/business/reel-campaigns/pages/SalesPage'));
+const BusinessReelCampaignsPayouts = lazy(() => import('./pages/business/reel-campaigns/pages/PayoutsPage'));
 
 const CatalogProducts = lazy(() => import('./pages/business/catalog/Products'));
 const AddProducts = lazy(() => import('./pages/business/catalog/product/steps/AddProducts'));
@@ -232,6 +238,10 @@ const CreatorDeals = lazy(() => import('./pages/creator/CreatorDeals'));
 const CreatorUploadReel = lazy(() => import('./pages/creator/CreatorUploadReel'));
 const CreatorEarnings = lazy(() => import('./pages/creator/CreatorEarnings'));
 const CreatorSettings = lazy(() => import('./pages/creator/CreatorSettings'));
+const CreatorReels = lazy(() => import('./pages/creator/CreatorReels'));
+const CreatorNotifications = lazy(() => import('./pages/creator/CreatorNotifications'));
+const CreatorPayouts = lazy(() => import('./pages/creator/CreatorPayouts'));
+const PublicCreatorPortfolio = lazy(() => import('./pages/PublicCreatorPortfolio'));
 
 const LoadingFallback = () => (
   <div className="w-full h-full min-h-screen flex items-center justify-center">
@@ -402,6 +412,14 @@ const App: React.FC = () => {
                         element={<Navigate to="/business/dashboard" replace />}
                       />
                       <Route path="dashboard" element={<BusinessDashboard />} />
+                      <Route path="reel-campaigns" element={<BusinessReelCampaigns />}>
+                        <Route index element={<Navigate to="/business/reel-campaigns/campaigns" replace />} />
+                        <Route path="campaigns" element={<BusinessReelCampaignsCampaigns />} />
+                        <Route path="creators" element={<BusinessReelCampaignsCreators />} />
+                        <Route path="submissions" element={<BusinessReelCampaignsSubmissions />} />
+                        <Route path="sales" element={<BusinessReelCampaignsSales />} />
+                        <Route path="payouts" element={<BusinessReelCampaignsPayouts />} />
+                      </Route>
                       <Route path="subscription" element={<Subscription />} />
                       <Route path="products" element={<BusinessProducts />} />
                       <Route path="inventory" element={<Inventory />} />
@@ -511,6 +529,9 @@ const App: React.FC = () => {
                       <Route path="deals" element={<CreatorDeals />} />
                       <Route path="upload-reel" element={<CreatorUploadReel />} />
                       <Route path="earnings" element={<CreatorEarnings />} />
+                      <Route path="reels" element={<CreatorReels />} />
+                      <Route path="notifications" element={<CreatorNotifications />} />
+                      <Route path="payouts" element={<CreatorPayouts />} />
                       <Route path="settings" element={<CreatorSettings />} />
                     </Route>
 
@@ -571,6 +592,7 @@ const App: React.FC = () => {
                               <Route path="/register" element={<Register />} />
                               <Route path="/creator/signup" element={<CreatorSignup />} />
                               <Route path="/creator/login" element={<CreatorLogin />} />
+                              <Route path="/portfolio/:slug" element={<PublicCreatorPortfolio />} />
 
                               <Route
                                 path="/become-merchant"

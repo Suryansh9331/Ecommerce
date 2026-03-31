@@ -10,6 +10,7 @@ export interface SignupRequestPayload {
 export interface SignupRequestResponse {
   message: string;
   expires_in: number;
+  dev_otp?: string;
 }
 
 export interface ResendOtpPayload {
@@ -106,7 +107,7 @@ export async function creatorCompleteOnboarding(
 }
 
 /** Creator login: send OTP to phone (same as customer phone login) */
-export async function phoneSendOtp(phone: string): Promise<{ message?: string; expires_in?: number }> {
+export async function phoneSendOtp(phone: string): Promise<{ message?: string; expires_in?: number; dev_otp?: string }> {
   const res = await fetch(`${API_BASE_URL}/api/auth/phone/send-otp`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

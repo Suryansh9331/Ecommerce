@@ -50,11 +50,16 @@ const CreatorLogin: React.FC = () => {
     const phoneE164 = toE164(ph);
     setIsSubmitting(true);
     try {
-      await phoneSendOtp(phoneE164);
+      const otpRes = await phoneSendOtp(phoneE164);
       setPhone(phoneE164);
       setStep('otp');
       setResendCooldown(RESEND_COOLDOWN_SEC);
-      toast.success('OTP sent to your phone.');
+      if (otpRes.dev_otp) {
+        setOtp(otpRes.dev_otp);
+        toast.success(`[DEV] OTP auto-filled: ${otpRes.dev_otp}`);
+      } else {
+        toast.success('OTP sent to your phone.');
+      }
     } catch (err: unknown) {
       const apiErr = err as { error?: string; code?: string };
       const msg = apiErr?.error || 'Failed to send OTP.';

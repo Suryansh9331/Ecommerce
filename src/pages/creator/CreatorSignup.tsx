@@ -96,13 +96,18 @@ const CreatorSignup: React.FC = () => {
 
     setIsSubmitting1(true);
     try {
-      await creatorSignupRequest({
+      const signupRes = await creatorSignupRequest({
         first_name: f,
         last_name: l,
         email: em,
         phone: phoneE164,
       });
-      toast.success('OTP sent to your phone.');
+      if (signupRes.dev_otp) {
+        setOtp(signupRes.dev_otp);
+        toast.success(`[DEV] OTP auto-filled: ${signupRes.dev_otp}`);
+      } else {
+        toast.success('OTP sent to your phone.');
+      }
       setStep(2);
       setPhone(phoneE164);
       setResendCooldown(RESEND_COOLDOWN_SEC);

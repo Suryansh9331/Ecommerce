@@ -23,6 +23,7 @@ import {
   DocumentChartBarIcon,
   StarIcon,
   UserCircleIcon,
+  VideoCameraIcon,
 } from "@heroicons/react/24/outline";
 import { Package, Ruler } from "lucide-react";
 import { useTranslation } from "react-i18next";
@@ -50,6 +51,17 @@ const navigationItems = [
   { name: "Promotions", path: "/business/product-placements", icon: TagIcon },
   { name: "Product Dimensions", path: "/business/dimension-presets", icon: Ruler },
   { name: "Reviews", path: "/business/reviews", icon: StarIcon },
+  {
+    name: "Reel Campaigns",
+    icon: VideoCameraIcon,
+    submenu: [
+      { name: "Campaigns", path: "/business/reel-campaigns/campaigns", icon: VideoCameraIcon },
+      { name: "Creators", path: "/business/reel-campaigns/creators", icon: UserCircleIcon },
+      { name: "Submissions", path: "/business/reel-campaigns/submissions", icon: ShoppingBagIcon },
+      { name: "Attribution & Sales", path: "/business/reel-campaigns/sales", icon: ChartBarIcon },
+      { name: "Commissions & Payouts", path: "/business/reel-campaigns/payouts", icon: DocumentChartBarIcon },
+    ],
+  },
   {
     name: "Reports",
     icon: DocumentChartBarIcon,

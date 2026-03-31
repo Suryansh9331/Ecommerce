@@ -39,8 +39,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const { translateBatch } = useAmazonTranslate(import.meta.env.VITE_API_BASE_URL);
   const [translatedName, setTranslatedName] = useState<string>('');
 
-  console.log("inside product card", product);
-
   // Translate product name when language changes
   useEffect(() => {
     const doTranslate = async () => {
@@ -284,12 +282,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
             </>
           )}
           </div>
-
-          {!hasMultipleImages && (
-            <>
-            <p className="absolute bottom-2 left-2 text-white text-xs font-medium">no multiple images</p>
-            </>
-          )}
 
           {/* Image navigation arrows */}
           {hasMultipleImages && (
