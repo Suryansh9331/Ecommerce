@@ -10,7 +10,7 @@ const AwesomeCollection = () => {
           <div className="w-[120px] xs:w-[140px] sm:w-[180px] md:w-[220px] lg:w-[280px] xl:w-[320px] 2xl:w-[400px] h-[24px] xs:h-[28px] sm:h-[36px] md:h-[44px] lg:h-[52px] xl:h-[58px] 2xl:h-[67px] rounded-[60px] xs:rounded-[80px] sm:rounded-[100px] md:rounded-[120px] lg:rounded-[150px] xl:rounded-[180px] 2xl:rounded-[210px] overflow-hidden flex-shrink-0">
             <img 
               src="https://res.cloudinary.com/do3vxz4gw/image/upload/v1754144737/public_assets_shop4/public_assets_shop4_Awesome1.svg" 
-              alt="Beaded jewelry" 
+              alt="Beaded JEWELLERY" 
               className="w-full h-full object-cover"
             />
           </div>

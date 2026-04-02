@@ -2,7 +2,7 @@
   "nav": {
     "home": "Home",
     "allProducts": "All Products",
-    "newProduct": "New Product",
+    "newProduct": "New Products",
     "promotion": "Promotion",
     "trackOrder": "Track Your Order",
     "signInRegister": "Sign In/Register",
@@ -10,7 +10,7 @@
     "cart": "Cart",
     "account": "Account",
     "becomeMerchant": "Become a Merchant",
-    "category": "Category",
+    "category": "Categories",
     "searchPlaceholder": "What are you looking for?",
     "search": "Search",
     "menu": "Menu",
@@ -132,7 +132,7 @@
   },
   "footer": {
     "shop": "Shop",
-    "newProduct": "New Product",
+    "newProduct": "New Products",
     "liveShop": "Live Shop",
     "promotion": "Promotion",
     "policies": "Policies",

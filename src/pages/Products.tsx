@@ -614,7 +614,7 @@ const Products: React.FC = () => {
           <aside className="hidden lg:block w-72 pr-6 border-r border-gray-100">
             <div className="sticky top-4">
               <div className="mb-8">
-                <h3 className="font-semibold text-base mb-4 text-black font-worksans">Category</h3>
+                <h3 className="font-semibold text-base mb-4 text-black font-worksans">Categories</h3>
                 <div className="space-y-1">
                   {categories.map(category => renderCategoryTree(category))}
                 </div>

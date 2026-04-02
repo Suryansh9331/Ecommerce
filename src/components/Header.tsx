@@ -26,7 +26,7 @@ const Header = () => {
               Products
             </Link>
             <Link to="/new-product" className="text-gray-600 hover:text-orange-500 transition-colors">
-              New Product
+              New Products
             </Link>
             <Link to="/promotion" className="text-gray-600 hover:text-orange-500 transition-colors">
               Promotion

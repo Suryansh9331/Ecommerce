@@ -81,7 +81,7 @@ const HeroOne = () => {
               <div className="relative">
                 <img 
                   src="https://res.cloudinary.com/do3vxz4gw/image/upload/v1754144750/public_assets_shop4/public_assets_shop4_Hero4.svg" 
-                  alt="Evil Eye Charms and Jewelry" 
+                  alt="Evil Eye Charms and JEWELLERY" 
                   className="w-full max-w-[400px] xl:max-w-[500px] 2xl:max-w-[550px] h-auto aspect-[550/386] object-cover rounded-[16px]" 
                 />
                 <Link 

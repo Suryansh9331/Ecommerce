@@ -577,6 +577,9 @@ const Navbar: React.FC = () => {
         <div className="container mx-auto px-6">
           <nav className="flex items-center justify-between gap-6 py-3 text-sm font-medium">
             <div className="flex items-center gap-6">
+            <Link to="/" className="text-gray-700 hover:text-[#F2631F] transition-colors">
+                {t('nav.home')}
+              </Link>
               <div className="relative">
                 <button
                   type="button"
@@ -590,9 +593,7 @@ const Navbar: React.FC = () => {
                   <ChevronDown className={`w-4 h-4 transition-transform ${isCategoryDropdownOpen ? 'rotate-180' : ''}`} />
                 </button>
               </div>
-              <Link to="/" className="text-gray-700 hover:text-[#F2631F] transition-colors">
-                {t('nav.home')}
-              </Link>
+
               <div className="relative" ref={productsNavRef}>
                 <button
                   type="button"

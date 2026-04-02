@@ -16,7 +16,7 @@ const REEL_PRODUCTS = [
   { name: 'Men\'s Premium Casual Wear Collection', price: 1199, originalPrice: 2199 },
   { name: 'Classic Stud Earrings', price: 449, originalPrice: 699 },
   { name: 'Luxury Analog Watches', price: 2499, originalPrice: 3999 },
-  { name: 'Elegant Jewelry Set', price: 899, originalPrice: 1299 },
+  { name: 'Elegant Jewellery Set', price: 899, originalPrice: 1299 },
   { name: 'Women\'s Office Formal Dresses', price: 699, originalPrice: 999 },
   { name: 'Delicate Pendant Necklace', price: 349, originalPrice: 599 },
 ];
