@@ -31,7 +31,7 @@ const YouTubeNotification: React.FC<NotificationProps> = ({
   useEffect(() => {
     const checkYouTubeStatus = async () => {
       try {
-        const response = await fetch('http://localhost:5001/api/superadmin/youtube/status', {
+        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/superadmin/youtube/status`, {
           headers: {
             'Authorization': `Bearer ${accessToken}`,
             'Content-Type': 'application/json',

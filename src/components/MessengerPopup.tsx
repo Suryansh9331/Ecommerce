@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { X, Send } from 'lucide-react';
 import { CHAT_API_URL } from '../config';
-
+import { useToast } from '../hooks/useToast';
+import { ToastContainer } from './ui/ToastContainer';
 interface Message {
   id: string;
   text: string;
@@ -29,7 +30,7 @@ const MessengerPopup: React.FC = () => {
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
-
+const { toasts, warning } = useToast();
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -40,7 +41,7 @@ const MessengerPopup: React.FC = () => {
 
   const handleUserInfoSubmit = () => {
     if (!userInfo.name || !userInfo.email) {
-      alert('Please provide your name and email');
+     warning('Please provide your name and email');
       return;
     }
     setShowUserForm(false);
@@ -243,6 +244,7 @@ const MessengerPopup: React.FC = () => {
           </div>
         </div>
       )}
+      <ToastContainer toasts={toasts} />
     </div>
   );
 };

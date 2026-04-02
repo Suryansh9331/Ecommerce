@@ -7,7 +7,8 @@ import { toast } from 'react-hot-toast';
 import { Star, X, ChevronLeft, ChevronRight, Play } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useAmazonTranslate } from '../../../../hooks/useAmazonTranslate';
-
+import { useToast } from '../../../../hooks/useToast';
+import { ToastContainer } from '../../../ui/ToastContainer';
 const ProductPage: React.FC = () => {
   const [searchParams] = useSearchParams();
   const id = searchParams.get('id');
@@ -1323,6 +1324,8 @@ const Shop3ReviewsSection: React.FC<{ shopProductId: number }> = ({ shopProductI
   const [newReview, setNewReview] = useState({ rating: 5, title: '', comment: '', orderId: '' });
   const [eligibilityChecked, setEligibilityChecked] = useState(false);
   const [eligibilityError, setEligibilityError] = useState<string | null>(null);
+
+  const { toasts, error: showError } = useToast();
   // Images for review
   type SelectedImage = { file: File; preview: string };
   const [selectedImages, setSelectedImages] = useState<SelectedImage[]>([]);
@@ -1417,8 +1420,7 @@ const Shop3ReviewsSection: React.FC<{ shopProductId: number }> = ({ shopProductI
       setSelectedImages([]);
       fetchShopReviews(1);
     } catch (err: any) {
-      alert(err.message || 'Failed to submit review');
-    }
+    showError(err.message || 'Failed to submit review');    }
   };
 
   const handleOpenReview = async () => {
@@ -1588,6 +1590,7 @@ const Shop3ReviewsSection: React.FC<{ shopProductId: number }> = ({ shopProductI
         )}
       </div>
       {/* Mount viewer overlay at page root */}
+     <ToastContainer toasts={toasts} />
       <ReviewImageViewerShop3 />
     </div>
   );

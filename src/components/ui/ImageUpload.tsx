@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Upload, X, Image as ImageIcon, Eye } from 'lucide-react';
-
+import { useToast } from '../../hooks/useToast';
+import { ToastContainer } from './ToastContainer';
 interface ImageUploadProps {
   value?: string;
   onChange: (file: File | null, url: string | null) => void;
@@ -11,6 +12,7 @@ interface ImageUploadProps {
   maxSize?: number; // in MB
   showViewButton?: boolean;
 }
+
 
 const ImageUpload: React.FC<ImageUploadProps> = ({
   value,
@@ -26,7 +28,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   const [preview, setPreview] = useState<string | null>(value || null);
   const [isDragging, setIsDragging] = useState(false);
   const [showImageModal, setShowImageModal] = useState(false);
-
+  const { toasts, error: showError } = useToast();
   useEffect(() => {
     setPreview(value || null);
   }, [value]);
@@ -36,13 +38,13 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
 
     // Validate file size
     if (file.size > maxSize * 1024 * 1024) {
-      alert(`File size must be less than ${maxSize}MB`);
+      showError(`File size must be less than ${maxSize}MB`);
       return;
     }
 
     // Validate file type
     if (!file.type.startsWith('image/')) {
-      alert('Please select an image file');
+     showError('Please select an image file');
       return;
     }
 
@@ -209,6 +211,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
           </div>
         </div>
       )}
+      <ToastContainer toasts={toasts} />
     </div>
   );
 };

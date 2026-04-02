@@ -14,6 +14,8 @@ import {
 } from "../../../services/superadmin/shopGSTService";
 import ShopSelector from "./ShopSelector";
 import ShopCategorySelector from "./ShopCategorySelector";
+import { useToast } from '../../../hooks/useToast';
+import { ToastContainer } from '../../ui/ToastContainer';
 
 interface ShopGSTRuleFormProps {
   rule?: ShopGSTRule | null;
@@ -47,6 +49,9 @@ const ShopGSTRuleForm: React.FC<ShopGSTRuleFormProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const { toasts, error: showError } = useToast();
+
+
 
   // Initialize selected values for edit mode
   useEffect(() => {
@@ -132,7 +137,7 @@ const ShopGSTRuleForm: React.FC<ShopGSTRuleFormProps> = ({
     } catch (error) {
       console.error("Error saving GST rule:", error);
       // You can add error handling UI here or use the parent component's error handling
-      alert(error instanceof Error ? error.message : 'Failed to save GST rule');
+     showError(error instanceof Error ? error.message : 'Failed to save GST rule');
     } finally {
       setIsSubmitting(false);
     }
@@ -374,6 +379,7 @@ const ShopGSTRuleForm: React.FC<ShopGSTRuleFormProps> = ({
           </button>
         </div>
       </form>
+      <ToastContainer toasts={toasts} />
     </div>
   );
 };

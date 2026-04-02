@@ -4,7 +4,7 @@ import { toast } from 'react-hot-toast';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-const FRONTEND_BASE_URL = import.meta.env.VITE_FRONTEND_BASE_URL || 'http://localhost:5173';
+const FRONTEND_BASE_URL = import.meta.env.VITE_FRONTEND_BASE_URL ;
 
 interface ICategory {
     category_id: number;

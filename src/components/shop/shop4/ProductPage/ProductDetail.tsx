@@ -13,7 +13,8 @@ import shop4ApiService, {
 } from '../../../../services/shop4ApiService';
 import { useTranslation } from 'react-i18next';
 import { useAmazonTranslate } from '../../../../hooks/useAmazonTranslate';
-
+import { useToast } from '../../../../hooks/useToast';
+import { ToastContainer } from '../../../ui/ToastContainer';
 // --- StarRating ---
 interface StarRatingProps {
   rating: number;
@@ -27,6 +28,7 @@ const StarRating: React.FC<StarRatingProps> = ({ rating, size = 'md', showNumber
     md: 'w-4 h-4',
     lg: 'w-5 h-5'
   };
+
 
   return (
     <div className="flex items-center gap-1">
@@ -362,7 +364,7 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ productId, allowedProdu
       setEligibilityChecked(true);
     }
   };
-
+const { toasts, error: showError } = useToast();
   const handleSubmitReview = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -382,7 +384,7 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ productId, allowedProdu
       fetchReviews(1);
     } catch (err: any) {
       console.error(err);
-      alert(err.message || 'Failed to submit review');
+     showError(err.message || 'Failed to submit review');
     }
   };
 
@@ -534,6 +536,7 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ productId, allowedProdu
         </div>
         {/* Mount viewer overlay for review images */}
         <ReviewImageViewerShop4 />
+        <ToastContainer toasts={toasts} />
       </div>
     </div>
   );

@@ -8,7 +8,8 @@ import { useShopCartOperations } from '../../../../context/ShopCartContext';
 import { toast } from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 import { useAmazonTranslate } from '../../../../hooks/useAmazonTranslate';
-
+import { useToast } from '../../../../hooks/useToast';
+import { ToastContainer } from '../../../ui/ToastContainer';
 const ProductDetail = () => {
   const { i18n } = useTranslation();
   const { translateBatch } = useAmazonTranslate();
@@ -22,7 +23,7 @@ const ProductDetail = () => {
   const { addToShopCart, canPerformShopCartOperations } = useShopCartOperations();
   const [addingToCart, setAddingToCart] = useState(false);
   const SHOP_ID = 2; // Shop2 ID
-
+const { toasts, error: showError } = useToast();
   // For accordion
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const toggleSection = (index: number) => {
@@ -303,7 +304,7 @@ const ProductDetail = () => {
       setSelectedImages([]);
       fetchShopReviews(1);
     } catch (err: any) {
-      alert(err.message || 'Failed to submit review');
+      showError(err.message || 'Failed to submit review');
     }
   };
 
@@ -1213,6 +1214,7 @@ const ProductDetail = () => {
         </div>
       </div>
     </div>
+    <ToastContainer toasts={toasts} />
     {/* Review images lightbox */}
     <ReviewImageViewerShop2 />
     
