@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { ShopGSTRule, ProductPriceConditionType } from "../../../types/shopGST";
 import { deleteShopGSTRule } from "../../../services/superadmin/shopGSTService";
-
+import { useToast } from "../../../hooks/useToast";
+import { ToastContainer } from "../../ui/ToastContainer";
 interface ShopGSTRuleTableProps {
   rules: ShopGSTRule[];
   loading?: boolean;
@@ -16,21 +17,25 @@ const ShopGSTRuleTable: React.FC<ShopGSTRuleTableProps> = ({
   onRefresh,
 }) => {
   const [deletingIds, setDeletingIds] = useState<Set<number>>(new Set());
-
+  const { toasts, error: showError } = useToast();
   const handleDelete = async (rule: ShopGSTRule) => {
-    if (!confirm(`Are you sure you want to delete the GST rule "${rule.name}"?`)) {
+    if (
+      !confirm(`Are you sure you want to delete the GST rule "${rule.name}"?`)
+    ) {
       return;
     }
 
     try {
-      setDeletingIds(prev => new Set(prev).add(rule.id));
+      setDeletingIds((prev) => new Set(prev).add(rule.id));
       await deleteShopGSTRule(rule.id);
       onRefresh();
     } catch (error) {
       console.error("Error deleting GST rule:", error);
-      alert(error instanceof Error ? error.message : 'Failed to delete GST rule');
+      showError(
+        error instanceof Error ? error.message : "Failed to delete GST rule",
+      );
     } finally {
-      setDeletingIds(prev => {
+      setDeletingIds((prev) => {
         const newSet = new Set(prev);
         newSet.delete(rule.id);
         return newSet;
@@ -42,9 +47,11 @@ const ShopGSTRuleTable: React.FC<ShopGSTRuleTableProps> = ({
     if (rule.price_condition_type === ProductPriceConditionType.ANY) {
       return "Any Price";
     }
-    
-    const value = rule.price_condition_value ? `₹${parseFloat(String(rule.price_condition_value)).toFixed(2)}` : "N/A";
-    
+
+    const value = rule.price_condition_value
+      ? `₹${parseFloat(String(rule.price_condition_value)).toFixed(2)}`
+      : "N/A";
+
     switch (rule.price_condition_type) {
       case ProductPriceConditionType.LESS_THAN:
         return `< ${value}`;
@@ -64,19 +71,19 @@ const ShopGSTRuleTable: React.FC<ShopGSTRuleTableProps> = ({
   const formatDateRange = (rule: ShopGSTRule) => {
     const hasStart = rule.start_date;
     const hasEnd = rule.end_date;
-    
+
     if (!hasStart && !hasEnd) {
       return "No date restrictions";
     }
-    
+
     const formatDate = (dateString: string) => {
-      return new Date(dateString).toLocaleDateString('en-IN', {
-        day: '2-digit',
-        month: 'short',
-        year: 'numeric',
+      return new Date(dateString).toLocaleDateString("en-IN", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
       });
     };
-    
+
     if (hasStart && hasEnd) {
       return `${formatDate(rule.start_date!)} - ${formatDate(rule.end_date!)}`;
     } else if (hasStart) {
@@ -92,7 +99,9 @@ const ShopGSTRuleTable: React.FC<ShopGSTRuleTableProps> = ({
         <div className="p-6">
           <div className="flex items-center justify-center">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-            <span className="ml-3 text-gray-600 dark:text-gray-400">Loading GST rules...</span>
+            <span className="ml-3 text-gray-600 dark:text-gray-400">
+              Loading GST rules...
+            </span>
           </div>
         </div>
       </div>
@@ -104,15 +113,26 @@ const ShopGSTRuleTable: React.FC<ShopGSTRuleTableProps> = ({
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
         <div className="p-6 text-center">
           <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-gray-100 dark:bg-gray-700 mb-4">
-            <svg className="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            <svg
+              className="h-6 w-6 text-gray-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+              />
             </svg>
           </div>
           <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
             No GST Rules Found
           </h3>
           <p className="text-gray-600 dark:text-gray-400 mb-4">
-            No GST rules have been created yet. Create your first rule to get started.
+            No GST rules have been created yet. Create your first rule to get
+            started.
           </p>
         </div>
       </div>
@@ -148,7 +168,10 @@ const ShopGSTRuleTable: React.FC<ShopGSTRuleTableProps> = ({
           </thead>
           <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
             {rules.map((rule) => (
-              <tr key={rule.id} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
+              <tr
+                key={rule.id}
+                className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200"
+              >
                 <td className="px-6 py-4">
                   <div>
                     <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
@@ -182,11 +205,13 @@ const ShopGSTRuleTable: React.FC<ShopGSTRuleTableProps> = ({
                 <td className="px-6 py-4">
                   <div className="space-y-1">
                     <div>
-                      <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                        rule.is_active
-                          ? "bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-400"
-                          : "bg-red-100 dark:bg-red-900/20 text-red-800 dark:text-red-400"
-                      }`}>
+                      <span
+                        className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                          rule.is_active
+                            ? "bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-400"
+                            : "bg-red-100 dark:bg-red-900/20 text-red-800 dark:text-red-400"
+                        }`}
+                      >
                         {rule.is_active ? "Active" : "Inactive"}
                       </span>
                     </div>
@@ -232,11 +257,13 @@ const ShopGSTRuleTable: React.FC<ShopGSTRuleTableProps> = ({
                   ID: {rule.id}
                 </p>
               </div>
-              <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                rule.is_active
-                  ? "bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-400"
-                  : "bg-red-100 dark:bg-red-900/20 text-red-800 dark:text-red-400"
-              }`}>
+              <span
+                className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                  rule.is_active
+                    ? "bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-400"
+                    : "bg-red-100 dark:bg-red-900/20 text-red-800 dark:text-red-400"
+                }`}
+              >
                 {rule.is_active ? "Active" : "Inactive"}
               </span>
             </div>
@@ -250,25 +277,33 @@ const ShopGSTRuleTable: React.FC<ShopGSTRuleTableProps> = ({
                 </span>
               </div>
               <div>
-                <span className="text-gray-500 dark:text-gray-400">Category: </span>
+                <span className="text-gray-500 dark:text-gray-400">
+                  Category:{" "}
+                </span>
                 <span className="text-gray-900 dark:text-gray-100">
                   {rule.category_name || `Category ID: ${rule.category_id}`}
                 </span>
               </div>
               <div>
-                <span className="text-gray-500 dark:text-gray-400">GST Rate: </span>
+                <span className="text-gray-500 dark:text-gray-400">
+                  GST Rate:{" "}
+                </span>
                 <span className="text-gray-900 dark:text-gray-100 font-medium">
                   {parseFloat(String(rule.gst_rate_percentage)).toFixed(2)}%
                 </span>
               </div>
               <div>
-                <span className="text-gray-500 dark:text-gray-400">Price Condition: </span>
+                <span className="text-gray-500 dark:text-gray-400">
+                  Price Condition:{" "}
+                </span>
                 <span className="text-gray-900 dark:text-gray-100">
                   {formatPriceCondition(rule)}
                 </span>
               </div>
               <div>
-                <span className="text-gray-500 dark:text-gray-400">Date Range: </span>
+                <span className="text-gray-500 dark:text-gray-400">
+                  Date Range:{" "}
+                </span>
                 <span className="text-gray-900 dark:text-gray-100">
                   {formatDateRange(rule)}
                 </span>
@@ -294,6 +329,7 @@ const ShopGSTRuleTable: React.FC<ShopGSTRuleTableProps> = ({
           </div>
         ))}
       </div>
+      <ToastContainer toasts={toasts} />
     </div>
   );
 };
