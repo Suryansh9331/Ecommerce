@@ -3,6 +3,12 @@ import { toast } from 'react-hot-toast';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
+// Fixed country for now (backend normalizes to E.164). Indian mobile numbers are
+// 10 digits and start with 6-9.
+const COUNTRY_DIAL_CODE = '+91';
+const LOCAL_NUMBER_LENGTH = 10;
+const INDIAN_MOBILE_REGEX = /^[6-9]\d{9}$/;
+
 interface PhoneOtpAuthProps {
   /** 'login' uses verify-login (existing users); 'signup' uses verify-signup (new users + name). */
   mode: 'login' | 'signup';
@@ -14,21 +20,33 @@ interface PhoneOtpAuthProps {
   onSuccess: (data: { access_token: string; refresh_token: string; user?: any }) => Promise<void> | void;
 }
 
+/** Group the 10 local digits as "98765 43210" for display. */
+const formatLocalNumber = (digits: string): string => {
+  if (digits.length <= 5) return digits;
+  return `${digits.slice(0, 5)} ${digits.slice(5)}`;
+};
+
 /**
  * Self-contained phone + OTP auth widget. Talks only to the existing backend
  * endpoints (/phone/send-otp, /phone/verify-signup, /phone/verify-login). It does
  * not touch global auth state directly — the parent's onSuccess does that, keeping
  * this component reusable for both SignIn and SignUp without breaking those flows.
+ *
+ * The phone state stores ONLY the 10 local digits; the +91 prefix is rendered in
+ * the UI and prepended when calling the API (E.164: +91XXXXXXXXXX).
  */
 const PhoneOtpAuth: React.FC<PhoneOtpAuthProps> = ({ mode, onSuccess }) => {
   const [step, setStep] = useState<'phone' | 'otp'>('phone');
-  const [phone, setPhone] = useState('');
+  const [localNumber, setLocalNumber] = useState(''); // 10 digits, no country code
   const [otp, setOtp] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [resendIn, setResendIn] = useState(0);
+
+  const e164Phone = `${COUNTRY_DIAL_CODE}${localNumber}`;
+  const isValidPhone = INDIAN_MOBILE_REGEX.test(localNumber);
 
   // Resend cooldown countdown
   useEffect(() => {
@@ -37,11 +55,25 @@ const PhoneOtpAuth: React.FC<PhoneOtpAuthProps> = ({ mode, onSuccess }) => {
     return () => clearTimeout(t);
   }, [resendIn]);
 
+  // Strip everything except digits and cap at the local number length.
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const digitsOnly = e.target.value.replace(/\D/g, '').slice(0, LOCAL_NUMBER_LENGTH);
+    setLocalNumber(digitsOnly);
+    if (error) setError('');
+  };
+
+  // Block non-numeric key presses for clearer UX (paste is still sanitized above).
+  const handlePhoneKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const allowed = ['Backspace', 'Delete', 'Tab', 'ArrowLeft', 'ArrowRight', 'Home', 'End', 'Enter'];
+    if (allowed.includes(e.key) || e.ctrlKey || e.metaKey) return;
+    if (!/^\d$/.test(e.key)) e.preventDefault();
+  };
+
   const sendOtp = async () => {
     setError('');
-    const trimmed = phone.trim();
-    if (!trimmed) {
-      setError('Please enter your phone number.');
+    if (!isValidPhone) {
+      const msg = 'Enter a valid 10-digit mobile number.';
+      setError(msg);
       return;
     }
     setIsSubmitting(true);
@@ -49,7 +81,7 @@ const PhoneOtpAuth: React.FC<PhoneOtpAuthProps> = ({ mode, onSuccess }) => {
       const response = await fetch(`${API_BASE_URL}/api/auth/phone/send-otp`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone: trimmed }),
+        body: JSON.stringify({ phone: e164Phone }),
       });
       const data = await response.json();
       if (!response.ok) {
@@ -70,7 +102,7 @@ const PhoneOtpAuth: React.FC<PhoneOtpAuthProps> = ({ mode, onSuccess }) => {
   const verifyOtp = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    if (otp.trim().length !== 6) {
+    if (otp.length !== 6) {
       setError('Enter the 6-digit code.');
       return;
     }
@@ -86,8 +118,8 @@ const PhoneOtpAuth: React.FC<PhoneOtpAuthProps> = ({ mode, onSuccess }) => {
           : `${API_BASE_URL}/api/auth/phone/verify-login`;
       const body =
         mode === 'signup'
-          ? { phone: phone.trim(), otp: otp.trim(), first_name: firstName.trim(), last_name: lastName.trim() }
-          : { phone: phone.trim(), otp: otp.trim() };
+          ? { phone: e164Phone, otp, first_name: firstName.trim(), last_name: lastName.trim() }
+          : { phone: e164Phone, otp };
       const response = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -127,20 +159,35 @@ const PhoneOtpAuth: React.FC<PhoneOtpAuthProps> = ({ mode, onSuccess }) => {
             <label htmlFor="phone-otp-number" className="block text-sm font-medium text-gray-700 mb-1">
               Phone Number*
             </label>
-            <input
-              id="phone-otp-number"
-              type="tel"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              className={inputClass}
-              placeholder="+91 98765 43210"
-            />
-            <p className="mt-1 text-xs text-gray-400">Include your country code, e.g. +91.</p>
+            <div className="flex">
+              {/* Fixed country-code prefix */}
+              <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-600 text-sm select-none">
+                {COUNTRY_DIAL_CODE}
+              </span>
+              <input
+                id="phone-otp-number"
+                type="tel"
+                inputMode="numeric"
+                autoComplete="tel-national"
+                value={formatLocalNumber(localNumber)}
+                onChange={handlePhoneChange}
+                onKeyDown={handlePhoneKeyDown}
+                maxLength={LOCAL_NUMBER_LENGTH + 1} // +1 for the space separator
+                className="w-full px-4 py-2 border border-gray-300 rounded-r-md focus:outline-none focus:ring-2 focus:ring-[#F2631F] focus:border-transparent"
+                placeholder="98765 43210"
+                aria-invalid={localNumber.length > 0 && !isValidPhone}
+              />
+            </div>
+            {localNumber.length > 0 && !isValidPhone ? (
+              <p className="mt-1 text-xs text-red-500">Enter a valid 10-digit mobile number.</p>
+            ) : (
+              <p className="mt-1 text-xs text-gray-400">We'll send a one-time code to this number.</p>
+            )}
           </div>
           <button
             type="button"
             onClick={sendOtp}
-            disabled={isSubmitting}
+            disabled={isSubmitting || !isValidPhone}
             className="w-full bg-[#F2631F] hover:bg-orange-600 text-white py-2 px-6 rounded-md font-medium transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
           >
             {isSubmitting ? 'Sending...' : 'Send OTP'}
@@ -188,17 +235,20 @@ const PhoneOtpAuth: React.FC<PhoneOtpAuthProps> = ({ mode, onSuccess }) => {
               id="phone-otp-code"
               type="text"
               inputMode="numeric"
+              autoComplete="one-time-code"
               maxLength={6}
               value={otp}
-              onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
+              onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
               className={`${inputClass} tracking-[0.5em] text-center`}
               placeholder="------"
             />
-            <p className="mt-1 text-xs text-gray-400">Sent to {phone}.</p>
+            <p className="mt-1 text-xs text-gray-400">
+              Sent to {COUNTRY_DIAL_CODE} {formatLocalNumber(localNumber)}.
+            </p>
           </div>
           <button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isSubmitting || otp.length !== 6}
             className="w-full bg-[#F2631F] hover:bg-orange-600 text-white py-2 px-6 rounded-md font-medium transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
           >
             {isSubmitting ? 'Verifying...' : mode === 'signup' ? 'Verify & Create Account' : 'Verify & Sign In'}
