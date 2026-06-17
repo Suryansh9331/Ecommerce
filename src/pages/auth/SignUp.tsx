@@ -4,8 +4,10 @@ import { useAuth } from '../../context/AuthContext';
 import { GoogleLogin } from '@react-oauth/google';
 import toast from 'react-hot-toast';
 import { Eye, EyeOff } from 'lucide-react';
+import PhoneOtpAuth from '../../components/auth/PhoneOtpAuth';
 
 const SignUp: React.FC = () => {
+  const [authMethod, setAuthMethod] = useState<'email' | 'phone'>('email');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -140,13 +142,61 @@ const SignUp: React.FC = () => {
     toast.error(errorMessage);
   };
 
+  // Phone-OTP signup success — reuse the same register() + redirect as email/Google.
+  const handlePhoneSuccess = async (data: { access_token: string; refresh_token: string; user?: any }) => {
+    const success = await register(data.access_token, data.refresh_token, data.user);
+    if (success) {
+      toast.success('Account created successfully!');
+      navigate('/');
+    } else {
+      throw new Error('Failed to complete phone sign-up');
+    }
+  };
+
   return (
     <div className="flex items-center justify-center bg-[#FAFAFA] px-2 pt-10 pb-8 py-8">
       <div className="w-full max-w-5xl bg-transparent flex flex-col md:flex-row md:space-x-8 space-y-8 md:space-y-0">
         {/* Personal Information */}
         <div className="flex-1 bg-white rounded-xl shadow-sm p-8 md:p-10">
           <h2 className="text-xl font-semibold mb-2">Create An Account</h2>
+
+          {/* Method toggle: Email (password) vs Phone (OTP) */}
+          <div className="mb-6 flex rounded-md border border-gray-200 p-1 bg-gray-50">
+            <button
+              type="button"
+              onClick={() => { setAuthMethod('email'); setApiError(''); }}
+              className={`flex-1 py-2 text-sm font-medium rounded-md transition-colors ${
+                authMethod === 'email' ? 'bg-white text-[#F2631F] shadow-sm' : 'text-gray-500'
+              }`}
+            >
+              Email
+            </button>
+            <button
+              type="button"
+              onClick={() => { setAuthMethod('phone'); setApiError(''); }}
+              className={`flex-1 py-2 text-sm font-medium rounded-md transition-colors ${
+                authMethod === 'phone' ? 'bg-white text-[#F2631F] shadow-sm' : 'text-gray-500'
+              }`}
+            >
+              Phone
+            </button>
+          </div>
+
+          {authMethod === 'phone' && (
+            <div className="mb-2">
+              <h3 className="font-medium mb-4">Sign up with Phone</h3>
+              {apiError && (
+                <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded-md">
+                  {apiError}
+                </div>
+              )}
+              <PhoneOtpAuth mode="signup" onSuccess={handlePhoneSuccess} />
+            </div>
+          )}
+
           <div className="mb-6">
+            {authMethod === 'email' && (
+            <>
             <h3 className="font-medium mb-2">Personal Information</h3>
             <form className="space-y-4">
               <div className="flex flex-col space-y-4">
@@ -189,6 +239,8 @@ const SignUp: React.FC = () => {
                 </label>
               </div>
             </form>
+            </>
+            )}
             <div className="my-4 flex items-center justify-center">
               <div className="w-full border-t border-gray-200"></div>
               <span className="px-2 text-gray-400 text-xs">or</span>
@@ -205,7 +257,8 @@ const SignUp: React.FC = () => {
             </div>
           </div>
         </div>
-        {/* Sign In Information */}
+        {/* Sign In Information (email/password only) */}
+        {authMethod === 'email' && (
         <div className="flex-1 bg-white rounded-xl shadow-sm p-8 md:p-10 flex flex-col items-start justify-start min-h-[400px] mt-0 md:mt-12">
           <h3 className="font-medium mb-2">Sign In Information</h3>
           {apiError && (
@@ -294,6 +347,7 @@ const SignUp: React.FC = () => {
             <div className="text-xs text-gray-400">*Required Fields</div>
           </form>
         </div>
+        )}
       </div>
     </div>
   );
