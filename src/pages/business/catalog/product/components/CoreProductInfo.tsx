@@ -138,6 +138,9 @@ const CoreProductInfo: React.FC<CoreProductInfoProps> = ({
   const [selectedAttributes, setSelectedAttributes] = useState<Record<number, string | string[]>>({});
   const [attributeErrors, setAttributeErrors] = useState<Record<string, any>>({});
 
+  // Active tab for post-save sections
+  const [activeTab, setActiveTab] = useState<string>('media');
+
   // Validation function
   const validateForm = () => {
     const newErrors: typeof validationErrors = {};
@@ -733,73 +736,74 @@ const CoreProductInfo: React.FC<CoreProductInfoProps> = ({
           </div>
         </div>
 
-        {/* Product Name */}
-        <div>
-          <label htmlFor="name" className={labelClassName}>
-            Product Name *
-          </label>
-          <input 
-            type="text" 
-            id="name" 
-            value={name} 
-            onChange={(e) => {
-              onInfoChange('name', e.target.value);
-              if (validationErrors.name) {
-                const newErrors = { ...validationErrors };
-                delete newErrors.name;
-                setValidationErrors(newErrors);
-              }
-            }}
-            onBlur={() => {
-              if (!name.trim() || name.trim().length < 3) {
-                setValidationErrors(prev => ({
-                  ...prev,
-                  name: !name.trim() ? 'Product name is required' : 'Product name must be at least 3 characters'
-                }));
-              }
-            }}
-            className={inputClassName(!!(validationErrors.name || errors.name))} 
-            placeholder="e.g., Premium Cotton T-Shirt" 
-            required
-          />
-          {(validationErrors.name || errors.name) && (
-            <p className={errorTextClassName}>{validationErrors.name || errors.name}</p>
-          )}
-        </div>
+        {/* Product Name + SKU */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label htmlFor="name" className={labelClassName}>
+              Product Name *
+            </label>
+            <input
+              type="text"
+              id="name"
+              value={name}
+              onChange={(e) => {
+                onInfoChange('name', e.target.value);
+                if (validationErrors.name) {
+                  const newErrors = { ...validationErrors };
+                  delete newErrors.name;
+                  setValidationErrors(newErrors);
+                }
+              }}
+              onBlur={() => {
+                if (!name.trim() || name.trim().length < 3) {
+                  setValidationErrors(prev => ({
+                    ...prev,
+                    name: !name.trim() ? 'Product name is required' : 'Product name must be at least 3 characters'
+                  }));
+                }
+              }}
+              className={inputClassName(!!(validationErrors.name || errors.name))}
+              placeholder="e.g., Premium Cotton T-Shirt"
+              required
+            />
+            {(validationErrors.name || errors.name) && (
+              <p className={errorTextClassName}>{validationErrors.name || errors.name}</p>
+            )}
+          </div>
 
-        {/* SKU */}
-        <div>
-          <label htmlFor="sku" className={labelClassName}>
-            SKU (Stock Keeping Unit) *
-          </label>
-          <input 
-            type="text" 
-            id="sku" 
-            value={sku} 
-            onChange={(e) => {
-              onInfoChange('sku', e.target.value);
-              if (validationErrors.sku) {
-                const newErrors = { ...validationErrors };
-                delete newErrors.sku;
-                setValidationErrors(newErrors);
-              }
-            }}
-            onBlur={() => {
-              if (!sku.trim() || sku.trim().length < 3) {
-                setValidationErrors(prev => ({
-                  ...prev,
-                  sku: !sku.trim() ? 'SKU is required' : 'SKU must be at least 3 characters'
-                }));
-              }
-            }}
-            className={`${inputClassName(!!(validationErrors.sku || errors.sku))} bg-gray-50`} 
-            placeholder="e.g., TSHIRT-BLK-LG-001" 
-            required
-          />
-          {(validationErrors.sku || errors.sku) && (
-            <p className={errorTextClassName}>{validationErrors.sku || errors.sku}</p>
-          )}
-          <p className="mt-1 text-xs text-gray-500">Auto-generated if left empty, or you can provide your own.</p>
+          <div>
+            <label htmlFor="sku" className={labelClassName}>
+              SKU (Stock Keeping Unit) *
+            </label>
+            <input
+              type="text"
+              id="sku"
+              value={sku}
+              onChange={(e) => {
+                onInfoChange('sku', e.target.value);
+                if (validationErrors.sku) {
+                  const newErrors = { ...validationErrors };
+                  delete newErrors.sku;
+                  setValidationErrors(newErrors);
+                }
+              }}
+              onBlur={() => {
+                if (!sku.trim() || sku.trim().length < 3) {
+                  setValidationErrors(prev => ({
+                    ...prev,
+                    sku: !sku.trim() ? 'SKU is required' : 'SKU must be at least 3 characters'
+                  }));
+                }
+              }}
+              className={`${inputClassName(!!(validationErrors.sku || errors.sku))} bg-gray-50`}
+              placeholder="e.g., TSHIRT-BLK-LG-001"
+              required
+            />
+            {(validationErrors.sku || errors.sku) && (
+              <p className={errorTextClassName}>{validationErrors.sku || errors.sku}</p>
+            )}
+            <p className="mt-1 text-xs text-gray-500">Auto-generated if left empty.</p>
+          </div>
         </div>
 
         {/* Pricing */}
@@ -926,27 +930,51 @@ const CoreProductInfo: React.FC<CoreProductInfoProps> = ({
         </div>
       </form>
 
-      {/* Attribute Selection Section */}
-      {categoryId && productId && (
-        <div>
-          <h2 className={sectionTitleClassName}>Product Attributes</h2>
-          <div className="bg-white shadow-sm rounded-lg border border-gray-200 p-6">
-            <AttributeSelection
-              categoryId={categoryId}
-              productId={productId}
-              selectedAttributes={selectedAttributes}
-              onAttributeSelect={handleAttributeSelect}
-              errors={attributeErrors}
-            />
-          </div>
-        </div>
-      )}
-
-      {/* Other sections */}
+      {/* Post-save configuration tabs */}
       {productId && (
-        <>
-          <div>
-            <h2 className={sectionTitleClassName}>Product Media</h2>
+        <div>
+          {/* Tab navigation */}
+          <div className="border-b border-gray-200 overflow-x-auto">
+            <nav className="-mb-px flex space-x-6" aria-label="Product sections">
+              {[
+                { id: 'media', label: 'Media' },
+                ...(categoryId ? [{ id: 'attributes', label: 'Attributes' }] : []),
+                { id: 'stock', label: 'Stock' },
+                { id: 'shipping', label: 'Shipping' },
+                { id: 'seo', label: 'SEO & Description' },
+                { id: 'variants', label: 'Variants' },
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`whitespace-nowrap py-3 px-1 border-b-2 text-sm font-medium transition-colors ${
+                    activeTab === tab.id
+                      ? 'border-orange-600 text-orange-600'
+                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </nav>
+          </div>
+
+          {/* Tab panels */}
+          <div className="mt-6">
+          {activeTab === 'attributes' && categoryId && (
+            <div className="bg-white shadow-sm rounded-lg border border-gray-200 p-6">
+              <AttributeSelection
+                categoryId={categoryId}
+                productId={productId}
+                selectedAttributes={selectedAttributes}
+                onAttributeSelect={handleAttributeSelect}
+                errors={attributeErrors}
+              />
+            </div>
+          )}
+
+          {activeTab === 'media' && (
             <div className="bg-white shadow-sm rounded-lg border border-gray-200 p-6">
               <ProductMediaUpload
                 productId={productId}
@@ -956,10 +984,9 @@ const CoreProductInfo: React.FC<CoreProductInfoProps> = ({
                 }}
               />
             </div>
-          </div>
+          )}
 
-          <div>
-            <h2 className={sectionTitleClassName}>Shipping Details</h2>
+          {activeTab === 'shipping' && (
             <div className="bg-white shadow-sm rounded-lg border border-gray-200 p-6">
               <ShippingDetails
                 productId={productId}
@@ -972,10 +999,9 @@ const CoreProductInfo: React.FC<CoreProductInfoProps> = ({
                 onDimensionsChange={handleDimensionsChange}
               />
             </div>
-          </div>
+          )}
 
-          <div>
-            <h2 className={sectionTitleClassName}>Stock Management</h2>
+          {activeTab === 'stock' && (
             <div className="bg-white shadow-sm rounded-lg border border-gray-200 p-6">
               {stockError && (
                 <div className="p-3 mb-4 bg-red-50 border border-red-200 rounded-md">
@@ -1143,10 +1169,9 @@ const CoreProductInfo: React.FC<CoreProductInfoProps> = ({
                 </button>
               </div>
             </div>
-          </div>
+          )}
 
-          <div>
-            <h2 className={sectionTitleClassName}>Detailed Descriptions & SEO</h2>
+          {activeTab === 'seo' && (
             <div className="bg-white shadow-sm rounded-lg border border-gray-200 p-6">
               <ProductMeta
                 productId={productId}
@@ -1160,10 +1185,9 @@ const CoreProductInfo: React.FC<CoreProductInfoProps> = ({
                 onMetaChange={handleMetaChange}
               />
             </div>
-          </div>
-          
-          <div>
-            <h2 className={sectionTitleClassName}>Product Variants</h2>
+          )}
+
+          {activeTab === 'variants' && (
             <div className="bg-white shadow-sm rounded-lg border border-gray-200 p-6">
               <ProductVariants
                 productId={productId}
@@ -1174,8 +1198,9 @@ const CoreProductInfo: React.FC<CoreProductInfoProps> = ({
                 baseSku={sku}
               />
             </div>
+          )}
           </div>
-        </>
+        </div>
       )}
     </div>
   );
