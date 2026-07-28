@@ -208,6 +208,7 @@ const Categories = lazy(() => import('./pages/superadmin/Categories'));
 const Attribute = lazy(() => import('./pages/superadmin/Attribute'));
 const BrandCreation = lazy(() => import('./pages/superadmin/BrandCreation'));
 const HomepageSettings = lazy(() => import('./pages/superadmin/HomepageSettings'));
+const SuperExploreScreen = lazy(() => import('./pages/superadmin/ExploreScreen'));
 const UserSupport = lazy(() => import('./pages/superadmin/UserSupport'));
 const MerchantSupport = lazy(() => import('./pages/superadmin/MerchantSupport'));
 const MerchantDetails = lazy(() => import('./pages/superadmin/MerchantDetails'));
@@ -492,6 +493,7 @@ const App: React.FC = () => {
                     <Route path="brands" element={<BrandCreation />} />
                     <Route path="attribute" element={<Attribute />} />
                     <Route path="homepages" element={<HomepageSettings />} />
+                    <Route path="explore-screen" element={<SuperExploreScreen />} />
                     <Route path="user-support" element={<UserSupport />} />
                     <Route path="merchant-support" element={<MerchantSupport />} />
                     <Route path="settings" element={<Settings />} />
