@@ -146,9 +146,9 @@ const mapBannerItem = (b: any): BannerItem => ({
   id: b.id,
   groupKey: b.group_key,
   imageUrl: b.image_url,
-  title: b.title,
-  ctaText: b.cta_text,
-  ctaPath: b.cta_path,
+  title: b.title || "",
+  ctaText: b.cta_text || "",
+  ctaPath: b.cta_path || "",
   displayOrder: b.display_order ?? 0,
   isActive: b.is_active ?? true,
 });
@@ -351,16 +351,13 @@ const ExploreScreen: React.FC = () => {
     e.preventDefault();
     if (!form) return;
     if (!isEditing && !form.file) return toast.error("Image is required.");
-    if (!form.title.trim()) return toast.error("Title is required.");
-    if (!form.ctaText.trim())
-      return toast.error("CTA button text is required.");
-    if (!form.ctaPath.trim()) return toast.error("CTA path is required.");
+    // FIX: Removed validations for title, ctaText, ctaPath - they are now optional
 
     const fd = new FormData();
     fd.append("group_key", form.groupKey);
-    fd.append("title", form.title.trim());
-    fd.append("cta_text", form.ctaText.trim());
-    fd.append("cta_path", form.ctaPath.trim());
+    fd.append("title", form.title.trim() || "");
+    fd.append("cta_text", form.ctaText.trim() || "");
+    fd.append("cta_path", form.ctaPath.trim() || "");
     if (form.file) fd.append("image", form.file);
 
     setIsSaving(true);
@@ -396,14 +393,6 @@ const ExploreScreen: React.FC = () => {
 
   const confirmDelete = async () => {
     if (!deleteTarget) return;
-
-    // Guard: never allow deleting the last remaining item in a group.
-    const groupItems = bannerGroups[deleteTarget.groupKey] || [];
-    if (groupItems.length <= 1) {
-      toast.error("At least one image is required in each banner group.");
-      setDeleteTarget(null);
-      return;
-    }
 
     setDeleting(true);
     try {
@@ -488,7 +477,7 @@ const ExploreScreen: React.FC = () => {
           onImageLoad={onImageLoad}
           onConfirm={handleConfirmCrop}
           onCancel={closeModal}
-          minSize={{ width: BANNER_TARGET_W, height: BANNER_TARGET_H }} // Add this line
+          minSize={{ width: BANNER_TARGET_W, height: BANNER_TARGET_H }}
         />
       )}
 
@@ -531,7 +520,6 @@ const BannerGroupSection: React.FC<{
     [items]
   );
   const slotsFull = items.length >= maxItems;
-  const isLastItem = sortedItems.length <= 1;
   const Meta = GROUP_META[groupKey] || { name: groupKey, icon: StarIcon };
 
   const move = async (index: number, direction: -1 | 1) => {
@@ -571,7 +559,7 @@ const BannerGroupSection: React.FC<{
             <h2 className="text-lg font-bold text-gray-800">{Meta.name}</h2>
           </div>
           <p className="text-sm text-gray-500 ml-9">
-            Add 1–{maxItems} images to this carousel.
+            Add up to {maxItems} images to this carousel.
           </p>
         </div>
         <button
@@ -618,22 +606,26 @@ const BannerGroupSection: React.FC<{
               <div className="relative w-full sm:w-48 flex-shrink-0 aspect-[2/1] bg-gray-100">
                 <img
                   src={item.imageUrl}
-                  alt={item.title}
+                  alt={item.title || "Banner"}
                   className="w-full h-full object-cover"
                 />
               </div>
               <div className="p-4 flex-1 flex flex-col justify-center min-w-0">
                 <h3 className="font-semibold text-gray-900 truncate">
-                  {item.title}
+                  {item.title || "Untitled"}
                 </h3>
                 <div className="mt-2 flex items-center gap-2 min-w-0">
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-orange-500 text-white text-xs font-medium flex-shrink-0">
-                    <CursorArrowRaysIcon className="h-3.5 w-3.5" />
-                    {item.ctaText}
-                  </span>
-                  <span className="text-xs text-gray-400 truncate">
-                    → {item.ctaPath}
-                  </span>
+                  {item.ctaText && (
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-orange-500 text-white text-xs font-medium flex-shrink-0">
+                      <CursorArrowRaysIcon className="h-3.5 w-3.5" />
+                      {item.ctaText}
+                    </span>
+                  )}
+                  {item.ctaPath && (
+                    <span className="text-xs text-gray-400 truncate">
+                      → {item.ctaPath}
+                    </span>
+                  )}
                 </div>
               </div>
               <div className="flex sm:flex-col items-center justify-end gap-2 p-3 border-t sm:border-t-0 sm:border-l border-gray-100">
@@ -645,13 +637,7 @@ const BannerGroupSection: React.FC<{
                 </button>
                 <button
                   onClick={() => onDelete(item)}
-                  disabled={isLastItem}
-                  title={
-                    isLastItem
-                      ? "At least one image is required in this group"
-                      : "Delete"
-                  }
-                  className="inline-flex items-center justify-center px-2.5 py-1.5 rounded-lg border border-red-100 text-red-500 hover:bg-red-50 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-transparent"
+                  className="inline-flex items-center justify-center px-2.5 py-1.5 rounded-lg border border-red-100 text-red-500 hover:bg-red-50"
                 >
                   <TrashIcon className="h-4 w-4" />
                 </button>
@@ -743,7 +729,7 @@ const BannerItemModal: React.FC<{
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1.5">
-            Title <span className="text-red-500">*</span>
+            Title <span className="text-gray-400 text-xs">(optional)</span>
           </label>
           <input
             type="text"
@@ -757,7 +743,8 @@ const BannerItemModal: React.FC<{
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1.5">
-            CTA Button Text <span className="text-red-500">*</span>
+            CTA Button Text{" "}
+            <span className="text-gray-400 text-xs">(optional)</span>
           </label>
           <input
             type="text"
@@ -771,7 +758,8 @@ const BannerItemModal: React.FC<{
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1.5">
-            CTA Path <span className="text-red-500">*</span>
+            CTA Path{" "}
+            <span className="text-gray-400 text-xs">(optional)</span>
           </label>
           <input
             type="text"
@@ -899,7 +887,8 @@ const DeleteConfirmationModal: React.FC<{
         <h2 className="text-lg font-semibold text-gray-900">Delete item?</h2>
       </div>
       <p className="text-sm text-gray-500">
-        "{item.title}" will be removed from the carousel. This cannot be undone.
+        "{item.title || "Untitled"}" will be removed from the carousel. This
+        cannot be undone.
       </p>
       <div className="flex items-center justify-end gap-3 mt-6">
         <button
