@@ -10,6 +10,7 @@ import ProductVariants from './ProductVariants';
 import AttributeSelection from './AttributeSelection';
 import { CheckCircleIcon, ShieldExclamationIcon } from '@heroicons/react/24/solid';
 import AddWholesaleProduct from './AddWholesaleProduct';
+import { extractApiError, describeError } from '../../../../../utils/apiError';
 
 // Add className constants
 const labelClassName = "block text-sm font-medium text-gray-700";
@@ -244,18 +245,17 @@ const CoreProductInfo: React.FC<CoreProductInfoProps> = ({
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to create product core info');
+        throw new Error(await extractApiError(response, 'Failed to save product'));
       }
 
       const data = await response.json();
       console.log('Product core info saved successfully:', data);
-      
+
       const newProductId = data.product_id;
       setProductId(newProductId);
     } catch (error) {
       console.error('Error saving product core info:', error);
-      setSubmitError(error instanceof Error ? error.message : 'Failed to save product core info');
+      setSubmitError(describeError(error, 'Failed to save product'));
     } finally {
       setIsSubmitting(false);
     }
