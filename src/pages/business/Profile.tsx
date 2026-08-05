@@ -13,6 +13,9 @@ import {
   InformationCircleIcon
 } from '@heroicons/react/24/outline';
 import toast from 'react-hot-toast';
+import BioSection from '../../components/business/profile/BioSection';
+import IntroVideoSection from '../../components/business/profile/IntroVideoSection';
+import type { BioFields } from '../../services/merchantProfileApi';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -82,6 +85,12 @@ const Profile = () => {
     routingNumber: '',
     iban: ''
   });
+  const [bio, setBio] = useState<BioFields>({ bio: null, bio_link: null, bio_link_label: null });
+  const [profileLimits, setProfileLimits] = useState<{
+    bio_max_chars?: number;
+    bio_max_lines?: number;
+    bio_link_label_max_chars?: number;
+  }>({});
   
   // Mock data - replace with actual user data
   const [profileData, setProfileData] = useState({
@@ -92,7 +101,7 @@ const Profile = () => {
     },
     businessInfo: {
       businessName: '',
-      businessType: '',
+      businessDescription: '',
       registrationNumber: '',
       address: '',
       city: '',
@@ -130,6 +139,12 @@ const Profile = () => {
       
       const data = await res.json();
       const p = data.profile || {};
+      setBio({
+        bio: p.bio ?? null,
+        bio_link: p.bio_link ?? null,
+        bio_link_label: p.bio_link_label ?? null
+      });
+      setProfileLimits(data.limits || {});
       setProfileData(() => ({
         personalInfo: {
           name: `${(user as unknown as { first_name?: string; last_name?: string })?.first_name || ''} ${(user as unknown as { first_name?: string; last_name?: string })?.last_name || ''}`.trim(),
@@ -138,7 +153,7 @@ const Profile = () => {
         },
         businessInfo: {
           businessName: p.business_name || '',
-          businessType: '',
+          businessDescription: p.business_description || '',
           registrationNumber: '',
           address: p.business_address || '',
           city: p.city || '',
@@ -284,10 +299,11 @@ const Profile = () => {
   const handleSave = async () => {
     try {
       setError(null);
-      const payload = {
+      // business_phone is intentionally omitted — the backend treats it as a
+      // restricted field and UpdateProfileSchema raises on unknown keys.
+      const rawPayload: Record<string, string | undefined> = {
         business_name: profileData.businessInfo.businessName,
-        business_description: profileData.businessInfo.businessType,
-        business_phone: profileData.personalInfo.phone,
+        business_description: profileData.businessInfo.businessDescription,
         business_address: profileData.businessInfo.address,
         country_code: selectedCountry || profileData.businessInfo.country,
         state_province: profileData.businessInfo.state,
@@ -298,16 +314,38 @@ const Profile = () => {
         bank_name: bankDetails.bankName || profileData.accountInfo.bankName,
         bank_branch: bankDetails.bankBranch || profileData.accountInfo.branchName,
         bank_ifsc_code: bankDetails.ifscCode || profileData.accountInfo.ifscCode,
-        bank_swift_code: bankDetails.swiftCode || undefined,
-        bank_routing_number: bankDetails.routingNumber || undefined,
-        bank_iban: bankDetails.iban || undefined,
+        bank_swift_code: bankDetails.swiftCode,
+        bank_routing_number: bankDetails.routingNumber,
+        bank_iban: bankDetails.iban,
         // Business details
-        pan_number: businessDetails.panNumber || undefined,
-        gstin: businessDetails.gstin || undefined,
-        tax_id: businessDetails.taxId || undefined,
-        vat_number: businessDetails.vatNumber || undefined,
-        sales_tax_number: businessDetails.salesTaxNumber || undefined
+        pan_number: businessDetails.panNumber,
+        gstin: businessDetails.gstin,
+        tax_id: businessDetails.taxId,
+        vat_number: businessDetails.vatNumber,
+        sales_tax_number: businessDetails.salesTaxNumber
       };
+      // These carry minimum-length or format validators on the backend, so a
+      // blank value 400s the whole request instead of clearing the field.
+      // Everything else may legitimately be sent empty to clear it.
+      const omitWhenBlank = new Set([
+        'bank_account_number',
+        'bank_ifsc_code',
+        'bank_swift_code',
+        'bank_iban',
+        'bank_routing_number',
+        'pan_number',
+        'gstin',
+        'tax_id',
+        'vat_number',
+        'sales_tax_number',
+        'country_code'
+      ]);
+      const payload = Object.fromEntries(
+        Object.entries(rawPayload).filter(([key, value]) => {
+          if (typeof value !== 'string') return false;
+          return value.trim() !== '' || !omitWhenBlank.has(key);
+        })
+      );
       const res = await fetch(`${API_BASE_URL}/api/merchants/profile`, {
         method: 'PUT',
         headers: {
@@ -316,11 +354,20 @@ const Profile = () => {
         },
         body: JSON.stringify(payload)
       });
-      if (!res.ok) throw new Error('Failed to update profile');
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        const details = errorData.details
+          ? ` (${typeof errorData.details === 'string' ? errorData.details : Object.entries(errorData.details).map(([f, m]) => `${f}: ${Array.isArray(m) ? m.join(', ') : m}`).join('; ')})`
+          : '';
+        throw new Error(`${errorData.error || 'Failed to update profile'}${details}`);
+      }
       setIsEditing(false);
       await fetchProfile();
+      toast.success('Profile updated successfully');
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Failed to update profile');
+      const message = e instanceof Error ? e.message : 'Failed to update profile';
+      setError(message);
+      toast.error(message);
     }
   };
 
@@ -452,6 +499,11 @@ const Profile = () => {
 
         {/* Content Grid */}
         <div className="grid grid-cols-1 gap-8">
+          {/* Public profile: bio + intro video. These save independently of the
+              Edit/Save flow below, so a merchant can update either on its own. */}
+          <BioSection value={bio} limits={profileLimits} onSaved={setBio} />
+          <IntroVideoSection />
+
           {/* Personal Information */}
           <div className="bg-white rounded-lg shadow">
             <div className="p-6 sm:p-8">
@@ -771,12 +823,12 @@ const Profile = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Business Type</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Business Description</label>
                   <input
                     type="text"
-                    value={profileData.businessInfo.businessType}
+                    value={profileData.businessInfo.businessDescription}
                     disabled={!isEditing}
-                    onChange={(e) => updateBusinessInfo('businessType', e.target.value)}
+                    onChange={(e) => updateBusinessInfo('businessDescription', e.target.value)}
                     className="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-orange-500 focus:ring-orange-500 disabled:bg-gray-50 disabled:text-gray-500"
                   />
                 </div>
