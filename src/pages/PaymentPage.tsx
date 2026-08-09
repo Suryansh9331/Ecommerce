@@ -20,34 +20,13 @@ import RazorpayPayment from "../components/RazorpayPayment";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-// Map country code to currency code for checkout
-const COUNTRY_TO_CURRENCY: Record<string, string> = {
-  IN: "INR",
-  US: "USD",
-  GB: "GBP",
-  CA: "CAD",
-  AU: "AUD",
-  DE: "EUR",
-  FR: "EUR",
-  IT: "EUR",
-  ES: "EUR",
-  JP: "JPY",
-  CN: "CNY",
-  RU: "RUB",
-  BR: "BRL",
-  ZA: "ZAR",
-  MX: "MXN",
-  SG: "SGD",
-  AE: "AED",
-  SA: "SAR",
-  NZ: "NZD",
-  SE: "SEK",
-};
-
-const getCurrencyForCountry = (countryCode?: string): string => {
-  if (!countryCode) return "INR";
-  return COUNTRY_TO_CURRENCY[countryCode] || "INR";
-};
+// Checkout currency. All prices and totals here are INR, so the charge currency is INR.
+//
+// This used to be derived from the selected country in the PHONE DIALLING CODE dropdown
+// below, while the amount stayed an unconverted INR number — so choosing "+1" created a
+// Razorpay order for the rupee figure denominated in USD, roughly an 85x overcharge.
+// Presentment currency will come from the currency layer, never from a phone code.
+const CHECKOUT_CURRENCY = "INR";
 
 // Country phone codes
 const COUNTRY_CODES = [
@@ -251,8 +230,8 @@ const PaymentPage: React.FC = () => {
           Accept: "application/json",
         },
         body: JSON.stringify({
-          amount_rupees: amount,
-          currency: currency || getCurrencyForCountry(selectedCountry?.code),
+          amount_major: amount,
+          currency: currency || CHECKOUT_CURRENCY,
           receipt: receipt || `CLIENT-${Date.now()}`,
         }),
       });

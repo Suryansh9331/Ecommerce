@@ -842,7 +842,7 @@ const Shop = () => {
                 boxShadow: 'inset 0 0 30px rgba(0,0,0,0.5)'
               }}
             >
-              {/* Closed Sign 
+              Closed Sign
               <div className="bg-white p-4 sm:p-6 md:p-8 rounded-lg border-4 border-gray-800 shadow-2xl transform rotate-2">
                 <div className="text-center">
                   <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 mb-2">
@@ -863,7 +863,7 @@ const Shop = () => {
                     </p>
                   </div>
                 </div>
-              </div> */}
+              </div>
             </div>
           )} */}
         </div>

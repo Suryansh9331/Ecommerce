@@ -120,7 +120,7 @@ const Subscription: React.FC = () => {
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          amount: Math.round(plan.price * 100), // Convert to paise
+          amount_minor: Math.round(plan.price * 100), // paise
           currency: 'INR'
         })
       });
