@@ -1973,7 +1973,6 @@ const PaymentPage: React.FC = () => {
         )}
         <OrderSummary
           className="sticky top-8 mr-20"
-          selectedCountry={selectedCountry}
           discount={discount}
           promoCode={appliedPromo?.code}
           itemDiscounts={itemDiscounts}

@@ -3,6 +3,13 @@ import { ChakraProvider } from '@chakra-ui/react';
 import App from './App.tsx';
 import './index.css';
 import './i18n';
+import { installCurrencyFetchInterceptor } from './utils/apiClient';
+
+// Before anything renders. Context providers fetch during their first effect, and
+// an interceptor installed later would miss those requests — the cart in
+// particular would load in the wrong currency and stay that way until a refetch.
+// While the store is on INR this is a pure passthrough.
+installCurrencyFetchInterceptor();
 
 // #region agent log
 const _t0 = performance.now();
