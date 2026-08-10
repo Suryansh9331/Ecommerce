@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Star, Play, Heart, Share2, Bookmark } from 'lucide-react';
 import { useHorizontalScroll } from '../../hooks/useHorizontalScroll';
 
+import { formatMoney } from "../../utils/money";
 const REEL_VIDEOS = [
   'https://res.cloudinary.com/ddnb10zkq/video/upload/v1773750957/WhatsApp_Video_2026-03-17_at_18.02.36_vmxttu.mp4',
   'https://res.cloudinary.com/ddnb10zkq/video/upload/v1773750955/WhatsApp_Video_2026-03-17_at_18.02.49_m1opbc.mp4',
@@ -156,11 +157,11 @@ const ReelCard: React.FC<ReelCardProps> = ({ videoUrl, product, index }) => {
               </p>
               <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
                 <span className="text-[10px] sm:text-sm font-bold text-gray-900">
-                  Rs. {product.price.toLocaleString('en-IN')}
+                  {formatMoney(product.price)}
                 </span>
                 {product.originalPrice > product.price && (
                   <span className="text-[9px] sm:text-xs text-gray-500 line-through">
-                    Rs. {product.originalPrice.toLocaleString('en-IN')}
+                    {formatMoney(product.originalPrice)}
                   </span>
                 )}
               </div>

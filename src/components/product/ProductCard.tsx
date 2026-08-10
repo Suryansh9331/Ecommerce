@@ -9,6 +9,7 @@ import { toast } from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import { useAmazonTranslate } from "../../hooks/useAmazonTranslate";
 
+import { formatMoney } from "../../utils/money";
 // Stable dummy rating 4.5–4.9 per product id
 const getDisplayRating = (id: string | number): number => {
   const n = String(id).split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
@@ -369,12 +370,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
           {/* Line 2: price, original price, discount badge */}
           <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
             <span className="text-sm sm:text-base font-bold text-gray-900">
-              Rs.{currentPrice.toFixed(2)}
+              {formatMoney(currentPrice)}
             </span>
             {originalPrice != null && originalPrice > currentPrice && (
               <>
                 <span className="text-[10px] sm:text-xs text-gray-500 line-through">
-                  Rs.{Number(originalPrice).toFixed(2)}
+                  {formatMoney(originalPrice)}
                 </span>
                 <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-orange-100 text-[#F2631F] text-[9px] sm:text-[10px] font-semibold">
                   {discountPct}% OFF
