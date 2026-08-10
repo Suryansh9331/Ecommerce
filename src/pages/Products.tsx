@@ -7,6 +7,12 @@ import { useTranslation } from 'react-i18next';
 import { useAmazonTranslate } from '../hooks/useAmazonTranslate';
 
 import { formatMoney } from "../utils/money";
+
+// The price filter bounds are INR and are sent to an API that filters INR
+// columns, so they must be displayed as INR too. Formatting them in the active
+// currency would label a rupee bound with a dollar sign. Presenting this filter
+// in the shopper's currency needs the backend to return converted range bounds.
+const PRICE_FILTER_CURRENCY = "INR";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 interface Category {
@@ -687,8 +693,8 @@ const Products: React.FC = () => {
                   </div>
                   {/* Slider */}
                   <div className="flex justify-between text-xs text-gray-700 mb-2 font-normal">
-                    <span>{formatMoney(priceRange[0], { compact: true })}</span>
-                    <span>{formatMoney(priceRange[1], { compact: true })}</span>
+                    <span>{formatMoney(priceRange[0], { compact: true, currency: PRICE_FILTER_CURRENCY })}</span>
+                    <span>{formatMoney(priceRange[1], { compact: true, currency: PRICE_FILTER_CURRENCY })}</span>
                   </div>
                   <div className="relative pt-1">
                     <div className="w-full h-1 bg-gray-200 rounded-lg">
@@ -1080,8 +1086,8 @@ const Products: React.FC = () => {
                   
                   {/* Slider */}
                   <div className="flex justify-between text-xs text-gray-700 mb-2 font-normal">
-                    <span>{formatMoney(priceRange[0], { compact: true })}</span>
-                    <span>{formatMoney(priceRange[1], { compact: true })}</span>
+                    <span>{formatMoney(priceRange[0], { compact: true, currency: PRICE_FILTER_CURRENCY })}</span>
+                    <span>{formatMoney(priceRange[1], { compact: true, currency: PRICE_FILTER_CURRENCY })}</span>
                   </div>
                   <div className="relative pt-1">
                     <div className="w-full h-1 bg-gray-200 rounded-lg">

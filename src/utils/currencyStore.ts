@@ -32,8 +32,23 @@ interface CurrencyState {
   locked: boolean;
 }
 
+/** Read the persisted choice synchronously, at module load. */
+function readPersisted(): CurrencyCode | null {
+  try {
+    const v = localStorage.getItem(STORAGE_KEY);
+    return v && /^[A-Z]{3}$/.test(v) ? v : null;
+  } catch {
+    return null;
+  }
+}
+
 const state: CurrencyState = {
-  current: BASE_CURRENCY,
+  // Seeded synchronously from storage, NOT left on INR to be corrected later by the
+  // async context fetch. Components fetch products during their first effect, which
+  // runs before that response lands — so a store that starts on INR sends
+  // `?currency=INR`, gets rupee prices back, and then flips to USD and re-renders.
+  // The symbol changes and the number does not. That is the bug this line prevents.
+  current: readPersisted() || BASE_CURRENCY,
   charge: BASE_CURRENCY,
   supported: [BASE_CURRENCY],
   resolved: false,
@@ -118,12 +133,38 @@ export function applyServerContext(ctx: {
       : BASE_CURRENCY;
 
   state.resolved = true;
-  if (next !== state.current) {
-    state.current = next;
+
+  if (next === state.current) {
     emit();
-  } else {
-    emit();
+    return;
   }
+
+  // The currency changed after this page already fetched its data — so every price
+  // on screen came back in the old currency. Re-rendering now would only swap the
+  // symbol and leave the number, which is exactly the "$1,699" bug.
+  //
+  // This happens once, on a visitor's very first page view, before anything is
+  // persisted. Persist and reload so the whole page refetches in one currency.
+  state.current = next;
+  persist(next);
+
+  const RELOAD_GUARD = "aoin.currency.reloaded";
+  let alreadyReloaded = false;
+  try {
+    alreadyReloaded = sessionStorage.getItem(RELOAD_GUARD) === "1";
+    sessionStorage.setItem(RELOAD_GUARD, "1");
+  } catch {
+    // No sessionStorage means no guard, so do not reload at all rather than risk a
+    // reload loop. The page renders in the old currency until the next navigation.
+    alreadyReloaded = true;
+  }
+
+  if (!alreadyReloaded && typeof window !== "undefined") {
+    window.location.reload();
+    return;
+  }
+
+  emit();
 }
 
 /**
