@@ -6,6 +6,7 @@ import ProductCard from '../components/product/ProductCard';
 import { useTranslation } from 'react-i18next';
 import { useAmazonTranslate } from '../hooks/useAmazonTranslate';
 
+import { formatMoney } from "../utils/money";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 interface Category {
@@ -686,8 +687,8 @@ const Products: React.FC = () => {
                   </div>
                   {/* Slider */}
                   <div className="flex justify-between text-xs text-gray-700 mb-2 font-normal">
-                    <span>₹{priceRange[0].toLocaleString()}</span>
-                    <span>₹{priceRange[1].toLocaleString()}</span>
+                    <span>{formatMoney(priceRange[0], { compact: true })}</span>
+                    <span>{formatMoney(priceRange[1], { compact: true })}</span>
                   </div>
                   <div className="relative pt-1">
                     <div className="w-full h-1 bg-gray-200 rounded-lg">
@@ -1079,8 +1080,8 @@ const Products: React.FC = () => {
                   
                   {/* Slider */}
                   <div className="flex justify-between text-xs text-gray-700 mb-2 font-normal">
-                    <span>₹{priceRange[0].toLocaleString()}</span>
-                    <span>₹{priceRange[1].toLocaleString()}</span>
+                    <span>{formatMoney(priceRange[0], { compact: true })}</span>
+                    <span>{formatMoney(priceRange[1], { compact: true })}</span>
                   </div>
                   <div className="relative pt-1">
                     <div className="w-full h-1 bg-gray-200 rounded-lg">

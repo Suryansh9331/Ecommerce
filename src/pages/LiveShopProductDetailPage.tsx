@@ -6,6 +6,7 @@ import { useWishlist } from "../context/WishlistContext";
 import { toast } from "react-hot-toast";
 import { Share2, Heart, Check, Copy, Facebook, Twitter, Mail } from "lucide-react";
 
+import { formatMoney } from "../utils/money";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 interface Product {
@@ -451,16 +452,16 @@ const LiveShopProductDetailPage: React.FC = () => {
               <h3 className="text-xl font-semibold mb-2">{product.product_name}</h3>
               <div className="mb-2 flex items-center gap-2">
                 <span className="text-2xl font-bold text-gray-900">
-                  ₹{product.special_price || product.price || product.selling_price}
+                  {formatMoney(product.special_price || product.price || product.selling_price)}
                 </span>
                 {product.originalPrice && (
                   <span className="text-base text-gray-400 line-through ml-2">
-                    ₹{product.originalPrice}
+                    {formatMoney(product.originalPrice)}
                   </span>
                 )}
                 {!product.originalPrice && product.cost_price > (product.special_price || product.price || product.selling_price) && (
                   <span className="text-base text-gray-400 line-through ml-2">
-                    ₹{product.cost_price}
+                    {formatMoney(product.cost_price)}
                   </span>
                 )}
                 {product.is_on_special_offer && (

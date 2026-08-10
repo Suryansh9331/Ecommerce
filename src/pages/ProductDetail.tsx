@@ -1010,7 +1010,7 @@
 //                       Price
 //                     </td>
 //                     <td className="py-3 text-gray-800">
-//                       ₹{product.price || product.selling_price}
+//                       {formatMoney(product.price || product.selling_price)}
 //                     </td>
 //                   </tr>
 //                   {/* Product Attributes */}
@@ -1213,11 +1213,11 @@
 //                 </div>
 //                 <div className="mt-2">
 //                   <span className="text-lg font-medium text-gray-900">
-//                     ₹{variant.price.toFixed(2)}
+//                     {formatMoney(variant.price)}
 //                   </span>
 //                   {variant.originalPrice > variant.price && (
 //                     <span className="ml-2 text-sm text-gray-500 line-through">
-//                       ₹{variant.originalPrice.toFixed(2)}
+//                       {formatMoney(variant.originalPrice)}
 //                     </span>
 //                   )}
 //                 </div>
@@ -1536,20 +1536,20 @@
 //               <div className="mb-3">
 //                 <div className="flex items-baseline space-x-2">
 //                   <span className="text-xl sm:text-2xl font-bold text-gray-900">
-//                     ₹{product.price || product.selling_price}
+//                     {formatMoney(product.price || product.selling_price)}
 //                   </span>
 //                   {product.originalPrice &&
 //                     product.originalPrice >
 //                     (product.price || product.selling_price) && (
 //                       <span className="text-sm text-gray-500 line-through">
-//                         ₹{product.originalPrice}
+//                         {formatMoney(product.originalPrice)}
 //                       </span>
 //                     )}
 //                   {!product.originalPrice &&
 //                     product.cost_price >
 //                     (product.price || product.selling_price) && (
 //                       <span className="text-sm text-gray-500 line-through">
-//                         ₹{product.cost_price}
+//                         {formatMoney(product.cost_price)}
 //                       </span>
 //                     )}
 //                   {product.is_on_special_offer && (
@@ -2011,6 +2011,7 @@ import useClickOutside from "../hooks/useClickOutside";
 import { useTranslation } from "react-i18next";
 import { useAmazonTranslate } from "../hooks/useAmazonTranslate";
 
+import { formatMoney } from "../utils/money";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 // Tab type
@@ -3085,7 +3086,7 @@ const ProductDetail: React.FC = () => {
                       Price
                     </td>
                     <td className="py-3 text-gray-800">
-                      ₹{product.price || product.selling_price}
+                      {formatMoney(product.price || product.selling_price)}
                     </td>
                   </tr>
                   {/* Product Attributes */}
@@ -3287,11 +3288,11 @@ const ProductDetail: React.FC = () => {
                 </div>
                 <div className="mt-2">
                   <span className="text-lg font-medium text-gray-900">
-                    ₹{variant.price.toFixed(2)}
+                    {formatMoney(variant.price)}
                   </span>
                   {variant.originalPrice > variant.price && (
                     <span className="ml-2 text-sm text-gray-500 line-through">
-                      ₹{variant.originalPrice.toFixed(2)}
+                      {formatMoney(variant.originalPrice)}
                     </span>
                   )}
                 </div>
@@ -3613,20 +3614,20 @@ const ProductDetail: React.FC = () => {
               <div className="mb-4">
                 <div className="flex flex-wrap items-baseline gap-2">
                   <span className="text-2xl sm:text-3xl font-bold text-gray-900">
-                    ₹{product.price || product.selling_price}
+                    {formatMoney(product.price || product.selling_price)}
                   </span>
                   {product.originalPrice &&
                     product.originalPrice >
                     (product.price || product.selling_price) && (
                       <span className="text-base text-gray-500 line-through">
-                        ₹{product.originalPrice}
+                        {formatMoney(product.originalPrice)}
                       </span>
                     )}
                   {!product.originalPrice &&
                     product.cost_price >
                     (product.price || product.selling_price) && (
                       <span className="text-base text-gray-500 line-through">
-                        ₹{product.cost_price}
+                        {formatMoney(product.cost_price)}
                       </span>
                     )}
                   {product.is_on_special_offer && (

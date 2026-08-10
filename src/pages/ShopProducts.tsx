@@ -4,6 +4,7 @@ import { ChevronRight, ChevronLeft, Heart, ChevronDown, ChevronUp, X, SlidersHor
 import { Product } from '../types';
 import ProductCard from '../components/product/ProductCard';
 
+import { formatMoney } from "../utils/money";
 interface Category {
   category_id: number;
   name: string;
@@ -687,8 +688,8 @@ const ShopProducts: React.FC = () => {
           <h4 className="font-semibold mb-3">Price Range</h4>
           <div className="px-2">
             <div className="flex justify-between text-xs text-gray-700 mb-2">
-              <span>₹{priceRange[0]}</span>
-              <span>₹{priceRange[1]}</span>
+              <span>{formatMoney(priceRange[0])}</span>
+              <span>{formatMoney(priceRange[1])}</span>
             </div>
             <input
               type="range"
@@ -815,8 +816,8 @@ const ShopProducts: React.FC = () => {
               <h3 className="font-semibold text-base mb-3 text-black">Price</h3>
               <div className="px-2">
                 <div className="flex justify-between text-xs text-gray-700 mb-2 font-normal">
-                  <span>₹{priceRange[0]}</span>
-                  <span>₹{priceRange[1]}</span>
+                  <span>{formatMoney(priceRange[0])}</span>
+                  <span>{formatMoney(priceRange[1])}</span>
                 </div>
                 <div className="relative pt-1">
                   <div className="w-full h-1 bg-gray-200 rounded-lg">
