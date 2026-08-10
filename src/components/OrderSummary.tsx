@@ -171,8 +171,26 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
       MX: "MXN",
     };
 
-    const currency = currencyMap[selectedCountry?.code || "IN"] || "INR";
-    const rate = exchangeRates[currency] || 1;
+    const requestedCurrency = currencyMap[selectedCountry?.code || "IN"] || "INR";
+
+    // Prices arrive in INR, so a rate of 1 is only ever correct for INR itself.
+    // This used to read `exchangeRates[currency] || 1`, which meant a missing rate
+    // printed the untouched rupee figure under a foreign symbol — a 1299 item shown
+    // as "$1299.00" instead of about $15. Fall back to showing the real INR amount
+    // rather than a confidently wrong foreign one.
+    const rawRate: number | undefined =
+      requestedCurrency === "INR" ? 1 : exchangeRates[requestedCurrency];
+    const hasUsableRate =
+      typeof rawRate === "number" && Number.isFinite(rawRate) && rawRate > 0;
+
+    if (!hasUsableRate) {
+      console.warn(
+        `No usable exchange rate for ${requestedCurrency}; showing INR instead.`
+      );
+    }
+
+    const currency = hasUsableRate ? requestedCurrency : "INR";
+    const rate = hasUsableRate ? (rawRate as number) : 1;
     const convertedPrice = price * rate;
 
     const currencySymbols: { [key: string]: string } = {
