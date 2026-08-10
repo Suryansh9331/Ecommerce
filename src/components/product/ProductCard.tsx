@@ -236,8 +236,14 @@ const ProductCard: React.FC<ProductCardProps> = ({
               alt={product.name}
               className="w-full h-full object-cover"
               onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                target.src = "/placeholder-image.png";
+                const img = e.currentTarget as HTMLImageElement;
+                // Guard against a loop: if the placeholder itself fails to load,
+                // onError fires again and reassigns the same missing src forever.
+                // That produced thousands of requests and a page that never
+                // finished loading. One swap per element, then give up.
+                if (img.dataset.fallbackApplied === "1") return;
+                img.dataset.fallbackApplied = "1";
+                img.src = "/placeholder-image.png";
               }}
             />
           ) : (
@@ -256,9 +262,15 @@ const ProductCard: React.FC<ProductCardProps> = ({
                         : "translateX(100%)",
                 }}
                 onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  target.src = "/placeholder-image.png";
-                }}
+                const img = e.currentTarget as HTMLImageElement;
+                // Guard against a loop: if the placeholder itself fails to load,
+                // onError fires again and reassigns the same missing src forever.
+                // That produced thousands of requests and a page that never
+                // finished loading. One swap per element, then give up.
+                if (img.dataset.fallbackApplied === "1") return;
+                img.dataset.fallbackApplied = "1";
+                img.src = "/placeholder-image.png";
+              }}
               />
 
               {/* Active (incoming) image layer */}
@@ -275,9 +287,15 @@ const ProductCard: React.FC<ProductCardProps> = ({
                       : "translateX(0%)",
                 }}
                 onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  target.src = "/placeholder-image.png";
-                }}
+                const img = e.currentTarget as HTMLImageElement;
+                // Guard against a loop: if the placeholder itself fails to load,
+                // onError fires again and reassigns the same missing src forever.
+                // That produced thousands of requests and a page that never
+                // finished loading. One swap per element, then give up.
+                if (img.dataset.fallbackApplied === "1") return;
+                img.dataset.fallbackApplied = "1";
+                img.src = "/placeholder-image.png";
+              }}
               />
               {/* Transition effect via Tailwind transition classes */}
             </>

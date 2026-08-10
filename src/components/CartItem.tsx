@@ -138,8 +138,15 @@ const CartItem: React.FC<CartItemProps> = ({
                 alt={name}
                 className="object-cover h-full w-full"
                 onError={(e) => {
-                  e.currentTarget.src = '/placeholder-image.png';
-                }}
+                const img = e.currentTarget as HTMLImageElement;
+                // Guard against a loop: if the placeholder itself fails to load,
+                // onError fires again and reassigns the same missing src forever.
+                // That produced thousands of requests and a page that never
+                // finished loading. One swap per element, then give up.
+                if (img.dataset.fallbackApplied === "1") return;
+                img.dataset.fallbackApplied = "1";
+                img.src = "/placeholder-image.png";
+              }}
               />
             ) : (
               <div className="text-gray-400 text-xs text-center p-2">No image</div>
@@ -190,8 +197,15 @@ const CartItem: React.FC<CartItemProps> = ({
                 alt={name}
                 className="object-cover h-full w-full"
                 onError={(e) => {
-                  e.currentTarget.src = '/placeholder-image.png';
-                }}
+                const img = e.currentTarget as HTMLImageElement;
+                // Guard against a loop: if the placeholder itself fails to load,
+                // onError fires again and reassigns the same missing src forever.
+                // That produced thousands of requests and a page that never
+                // finished loading. One swap per element, then give up.
+                if (img.dataset.fallbackApplied === "1") return;
+                img.dataset.fallbackApplied = "1";
+                img.src = "/placeholder-image.png";
+              }}
               />
             ) : (
               <div className="text-gray-400 text-xs text-center p-2">No image</div>
@@ -277,8 +291,15 @@ const CartItem: React.FC<CartItemProps> = ({
                 alt={name}
                 className="object-cover h-full w-full"
                 onError={(e) => {
-                  e.currentTarget.src = '/placeholder-image.png';
-                }}
+                const img = e.currentTarget as HTMLImageElement;
+                // Guard against a loop: if the placeholder itself fails to load,
+                // onError fires again and reassigns the same missing src forever.
+                // That produced thousands of requests and a page that never
+                // finished loading. One swap per element, then give up.
+                if (img.dataset.fallbackApplied === "1") return;
+                img.dataset.fallbackApplied = "1";
+                img.src = "/placeholder-image.png";
+              }}
               />
             ) : (
               <div className="text-gray-400 text-xs text-center p-2">No image</div>

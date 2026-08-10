@@ -287,9 +287,15 @@ const Review: React.FC = () => {
             alt={order.items[0].product_name_at_purchase}
             className="w-24 h-24 object-cover rounded-lg"
             onError={(e) => {
-              const target = e.target as HTMLImageElement;
-              target.src = '/placeholder-image.jpg';
-            }}
+                const img = e.currentTarget as HTMLImageElement;
+                // Guard against a loop: if the placeholder itself fails to load,
+                // onError fires again and reassigns the same missing src forever.
+                // That produced thousands of requests and a page that never
+                // finished loading. One swap per element, then give up.
+                if (img.dataset.fallbackApplied === "1") return;
+                img.dataset.fallbackApplied = "1";
+                img.src = "/placeholder-image.jpg";
+              }}
           />
           <div>
             <h3 className="font-medium">{order.items[0].product_name_at_purchase}</h3>
