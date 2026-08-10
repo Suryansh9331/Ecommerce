@@ -223,7 +223,8 @@
 
 @layer components {
   .content-container {
-    @apply pt-[120px] pb-0 sm:pt-[150px] md:pt-[150px] lg:pt-[160px]; /* Responsive padding-top for fixed navbar */
+    /* Mobile: slightly tighter below announcement strip; desktop unchanged */
+    @apply pt-[165px] pb-0 sm:pt-[165px] md:pt-[150px] lg:pt-[160px]; /* Responsive padding-top for fixed navbar */
   }
 }
 

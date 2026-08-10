@@ -71,28 +71,51 @@ const WishList: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {wishlistItems.map((item) => (
-            <div key={item.wishlist_item_id} className="transform transition-all duration-300 hover:scale-[1.02]">
-              <ProductCard
-                product={{
-                  id: String(item.product_id),
-                  name: item.product.name,
-                  price: item.product.price,
-                  originalPrice: undefined,
-                  image: item.product.image_url,
-                  primary_image: item.product.image_url,
-                  sku: '',
-                  stock: item.product.stock,
-                  description: '',
-                  currency: 'INR',
-                  category: '',
-                  rating: 0,
-                  reviews: 0
-                }}
-                salePercentage={undefined}
-              />
-            </div>
-          ))}
+          {wishlistItems.map((item) => {
+            const rawProduct = item.product as any;
+            const primaryImage =
+              rawProduct?.primary_image || rawProduct?.image_url || rawProduct?.image || "";
+
+            const imagesFromItem: string[] = Array.isArray(rawProduct?.images)
+              ? rawProduct.images.filter(Boolean)
+              : Array.isArray(rawProduct?.media)
+                ? rawProduct.media.map((m: any) => m?.url).filter(Boolean)
+                : [];
+
+            const normalizedImages =
+              imagesFromItem.length > 0
+                ? imagesFromItem
+                : primaryImage
+                  ? [primaryImage]
+                  : [];
+
+            return (
+              <div
+                key={item.wishlist_item_id}
+                className="transform transition-all duration-300 hover:scale-[1.02]"
+              >
+                <ProductCard
+                  product={{
+                    id: String(item.product_id),
+                    name: item.product.name,
+                    price: item.product.price,
+                    originalPrice: undefined,
+                    image: primaryImage,
+                    primary_image: primaryImage,
+                    images: normalizedImages,
+                    sku: '',
+                    stock: item.product.stock,
+                    description: '',
+                    currency: 'INR',
+                    category: '',
+                    rating: 0,
+                    reviews: 0,
+                  }}
+                  salePercentage={undefined}
+                />
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

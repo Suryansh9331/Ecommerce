@@ -49,11 +49,17 @@ const AIProductAssistant: React.FC<AIProductAssistantProps> = ({
     }
 
     setIsGenerating(true);
-    
+
     try {
+      // AI service not configured -> skip the network call and use the local
+      // fallback content instead of fetching "undefined/api/...".
+      if (!AI_API_URL) {
+        throw new Error('AI service is not configured (VITE_AI_API_URL missing)');
+      }
+
       // Use product images from props (Cloudinary URLs)
       let imageUrls: string[] = productImages.slice(0, 5); // Max 5 images
-      
+
       // If no images provided, use a placeholder
       if (imageUrls.length === 0) {
         imageUrls = ['https://via.placeholder.com/300'];

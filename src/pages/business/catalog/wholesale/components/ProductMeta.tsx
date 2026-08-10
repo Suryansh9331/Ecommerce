@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import { useEditor, EditorContent } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
+import Link from '@tiptap/extension-link';
+import Placeholder from '@tiptap/extension-placeholder';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -21,6 +23,132 @@ interface ProductMetaProps {
   };
 }
 
+// Toolbar button component
+const ToolbarButton: React.FC<{
+  onClick: () => void;
+  isActive?: boolean;
+  title: string;
+  children: React.ReactNode;
+}> = ({ onClick, isActive, title, children }) => (
+  <button
+    type="button"
+    onMouseDown={(e) => { e.preventDefault(); onClick(); }}
+    title={title}
+    className={`px-2 py-1 text-sm rounded border transition-colors ${
+      isActive
+        ? 'bg-primary-100 border-primary-400 text-primary-700'
+        : 'bg-white border-gray-300 text-gray-600 hover:bg-gray-100'
+    }`}
+  >
+    {children}
+  </button>
+);
+
+// Reusable TipTap editor with toolbar
+const RichTextEditor: React.FC<{
+  value: string;
+  onChange: (html: string) => void;
+  placeholder: string;
+  minHeight?: string;
+  hasError?: boolean;
+}> = ({ value, onChange, placeholder, minHeight = '8rem', hasError }) => {
+  const editor = useEditor({
+    extensions: [
+      StarterKit,
+      Link.configure({ openOnClick: false }),
+      Placeholder.configure({ placeholder }),
+    ],
+    content: value,
+    onUpdate: ({ editor }) => {
+      const html = editor.isEmpty ? '' : editor.getHTML();
+      onChange(html);
+    },
+  });
+
+  if (!editor) return null;
+
+  return (
+    <div className={`border rounded-md overflow-hidden ${hasError ? 'border-red-300' : 'border-gray-300'}`}>
+      {/* Toolbar */}
+      <div className="flex flex-wrap gap-1 p-2 bg-gray-50 border-b border-gray-200">
+        <select
+          onMouseDown={(e) => e.preventDefault()}
+          onChange={(e) => {
+            const level = parseInt(e.target.value);
+            if (level === 0) editor.chain().focus().setParagraph().run();
+            else editor.chain().focus().toggleHeading({ level: level as 1|2|3 }).run();
+          }}
+          className="text-xs border border-gray-300 rounded px-1 py-1 bg-white text-gray-600"
+          value={
+            editor.isActive('heading', { level: 1 }) ? 1 :
+            editor.isActive('heading', { level: 2 }) ? 2 :
+            editor.isActive('heading', { level: 3 }) ? 3 : 0
+          }
+        >
+          <option value={0}>Normal</option>
+          <option value={1}>Heading 1</option>
+          <option value={2}>Heading 2</option>
+          <option value={3}>Heading 3</option>
+        </select>
+
+        <ToolbarButton onClick={() => editor.chain().focus().toggleBold().run()} isActive={editor.isActive('bold')} title="Bold">
+          <strong>B</strong>
+        </ToolbarButton>
+        <ToolbarButton onClick={() => editor.chain().focus().toggleItalic().run()} isActive={editor.isActive('italic')} title="Italic">
+          <em>I</em>
+        </ToolbarButton>
+        <ToolbarButton onClick={() => editor.chain().focus().toggleStrike().run()} isActive={editor.isActive('strike')} title="Strikethrough">
+          <span style={{ textDecoration: 'line-through' }}>S</span>
+        </ToolbarButton>
+
+        <span className="w-px bg-gray-300 mx-1" />
+
+        <ToolbarButton onClick={() => editor.chain().focus().toggleOrderedList().run()} isActive={editor.isActive('orderedList')} title="Ordered list">
+          1.
+        </ToolbarButton>
+        <ToolbarButton onClick={() => editor.chain().focus().toggleBulletList().run()} isActive={editor.isActive('bulletList')} title="Bullet list">
+          •
+        </ToolbarButton>
+
+        <span className="w-px bg-gray-300 mx-1" />
+
+        <ToolbarButton
+          onClick={() => {
+            const url = window.prompt('Enter URL');
+            if (url) editor.chain().focus().setLink({ href: url }).run();
+            else editor.chain().focus().unsetLink().run();
+          }}
+          isActive={editor.isActive('link')}
+          title="Link"
+        >
+          🔗
+        </ToolbarButton>
+        <ToolbarButton onClick={() => editor.chain().focus().clearNodes().unsetAllMarks().run()} title="Clear formatting">
+          ✕
+        </ToolbarButton>
+      </div>
+
+      {/* Editor area */}
+      <EditorContent
+        editor={editor}
+        className="prose prose-sm max-w-none px-3 py-2 focus-within:outline-none"
+        style={{ minHeight }}
+      />
+
+      <style>{`
+        .tiptap p.is-editor-empty:first-child::before {
+          content: attr(data-placeholder);
+          float: left;
+          color: #9ca3af;
+          pointer-events: none;
+          height: 0;
+        }
+        .tiptap:focus { outline: none; }
+      `}</style>
+    </div>
+  );
+};
+
 const ProductMeta: React.FC<ProductMetaProps> = ({
   productId,
   metaTitle,
@@ -35,33 +163,12 @@ const ProductMeta: React.FC<ProductMetaProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
-  // Quill editor modules configuration
-  const modules = {
-    toolbar: [
-      [{ 'header': [1, 2, 3, false] }],
-      ['bold', 'italic', 'underline', 'strike'],
-      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-      [{ 'indent': '-1'}, { 'indent': '+1' }],
-      ['link'],
-      ['clean']
-    ],
-  };
-
-  // Quill editor formats configuration
-  const formats = [
-    'header',
-    'bold', 'italic', 'underline', 'strike',
-    'list', 'bullet', 'indent',
-    'link'
-  ];
-
   const handleUpdateMeta = async () => {
     try {
       setIsLoading(true);
       setError(null);
       setSuccess(null);
 
-      // Validate required fields
       if (!shortDescription.trim()) {
         setError('Short description is required');
         return;
@@ -76,13 +183,13 @@ const ProductMeta: React.FC<ProductMetaProps> = ({
         full_desc: fullDescription.trim(),
         meta_title: metaTitle.trim(),
         meta_desc: metaDescription.trim(),
-        meta_keywords: metaKeywords.trim()
+        meta_keywords: metaKeywords.trim(),
       };
 
       const response = await fetch(`${API_BASE_URL}/api/merchant-dashboard/products/${productId}/meta`, {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(metaData),
@@ -95,52 +202,40 @@ const ProductMeta: React.FC<ProductMetaProps> = ({
 
       const updatedData = await response.json();
       setSuccess('Meta data updated successfully');
-      
-      // Update local state with the response data
       onMetaChange('shortDescription', updatedData.short_desc || '');
       onMetaChange('fullDescription', updatedData.full_desc || '');
       onMetaChange('metaTitle', updatedData.meta_title || '');
       onMetaChange('metaDescription', updatedData.meta_desc || '');
       onMetaChange('metaKeywords', updatedData.meta_keywords || '');
-    } catch (error) {
-      console.error('Error updating meta data:', error);
-      setError(error instanceof Error ? error.message : 'Failed to update meta data. Please try again.');
+    } catch (err) {
+      console.error('Error updating meta data:', err);
+      setError(err instanceof Error ? err.message : 'Failed to update meta data. Please try again.');
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Function to generate meta keywords from description
-  const generateMetaKeywords = (text: string): string => {
-    if (!text) return '';
-    
-    // Remove special characters and convert to lowercase
-    const cleanText = text.toLowerCase().replace(/[^\w\s]/g, '');
-    
-    // Split into words and remove common words
-    const commonWords = ['the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'with', 'by', 'about', 'as'];
-    const words = cleanText.split(/\s+/).filter(word => 
-      word.length > 3 && !commonWords.includes(word)
-    );
-    
-    // Get unique words and limit to 10 keywords
-    const uniqueWords = [...new Set(words)].slice(0, 10);
-    
-    return uniqueWords.join(', ');
+  const stripHtmlTags = (html: string): string => {
+    const tmp = document.createElement('DIV');
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || '';
   };
 
-  // Function to handle description changes and auto-generate meta data
+  const generateMetaKeywords = (text: string): string => {
+    if (!text) return '';
+    const cleanText = stripHtmlTags(text).toLowerCase().replace(/[^\w\s]/g, '');
+    const commonWords = ['the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'with', 'by', 'about', 'as'];
+    const words = cleanText.split(/\s+/).filter(word => word.length > 3 && !commonWords.includes(word));
+    return [...new Set(words)].slice(0, 10).join(', ');
+  };
+
   const handleDescriptionChange = (field: 'shortDescription' | 'fullDescription', value: string) => {
     onMetaChange(field, value);
-    
-    // Generate meta title from short description
     if (field === 'shortDescription') {
-      onMetaChange('metaTitle', value.slice(0, 100));
+      onMetaChange('metaTitle', stripHtmlTags(value).slice(0, 100));
     }
-    
-    // Generate meta description and keywords from full description
     if (field === 'fullDescription') {
-      onMetaChange('metaDescription', value.slice(0, 255));
+      onMetaChange('metaDescription', stripHtmlTags(value).slice(0, 255));
       onMetaChange('metaKeywords', generateMetaKeywords(value));
     }
   };
@@ -160,7 +255,6 @@ const ProductMeta: React.FC<ProductMetaProps> = ({
           <p className="text-red-700">{error}</p>
         </div>
       )}
-
       {success && (
         <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
           <p className="text-green-700">{success}</p>
@@ -169,55 +263,35 @@ const ProductMeta: React.FC<ProductMetaProps> = ({
 
       {/* Short Description */}
       <div>
-        <label htmlFor="shortDescription" className="block text-sm font-medium text-gray-700 mb-2">
-          Short Description
-        </label>
-        <div className={`${errors.shortDescription ? 'border-red-300' : 'border-gray-300'} rounded-md`}>
-          <ReactQuill
-            value={shortDescription}
-            onChange={(content) => handleDescriptionChange('shortDescription', content)}
-            modules={modules}
-            formats={formats}
-            placeholder="Enter a brief description (max 255 characters)"
-            className="h-32 mb-12"
-          />
-        </div>
-        {errors.shortDescription && (
-          <p className="mt-1 text-sm text-red-600">{errors.shortDescription}</p>
-        )}
-        <p className="mt-1 text-xs text-gray-500">
-          You can use formatting options like bold, italic, bullet points, etc.
-        </p>
+        <label className="block text-sm font-medium text-gray-700 mb-2">Short Description</label>
+        <RichTextEditor
+          value={shortDescription}
+          onChange={(content) => handleDescriptionChange('shortDescription', content)}
+          placeholder="Enter a brief description (max 255 characters)"
+          minHeight="8rem"
+          hasError={!!errors.shortDescription}
+        />
+        {errors.shortDescription && <p className="mt-1 text-sm text-red-600">{errors.shortDescription}</p>}
+        <p className="mt-1 text-xs text-gray-500">You can use formatting options like bold, italic, bullet points, etc.</p>
       </div>
 
       {/* Full Description */}
       <div>
-        <label htmlFor="fullDescription" className="block text-sm font-medium text-gray-700 mb-2">
-          Full Description
-        </label>
-        <div className={`${errors.fullDescription ? 'border-red-300' : 'border-gray-300'} rounded-md`}>
-          <ReactQuill
-            value={fullDescription}
-            onChange={(content) => handleDescriptionChange('fullDescription', content)}
-            modules={modules}
-            formats={formats}
-            placeholder="Enter detailed product description"
-            className="h-64 mb-12"
-          />
-        </div>
-        {errors.fullDescription && (
-          <p className="mt-1 text-sm text-red-600">{errors.fullDescription}</p>
-        )}
-        <p className="mt-1 text-xs text-gray-500">
-          Use the toolbar above to format your text with bullet points, headings, and other styles.
-        </p>
+        <label className="block text-sm font-medium text-gray-700 mb-2">Full Description</label>
+        <RichTextEditor
+          value={fullDescription}
+          onChange={(content) => handleDescriptionChange('fullDescription', content)}
+          placeholder="Enter detailed product description"
+          minHeight="16rem"
+          hasError={!!errors.fullDescription}
+        />
+        {errors.fullDescription && <p className="mt-1 text-sm text-red-600">{errors.fullDescription}</p>}
+        <p className="mt-1 text-xs text-gray-500">Use the toolbar above to format your text with bullet points, headings, and other styles.</p>
       </div>
 
       {/* Meta Title */}
       <div>
-        <label htmlFor="metaTitle" className="block text-sm font-medium text-gray-700">
-          Meta Title
-        </label>
+        <label htmlFor="metaTitle" className="block text-sm font-medium text-gray-700">Meta Title</label>
         <input
           type="text"
           id="metaTitle"
@@ -231,19 +305,13 @@ const ProductMeta: React.FC<ProductMetaProps> = ({
           placeholder="Enter meta title (max 100 characters)"
           maxLength={100}
         />
-        {errors.metaTitle && (
-          <p className="mt-1 text-sm text-red-600">{errors.metaTitle}</p>
-        )}
-        <p className="mt-1 text-xs text-gray-500">
-          Recommended length: 50-60 characters
-        </p>
+        {errors.metaTitle && <p className="mt-1 text-sm text-red-600">{errors.metaTitle}</p>}
+        <p className="mt-1 text-xs text-gray-500">Recommended length: 50-60 characters</p>
       </div>
 
       {/* Meta Description */}
       <div>
-        <label htmlFor="metaDescription" className="block text-sm font-medium text-gray-700">
-          Meta Description
-        </label>
+        <label htmlFor="metaDescription" className="block text-sm font-medium text-gray-700">Meta Description</label>
         <textarea
           id="metaDescription"
           rows={3}
@@ -257,19 +325,13 @@ const ProductMeta: React.FC<ProductMetaProps> = ({
           placeholder="Enter meta description (max 255 characters)"
           maxLength={255}
         />
-        {errors.metaDescription && (
-          <p className="mt-1 text-sm text-red-600">{errors.metaDescription}</p>
-        )}
-        <p className="mt-1 text-xs text-gray-500">
-          Recommended length: 150-160 characters
-        </p>
+        {errors.metaDescription && <p className="mt-1 text-sm text-red-600">{errors.metaDescription}</p>}
+        <p className="mt-1 text-xs text-gray-500">Recommended length: 150-160 characters</p>
       </div>
 
       {/* Meta Keywords */}
       <div>
-        <label htmlFor="metaKeywords" className="block text-sm font-medium text-gray-700">
-          Meta Keywords
-        </label>
+        <label htmlFor="metaKeywords" className="block text-sm font-medium text-gray-700">Meta Keywords</label>
         <input
           type="text"
           id="metaKeywords"
@@ -282,24 +344,16 @@ const ProductMeta: React.FC<ProductMetaProps> = ({
           }`}
           placeholder="Enter keywords separated by commas"
         />
-        {errors.metaKeywords && (
-          <p className="mt-1 text-sm text-red-600">{errors.metaKeywords}</p>
-        )}
-        <p className="mt-1 text-xs text-gray-500">
-          Keywords are automatically generated from the full description. You can modify them manually.
-        </p>
+        {errors.metaKeywords && <p className="mt-1 text-sm text-red-600">{errors.metaKeywords}</p>}
+        <p className="mt-1 text-xs text-gray-500">Keywords are automatically generated from the full description. You can modify them manually.</p>
       </div>
 
       {/* SEO Preview */}
       <div className="bg-gray-50 p-4 rounded-md">
         <h4 className="text-sm font-medium text-gray-700 mb-2">SEO Preview</h4>
         <div className="space-y-2">
-          <div className="text-orange-600 text-sm truncate">
-            {metaTitle || 'Your meta title will appear here'}
-          </div>
-          <div className="text-gray-600 text-xs line-clamp-2">
-            {metaDescription || 'Your meta description will appear here'}
-          </div>
+          <div className="text-orange-600 text-sm truncate">{metaTitle || 'Your meta title will appear here'}</div>
+          <div className="text-gray-600 text-xs line-clamp-2">{metaDescription || 'Your meta description will appear here'}</div>
         </div>
       </div>
 
@@ -317,4 +371,4 @@ const ProductMeta: React.FC<ProductMetaProps> = ({
   );
 };
 
-export default ProductMeta; 
+export default ProductMeta;

@@ -1,18 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { 
-  MagnifyingGlassIcon, 
-  PlusIcon, 
-  FunnelIcon, 
-  ArrowUpIcon, 
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import {
+  MagnifyingGlassIcon,
+  PlusIcon,
+  FunnelIcon,
+  ArrowUpIcon,
   ArrowDownIcon,
   PencilIcon,
   TrashIcon,
   EyeIcon,
   ChevronLeftIcon,
-  ChevronRightIcon
-} from '@heroicons/react/24/outline';
-
+  ChevronRightIcon,
+} from "@heroicons/react/24/outline";
+import { useToast } from "../../../hooks/useToast";
+import { ToastContainer } from "../../../components/ui/ToastContainer";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 interface WholesaleProduct {
@@ -27,7 +28,7 @@ interface WholesaleProduct {
   special_start: string | null;
   special_end: string | null;
   active_flag: boolean;
-  approval_status: 'pending' | 'approved' | 'rejected';
+  approval_status: "pending" | "approved" | "rejected";
   approved_at: string | null;
   approved_by: number | null;
   rejection_reason: string | null;
@@ -45,7 +46,7 @@ interface WholesaleProduct {
   media?: Array<{
     media_id: number;
     url: string;
-    type: 'IMAGE' | 'VIDEO';
+    type: "IMAGE" | "VIDEO";
   }>;
   variants?: Array<{
     variant_id: number;
@@ -67,49 +68,56 @@ interface WholesaleProduct {
 
 // Status badge component
 const StatusBadge: React.FC<{ active: boolean }> = ({ active }) => {
-  const bgColor = active ? 'bg-green-100' : 'bg-gray-100';
-  const textColor = active ? 'text-green-800' : 'text-gray-800';
-  const status = active ? 'Active' : 'Inactive';
-  
+  const bgColor = active ? "bg-green-100" : "bg-gray-100";
+  const textColor = active ? "text-green-800" : "text-gray-800";
+  const status = active ? "Active" : "Inactive";
+
   return (
-    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${bgColor} ${textColor}`}>
+    <span
+      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${bgColor} ${textColor}`}
+    >
       {status}
     </span>
   );
 };
 
 // Approval Status Badge component
-const ApprovalStatusBadge: React.FC<{ status: 'pending' | 'approved' | 'rejected', reason?: string | null }> = ({ status, reason }) => {
+const ApprovalStatusBadge: React.FC<{
+  status: "pending" | "approved" | "rejected";
+  reason?: string | null;
+}> = ({ status, reason }) => {
   const getStatusStyles = () => {
     switch (status) {
-      case 'approved':
-        return 'bg-green-100 text-green-800';
-      case 'rejected':
-        return 'bg-red-100 text-red-800';
-      case 'pending':
+      case "approved":
+        return "bg-green-100 text-green-800";
+      case "rejected":
+        return "bg-red-100 text-red-800";
+      case "pending":
       default:
-        return 'bg-yellow-100 text-yellow-800';
+        return "bg-yellow-100 text-yellow-800";
     }
   };
 
   const getStatusText = () => {
     switch (status) {
-      case 'approved':
-        return 'Approved';
-      case 'rejected':
-        return 'Rejected';
-      case 'pending':
+      case "approved":
+        return "Approved";
+      case "rejected":
+        return "Rejected";
+      case "pending":
       default:
-        return 'Pending';
+        return "Pending";
     }
   };
 
   return (
     <div className="flex flex-col gap-1">
-      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusStyles()}`}>
+      <span
+        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusStyles()}`}
+      >
         {getStatusText()}
       </span>
-      {status === 'rejected' && reason && (
+      {status === "rejected" && reason && (
         <span className="text-xs text-red-600">{reason}</span>
       )}
     </div>
@@ -117,20 +125,20 @@ const ApprovalStatusBadge: React.FC<{ status: 'pending' | 'approved' | 'rejected
 };
 
 const formatPrice = (price: string | number): string => {
-  if (typeof price === 'string') {
+  if (typeof price === "string") {
     const numPrice = parseFloat(price);
-    return isNaN(numPrice) ? '0.00' : numPrice.toFixed(2);
+    return isNaN(numPrice) ? "0.00" : numPrice.toFixed(2);
   }
   return price.toFixed(2);
 };
 
 const formatStock = (stock: string | number | undefined): string => {
   if (stock === undefined || stock === null) {
-    return '0';
+    return "0";
   }
-  if (typeof stock === 'string') {
+  if (typeof stock === "string") {
     const numStock = parseInt(stock);
-    return isNaN(numStock) ? '0' : numStock.toString();
+    return isNaN(numStock) ? "0" : numStock.toString();
   }
   return stock.toString();
 };
@@ -139,20 +147,22 @@ const Wholesale: React.FC = () => {
   const [products, setProducts] = useState<WholesaleProduct[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('All Categories');
-  const [selectedStatus, setSelectedStatus] = useState('All');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All Categories");
+  const [selectedStatus, setSelectedStatus] = useState("All");
   const [showFilters, setShowFilters] = useState(false);
-  const [minPrice, setMinPrice] = useState<string>('');
-  const [maxPrice, setMaxPrice] = useState<string>('');
+  const [minPrice, setMinPrice] = useState<string>("");
+  const [maxPrice, setMaxPrice] = useState<string>("");
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const [sortConfig, setSortConfig] = useState<{
     key: string | null;
-    direction: 'ascending' | 'descending';
+    direction: "ascending" | "descending";
   }>({
     key: null,
-    direction: 'ascending',
+    direction: "ascending",
   });
+
+  const { toasts, error: showError } = useToast();
 
   useEffect(() => {
     fetchProducts();
@@ -162,20 +172,23 @@ const Wholesale: React.FC = () => {
     try {
       setIsLoading(true);
       setError(null);
-      
-      const response = await fetch(`${API_BASE_URL}/api/merchant-dashboard/products`, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
-          'Content-Type': 'application/json',
+
+      const response = await fetch(
+        `${API_BASE_URL}/api/merchant-dashboard/products`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
         },
-      });
+      );
 
       if (!response.ok) {
-        throw new Error('Failed to fetch wholesale products');
+        throw new Error("Failed to fetch wholesale products");
       }
 
       const data = await response.json();
-      
+
       const productsWithVariants = await Promise.all(
         data.map(async (product: WholesaleProduct) => {
           try {
@@ -183,107 +196,126 @@ const Wholesale: React.FC = () => {
               `${API_BASE_URL}/api/merchant-dashboard/products/${product.product_id}/variants`,
               {
                 headers: {
-                  'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
-                  'Content-Type': 'application/json',
+                  Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+                  "Content-Type": "application/json",
                 },
-              }
+              },
             );
-            
+
             if (variantsResponse.ok) {
               const variantsData = await variantsResponse.json();
               return { ...product, variants: variantsData };
             }
             return product;
           } catch (error) {
-            console.error(`Error fetching variants for product ${product.product_id}:`, error);
+            console.error(
+              `Error fetching variants for product ${product.product_id}:`,
+              error,
+            );
             return product;
           }
-        })
+        }),
       );
 
       setProducts(productsWithVariants);
     } catch (error) {
-      console.error('Error fetching wholesale products:', error);
-      setError('Failed to load wholesale products');
+      console.error("Error fetching wholesale products:", error);
+      setError("Failed to load wholesale products");
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleDeleteProduct = async (productId: number) => {
-    if (!window.confirm('Are you sure you want to delete this wholesale product?')) {
+    if (
+      !window.confirm("Are you sure you want to delete this wholesale product?")
+    ) {
       return;
     }
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/merchant-dashboard/products/${productId}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        `${API_BASE_URL}/api/merchant-dashboard/products/${productId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
         },
-      });
+      );
 
       if (!response.ok) {
-        throw new Error('Failed to delete wholesale product');
+        throw new Error("Failed to delete wholesale product");
       }
 
-      setProducts(products.filter(p => p.product_id !== productId));
+      setProducts(products.filter((p) => p.product_id !== productId));
     } catch (error) {
-      console.error('Error deleting wholesale product:', error);
-      alert('Failed to delete wholesale product');
+      console.error("Error deleting wholesale product:", error);
+      showError("Failed to delete wholesale product");
     }
   };
 
   const handleBulkDelete = async () => {
-    if (!window.confirm(`Are you sure you want to delete ${selectedItems.length} wholesale products?`)) {
+    if (
+      !window.confirm(
+        `Are you sure you want to delete ${selectedItems.length} wholesale products?`,
+      )
+    ) {
       return;
     }
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/merchant-dashboard/products/bulk-delete`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        `${API_BASE_URL}/api/merchant-dashboard/products/bulk-delete`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ product_ids: selectedItems }),
         },
-        body: JSON.stringify({ product_ids: selectedItems }),
-      });
+      );
 
       if (!response.ok) {
-        throw new Error('Failed to delete wholesale products');
+        throw new Error("Failed to delete wholesale products");
       }
 
-      setProducts(products.filter(p => !selectedItems.includes(p.product_id)));
+      setProducts(
+        products.filter((p) => !selectedItems.includes(p.product_id)),
+      );
       setSelectedItems([]);
     } catch (error) {
-      console.error('Error deleting wholesale products:', error);
-      alert('Failed to delete wholesale products');
+      console.error("Error deleting wholesale products:", error);
+      showError("Failed to delete wholesale products");
     }
   };
 
   const requestSort = (key: string) => {
-    let direction: 'ascending' | 'descending' = 'ascending';
-    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
-      direction = 'descending';
+    let direction: "ascending" | "descending" = "ascending";
+    if (sortConfig.key === key && sortConfig.direction === "ascending") {
+      direction = "descending";
     }
     setSortConfig({ key, direction });
 
     const sortedProducts = [...products].sort((a, b) => {
-      if (key === 'product_name') {
-        return direction === 'ascending' 
+      if (key === "product_name") {
+        return direction === "ascending"
           ? a.product_name.localeCompare(b.product_name)
           : b.product_name.localeCompare(a.product_name);
       }
-      if (key === 'price') {
-        return direction === 'ascending'
+      if (key === "price") {
+        return direction === "ascending"
           ? a.selling_price - b.selling_price
           : b.selling_price - a.selling_price;
       }
-      if (key === 'stock') {
-        const aStock = a.variants?.reduce((sum, v) => sum + Number(v.stock), 0) || 0;
-        const bStock = b.variants?.reduce((sum, v) => sum + Number(v.stock), 0) || 0;
-        return direction === 'ascending' ? aStock - bStock : bStock - aStock;
+      if (key === "stock") {
+        const aStock =
+          a.variants?.reduce((sum, v) => sum + Number(v.stock), 0) || 0;
+        const bStock =
+          b.variants?.reduce((sum, v) => sum + Number(v.stock), 0) || 0;
+        return direction === "ascending" ? aStock - bStock : bStock - aStock;
       }
       return 0;
     });
@@ -293,7 +325,7 @@ const Wholesale: React.FC = () => {
 
   const getSortIndicator = (key: string) => {
     if (sortConfig.key !== key) return null;
-    return sortConfig.direction === 'ascending' ? (
+    return sortConfig.direction === "ascending" ? (
       <ArrowUpIcon className="w-4 h-4" />
     ) : (
       <ArrowDownIcon className="w-4 h-4" />
@@ -304,36 +336,40 @@ const Wholesale: React.FC = () => {
     if (selectedItems.length === products.length) {
       setSelectedItems([]);
     } else {
-      setSelectedItems(products.map(p => p.product_id));
+      setSelectedItems(products.map((p) => p.product_id));
     }
   };
 
   const toggleSelectItem = (id: number) => {
     if (selectedItems.includes(id)) {
-      setSelectedItems(selectedItems.filter(itemId => itemId !== id));
+      setSelectedItems(selectedItems.filter((itemId) => itemId !== id));
     } else {
       setSelectedItems([...selectedItems, id]);
     }
   };
 
   const clearFilters = () => {
-    setSearchTerm('');
-    setSelectedCategory('All Categories');
-    setSelectedStatus('All');
-    setMinPrice('');
-    setMaxPrice('');
+    setSearchTerm("");
+    setSelectedCategory("All Categories");
+    setSelectedStatus("All");
+    setMinPrice("");
+    setMaxPrice("");
   };
 
-  const filteredProducts = products.filter(product => {
-    const matchesSearch = product.product_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         product.sku.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === 'All Categories' || 
-                          product.category?.name === selectedCategory;
-    const matchesStatus = selectedStatus === 'All' || 
-                         (selectedStatus === 'Active' && product.active_flag) ||
-                         (selectedStatus === 'Inactive' && !product.active_flag);
-    const matchesPrice = (!minPrice || product.selling_price >= parseFloat(minPrice)) &&
-                        (!maxPrice || product.selling_price <= parseFloat(maxPrice));
+  const filteredProducts = products.filter((product) => {
+    const matchesSearch =
+      product.product_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.sku.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory =
+      selectedCategory === "All Categories" ||
+      product.category?.name === selectedCategory;
+    const matchesStatus =
+      selectedStatus === "All" ||
+      (selectedStatus === "Active" && product.active_flag) ||
+      (selectedStatus === "Inactive" && !product.active_flag);
+    const matchesPrice =
+      (!minPrice || product.selling_price >= parseFloat(minPrice)) &&
+      (!maxPrice || product.selling_price <= parseFloat(maxPrice));
 
     return matchesSearch && matchesCategory && matchesStatus && matchesPrice;
   });
@@ -418,7 +454,10 @@ const Wholesale: React.FC = () => {
             <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {/* Price Range Filters */}
               <div>
-                <label htmlFor="price-min" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="price-min"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Price Range
                 </label>
                 <div className="flex space-x-2">
@@ -476,22 +515,22 @@ const Wholesale: React.FC = () => {
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Name / SKU
                 </th>
-                <th 
+                <th
                   className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
-                  onClick={() => requestSort('price')}
+                  onClick={() => requestSort("price")}
                 >
                   <div className="flex items-center gap-2">
                     Price / Category / Brand
-                    {getSortIndicator('price')}
+                    {getSortIndicator("price")}
                   </div>
                 </th>
-                <th 
+                <th
                   className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
-                  onClick={() => requestSort('stock')}
+                  onClick={() => requestSort("stock")}
                 >
                   <div className="flex items-center gap-2">
                     Variants
-                    {getSortIndicator('stock')}
+                    {getSortIndicator("stock")}
                   </div>
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -528,8 +567,12 @@ const Wholesale: React.FC = () => {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     <div>${formatPrice(product.selling_price)}</div>
-                    <div className="text-xs text-gray-500">{product.category?.name || 'No Category'}</div>
-                    <div className="text-xs text-gray-500">{product.brand?.name || 'No Brand'}</div>
+                    <div className="text-xs text-gray-500">
+                      {product.category?.name || "No Category"}
+                    </div>
+                    <div className="text-xs text-gray-500">
+                      {product.brand?.name || "No Brand"}
+                    </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {product.variants?.length || 0}
@@ -538,8 +581,8 @@ const Wholesale: React.FC = () => {
                     <StatusBadge active={product.active_flag} />
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <ApprovalStatusBadge 
-                      status={product.approval_status} 
+                    <ApprovalStatusBadge
+                      status={product.approval_status}
                       reason={product.rejection_reason}
                     />
                   </td>
@@ -571,8 +614,9 @@ const Wholesale: React.FC = () => {
           </table>
         </div>
       </div>
+      <ToastContainer toasts={toasts} />
     </div>
   );
 };
 
-export default Wholesale; 
+export default Wholesale;

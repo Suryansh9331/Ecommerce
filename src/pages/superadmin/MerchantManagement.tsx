@@ -1,15 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
-import { 
-  Filter, 
-  Check, 
-  X, 
-  Info,
-  AlertCircle,
-  Eye,
-  Loader
-} from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+import { useToast } from "../../hooks/useToast";
+import { ToastContainer } from "../../components/ui/ToastContainer";
+import { Filter, Check, X, Info, AlertCircle, Eye, Loader } from "lucide-react";
 
 // API base URL
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -57,21 +51,23 @@ interface Merchant {
 const StatusBadge = ({ status }: { status: string }) => {
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
-      case 'active':
-        return 'bg-green-100 text-green-800';
-      case 'pending':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'suspended':
-        return 'bg-red-100 text-red-800';
-      case 'rejected':
-        return 'bg-red-100 text-red-800';
+      case "active":
+        return "bg-green-100 text-green-800";
+      case "pending":
+        return "bg-yellow-100 text-yellow-800";
+      case "suspended":
+        return "bg-red-100 text-red-800";
+      case "rejected":
+        return "bg-red-100 text-red-800";
       default:
-        return 'bg-green-100 text-green-800';
-  }
+        return "bg-green-100 text-green-800";
+    }
   };
 
   return (
-    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(status)}`}>
+    <span
+      className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(status)}`}
+    >
       {status}
     </span>
   );
@@ -85,48 +81,52 @@ const MerchantManagement: React.FC = () => {
   const [filteredMerchants, setFilteredMerchants] = useState<Merchant[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
-  const [selectedMerchant, setSelectedMerchant] = useState<Merchant | null>(null);
+  const [selectedMerchant, setSelectedMerchant] = useState<Merchant | null>(
+    null,
+  );
   const [showApprovalModal, setShowApprovalModal] = useState(false);
   const [showRejectionModal, setShowRejectionModal] = useState(false);
   const [rejectionReason, setRejectionReason] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
+  const { toasts, error: showError, warning } = useToast();
   // Fetch merchants from API
   useEffect(() => {
     const fetchMerchants = async () => {
       setIsLoading(true);
       setError(null);
-      
+
       try {
         // Fetch all users with merchant role
         const response = await fetch(`${API_BASE_URL}/api/admin/merchants`, {
           headers: {
-            'Authorization': `Bearer ${accessToken}`,
-            'Content-Type': 'application/json'
-          }
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
         });
-        
+
         if (!response.ok) {
           throw new Error(`Failed to fetch merchants: ${response.status}`);
         }
-        
+
         const data = await response.json();
         // console.log('Fetched merchants:', data);
-                // Transform the data to match our component's expected format
+        // Transform the data to match our component's expected format
         const transformedMerchants = data.merchants.map((merchant: any) => ({
           id: merchant.id,
           user_id: merchant.user_id,
-          name: `${merchant.user?.first_name || ''} ${merchant.user?.last_name || ''}`.trim(),
-          email: merchant.user?.email || '',
+          name: `${merchant.user?.first_name || ""} ${merchant.user?.last_name || ""}`.trim(),
+          email: merchant.user?.email || "",
           business_name: merchant.business_name,
           business_email: merchant.business_email,
-          business_phone: merchant.business_phone || '',
-          business_description: merchant.business_description || '',
-          business_address: merchant.business_address || '',
-          status: merchant.verification_status?.toLowerCase() || 'pending',
-          dateApplied: new Date(merchant.created_at).toISOString().split('T')[0],
-          description: merchant.business_description || '',
+          business_phone: merchant.business_phone || "",
+          business_description: merchant.business_description || "",
+          business_address: merchant.business_address || "",
+          status: merchant.verification_status?.toLowerCase() || "pending",
+          dateApplied: new Date(merchant.created_at)
+            .toISOString()
+            .split("T")[0],
+          description: merchant.business_description || "",
           rejectionReason: merchant.verification_notes,
           verification_status: merchant.verification_status,
           verification_submitted_at: merchant.verification_submitted_at,
@@ -136,21 +136,32 @@ const MerchantManagement: React.FC = () => {
           documentList: merchant.documents || [],
           // Create a simplified document status object for quick checks
           documents: {
-            businessLicense: merchant.documents?.some((doc: any) => doc.document_type === 'BUSINESS_LICENSE') || false,
-            taxCertificate: merchant.documents?.some((doc: any) => doc.document_type === 'TAX_CERTIFICATE') || false,
-            identityProof: merchant.documents?.some((doc: any) => doc.document_type === 'IDENTITY_PROOF') || false
-          }
+            businessLicense:
+              merchant.documents?.some(
+                (doc: any) => doc.document_type === "BUSINESS_LICENSE",
+              ) || false,
+            taxCertificate:
+              merchant.documents?.some(
+                (doc: any) => doc.document_type === "TAX_CERTIFICATE",
+              ) || false,
+            identityProof:
+              merchant.documents?.some(
+                (doc: any) => doc.document_type === "IDENTITY_PROOF",
+              ) || false,
+          },
         }));
-        
+
         setMerchants(transformedMerchants);
       } catch (err) {
-        console.error('Error fetching merchants:', err);
-        setError(err instanceof Error ? err.message : 'Failed to fetch merchants');
+        console.error("Error fetching merchants:", err);
+        setError(
+          err instanceof Error ? err.message : "Failed to fetch merchants",
+        );
       } finally {
         setIsLoading(false);
       }
     };
-    
+
     if (accessToken) {
       fetchMerchants();
     }
@@ -159,95 +170,108 @@ const MerchantManagement: React.FC = () => {
   // Filter merchants based on search and status
   useEffect(() => {
     let results = merchants;
-    
+
     if (searchTerm) {
-      results = results.filter(merchant => 
-        merchant.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        merchant.email.toLowerCase().includes(searchTerm.toLowerCase())
+      results = results.filter(
+        (merchant) =>
+          merchant.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          merchant.email.toLowerCase().includes(searchTerm.toLowerCase()),
       );
     }
-    
+
     if (statusFilter !== "all") {
-      results = results.filter(merchant => merchant.status === statusFilter);
+      results = results.filter((merchant) => merchant.status === statusFilter);
     }
-    
+
     setFilteredMerchants(results);
   }, [merchants, searchTerm, statusFilter]);
 
   // Handle merchant approval
   const handleApprove = async (id: number) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/admin/merchants/${id}/approve`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${accessToken}`,
-          'Content-Type': 'application/json'
-        }
-      });
-      
+      const response = await fetch(
+        `${API_BASE_URL}/api/admin/merchants/${id}/approve`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        },
+      );
+
       if (!response.ok) {
         throw new Error(`Failed to approve merchant: ${response.status}`);
       }
-      
+
       // Update local state
-      const updatedMerchants = merchants.map(merchant => 
-        merchant.id === id ? { ...merchant, status: "approved" } : merchant
+      const updatedMerchants = merchants.map((merchant) =>
+        merchant.id === id ? { ...merchant, status: "approved" } : merchant,
       );
       setMerchants(updatedMerchants);
       setShowApprovalModal(false);
       setSelectedMerchant(null);
     } catch (err) {
-      console.error('Error approving merchant:', err);
-      alert(err instanceof Error ? err.message : 'Failed to approve merchant');
+      console.error("Error approving merchant:", err);
+      showError(
+        err instanceof Error ? err.message : "Failed to approve merchant",
+      );
     }
   };
 
   // Handle merchant rejection
   const handleReject = async (id: number) => {
     if (!rejectionReason.trim()) {
-      alert("Please provide a reason for rejection");
+      warning("Please provide a reason for rejection");
       return;
     }
-    
+
     try {
-      const response = await fetch(`${API_BASE_URL}/api/admin/merchants/${id}/reject`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${accessToken}`,
-          'Content-Type': 'application/json'
+      const response = await fetch(
+        `${API_BASE_URL}/api/admin/merchants/${id}/reject`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ reason: rejectionReason }),
         },
-        body: JSON.stringify({ reason: rejectionReason })
-      });
-      
+      );
+
       if (!response.ok) {
         throw new Error(`Failed to reject merchant: ${response.status}`);
       }
-      
+
       // Update local state
-      const updatedMerchants = merchants.map(merchant => 
-        merchant.id === id ? { ...merchant, status: "rejected", rejectionReason } : merchant
+      const updatedMerchants = merchants.map((merchant) =>
+        merchant.id === id
+          ? { ...merchant, status: "rejected", rejectionReason }
+          : merchant,
       );
       setMerchants(updatedMerchants);
       setShowRejectionModal(false);
       setRejectionReason("");
       setSelectedMerchant(null);
     } catch (err) {
-      console.error('Error rejecting merchant:', err);
-      alert(err instanceof Error ? err.message : 'Failed to reject merchant');
+      console.error("Error rejecting merchant:", err);
+      showError(
+        err instanceof Error ? err.message : "Failed to reject merchant",
+      );
     }
   };
 
   // Navigate to merchant details page with document data
   const viewMerchantDetails = (merchant: any) => {
     // Store merchant data in sessionStorage to avoid additional API calls
-    sessionStorage.setItem('selectedMerchant', JSON.stringify(merchant));
+    sessionStorage.setItem("selectedMerchant", JSON.stringify(merchant));
     navigate(`/superadmin/merchant-management/${merchant.id}`);
   };
 
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
       <h1 className="text-2xl font-bold mb-6">Merchant Management</h1>
-      
+
       {/* Search and filter */}
       <div className="flex flex-col md:flex-row gap-4 mb-6">
         <div className="relative flex-grow">
@@ -259,7 +283,7 @@ const MerchantManagement: React.FC = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        
+
         <div className="flex items-center">
           <div className="relative inline-flex items-center">
             <select
@@ -275,7 +299,7 @@ const MerchantManagement: React.FC = () => {
           </div>
         </div>
       </div>
-      
+
       {/* Error state */}
       {error && (
         <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-6 flex items-start">
@@ -283,7 +307,7 @@ const MerchantManagement: React.FC = () => {
           <span>{error}</span>
         </div>
       )}
-      
+
       {/* Loading state */}
       {isLoading ? (
         <div className="flex justify-center items-center h-64">
@@ -295,18 +319,42 @@ const MerchantManagement: React.FC = () => {
       ) : filteredMerchants.length === 0 ? (
         <div className="bg-gray-50 rounded-md p-8 text-center">
           <AlertCircle size={48} className="mx-auto text-gray-400 mb-4" />
-          <h3 className="text-lg font-semibold text-gray-700">No merchants found</h3>
-          <p className="text-gray-500 mt-2">Try adjusting your search or filter criteria</p>
+          <h3 className="text-lg font-semibold text-gray-700">
+            No merchants found
+          </h3>
+          <p className="text-gray-500 mt-2">
+            Try adjusting your search or filter criteria
+          </p>
         </div>
       ) : (
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-[#FF5733]/10 text-[#FF5733]/90">
               <tr>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Merchant</th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date Applied</th>
-                <th scope="col" className="px-8 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                <th scope="col" className="px-7 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Merchant
+                </th>
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Date Applied
+                </th>
+                <th
+                  scope="col"
+                  className="px-8 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Status
+                </th>
+                <th
+                  scope="col"
+                  className="px-7 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
@@ -315,13 +363,19 @@ const MerchantManagement: React.FC = () => {
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
                       <div>
-                        <div className="text-sm font-medium text-gray-900">{merchant.name}</div>
-                        <div className="text-sm text-gray-500">{merchant.email}</div>
+                        <div className="text-sm font-medium text-gray-900">
+                          {merchant.name}
+                        </div>
+                        <div className="text-sm text-gray-500">
+                          {merchant.email}
+                        </div>
                       </div>
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">{merchant.dateApplied}</div>
+                    <div className="text-sm text-gray-900">
+                      {merchant.dateApplied}
+                    </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <StatusBadge status={merchant.status} />
@@ -364,7 +418,7 @@ const MerchantManagement: React.FC = () => {
           </table>
         </div>
       )}
-      
+
       {/* Approval Modal */}
       {showApprovalModal && selectedMerchant && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
@@ -374,7 +428,9 @@ const MerchantManagement: React.FC = () => {
               <h3 className="text-lg font-semibold">Approve Merchant</h3>
             </div>
             <p className="mb-6">
-              Are you sure you want to approve <span className="font-semibold">{selectedMerchant.name}</span> as a merchant on your platform?
+              Are you sure you want to approve{" "}
+              <span className="font-semibold">{selectedMerchant.name}</span> as
+              a merchant on your platform?
             </p>
             <div className="flex justify-end space-x-3">
               <button
@@ -396,7 +452,7 @@ const MerchantManagement: React.FC = () => {
           </div>
         </div>
       )}
-      
+
       {/* Rejection Modal */}
       {showRejectionModal && selectedMerchant && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
@@ -406,7 +462,8 @@ const MerchantManagement: React.FC = () => {
               <h3 className="text-lg font-semibold">Reject Merchant</h3>
             </div>
             <p className="mb-4">
-              Please provide a reason for rejecting <span className="font-semibold">{selectedMerchant.name}</span>:
+              Please provide a reason for rejecting{" "}
+              <span className="font-semibold">{selectedMerchant.name}</span>:
             </p>
             <textarea
               className="w-full border border-gray-300 rounded-md p-2 mb-4"
@@ -436,14 +493,14 @@ const MerchantManagement: React.FC = () => {
           </div>
         </div>
       )}
-      
+
       {/* Summary Stats */}
       <div className="mt-8 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
         <div className="bg-blue-50 p-4 rounded-lg">
           <div className="flex items-center justify-between">
             <h4 className="font-medium text-blue-700">Pending Applications</h4>
             <span className="text-xl font-bold text-blue-700">
-              {merchants.filter(m => m.status === "pending").length}
+              {merchants.filter((m) => m.status === "pending").length}
             </span>
           </div>
         </div>
@@ -451,7 +508,7 @@ const MerchantManagement: React.FC = () => {
           <div className="flex items-center justify-between">
             <h4 className="font-medium text-green-700">Approved Merchants</h4>
             <span className="text-xl font-bold text-green-700">
-              {merchants.filter(m => m.status === "approved").length}
+              {merchants.filter((m) => m.status === "approved").length}
             </span>
           </div>
         </div>
@@ -459,24 +516,26 @@ const MerchantManagement: React.FC = () => {
           <div className="flex items-center justify-between">
             <h4 className="font-medium text-red-700">Rejected Applications</h4>
             <span className="text-xl font-bold text-red-700">
-              {merchants.filter(m => m.status === "rejected").length}
+              {merchants.filter((m) => m.status === "rejected").length}
             </span>
           </div>
         </div>
       </div>
-      
+
       {/* Help Info */}
       <div className="mt-8 bg-blue-50 p-4 rounded-lg flex items-start">
         <Info size={20} className="text-blue-500 mr-3 mt-1 flex-shrink-0" />
         <div>
           <h4 className="font-medium text-blue-700 mb-1">Managing Merchants</h4>
           <p className="text-sm text-blue-600">
-            Review merchant applications thoroughly before approval. Check all verification documents 
-            and ensure they meet platform requirements. When rejecting an application, provide a clear 
-            and specific reason to help merchants understand what they need to correct.
+            Review merchant applications thoroughly before approval. Check all
+            verification documents and ensure they meet platform requirements.
+            When rejecting an application, provide a clear and specific reason
+            to help merchants understand what they need to correct.
           </p>
         </div>
       </div>
+      <ToastContainer toasts={toasts} />
     </div>
   );
 };

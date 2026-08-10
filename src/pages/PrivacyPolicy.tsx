@@ -59,7 +59,7 @@ const PrivacyPolicy = () => {
           <section>
             <h2 className="text-xl sm:text-2xl font-medium text-[#FF4D00] mb-3 sm:mb-4">6. DATA STORAGE & RETENTION</h2>
             <p className="text-gray-700 mb-4 text-sm sm:text-base">
-              Data is stored securely within India or approved jurisdictions. It is retained as long as the user account is active, for up to 7 years for taxation requirements, or until legal disputes are resolved.
+              Data is stored securely within India or approved jurisdictions. It is retained as long as the user account is active, for up to 7 years for taxation requirements, or until legal disputes are resolved. If a seller closes their merchant account through the dashboard, the account and storefront are removed from the platform after a short cancellation window; certain order, tax, and compliance records may be retained as required by law while personal data is handled in line with this policy.
             </p>
           </section>
 
@@ -73,7 +73,7 @@ const PrivacyPolicy = () => {
           <section>
             <h2 className="text-xl sm:text-2xl font-medium text-[#FF4D00] mb-3 sm:mb-4">8. USER RIGHTS UNDER DPDP ACT</h2>
             <p className="text-gray-700 mb-4 text-sm sm:text-base">
-              Users may request data access, correction, deletion, consent withdrawal, and lodge complaints with the Data Protection Board of India via Aoinstore’s Grievance Officer.
+              Users may request data access, correction, deletion, consent withdrawal, and lodge complaints with the Data Protection Board of India via Aoinstore’s Grievance Officer. Merchants may also close their account from merchant account settings (including a short period to cancel the request); some information may be kept where the law requires it after closure.
             </p>
           </section>
 

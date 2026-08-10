@@ -4,10 +4,12 @@ import { useAuth } from '../../context/AuthContext';
 import { GoogleLogin, CredentialResponse } from '@react-oauth/google';
 import { toast } from 'react-hot-toast';
 import { Eye, EyeOff } from 'lucide-react';
+import PhoneOtpAuth from '../../components/auth/PhoneOtpAuth';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const SignIn: React.FC = () => {
+  const [authMethod, setAuthMethod] = useState<'email' | 'phone'>('email');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -159,6 +161,37 @@ const SignIn: React.FC = () => {
     toast.error(errorMessage);
   };
 
+  // Shared handler for phone-OTP login success — mirrors the email/Google path
+  // (same merchant guard, same setAuthState, same redirect).
+  const handlePhoneSuccess = async (data: { access_token: string; refresh_token: string; user?: any }) => {
+    if (data.user?.role === 'MERCHANT') {
+      setError('Merchants must sign in through the merchant dashboard.');
+      toast.error('Merchants must sign in through the merchant dashboard.');
+      return;
+    }
+    const userObj = {
+      id: data.user?.id || 'unknown',
+      email: data.user?.email || '',
+      name: `${data.user?.first_name || ''} ${data.user?.last_name || ''}`.trim() || 'User',
+      role: (data.user?.role === 'MERCHANT'
+        ? 'merchant'
+        : data.user?.role === 'ADMIN'
+        ? 'admin'
+        : 'customer') as 'merchant' | 'customer' | 'admin',
+      isEmailVerified: data.user?.is_email_verified ?? false,
+      businessName: '',
+    };
+    const success = await setAuthState({
+      accessToken: data.access_token,
+      refreshToken: data.refresh_token,
+      user: userObj,
+    });
+    if (success) {
+      toast.success('Successfully signed in!');
+      navigate('/');
+    }
+  };
+
   return (
     <div className="flex items-center justify-center bg-[#FAFAFA] px-2 py-8">
       <div className="w-full max-w-5xl flex flex-col md:flex-row md:space-x-8 space-y-8 md:space-y-0">
@@ -169,13 +202,39 @@ const SignIn: React.FC = () => {
             If you have an account, sign in with your email address.
           </p>
 
+          {/* Method toggle: Email (password) vs Phone (OTP) */}
+          <div className="mb-6 flex rounded-md border border-gray-200 p-1 bg-gray-50">
+            <button
+              type="button"
+              onClick={() => { setAuthMethod('email'); setError(''); }}
+              className={`flex-1 py-2 text-sm font-medium rounded-md transition-colors ${
+                authMethod === 'email' ? 'bg-white text-[#F2631F] shadow-sm' : 'text-gray-500'
+              }`}
+            >
+              Email
+            </button>
+            <button
+              type="button"
+              onClick={() => { setAuthMethod('phone'); setError(''); }}
+              className={`flex-1 py-2 text-sm font-medium rounded-md transition-colors ${
+                authMethod === 'phone' ? 'bg-white text-[#F2631F] shadow-sm' : 'text-gray-500'
+              }`}
+            >
+              Phone
+            </button>
+          </div>
+
           {error && (
             <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded-md">
               {error}
             </div>
           )}
 
-          {showResend && !isSubmitting && (
+          {authMethod === 'phone' && (
+            <PhoneOtpAuth mode="login" onSuccess={handlePhoneSuccess} />
+          )}
+
+          {authMethod === 'email' && showResend && !isSubmitting && (
             <div
               className="mb-4 text-sm text-[#F2631F] cursor-pointer hover:underline"
               onClick={handleResend}
@@ -183,8 +242,8 @@ const SignIn: React.FC = () => {
               Didn't get a verification email? Resend link.
             </div>
           )}
-  
-          {!showResend && !isSubmitting && (
+
+          {authMethod === 'email' && !showResend && !isSubmitting && (
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">

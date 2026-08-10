@@ -3476,69 +3476,58 @@ const ProductDetail: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto px-1 xs:px-2 sm:px-4 md:px-10 xl:px-14 py-4 sm:py-8">
+    <div className="min-h-screen bg-gray-50/80">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-14 py-4 sm:py-6 lg:py-8">
         {/* Breadcrumbs */}
-        <nav className="flex flex-wrap items-center text-xs mb-3 overflow-x-auto whitespace-nowrap">
-          <Link
-            to="/"
-            className="text-gray-500 hover:text-primary-600 transition-colors"
-          >
+        <nav className="flex flex-wrap items-center gap-1 text-xs sm:text-sm mb-4 sm:mb-6 overflow-x-auto whitespace-nowrap scrollbar-hide" aria-label="Breadcrumb">
+          <Link to="/" className="text-gray-500 hover:text-[#F2631F] transition-colors py-1">
             Home
           </Link>
-          <ChevronRight size={12} className="mx-1 text-gray-400" />
-          <Link
-            to="/products"
-            className="text-gray-500 hover:text-primary-600 transition-colors"
-          >
+          <ChevronRight size={14} className="text-gray-400 shrink-0" aria-hidden />
+          <Link to="/products" className="text-gray-500 hover:text-[#F2631F] transition-colors py-1">
             Products
           </Link>
-          <ChevronRight size={12} className="mx-1 text-gray-400" />
-          <Link
-            to={`/category/${product.category?.category_id}`}
-            className="text-gray-500 hover:text-primary-600 transition-colors"
-          >
+          <ChevronRight size={14} className="text-gray-400 shrink-0" aria-hidden />
+          <Link to={`/category/${product.category?.category_id}`} className="text-gray-500 hover:text-[#F2631F] transition-colors py-1">
             {translatedCategory || product.category?.name}
           </Link>
-          <ChevronRight size={12} className="mx-1 text-gray-400" />
-          <span className="text-gray-900 font-medium">
+          <ChevronRight size={14} className="text-gray-400 shrink-0" aria-hidden />
+          <span className="text-gray-900 font-medium py-1 truncate max-w-[180px] sm:max-w-none">
             {translatedText.name || product.product_name}
           </span>
         </nav>
 
         {/* Product Overview Section */}
-        <div className="bg-white rounded-lg shadow-sm overflow-visible mb-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-2 sm:p-4">
+        <div className="bg-white rounded-xl sm:rounded-2xl shadow-sm border border-gray-100 overflow-visible mb-6 sm:mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 p-4 sm:p-6 lg:p-8">
             {/* Product Images */}
-            <div className="space-y-2">
-              <div className="flex flex-col items-center">
+            <div className="space-y-3 sm:space-y-4">
+              <div className="flex flex-col items-center w-full">
                 {/* Main Product Image with Navigation */}
-                <div className="mb-3 sm:mb-6 w-full max-w-xs xs:max-w-sm sm:max-w-lg flex justify-center relative mx-auto">
-                  {/* Check if current selected image is a video */}
+                <div className="mb-3 sm:mb-4 w-full max-w-md flex justify-center relative mx-auto aspect-square max-h-[280px] xs:max-h-[320px] sm:max-h-[400px] md:max-h-[420px] bg-gray-50 rounded-xl overflow-hidden">
                   <div
                     onClick={() => {
                       const idx = product.media.findIndex(m => m.url === selectedImage);
                       setModalImageIndex(idx);
                       setShowImageModal(true);
                     }}
-                    className="cursor-zoom-in w-full flex justify-center"
+                    className="cursor-zoom-in w-full h-full flex justify-center items-center"
                   >
-                    {/* Check if current selected image is a video */}
                     {product.media.find(media => media.url === selectedImage)?.type?.toLowerCase() === 'video' ? (
                       <video
                         src={selectedImage}
                         controls
-                        className="rounded-lg shadow-md object-contain w-full max-h-60 xs:max-h-80 sm:max-h-96"
+                        className="rounded-xl object-contain w-full h-full max-h-[280px] xs:max-h-[320px] sm:max-h-[400px] md:max-h-[420px]"
                       />
                     ) : (
                       <img
                         src={selectedImage}
                         alt={product.product_name}
-                        className="rounded-lg shadow-md object-contain w-full max-h-60 xs:max-h-80 sm:max-h-96"
+                        className="rounded-xl object-contain w-full h-full max-h-[280px] xs:max-h-[320px] sm:max-h-[400px] md:max-h-[420px]"
                       />
                     )}
                   </div>
-                  {/* Left Arrow Button */}
+                  {/* Left Arrow */}
                   <button
                     onClick={() => {
                       const currentIndex = product.media.findIndex(
@@ -3549,13 +3538,11 @@ const ProductDetail: React.FC = () => {
                         product.media.length;
                       setSelectedImage(product.media[previousIndex].url);
                     }}
-                    className="absolute left-2 top-1/2 transform -translate-y-1/2 p-3 bg-white text-gray-800 rounded-md shadow-md hover:bg-gray-100 transition-colors z-10"
+                    className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 p-2.5 sm:p-3 bg-white/95 text-gray-700 rounded-full shadow-md hover:bg-white hover:shadow-lg transition-all z-10 border border-gray-100"
                     aria-label="Previous image"
                   >
-                    <ChevronLeft size={24} />
+                    <ChevronLeft size={22} className="sm:w-6 sm:h-6" />
                   </button>
-
-                  {/* Right Arrow Button */}
                   <button
                     onClick={() => {
                       const currentIndex = product.media.findIndex(
@@ -3565,21 +3552,21 @@ const ProductDetail: React.FC = () => {
                         (currentIndex + 1) % product.media.length;
                       setSelectedImage(product.media[nextIndex].url);
                     }}
-                    className="absolute right-2 top-1/2 transform -translate-y-1/2 p-3 bg-white text-gray-800 rounded-md shadow-md hover:bg-gray-100 transition-colors z-10"
+                    className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 p-2.5 sm:p-3 bg-white/95 text-gray-700 rounded-full shadow-md hover:bg-white hover:shadow-lg transition-all z-10 border border-gray-100"
                     aria-label="Next image"
                   >
-                    <ChevronRight size={24} />
+                    <ChevronRight size={22} className="sm:w-6 sm:h-6" />
                   </button>
                 </div>
 
-                {/* Thumbnail Images */}
-                <div className="flex flex-nowrap space-x-2 sm:space-x-3 overflow-x-auto scrollbar-hide pb-2 sm:pb-0 justify-center w-full max-w-sm xs:max-w-sm  sm:max-w-lg mx-auto">
+                {/* Thumbnail strip */}
+                <div className="flex flex-nowrap gap-2 overflow-x-auto scrollbar-hide justify-center w-full max-w-md mx-auto pb-1">
                   {product.media.map((media) => (
                     <div
                       key={media.media_id}
-                      className={`relative min-w-[60px] min-h-[60px] w-16 h-16 xs:w-20 xs:h-20 cursor-pointer border-2 rounded-md overflow-hidden ${selectedImage === media.url
-                        ? "border-orange-500"
-                        : "border-transparent"
+                      className={`relative shrink-0 w-14 h-14 sm:w-16 sm:h-16 cursor-pointer border-2 rounded-lg overflow-hidden transition-colors ${selectedImage === media.url
+                        ? "border-[#F2631F] ring-2 ring-[#F2631F]/20"
+                        : "border-gray-200 hover:border-gray-300"
                         }`}
                       onClick={() => {
                         setSelectedImage(media.url);
@@ -3618,46 +3605,52 @@ const ProductDetail: React.FC = () => {
             </div>
 
             {/* Product Info */}
-            <div className="flex flex-col mt-2 md:mt-0">
-              <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-1">
+            <div className="flex flex-col mt-0 md:mt-0">
+              <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2 sm:mb-3 leading-tight">
                 {translatedText.name || product.product_name}
               </h1>
 
-              <div className="mb-3">
-                <div className="flex items-baseline space-x-2">
-                  <span className="text-xl sm:text-2xl font-bold text-gray-900">
+              <div className="mb-4">
+                <div className="flex flex-wrap items-baseline gap-2">
+                  <span className="text-2xl sm:text-3xl font-bold text-gray-900">
                     ₹{product.price || product.selling_price}
                   </span>
                   {product.originalPrice &&
                     product.originalPrice >
                     (product.price || product.selling_price) && (
-                      <span className="text-sm text-gray-500 line-through">
+                      <span className="text-base text-gray-500 line-through">
                         ₹{product.originalPrice}
                       </span>
                     )}
                   {!product.originalPrice &&
                     product.cost_price >
                     (product.price || product.selling_price) && (
-                      <span className="text-sm text-gray-500 line-through">
+                      <span className="text-base text-gray-500 line-through">
                         ₹{product.cost_price}
                       </span>
                     )}
                   {product.is_on_special_offer && (
-                    <span className="bg-red-500 text-white text-xs px-2 py-1 rounded-full font-medium">
+                    <span className="bg-[#F2631F] text-white text-xs font-semibold px-2.5 py-1 rounded-full">
                       Special Offer
                     </span>
                   )}
                 </div>
               </div>
 
-              <div className="mb-2">
-                <div className="text-sm font-medium mb-1">
-                  Category: {translatedCategory || product.category?.name}
+              <div className="mb-4">
+                <div className="flex flex-wrap gap-2 mb-2">
+                  {product.category && (
+                    <span className="text-sm text-gray-600 bg-gray-100 px-2.5 py-1 rounded-md">
+                      {translatedCategory || product.category?.name}
+                    </span>
+                  )}
+                  {product.brand && (
+                    <span className="text-sm text-gray-600 bg-gray-100 px-2.5 py-1 rounded-md">
+                      {translatedBrand || product.brand?.name}
+                    </span>
+                  )}
                 </div>
-                <div className="text-sm font-medium mb-1">
-                  Brand: {translatedBrand || product.brand?.name}
-                </div>
-                <div className="flex items-center gap-2 mt-1">
+                <div className="flex items-center gap-2">
                   {renderStars(averageRating)}
                   <span className="text-sm text-gray-600">
                     {averageRating > 0
@@ -3669,7 +3662,7 @@ const ProductDetail: React.FC = () => {
 
               {/* Short Description */}
               {(translatedText.short_desc || product.meta?.short_desc) && (
-                <div className="mb-4">
+                <div className="mb-4 p-3 sm:p-4 bg-gray-50 rounded-xl border border-gray-100">
                   <div
                     className="text-sm text-gray-600 prose prose-sm max-w-none"
                     dangerouslySetInnerHTML={{
@@ -3684,11 +3677,11 @@ const ProductDetail: React.FC = () => {
 
               {/* Selected Attributes Summary */}
               {Object.keys(selectedAttributes).length > 0 && (
-                <div className="mb-4 p-3 bg-orange-50 border border-orange-200 rounded-lg">
-                  <div className="text-sm font-medium text-orange-800 mb-2">
-                    Selected Options:
-                  </div>
-                  <div className="flex flex-wrap gap-2">
+                <div className="mb-4 p-3 sm:p-4 bg-[#F2631F]/5 border border-[#F2631F]/20 rounded-xl">
+                    <div className="text-sm font-semibold text-gray-800 mb-2">
+                      Selected options
+                    </div>
+                    <div className="flex flex-wrap gap-2">
                     {Object.entries(selectedAttributes).map(
                       ([attributeId, values]) => {
                         const attribute = product.attributes.find(
@@ -3716,7 +3709,7 @@ const ProductDetail: React.FC = () => {
                         return displayValues.map((value, index) => (
                           <span
                             key={`${attributeId}-${index}`}
-                            className="inline-flex items-center px-3 py-1 bg-orange-100 text-orange-800 text-sm rounded-full font-medium"
+                            className="inline-flex items-center px-3 py-1.5 bg-[#F2631F]/15 text-gray-800 text-sm rounded-lg font-medium"
                           >
                             {attributeName}: {mapSelectedValue(value)}
                           </span>
@@ -3731,9 +3724,9 @@ const ProductDetail: React.FC = () => {
               {Object.keys(selectedAttributes).length === 0 &&
                 product.attributes &&
                 product.attributes.length > 0 && (
-                  <div className="mb-4 p-3 bg-gray-50 border border-gray-200 rounded-lg">
-                    <div className="text-sm font-medium text-gray-700 mb-2">
-                      Product Specifications:
+                  <div className="mb-4 p-3 sm:p-4 bg-gray-50 border border-gray-100 rounded-xl">
+                    <div className="text-sm font-semibold text-gray-800 mb-2">
+                      Specifications
                     </div>
                     <div className="flex flex-wrap gap-2">
                       {product.attributes.map((attr) => {
@@ -3746,7 +3739,7 @@ const ProductDetail: React.FC = () => {
                         return (
                           <span
                             key={attr.attribute_id}
-                            className="inline-flex items-center px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full font-medium"
+                            className="inline-flex items-center px-3 py-1.5 bg-white border border-gray-200 text-gray-700 text-sm rounded-lg font-medium"
                           >
                             {displayName}: {displayValue}
                           </span>
@@ -3757,26 +3750,28 @@ const ProductDetail: React.FC = () => {
                 )}
 
               {/* Quantity Selector and Add to Cart Row */}
-              <div className="mb-3">
-                <div className="text-sm font-medium mb-1">Quantity:</div>
+              <div className="mb-4">
+                <div className="text-sm font-medium text-gray-700 mb-2">Quantity</div>
                 {/* Mobile layout: Quantity, Share, Wishlist in a row; action buttons below */}
-                <div className="flex flex-col gap-2 nav:hidden">
-                  <div className="flex flex-row items-center gap-2 w-full">
-                    {/* Quantity Changer */}
-                    <div className="flex items-center border border-gray-300 rounded-md overflow-hidden w-[90px] h-9">
+                <div className="flex flex-col gap-3 nav:hidden">
+                  <div className="flex flex-row items-center gap-3 w-full">
+                    {/* Quantity Changer - touch-friendly */}
+                    <div className="flex items-center border border-gray-200 rounded-xl overflow-hidden w-[110px] min-h-[44px] bg-gray-50">
                       <button
-                        className="w-8 h-full bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors text-lg disabled:opacity-30"
+                        className="w-10 h-11 sm:h-12 bg-gray-100 text-gray-600 hover:bg-gray-200 active:bg-gray-300 transition-colors text-lg font-medium disabled:opacity-40 disabled:pointer-events-none"
                         onClick={() => handleQuantityChange(-1)}
                         disabled={quantity <= 1}
+                        aria-label="Decrease quantity"
                       >
-                        -
+                        −
                       </button>
-                      <span className="w-8 text-center text-sm select-none">
+                      <span className="flex-1 min-w-[2rem] text-center text-sm font-medium select-none">
                         {quantity}
                       </span>
                       <button
-                        className="w-8 h-full bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors text-lg"
+                        className="w-10 h-11 sm:h-12 bg-gray-100 text-gray-600 hover:bg-gray-200 active:bg-gray-300 transition-colors text-lg font-medium"
                         onClick={() => handleQuantityChange(1)}
+                        aria-label="Increase quantity"
                       >
                         +
                       </button>
@@ -3784,17 +3779,17 @@ const ProductDetail: React.FC = () => {
                     {/* Share Button */}
                     <div className="relative">
                       <button
-                        className={`p-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors min-w-[40px] text-gray-600 flex items-center justify-center`}
+                        className="p-2.5 min-h-[44px] min-w-[44px] border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors text-gray-600 flex items-center justify-center"
                         onClick={() => setShowShareOptions(!showShareOptions)}
                         aria-label="Share this product"
                       >
-                        <Share2 size={18} />
+                        <Share2 size={20} />
                       </button>
                       {/* Share Options Dropdown */}
                       {showShareOptions && (
-                        <div ref={shareDropdownRef} className="absolute left-0 mt-2 w-56 bg-white rounded-md shadow-lg border border-gray-200 z-10">
+                        <div ref={shareDropdownRef} className="absolute left-0 mt-2 w-56 bg-white rounded-xl shadow-lg border border-gray-200 z-10 overflow-hidden">
                           <div className="p-3 border-b border-gray-100">
-                            <h3 className="text-sm font-medium text-gray-700">
+                            <h3 className="text-sm font-semibold text-gray-800">
                               Share this product
                             </h3>
                           </div>
@@ -3850,98 +3845,89 @@ const ProductDetail: React.FC = () => {
                     </div>
                     {/* Favourites Button */}
                     <button
-                      className={`p-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors min-w-[40px] ${isInWishlist(Number(product?.product_id))
-                        ? "text-[#F2631F]"
-                        : "text-gray-600 flex items-center justify-center"
+                      className={`p-2.5 min-h-[44px] min-w-[44px] border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors flex items-center justify-center ${isInWishlist(Number(product?.product_id))
+                        ? "text-[#F2631F] border-[#F2631F]/30"
+                        : "text-gray-600"
                         }`}
                       onClick={handleWishlist}
                       disabled={wishlistLoading}
                       aria-label="Add to Wishlist"
                     >
                       {wishlistLoading ? (
-                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-[#F2631F] mx-auto"></div>
+                        <div className="animate-spin rounded-full h-5 w-5 border-2 border-[#F2631F]/30 border-t-[#F2631F]"></div>
                       ) : (
                         <Heart
-                          size={18}
-                          className={
-                            isInWishlist(Number(product?.product_id))
-                              ? "fill-current"
-                              : ""
-                          }
+                          size={20}
+                          className={isInWishlist(Number(product?.product_id)) ? "fill-current" : ""}
                         />
                       )}
                     </button>
                   </div>
-                  {/* Action Buttons (always below on mobile) */}
-                  <div className="flex gap-2 w-full mt-2">
-                    {/* Buy Now Button */}
+                  {/* Action Buttons (mobile - full width, touch-friendly) */}
+                  <div className="flex gap-3 w-full mt-1">
                     <button
                       onClick={handleBuyNow}
-                      className="bg-orange-500 text-white px-5 py-2 rounded-md hover:bg-orange-600 duration-300 transition-colors font-medium text-sm min-w-[120px] w-full"
+                      className="flex-1 min-h-[48px] bg-[#F2631F] text-white px-4 py-3 rounded-xl hover:bg-[#e55a1a] active:scale-[0.98] transition-all font-semibold text-sm"
                     >
                       Buy Now
                     </button>
-                    {/* Add to Cart Button */}
                     <button
                       onClick={handleAddToCart}
-                      className="bg-orange-500 text-white px-5 py-2 rounded-md hover:bg-orange-600 duration-300 transition-colors font-medium text-sm min-w-[120px] w-full"
+                      className="flex-1 min-h-[48px] bg-[#F2631F] text-white px-4 py-3 rounded-xl hover:bg-[#e55a1a] active:scale-[0.98] transition-all font-semibold text-sm"
                     >
                       Add To Cart
                     </button>
                   </div>
                 </div>
-                {/* Desktop layout: original order (sm+) */}
+                {/* Desktop layout */}
                 <div className="hidden nav:flex nav:flex-row nav:items-center nav:gap-3">
-                  {/* Quantity Changer */}
-                  <div className="flex items-center border border-gray-300 rounded-md overflow-hidden w-[90px] h-9">
+                  <div className="flex items-center border border-gray-200 rounded-xl overflow-hidden w-[110px] h-11 bg-gray-50">
                     <button
-                      className="w-8 h-full bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors text-lg disabled:opacity-30"
+                      className="w-9 h-full bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors text-lg font-medium disabled:opacity-40 disabled:pointer-events-none"
                       onClick={() => handleQuantityChange(-1)}
                       disabled={quantity <= 1}
+                      aria-label="Decrease quantity"
                     >
-                      -
+                      −
                     </button>
-                    <span className="w-8 text-center text-sm select-none">
+                    <span className="flex-1 min-w-[2rem] text-center text-sm font-medium select-none">
                       {quantity}
                     </span>
                     <button
-                      className="w-8 h-full bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors text-lg"
+                      className="w-9 h-full bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors text-lg font-medium"
                       onClick={() => handleQuantityChange(1)}
+                      aria-label="Increase quantity"
                     >
                       +
                     </button>
                   </div>
-                  {/* Action Buttons */}
-                  <div className="flex gap-2 nav:gap-3">
-                    {/* Buy Now Button */}
+                  <div className="flex gap-3">
                     <button
                       onClick={handleBuyNow}
-                      className="bg-orange-500 text-white px-5 py-2 rounded-md hover:bg-orange-600 duration-300 transition-colors font-medium text-sm min-w-[120px]"
+                      className="min-h-[44px] bg-[#F2631F] text-white px-5 py-2.5 rounded-xl hover:bg-[#e55a1a] transition-colors font-semibold text-sm min-w-[120px]"
                     >
                       Buy Now
                     </button>
-                    {/* Add to Cart Button */}
                     <button
                       onClick={handleAddToCart}
-                      className="bg-orange-500 text-white px-5 py-2 rounded-md hover:bg-orange-600 duration-300 transition-colors font-medium text-sm min-w-[120px]"
+                      className="min-h-[44px] bg-[#F2631F] text-white px-5 py-2.5 rounded-xl hover:bg-[#e55a1a] transition-colors font-semibold text-sm min-w-[120px]"
                     >
                       Add To Cart
                     </button>
                   </div>
-                  {/* Share Button */}
                   <div className="relative z-10">
                     <button
-                      className={`p-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors min-w-[40px] text-gray-600 flex items-center justify-center`}
+                      className="p-2.5 min-h-[44px] min-w-[44px] border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors text-gray-600 flex items-center justify-center"
                       onClick={() => setShowShareOptions(!showShareOptions)}
                       aria-label="Share this product"
                     >
-                      <Share2 size={18} />
+                      <Share2 size={20} />
                     </button>
                     {/* Share Options Dropdown */}
                     {showShareOptions && (
-                      <div ref={shareDropdownRef} className="absolute right-0 mt-2 w-56 bg-white rounded-md shadow-lg border border-gray-200 z-50">
+                      <div ref={shareDropdownRef} className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg border border-gray-200 z-50 overflow-hidden">
                         <div className="p-3 border-b border-gray-100">
-                          <h3 className="text-sm font-medium text-gray-700">
+                          <h3 className="text-sm font-semibold text-gray-800">
                             Share this product
                           </h3>
                         </div>
@@ -3995,27 +3981,19 @@ const ProductDetail: React.FC = () => {
                       </div>
                     )}
                   </div>
-                  {/* Favourites Button */}
                   <button
-                    className={`p-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors min-w-[40px] ${isInWishlist(Number(product?.product_id))
-                      ? "text-[#F2631F]"
-                      : "text-gray-600 flex items-center justify-center"
+                    className={`p-2.5 min-h-[44px] min-w-[44px] border rounded-xl hover:bg-gray-50 transition-colors flex items-center justify-center ${isInWishlist(Number(product?.product_id))
+                      ? "text-[#F2631F] border-[#F2631F]/30"
+                      : "text-gray-600 border-gray-200"
                       }`}
                     onClick={handleWishlist}
                     disabled={wishlistLoading}
                     aria-label="Add to Wishlist"
                   >
                     {wishlistLoading ? (
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-[#F2631F] mx-auto"></div>
+                      <div className="animate-spin rounded-full h-5 w-5 border-2 border-[#F2631F]/30 border-t-[#F2631F]"></div>
                     ) : (
-                      <Heart
-                        size={18}
-                        className={
-                          isInWishlist(Number(product?.product_id))
-                            ? "fill-current"
-                            : ""
-                        }
-                      />
+                      <Heart size={20} className={isInWishlist(Number(product?.product_id)) ? "fill-current" : ""} />
                     )}
                   </button>
                 </div>
@@ -4028,33 +4006,39 @@ const ProductDetail: React.FC = () => {
         </div>
 
         {/* Tabs Section */}
-        <div className="bg-white rounded-lg shadow-sm overflow-visible">
-          <div className="border-b border-gray-200 overflow-x-auto">
-            <nav className="flex min-w-[320px]">
+        <div className="bg-white rounded-xl sm:rounded-2xl shadow-sm border border-gray-100 overflow-visible">
+          <div className="border-b border-gray-100 overflow-x-auto scrollbar-hide">
+            <nav className="flex min-w-0 gap-1 p-1 sm:px-2" role="tablist">
               <button
+                role="tab"
+                aria-selected={activeTab === "product-details"}
                 onClick={() => setActiveTab("product-details")}
-                className={`py-2 px-4 font-medium border-b-2 ${activeTab === "product-details"
-                  ? "border-orange-500 text-orange-500"
-                  : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-                  } transition-colors`}
+                className={`py-3 px-4 sm:px-5 text-sm font-semibold rounded-t-lg whitespace-nowrap transition-colors ${activeTab === "product-details"
+                  ? "bg-[#F2631F]/10 text-[#F2631F] border-b-2 border-[#F2631F]"
+                  : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"
+                  }`}
               >
                 Description
               </button>
               <button
+                role="tab"
+                aria-selected={activeTab === "information"}
                 onClick={() => setActiveTab("information")}
-                className={`py-2 px-4 font-medium border-b-2 ${activeTab === "information"
-                  ? "border-orange-500 text-orange-500"
-                  : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-                  } transition-colors`}
+                className={`py-3 px-4 sm:px-5 text-sm font-semibold rounded-t-lg whitespace-nowrap transition-colors ${activeTab === "information"
+                  ? "bg-[#F2631F]/10 text-[#F2631F] border-b-2 border-[#F2631F]"
+                  : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"
+                  }`}
               >
                 Specifications
               </button>
               <button
+                role="tab"
+                aria-selected={activeTab === "reviews"}
                 onClick={() => setActiveTab("reviews")}
-                className={`py-2 px-4 font-medium border-b-2 ${activeTab === "reviews"
-                  ? "border-orange-500 text-orange-500"
-                  : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-                  } transition-colors`}
+                className={`py-3 px-4 sm:px-5 text-sm font-semibold rounded-t-lg whitespace-nowrap transition-colors ${activeTab === "reviews"
+                  ? "bg-[#F2631F]/10 text-[#F2631F] border-b-2 border-[#F2631F]"
+                  : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"
+                  }`}
               >
                 Reviews
               </button>
@@ -4069,7 +4053,7 @@ const ProductDetail: React.FC = () => {
             />
           )}
 
-          <div className="p-2 sm:p-4">{renderTabContent()}</div>
+          <div className="p-4 sm:p-6">{renderTabContent()}</div>
         </div>
       </div>
     </div>

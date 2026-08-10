@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronDown, ChevronUp, X } from 'lucide-react';
+import { ChevronDown, ChevronUp, X, ShieldCheck, RefreshCcw, BadgeCheck, Headphones } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { CartItem } from '../types';
 
@@ -48,6 +48,25 @@ const formatSelectedAttributes = (selectedAttributes: {[key: number]: string | s
   return formattedAttributes.length > 0 ? formattedAttributes : null;
 };
 
+const trustItems = [
+  {
+    icon: <ShieldCheck size={20} className="text-orange-500" />,
+    label: 'Secure Payments',
+  },
+  {
+    icon: <RefreshCcw size={20} className="text-orange-500" />,
+    label: 'Easy Returns',
+  },
+  {
+    icon: <BadgeCheck size={20} className="text-orange-500" />,
+    label: 'Genuine Products',
+  },
+  {
+    icon: <Headphones size={20} className="text-orange-500" />,
+    label: '24/7 Support',
+  },
+];
+
 const CartSummary: React.FC<CartSummaryProps> = ({
   cartItems,
   totalPrice,
@@ -85,51 +104,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({
 
   return (
     <div className="bg-white p-6 rounded-lg">
-      <h2 className="text-xl font-medium mb-6">Your Cart</h2>
-      
-      {/* Cart Items Summary */}
-      {cartItems && cartItems.length > 0 && (
-        <div className="mb-6 max-h-64 overflow-y-auto">
-          {cartItems.map((item) => {
-            const selectedAttributes = formatSelectedAttributes(item.selected_attributes);
-            
-            return (
-              <div key={item.cart_item_id} className="flex items-start space-x-3 py-3 border-b border-gray-100 last:border-b-0">
-                <div className="flex-shrink-0">
-                  <img 
-                    src={item.product.image_url} 
-                    alt={item.product.name}
-                    className="w-12 h-12 object-cover rounded-md"
-                  />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <h3 className="text-sm font-medium text-gray-900 truncate">
-                    {item.product.name}
-                  </h3>
-                  <p className="text-sm text-gray-500">
-                    Qty: {item.quantity} × {formatCurrency(item.product.price)}
-                  </p>
-                  {selectedAttributes && (
-                    <div className="mt-1">
-                      {selectedAttributes.map((attr, index) => (
-                        <span 
-                          key={index}
-                          className="inline-block bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded mr-1 mb-1"
-                        >
-                          {attr}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </div>
-                <div className="flex-shrink-0 text-sm font-medium text-gray-900">
-                  {formatCurrency(item.product.price * item.quantity)}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      )}
+      <h2 className="text-xl font-medium mb-6">Summary</h2>
       
       <div className="flex justify-between mb-4">
         <p className="text-gray-600">Sub Total</p>
@@ -143,13 +118,12 @@ const CartSummary: React.FC<CartSummaryProps> = ({
       </div>
 
       {typeof discount === 'number' && discount > 0 && appliedPromo && (
-  <div className="flex justify-between mb-4 text-green-600">
-    <p>Discount ({appliedPromo.code})</p>
-    <p>-{formatCurrency(discount)}</p>
-  </div>
-)}
+        <div className="flex justify-between mb-4 text-green-600">
+          <p>Discount ({appliedPromo.code})</p>
+          <p>-{formatCurrency(discount)}</p>
+        </div>
+      )}
 
-      
       <div className="border-b border-gray-200 pb-3 mb-4">
         <div 
           className="flex items-center justify-between cursor-pointer py-2"
@@ -203,8 +177,20 @@ const CartSummary: React.FC<CartSummaryProps> = ({
         disabled={loading || (finalTotal || totalPrice) === 0}
         className="w-full bg-orange-500 text-white py-3 rounded font-medium hover:bg-orange-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        {loading ? 'Processing...' : 'Payment Process'}
+        {loading ? 'Processing...' : 'Proceed to Checkout'}
       </button>
+
+      {/* Trust Bar */}
+      <div className="mt-6 pt-5 border-t border-gray-100">
+        <div className="grid grid-cols-2 gap-3">
+          {trustItems.map((item, index) => (
+            <div key={index} className="flex items-center gap-2">
+              {item.icon}
+              <span className="text-xs text-gray-600">{item.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };

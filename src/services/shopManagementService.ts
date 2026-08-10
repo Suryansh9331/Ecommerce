@@ -1,5 +1,5 @@
 const getApiBaseUrl = (): string => {
-  const baseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+  const baseUrl = import.meta.env.VITE_API_BASE_URL ;
   // Remove trailing slash if present
   return baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
 };

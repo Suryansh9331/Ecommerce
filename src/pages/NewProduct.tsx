@@ -138,6 +138,21 @@ const NewProduct: React.FC = () => {
       // Transform the API response to match the Product type
       const transformedProducts = data.products.map((product: any) => {
         const imageUrl = product.image || product.primary_image || '';
+
+        const imagesFromApi: string[] = Array.isArray(product.images)
+          ? product.images.filter(Boolean)
+          : Array.isArray(product.media)
+            ? product.media.map((m: any) => m?.url).filter(Boolean)
+            : [];
+
+        const normalizedImages =
+          imagesFromApi.length > 0
+            ? imagesFromApi
+            : imageUrl
+              ? [imageUrl]
+              : [];
+
+        const primaryImage = normalizedImages[0] || imageUrl || "";
         
         return {
           id: product.id || product.product_id.toString(),
@@ -150,8 +165,9 @@ const NewProduct: React.FC = () => {
           rating: product.rating || 0,
           reviews: product.reviews || [],
           currency: 'INR',
-          primary_image: imageUrl,
-          image: imageUrl,
+          primary_image: primaryImage,
+          image: primaryImage,
+          images: normalizedImages,
           isNew: true,
           isBuiltIn: false,
           category: {
@@ -372,7 +388,7 @@ const NewProduct: React.FC = () => {
             <p className="text-gray-500 font-worksans">No products found matching your criteria.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 mb-8">
             {displayProducts.map(product => (
               <ProductCard
                 key={product.id}

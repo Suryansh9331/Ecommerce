@@ -10,6 +10,8 @@ import InstagramPromo from '../components/shop/shop1/Productpage/InstagramPromo'
 import shop1ApiService, { Product } from '../services/shop1ApiService';
 import { Star } from 'lucide-react';
 
+import { useToast } from '../hooks/useToast';
+import { ToastContainer } from '../components/ui/ToastContainer';
 function Shop1ProductPage() {
   const { id } = useParams<{ id: string }>();
   const [product, setProduct] = useState<Product | null>(null);
@@ -91,6 +93,8 @@ function Shop1ProductPage() {
     setSelectedImages(prev => prev.filter((_, i) => i !== idx));
   };
 
+  const { toasts, error: showError } = useToast();
+
   const fetchShopReviews = async (p: number = 1) => {
     if (!id) return;
     try {
@@ -169,8 +173,7 @@ function Shop1ProductPage() {
       setSelectedImages([]);
       fetchShopReviews(1);
     } catch (err: any) {
-      alert(err.message || 'Failed to submit review');
-    }
+showError(err.message || 'Failed to submit review');    }
   };
 
   // On clicking Write Review: find delivered order containing this product
@@ -392,6 +395,7 @@ function Shop1ProductPage() {
       <InstagramPromo />
       {/* Simple image viewer overlay for review images */}
       <ReviewImageViewerShop1 />
+      <ToastContainer toasts={toasts} />
     </div>  
   );
 }

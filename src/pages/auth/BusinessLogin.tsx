@@ -153,9 +153,7 @@ const BusinessLogin: React.FC = () => {
                 <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                   Password
                 </label>
-                <Link to="/request-password-reset" className="text-sm text-[#F2631F] hover:text-orange-400">
-                  Forgot your password?
-                </Link>
+                
               </div>
               <div className="relative">
                 <input
@@ -174,6 +172,9 @@ const BusinessLogin: React.FC = () => {
                 >
                   {showPassword ? <EyeOff className="h-4 w-4 text-gray-400" /> : <Eye className="h-4 w-4 text-gray-400" />}
                 </button>
+                <Link to="/request-password-reset" className="text-sm text-[#F2631F] hover:text-orange-400">
+                  Forgot your password?
+                </Link>
               </div>
             </div>
   

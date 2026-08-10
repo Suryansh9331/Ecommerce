@@ -3,7 +3,8 @@ import { X, Plus, Trash2, Upload, DollarSign, Package, Save } from 'lucide-react
 import { Product } from '../../../types';
 import { ShopAttribute, shopManagementService } from '../../../services/shopManagementService';
 import { cloudinaryService, UploadProgress } from '../../../services/cloudinaryService';
-
+import { useToast } from '../../../hooks/useToast';
+import { ToastContainer } from '../../ui/ToastContainer';
 interface VariantMedia {
   id: string;
   type: 'image' | 'video';
@@ -56,7 +57,7 @@ const VariantManagementModal: React.FC<VariantManagementModalProps> = ({
   const MAX_VIDEO_SIZE = 50 * 1024 * 1024; // 50MB
   const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/svg'];
   const ALLOWED_VIDEO_TYPES = ['video/mp4', 'video/mov', 'video/avi'];
-
+const { toasts, error: showError, warning } = useToast();
   useEffect(() => {
     // Fetch shop attributes and existing variants
     if (shopId && categoryId) {
@@ -255,7 +256,7 @@ const VariantManagementModal: React.FC<VariantManagementModalProps> = ({
     });
 
     if (newErrors.length > 0) {
-      alert(newErrors.join('\n'));
+      showError(newErrors.join(' • '));
       return;
     }
 
@@ -316,7 +317,7 @@ const VariantManagementModal: React.FC<VariantManagementModalProps> = ({
       setVariants(updatedVariantsAfterUpload);
       
     } catch (error: any) {
-      alert(`Upload failed: ${error.message || 'Unknown error'}`);
+     showError(`Upload failed: ${error.message || 'Unknown error'}`);
       
       // Remove failed uploads from state
       const cleanedVariants = [...variants];
@@ -446,7 +447,7 @@ const VariantManagementModal: React.FC<VariantManagementModalProps> = ({
       // Validate variants
       for (const variant of variants) {
         if (!variant.name || !variant.sku || variant.price <= 0) {
-          alert('Please fill in all required fields for each variant');
+          warning('Please fill in all required fields for each variant');
           setIsLoading(false);
           return;
         }
@@ -485,11 +486,12 @@ const VariantManagementModal: React.FC<VariantManagementModalProps> = ({
         onComplete();
       } else {
         const errorData = await response.json();
-        alert(`Error saving variants: ${errorData.message || 'Unknown error'}`);
+       showError(`Error saving variants: ${errorData.message || 'Unknown error'}`);
       }
     } catch (error) {
       console.error('Error saving variants:', error);
-      alert('Error saving variants');
+     showError('Error saving variants');
+
     } finally {
       setIsLoading(false);
     }
@@ -799,6 +801,7 @@ const VariantManagementModal: React.FC<VariantManagementModalProps> = ({
           </button>
         </div>
       </div>
+      <ToastContainer toasts={toasts} />
     </div>
   );
 };

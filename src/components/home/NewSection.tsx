@@ -28,7 +28,7 @@ const NewSection: React.FC = () => {
                 {/* Header */}
                 <div className="text-center mb-6">
                     <h2 className="text-xl font-medium font-worksans text-gray-900 mb-3 tracking-wide uppercase">
-                        EASY TO STYLE JEWELRY
+                        EASY TO STYLE JEWELLERY
                     </h2>
                     <p className="text-gray-600 font-worksans text-lg">
                         All-Occasion Jewellery Specially Made For You

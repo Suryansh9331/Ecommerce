@@ -2,7 +2,7 @@
   "nav": {
     "home": "Home",
     "allProducts": "All Products",
-    "newProduct": "New Product",
+    "newProduct": "New Products",
     "promotion": "Promotion",
     "trackOrder": "Track Your Order",
     "signInRegister": "Sign In/Register",
@@ -10,7 +10,7 @@
     "cart": "Cart",
     "account": "Account",
     "becomeMerchant": "Become a Merchant",
-    "category": "Category",
+    "category": "Categories",
     "searchPlaceholder": "What are you looking for?",
     "search": "Search",
     "menu": "Menu",
@@ -132,7 +132,7 @@
   },
   "footer": {
     "shop": "Shop",
-    "newProduct": "New Product",
+    "newProduct": "New Products",
     "liveShop": "Live Shop",
     "promotion": "Promotion",
     "policies": "Policies",
@@ -157,7 +157,7 @@
   "services": {
     "freeShipping": {
       "title": "Fast Shipping",
-      "description": "On all orders naitonal and international"
+      "description": "On all orders national and international"
     },
     "cashBack": {
       "title": "Cash Back", 
@@ -166,6 +166,10 @@
     "support": {
       "title": "24/7 Support",
       "description": "When something goes wrong"
+    },
+    "highQuality": {
+      "title": "High Quality",
+      "description": "Curated products you can trust"
     }
   },
   "payment": {

@@ -86,6 +86,7 @@ const Order: React.FC = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [perPage] = useState(10);
   const [trackingLoading, setTrackingLoading] = useState<{ [key: string]: boolean }>({});
+  const [invoiceLoading, setInvoiceLoading] = useState<{ [key: string]: boolean }>({});
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
 
@@ -261,6 +262,63 @@ const Order: React.FC = () => {
     }
   };
 
+
+  const handleDownloadInvoice = async (orderId: string) => {
+    setInvoiceLoading(prev => ({ ...prev, [orderId]: true }));
+    try {
+      const token = localStorage.getItem('access_token');
+      if (!token) {
+        toast.error('Please sign in to download your invoice.');
+        return;
+      }
+
+      const response = await fetch(`${API_BASE_URL}/api/orders/${orderId}/invoice`, {
+        headers: { 'Authorization': `Bearer ${token}` },
+      });
+
+      // Success path: a PDF blob. Trigger a browser download.
+      const contentType = response.headers.get('Content-Type') || '';
+      if (response.ok && contentType.includes('application/pdf')) {
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `invoice_${orderId}.pdf`;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        window.URL.revokeObjectURL(url);
+        toast.success('Invoice downloaded.');
+        return;
+      }
+
+      // Error path: backend returns JSON. Map the known statuses to clear messages.
+      let serverMessage = '';
+      try {
+        const data = await response.json();
+        serverMessage = data?.message || data?.error || '';
+      } catch {
+        // non-JSON error body; fall through to status-based messages
+      }
+
+      if (response.status === 400) {
+        toast.error(serverMessage || 'Invoice is available only after successful payment.');
+      } else if (response.status === 401) {
+        toast.error('Your session has expired. Please sign in again.');
+      } else if (response.status === 403) {
+        toast.error("You don't have access to this invoice.");
+      } else if (response.status === 404) {
+        toast.error('Order not found.');
+      } else {
+        toast.error(serverMessage || 'Failed to download invoice. Please try again.');
+      }
+    } catch (err) {
+      console.error('Invoice download failed:', err);
+      toast.error('Unable to download invoice. Please check your connection and try again.');
+    } finally {
+      setInvoiceLoading(prev => ({ ...prev, [orderId]: false }));
+    }
+  };
 
   const refreshOrderTracking = async (orderId: string) => {
     try {
@@ -765,12 +823,13 @@ const Order: React.FC = () => {
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        // Handle invoice download
+                        handleDownloadInvoice(order.order_id);
                       }}
-                      className="px-3 sm:px-4 py-2 text-gray-600 border rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-2 text-sm"
+                      disabled={invoiceLoading[order.order_id]}
+                      className="px-3 sm:px-4 py-2 text-gray-600 border rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       <FileText size={16} />
-                      Invoice
+                      {invoiceLoading[order.order_id] ? 'Generating...' : 'Invoice'}
                     </button>
                   </div>
                 </div>

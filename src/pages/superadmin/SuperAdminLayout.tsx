@@ -16,6 +16,7 @@ import {
   X,
   FolderOpen,
   ShieldCheck,
+  Smartphone,
   LucideIcon,
 } from "lucide-react";
 import { ChartBarIcon } from "@heroicons/react/24/outline";
@@ -299,6 +300,11 @@ export const catalogSections: MenuSection[] = [
         title: "Homepages",
         icon: Home,
         description: "Manage categories displayed on homepage",
+      },
+      {
+        title: "Explore Screen",
+        icon: Smartphone,
+        description: "Manage explore screen banners for the mobile app",
       },
     ],
   },

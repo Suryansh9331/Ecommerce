@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5110';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ;
 
 // Add excluded routes
 const EXCLUDED_ROUTES = [

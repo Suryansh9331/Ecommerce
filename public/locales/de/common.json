@@ -164,6 +164,10 @@
     "support": {
       "title": "24/7 Support",
       "description": "Wenn etwas schiefgeht"
+    },
+    "highQuality": {
+      "title": "Hohe Qualität",
+      "description": "Kuratierte Produkte, denen Sie vertrauen können"
     }
   },
   "payment": {

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-
+import { useToast } from '../../hooks/useToast';
+import { ToastContainer } from '../ui/ToastContainer';
 const NewsletterSignup: React.FC = () => {
   const [email, setEmail] = useState('');
-
+const { toasts, success } = useToast();
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle form submission - would connect to backend in real implementation
@@ -12,7 +13,7 @@ const NewsletterSignup: React.FC = () => {
     setEmail('');
     
     // Provide feedback to user (in a real app this would be a proper toast or alert)
-    alert('Thank you for subscribing to our newsletter!');
+    success('Thank you for subscribing to our newsletter!');
   };
 
   return (
@@ -57,6 +58,7 @@ const NewsletterSignup: React.FC = () => {
           </div>
         </div>
       </div>
+      <ToastContainer toasts={toasts} />
     </section>
   );
 };
