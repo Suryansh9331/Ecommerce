@@ -12,7 +12,18 @@ const REEL_VIDEOS = [
   'https://res.cloudinary.com/ddnb10zkq/video/upload/v1773750954/WhatsApp_Video_2026-03-17_at_18.02.49_1_qhbx22.mp4',
 ];
 
-// Product overlay per reel (name, price, originalPrice) — matches reel content
+// Product overlay per reel (name, price, originalPrice) — matches reel content.
+//
+// These are hardcoded placeholders with NO API behind them, and the amounts are
+// INR. Nothing converts them, so they must be rendered as INR explicitly: passing
+// them through the active currency would print 1199 as "$1,199.00" for an item
+// worth about fourteen dollars.
+//
+// Real product prices elsewhere are converted server-side and do follow the
+// currency switcher. For this section to follow it too, the overlay needs real
+// products behind it rather than this array.
+const REEL_PRODUCT_CURRENCY = "INR";
+
 const REEL_PRODUCTS = [
   { name: 'Men\'s Premium Casual Wear Collection', price: 1199, originalPrice: 2199 },
   { name: 'Classic Stud Earrings', price: 449, originalPrice: 699 },
@@ -157,11 +168,11 @@ const ReelCard: React.FC<ReelCardProps> = ({ videoUrl, product, index }) => {
               </p>
               <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
                 <span className="text-[10px] sm:text-sm font-bold text-gray-900">
-                  {formatMoney(product.price)}
+                  {formatMoney(product.price, { currency: REEL_PRODUCT_CURRENCY })}
                 </span>
                 {product.originalPrice > product.price && (
                   <span className="text-[9px] sm:text-xs text-gray-500 line-through">
-                    {formatMoney(product.originalPrice)}
+                    {formatMoney(product.originalPrice, { currency: REEL_PRODUCT_CURRENCY })}
                   </span>
                 )}
               </div>
