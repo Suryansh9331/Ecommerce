@@ -120,7 +120,9 @@ const Subscription: React.FC = () => {
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          amount_minor: Math.round(plan.price * 100), // paise
+          // The plan id, not its price. The server reads subscription_plans.price
+          // itself, so a tampered plan.price here cannot change what is charged.
+          subscription_plan_id: plan.plan_id,
           currency: 'INR'
         })
       });

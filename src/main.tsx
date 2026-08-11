@@ -4,6 +4,13 @@ import App from './App.tsx';
 import './index.css';
 import './i18n';
 import { PLATFORM_LOGO_URL } from './config';
+import { installCurrencyFetchInterceptor } from './utils/apiClient';
+
+// Before anything renders. Context providers fetch during their first effect, and
+// an interceptor installed later would miss those requests — the cart in
+// particular would load in the wrong currency and stay that way until a refetch.
+// While the store is on INR this is a pure passthrough.
+installCurrencyFetchInterceptor();
 
 // Feed the logo to CSS (the printed-invoice watermark) so src/config.ts stays
 // the single place the platform logo is defined.

@@ -50,9 +50,11 @@ interface IProduct {
     product_name: string;
 }
 
+type SlotType = 'sidebar_right' | 'bottom_left' | 'bottom_right';
+
 interface ICarouselItem {
     id: number;
-    type: 'brand' | 'product' | 'promo' | 'new' | 'featured';
+    type: 'brand' | 'product' | 'promo' | 'new' | 'featured' | SlotType;
     image_url: string;
     target_id: number;
     display_order: number;
@@ -60,6 +62,14 @@ interface ICarouselItem {
     shareable_link?: string;
     orientation?: 'horizontal' | 'vertical';
 }
+
+const SLOT_CONFIG: Record<SlotType, { label: string; orientation: 'horizontal' | 'vertical'; size: string; area: string }> = {
+    sidebar_right: { label: 'Right Sidebar', orientation: 'vertical', size: '368 × 564 px (tall / portrait)', area: 'Right column of the hero' },
+    bottom_left: { label: 'Bottom Left', orientation: 'horizontal', size: '~800 × 172 px (wide)', area: 'Bottom-left of the hero' },
+    bottom_right: { label: 'Bottom Right', orientation: 'horizontal', size: '~800 × 172 px (wide)', area: 'Bottom-right of the hero' },
+};
+
+const SLOT_KEYS: SlotType[] = ['sidebar_right', 'bottom_left', 'bottom_right'];
 
 const HomepageSettings: React.FC = () => {
     const [categories, setCategories] = useState<ICategory[]>([]);
@@ -84,6 +94,12 @@ const HomepageSettings: React.FC = () => {
     const [selectedProductGroup, setSelectedProductGroup] = useState<'promo' | 'new' | 'featured'>('promo');
     const [editingCarousel, setEditingCarousel] = useState<ICarouselItem | null>(null);
     const [isEditing, setIsEditing] = useState(false);
+
+    // Side & bottom positional banners
+    const [slotBanners, setSlotBanners] = useState<ICarouselItem[]>([]);
+    const [selectedSlot, setSelectedSlot] = useState<SlotType>('sidebar_right');
+    const [slotImage, setSlotImage] = useState<File | null>(null);
+    const [slotLink, setSlotLink] = useState<string>('');
 
     useEffect(() => {
         fetchCategories();
@@ -239,8 +255,11 @@ const HomepageSettings: React.FC = () => {
                 (item.type === 'promo' || item.type === 'new' || item.type === 'featured') && 
                 (!item.orientation || item.orientation === 'horizontal')
             ));
-            setVerticalCarousel(data.filter((item: ICarouselItem) => 
+            setVerticalCarousel(data.filter((item: ICarouselItem) =>
                 item.orientation === 'vertical'
+            ));
+            setSlotBanners(data.filter((item: ICarouselItem) =>
+                SLOT_KEYS.includes(item.type as SlotType)
             ));
         } catch (error) {
             console.error('Error fetching carousels:', error);
@@ -393,6 +412,57 @@ const HomepageSettings: React.FC = () => {
         } catch (error) {
             console.error('Error uploading carousel item:', error);
             toast.error('Failed to upload carousel item');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleSlotImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            setSlotImage(file);
+        }
+    };
+
+    const handleSlotBannerUpload = async () => {
+        if (!slotImage) {
+            toast.error('Please select an image');
+            return;
+        }
+        try {
+            setLoading(true);
+            const token = localStorage.getItem('access_token');
+            if (!token) {
+                toast.error('Authentication token not found. Please login again.');
+                return;
+            }
+            const formData = new FormData();
+            formData.append('type', selectedSlot);
+            formData.append('orientation', SLOT_CONFIG[selectedSlot].orientation);
+            formData.append('target_id', '0');
+            if (slotLink.trim()) {
+                formData.append('shareable_link', slotLink.trim());
+            }
+            formData.append('image', slotImage);
+
+            const response = await fetch(`${API_BASE_URL}/api/superadmin/carousels`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                body: formData
+            });
+            if (!response.ok) {
+                throw new Error('Failed to upload banner');
+            }
+            toast.success(`${SLOT_CONFIG[selectedSlot].label} banner added successfully`);
+            setSlotImage(null);
+            setSlotLink('');
+            fetchCarousels();
+            fetchCarouselItems();
+        } catch (error) {
+            console.error('Error uploading slot banner:', error);
+            toast.error('Failed to upload banner');
         } finally {
             setLoading(false);
         }
@@ -991,6 +1061,118 @@ const HomepageSettings: React.FC = () => {
                 </div>
             </div>
 
+
+            {/* Side & Bottom Banners Section - Positional slots */}
+            <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+                <div className="flex items-center justify-between mb-4">
+                    <div>
+                        <h2 className="text-xl font-bold text-gray-800 mb-1">Side &amp; Bottom Banners</h2>
+                        <p className="text-sm text-gray-600">Right sidebar and the two bottom banners of the hero section</p>
+                    </div>
+                    <div className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-xs font-semibold">
+                        Side / Bottom
+                    </div>
+                </div>
+
+                <div className="space-y-4">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-end gap-4">
+                        <label className="flex-1 w-full">
+                            <span className="block text-sm font-medium text-gray-700 mb-1">Banner Slot</span>
+                            <select
+                                value={selectedSlot}
+                                onChange={(e) => setSelectedSlot(e.target.value as SlotType)}
+                                className="w-full p-2 border rounded"
+                            >
+                                {SLOT_KEYS.map((slot) => (
+                                    <option key={slot} value={slot}>
+                                        {SLOT_CONFIG[slot].label}
+                                    </option>
+                                ))}
+                            </select>
+                        </label>
+                        <label className="flex-1 w-full">
+                            <span className="block text-sm font-medium text-gray-700 mb-1">Upload Image</span>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                onChange={handleSlotImageUpload}
+                                className="w-full"
+                            />
+                        </label>
+                    </div>
+
+                    <div className="p-2 bg-purple-50 border-l-4 border-purple-400 rounded text-sm text-purple-800">
+                        <strong>📐 {SLOT_CONFIG[selectedSlot].label}:</strong> Recommended size <b>{SLOT_CONFIG[selectedSlot].size}</b>. Appears in the {SLOT_CONFIG[selectedSlot].area}.
+                    </div>
+
+                    <label className="block">
+                        <span className="block text-sm font-medium text-gray-700 mb-1">Link URL <span className="text-gray-400 font-normal">(optional)</span></span>
+                        <input
+                            type="text"
+                            value={slotLink}
+                            onChange={(e) => setSlotLink(e.target.value)}
+                            placeholder="https://... (leave blank for a non-clickable banner)"
+                            className="w-full p-2 border rounded text-sm"
+                        />
+                    </label>
+
+                    <button
+                        onClick={handleSlotBannerUpload}
+                        className="w-full bg-purple-600 text-white px-4 py-3 rounded-lg flex items-center justify-center hover:bg-purple-700 transition-colors shadow-md font-medium disabled:opacity-50"
+                        disabled={loading || !slotImage}
+                    >
+                        <PlusCircle className="w-5 h-5 mr-2" />
+                        {loading ? 'Uploading...' : `Add Banner to ${SLOT_CONFIG[selectedSlot].label}`}
+                    </button>
+
+                    {/* Existing banners grouped by slot */}
+                    {SLOT_KEYS.map((slot) => {
+                        const banners = slotBanners.filter((item) => item.type === slot);
+                        if (banners.length === 0) return null;
+                        return (
+                            <div key={slot} className="mt-6">
+                                <h3 className="text-sm font-semibold text-gray-700 mb-3 flex items-center">
+                                    <span className="w-2 h-2 bg-purple-500 rounded-full mr-2"></span>
+                                    {SLOT_CONFIG[slot].label} ({banners.length})
+                                </h3>
+                                <div className="space-y-2">
+                                    {banners.map((item) => (
+                                        <div key={item.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 transition-colors">
+                                            <div className="flex items-center space-x-3">
+                                                <img src={item.image_url} alt={SLOT_CONFIG[slot].label} className="w-12 h-12 object-cover rounded border border-gray-300" />
+                                                <div>
+                                                    <p className="font-medium text-gray-800">{SLOT_CONFIG[slot].label}</p>
+                                                    <p className="text-xs text-gray-500">Display Order: {item.display_order}</p>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center space-x-2">
+                                                {item.shareable_link && (
+                                                    <a
+                                                        href={item.shareable_link}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="p-2 text-blue-600 hover:bg-blue-50 rounded transition-colors"
+                                                        title="View link"
+                                                    >
+                                                        <LinkIcon size={18} />
+                                                    </a>
+                                                )}
+                                                <button
+                                                    onClick={() => handleDeleteCarousel(item.id)}
+                                                    className="p-2 text-red-600 hover:bg-red-50 rounded transition-colors"
+                                                    title="Delete banner"
+                                                >
+                                                    <Trash2 size={18} />
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
 
             {/* Carousel Order Management Section */}
             <div className="bg-white rounded-lg shadow-md p-6 mt-8">

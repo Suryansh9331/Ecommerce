@@ -101,8 +101,15 @@ const ShopCartSummary: React.FC<ShopCartSummaryProps> = ({
                     alt={item.product.name}
                     className="w-12 h-12 object-cover rounded-md"
                     onError={(e) => {
-                      e.currentTarget.src = '/placeholder-image.png';
-                    }}
+                const img = e.currentTarget as HTMLImageElement;
+                // Guard against a loop: if the placeholder itself fails to load,
+                // onError fires again and reassigns the same missing src forever.
+                // That produced thousands of requests and a page that never
+                // finished loading. One swap per element, then give up.
+                if (img.dataset.fallbackApplied === "1") return;
+                img.dataset.fallbackApplied = "1";
+                img.src = "/placeholder-image.png";
+              }}
                   />
                 </div>
                 <div className="flex-1 min-w-0">

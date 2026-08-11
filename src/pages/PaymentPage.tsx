@@ -17,16 +17,16 @@ import { DirectPurchaseItem } from "../types";
 import ConfirmationModal from "../components/common/ConfirmationModal";
 import { addressService, type Address as AddressModel } from "../services/address";
 import RazorpayPayment from "../components/RazorpayPayment";
+import { createCheckoutQuote } from "../utils/checkoutQuote";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-// Checkout currency. All prices and totals here are INR, so the charge currency is INR.
-//
-// This used to be derived from the selected country in the PHONE DIALLING CODE dropdown
-// below, while the amount stayed an unconverted INR number — so choosing "+1" created a
-// Razorpay order for the rupee figure denominated in USD, roughly an 85x overcharge.
-// Presentment currency will come from the currency layer, never from a phone code.
-const CHECKOUT_CURRENCY = "INR";
+// Checkout currency is no longer decided here at all — the server reads it off the
+// quote. This page once derived it from the selected country in the PHONE DIALLING
+// CODE dropdown below, while the amount stayed an unconverted INR number, so choosing
+// "+1" created a Razorpay order for the rupee figure denominated in USD: roughly an
+// 85x overcharge. Presentment currency will come from the currency layer, never from
+// a phone code and never from this file.
 
 // Country phone codes
 const COUNTRY_CODES = [
@@ -85,6 +85,9 @@ const PaymentPage: React.FC = () => {
   );
   const [showRazorpay, setShowRazorpay] = useState(false);
   const [razorpayOrderId, setRazorpayOrderId] = useState<string>("");
+  // The server-issued quote this checkout is paying against. When set, the order
+  // is created by verify-payment on the server, not by this page.
+  const [checkoutQuoteId, setCheckoutQuoteId] = useState<string>("");
   const [showCountryCodes, setShowCountryCodes] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(COUNTRY_CODES.find(c => c.code === "IN") || COUNTRY_CODES[0]);
   const [postalCodeError, setPostalCodeError] = useState<string>("");
@@ -214,7 +217,15 @@ const PaymentPage: React.FC = () => {
   // const handleCardInputChange = () => {};
  
   // Create Razorpay order
-  const createRazorpayOrder = async (amount: number, receipt?: string, currency?: string): Promise<string | null> => {
+  /**
+   * Create the gateway order from a server-issued quote.
+   *
+   * No amount is sent. The server reads the total off the quote it priced itself,
+   * which is what makes the charge impossible to tamper with from here. It also
+   * uses the quote id as the gateway receipt, so verify-payment can find its way
+   * back to a row that already exists.
+   */
+  const createRazorpayOrder = async (quoteId: string): Promise<string | null> => {
     try {
       const token = localStorage.getItem("access_token");
       if (!token) {
@@ -229,11 +240,7 @@ const PaymentPage: React.FC = () => {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
-        body: JSON.stringify({
-          amount_major: amount,
-          currency: currency || CHECKOUT_CURRENCY,
-          receipt: receipt || `CLIENT-${Date.now()}`,
-        }),
+        body: JSON.stringify({ quote_id: quoteId }),
       });
 
       const text = await response.text();
@@ -660,10 +667,33 @@ const PaymentPage: React.FC = () => {
       const isSuccess = data.status === 'success' || data.success === true || isVerified === true;
       if (isSuccess) {
         const resolvedPaymentId = payload?.payment_id || paymentId;
-        const resolvedOrderId = payload?.order_id || razorpayOrderId;
         toast.success("Payment successful!");
-        // Continue with order processing
-        await processOrderAfterPayment(resolvedPaymentId, resolvedOrderId);
+
+        // Quote-first path: the server already checked the captured amount against
+        // the quote, consumed the quote, and created the order inside verify-payment.
+        // Creating another one here would double-order and double-decrement stock.
+        if (payload?.order_id && (payload?.quote_id || checkoutQuoteId)) {
+          await finalizeOrder(payload.order_id);
+        } else if (checkoutQuoteId) {
+          // We know this payment was made against a quote, so the order is the
+          // server's to create — but it did not tell us which one. Falling through
+          // to the legacy branch here would risk a second order for one payment,
+          // so stop and let support reconcile instead.
+          console.error(
+            `Paid against quote ${checkoutQuoteId} but verify-payment returned no order id`
+          );
+          toast.error(
+            "Your payment succeeded but we could not confirm the order. " +
+            "Please contact support before paying again."
+          );
+        } else {
+          // Legacy path: no quote behind this payment, so the order still has to be
+          // created from here. Delete this branch once every caller sends a quote_id.
+          console.warn(
+            "verify-payment returned no quote_id; falling back to client-created order"
+          );
+          await processOrderAfterPayment(resolvedPaymentId, razorpayOrderId);
+        }
       } else {
         const rawMsg = data.message ?? 'Payment verification failed';
         const msg = typeof rawMsg === 'string' ? rawMsg : JSON.stringify(rawMsg);
@@ -794,69 +824,7 @@ const PaymentPage: React.FC = () => {
       }
 
       if (responseData.status === "success") {
-        const orderId = responseData.data.order_id;
-
-        // Create merchant transactions
-        const merchantTransactionsSuccess = await createMerchantTransactions(orderId);
-        if (!merchantTransactionsSuccess) {
-          console.warn("Failed to create merchant transactions, but order was successful");
-        }
-
-        // logistics service creation
-        try {
-          const shiprocketResp = await fetch(
-            `${API_BASE_URL}/api/shiprocket/create-orders-for-all-merchants`,
-            {
-              method: "POST",
-              headers: {
-                Authorization: `Bearer ${accessToken}`,
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                order_id: orderId,
-                delivery_address_id: selectedAddressId,
-                courier_id: selectedCourier?.courier_company_id,
-              }),
-            }
-          );
-
-          const srData = await shiprocketResp.json();
-          if (
-            shiprocketResp.ok &&
-            srData.status === "success" &&
-            srData.data &&
-            Array.isArray(srData.data.successful_merchants) &&
-            srData.data.successful_merchants.length > 0
-          ) {
-            const response = srData.data;
-            if (response.successful_merchants.length > 0) {
-              const successCount = response.successful_merchants.length;
-              const totalCount = response.total_merchants;
-
-              if (successCount === totalCount) {
-                toast.success(
-                  `Logistics service created successfully for all ${totalCount} merchant(s)`
-                );
-              } else {
-                toast.success(
-                  `Logistics service created for ${successCount}/${totalCount} merchants. Some failed.`
-                );
-              }
-            }
-          }
-        } catch (srErr) {
-          console.error("logistics service call error:", srErr);
-          toast.error(
-            "Order placed successfully, but logistics service creation failed. Please contact support."
-          );
-        }
-
-        // Clear the cart after successful order
-        if (!isDirectPurchase) {
-          await clearCart();
-        }
-        toast.success("Order placed successfully");
-        navigate("/order-confirmation", { state: { orderId }, replace: true });
+        await finalizeOrder(responseData.data.order_id);
       } else {
         throw new Error(responseData.message || "Failed to place order");
       }
@@ -866,6 +834,71 @@ const PaymentPage: React.FC = () => {
         error instanceof Error ? error.message : "Failed to place order"
       );
     }
+  };
+
+  /**
+   * Everything that happens once an order exists and is paid: merchant
+   * settlement rows, logistics, cart cleanup, confirmation screen.
+   *
+   * Shared by both paths — the quote-first flow where verify-payment created the
+   * order server-side, and the legacy flow where this page created it. None of
+   * these steps may fail the order: the money has already moved.
+   */
+  const finalizeOrder = async (orderId: string) => {
+    const merchantTransactionsSuccess = await createMerchantTransactions(orderId);
+    if (!merchantTransactionsSuccess) {
+      console.warn("Failed to create merchant transactions, but order was successful");
+    }
+
+    try {
+      const shiprocketResp = await fetch(
+        `${API_BASE_URL}/api/shiprocket/create-orders-for-all-merchants`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            order_id: orderId,
+            delivery_address_id: selectedAddressId,
+            courier_id: selectedCourier?.courier_company_id,
+          }),
+        }
+      );
+
+      const srData = await shiprocketResp.json();
+      if (
+        shiprocketResp.ok &&
+        srData.status === "success" &&
+        srData.data &&
+        Array.isArray(srData.data.successful_merchants) &&
+        srData.data.successful_merchants.length > 0
+      ) {
+        const successCount = srData.data.successful_merchants.length;
+        const totalCount = srData.data.total_merchants;
+        if (successCount === totalCount) {
+          toast.success(
+            `Logistics service created successfully for all ${totalCount} merchant(s)`
+          );
+        } else {
+          toast.success(
+            `Logistics service created for ${successCount}/${totalCount} merchants. Some failed.`
+          );
+        }
+      }
+    } catch (srErr) {
+      console.error("logistics service call error:", srErr);
+      toast.error(
+        "Order placed successfully, but logistics service creation failed. Please contact support."
+      );
+    }
+
+    if (!isDirectPurchase) {
+      await clearCart();
+    }
+    toast.success("Order placed successfully");
+    navigate("/order-confirmation", { state: { orderId }, replace: true });
   };
 
   const handleOrder = async () => {
@@ -882,8 +915,9 @@ const PaymentPage: React.FC = () => {
     // Handle Razorpay payment
     if (paymentMethod === "razorpay") {
       setProcessingPayment(true);
-      
-      // Calculate total amount
+
+      // Which products, how many — intent only. The prices on these objects are
+      // for display; the server re-reads every one of them from the database.
       const itemsSource =
         isDirectPurchase && directPurchaseItem
           ? [
@@ -897,19 +931,56 @@ const PaymentPage: React.FC = () => {
           ]
           : cart;
 
-      const subtotal = itemsSource.reduce((total, item) => {
-        const effectiveUnitPrice = item.product.price;
-        return total + effectiveUnitPrice * item.quantity;
-      }, 0);
-      const finalTotal = subtotal - discount + shippingCost;
+      try {
+        const quote = await createCheckoutQuote(
+          {
+            items: itemsSource.map((item: any) => ({
+              product_id: item.product?.id ?? item.product_id,
+              quantity: item.quantity,
+              selected_attributes: item.selected_attributes || {},
+            })),
+            // The code, not the discount. The server resolves what it is worth.
+            promo_code: appliedPromo?.code,
+            shipping_address_id: selectedAddressId,
+            billing_address_id: selectedAddressId,
+            shipping_method_name: "Standard Shipping",
+          },
+          accessToken
+        );
 
-      // Create Razorpay order
-      const clientReceipt = `ORDREF-${Date.now()}`;
-      const razorpayOrderId = await createRazorpayOrder(finalTotal, clientReceipt);
-      if (razorpayOrderId) {
-        setRazorpayOrderId(razorpayOrderId);
-        setShowRazorpay(true);
-      } else {
+        // If the server priced the basket differently from what the customer is
+        // looking at, stop. Charging the quote silently would take a different
+        // amount than the screen shows.
+        const displayedSubtotal = itemsSource.reduce(
+          (sum: number, item: any) => sum + item.product.price * item.quantity,
+          0
+        );
+        const shown = (displayedSubtotal - discount + shippingCost).toFixed(2);
+        if (quote.total_amount !== shown) {
+          console.warn(
+            `Quote total ${quote.total_amount} differs from displayed ${shown}; ` +
+            `prices may have changed.`
+          );
+          toast.error(
+            "Prices in your basket have changed. Please review the total and try again."
+          );
+          setProcessingPayment(false);
+          return;
+        }
+
+        setCheckoutQuoteId(quote.quote_id);
+        const gatewayOrderId = await createRazorpayOrder(quote.quote_id);
+        if (gatewayOrderId) {
+          setRazorpayOrderId(gatewayOrderId);
+          setShowRazorpay(true);
+        } else {
+          setProcessingPayment(false);
+        }
+      } catch (err) {
+        console.error("Checkout quote failed:", err);
+        toast.error(
+          err instanceof Error ? err.message : "Could not price your basket."
+        );
         setProcessingPayment(false);
       }
       return;
@@ -1902,7 +1973,6 @@ const PaymentPage: React.FC = () => {
         )}
         <OrderSummary
           className="sticky top-8 mr-20"
-          selectedCountry={selectedCountry}
           discount={discount}
           promoCode={appliedPromo?.code}
           itemDiscounts={itemDiscounts}

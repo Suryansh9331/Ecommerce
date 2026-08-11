@@ -9,6 +9,7 @@ import { toast } from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import { useAmazonTranslate } from "../../hooks/useAmazonTranslate";
 
+import { formatMoney } from "../../utils/money";
 // Stable dummy rating 4.5–4.9 per product id
 const getDisplayRating = (id: string | number): number => {
   const n = String(id).split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
@@ -231,8 +232,14 @@ const ProductCard: React.FC<ProductCardProps> = ({
               alt={product.name}
               className="w-full h-full object-cover"
               onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                target.src = "/placeholder-image.png";
+                const img = e.currentTarget as HTMLImageElement;
+                // Guard against a loop: if the placeholder itself fails to load,
+                // onError fires again and reassigns the same missing src forever.
+                // That produced thousands of requests and a page that never
+                // finished loading. One swap per element, then give up.
+                if (img.dataset.fallbackApplied === "1") return;
+                img.dataset.fallbackApplied = "1";
+                img.src = "/placeholder-image.png";
               }}
             />
           ) : (
@@ -251,9 +258,15 @@ const ProductCard: React.FC<ProductCardProps> = ({
                         : "translateX(100%)",
                 }}
                 onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  target.src = "/placeholder-image.png";
-                }}
+                const img = e.currentTarget as HTMLImageElement;
+                // Guard against a loop: if the placeholder itself fails to load,
+                // onError fires again and reassigns the same missing src forever.
+                // That produced thousands of requests and a page that never
+                // finished loading. One swap per element, then give up.
+                if (img.dataset.fallbackApplied === "1") return;
+                img.dataset.fallbackApplied = "1";
+                img.src = "/placeholder-image.png";
+              }}
               />
 
               {/* Active (incoming) image layer */}
@@ -270,9 +283,15 @@ const ProductCard: React.FC<ProductCardProps> = ({
                       : "translateX(0%)",
                 }}
                 onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  target.src = "/placeholder-image.png";
-                }}
+                const img = e.currentTarget as HTMLImageElement;
+                // Guard against a loop: if the placeholder itself fails to load,
+                // onError fires again and reassigns the same missing src forever.
+                // That produced thousands of requests and a page that never
+                // finished loading. One swap per element, then give up.
+                if (img.dataset.fallbackApplied === "1") return;
+                img.dataset.fallbackApplied = "1";
+                img.src = "/placeholder-image.png";
+              }}
               />
               {/* Transition effect via Tailwind transition classes */}
             </>
@@ -371,18 +390,19 @@ const ProductCard: React.FC<ProductCardProps> = ({
             {translatedName || product.name}
           </h3>
 
-          {/* Price pinned to the bottom so it lines up across the whole row */}
+          {/* Price pinned to the bottom so it lines up across the whole row.
+              formatMoney so the card follows the currency the shopper selected. */}
           <div className="mt-3 flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
             <span className="text-lg font-bold leading-none tracking-tight text-gray-900">
-              Rs.{currentPrice.toFixed(2)}
+              {formatMoney(currentPrice)}
             </span>
             {originalPrice != null && originalPrice > currentPrice && (
               <>
                 <span className="text-xs leading-none text-gray-400 line-through">
-                  Rs.{Number(originalPrice).toFixed(2)}
+                  {formatMoney(originalPrice)}
                 </span>
                 <span className="text-[11px] font-semibold leading-none text-success-600">
-                  Save Rs.{(Number(originalPrice) - currentPrice).toFixed(0)}
+                  Save {formatMoney(Number(originalPrice) - currentPrice, { compact: true })}
                 </span>
               </>
             )}

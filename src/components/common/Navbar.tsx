@@ -11,6 +11,7 @@ import LogoutConfirmationPopup from '../LogoutConfirmationPopup';
 import toast from 'react-hot-toast';
 import '@fontsource/work-sans';
 import { useTranslation } from 'react-i18next';
+import CurrencySwitcher from './CurrencySwitcher';
 
 
 // Custom breakpoint for 968px
@@ -462,6 +463,10 @@ const Navbar: React.FC = () => {
                   </Link>
                 </li>
                 <li>
+                  {/* Self-hiding until more than one currency is available. */}
+                  <CurrencySwitcher variant="inline" />
+                </li>
+                <li>
                   <div className="flex items-center justify-between min-h-[44px] px-3" ref={languageDropdownRef}>
                     <span className="text-[15px] text-gray-700">Language</span>
                     <div className="relative">
@@ -537,6 +542,9 @@ const Navbar: React.FC = () => {
             <Link to="/profile" className="p-2 text-gray-600 hover:text-primary-600 transition-colors rounded-lg" aria-label="Account">
               <User className="w-5 h-5" />
             </Link>
+            {/* Renders nothing until the server offers more than one currency. */}
+            <CurrencySwitcher className="mr-1" />
+
             <div className="relative" ref={languageDropdownRef}>
               <button
                 type="button"

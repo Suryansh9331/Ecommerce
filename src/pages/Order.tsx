@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import { toast } from 'react-hot-toast';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
+import { formatMoney } from "../utils/money";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 interface OrderItem {
@@ -625,7 +626,13 @@ const Order: React.FC = () => {
                         </div>
                         <div className="text-right">
                           <p className="text-sm text-gray-600">Total</p>
-                          <p className="font-semibold">{(o.currency === 'INR' ? '₹' : o.currency)} {o.total_amount}</p>
+                          {/* An order is shown in the currency it was recorded in,
+                              never re-converted at today's rate — invariant I12.
+                              A past order's value is a historical fact, and a refund
+                              has to match what was actually charged. */}
+                          <p className="font-semibold">
+                            {formatMoney(o.total_amount, { currency: o.currency || 'INR' })}
+                          </p>
                         </div>
                       </div>
                       <div className="mt-3 flex flex-wrap items-center gap-2">
@@ -749,9 +756,15 @@ const Order: React.FC = () => {
                         alt={item.product_name_at_purchase}
                         className="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-lg flex-shrink-0"
                         onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.src = '/placeholder-image.jpg';
-                        }}
+                const img = e.currentTarget as HTMLImageElement;
+                // Guard against a loop: if the placeholder itself fails to load,
+                // onError fires again and reassigns the same missing src forever.
+                // That produced thousands of requests and a page that never
+                // finished loading. One swap per element, then give up.
+                if (img.dataset.fallbackApplied === "1") return;
+                img.dataset.fallbackApplied = "1";
+                img.src = "/placeholder-image.jpg";
+              }}
                       />
                       <div className="flex-1 min-w-0">
                         <h3 className="font-medium text-base sm:text-lg mb-1 truncate sm:whitespace-normal sm:truncate-none sm:max-w-[350px] md:max-w-[500px] lg:max-w-[600px]">{item.product_name_at_purchase}</h3>

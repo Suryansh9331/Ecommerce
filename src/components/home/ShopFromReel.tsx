@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Star, Play, Heart, Share2, Bookmark } from 'lucide-react';
 import { useHorizontalScroll } from '../../hooks/useHorizontalScroll';
 
+import { formatMoney } from "../../utils/money";
 const REEL_VIDEOS = [
   'https://res.cloudinary.com/ddnb10zkq/video/upload/v1773750957/WhatsApp_Video_2026-03-17_at_18.02.36_vmxttu.mp4',
   'https://res.cloudinary.com/ddnb10zkq/video/upload/v1773750955/WhatsApp_Video_2026-03-17_at_18.02.49_m1opbc.mp4',
@@ -11,7 +12,13 @@ const REEL_VIDEOS = [
   'https://res.cloudinary.com/ddnb10zkq/video/upload/v1773750954/WhatsApp_Video_2026-03-17_at_18.02.49_1_qhbx22.mp4',
 ];
 
-// Product overlay per reel (name, price, originalPrice) — matches reel content
+// Fallback only. The live values come from GET /api/reels/showcase, which prices
+// them server-side like every other amount, so the strip follows the currency
+// switcher. These stay here purely so the overlay still renders if that call
+// fails — and they are INR, which is why each item carries its own currency
+// rather than being formatted in whatever happens to be active.
+const FALLBACK_CURRENCY = "INR";
+
 const REEL_PRODUCTS = [
   { name: 'Men\'s Premium Casual Wear Collection', price: 1199, originalPrice: 2199 },
   { name: 'Classic Stud Earrings', price: 449, originalPrice: 699 },
@@ -36,9 +43,17 @@ function formatCount(n: number): string {
   return String(n);
 }
 
+interface ReelProduct {
+  name: string;
+  price: number;
+  originalPrice: number;
+  /** What `price` and `originalPrice` are denominated in. Never assumed. */
+  currency: string;
+}
+
 interface ReelCardProps {
   videoUrl: string;
-  product: (typeof REEL_PRODUCTS)[number];
+  product: ReelProduct;
   index: number;
 }
 
@@ -156,11 +171,11 @@ const ReelCard: React.FC<ReelCardProps> = ({ videoUrl, product, index }) => {
               </p>
               <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
                 <span className="text-[10px] sm:text-sm font-bold text-gray-900">
-                  Rs. {product.price.toLocaleString('en-IN')}
+                  {formatMoney(product.price, { currency: product.currency })}
                 </span>
                 {product.originalPrice > product.price && (
                   <span className="text-[9px] sm:text-xs text-gray-500 line-through">
-                    Rs. {product.originalPrice.toLocaleString('en-IN')}
+                    {formatMoney(product.originalPrice, { currency: product.currency })}
                   </span>
                 )}
               </div>
@@ -177,6 +192,41 @@ const GAP_PX = 16;
 
 const ShopFromReel: React.FC = () => {
   const [cardWidth, setCardWidth] = useState(CARD_WIDTH_PX);
+
+  // Priced by the server, so the strip follows the currency switcher like every
+  // other price. The local array is only the offline fallback, and it is INR.
+  const [products, setProducts] = useState<ReelProduct[]>(() =>
+    REEL_PRODUCTS.map((p) => ({ ...p, currency: FALLBACK_CURRENCY }))
+  );
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const resp = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/reels/showcase`);
+        if (!resp.ok) return;
+        const body = await resp.json();
+        const items = body?.data?.items;
+        if (!cancelled && Array.isArray(items) && items.length) {
+          setProducts(
+            items.map((it: any) => ({
+              name: it.name,
+              price: Number(it.price),
+              originalPrice: Number(it.original_price),
+              // Whatever the server says these are in — never assumed.
+              currency: it.currency || FALLBACK_CURRENCY,
+            }))
+          );
+        }
+      } catch {
+        // Keep the INR fallback. Showing correct rupees beats showing nothing,
+        // and beats showing rupee numbers under a dollar sign.
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     const updateWidth = () => {
@@ -247,7 +297,7 @@ const ShopFromReel: React.FC = () => {
               <ReelCard
                 key={url}
                 videoUrl={url}
-                product={REEL_PRODUCTS[i]}
+                product={products[i] ?? { ...REEL_PRODUCTS[i], currency: FALLBACK_CURRENCY }}
                 index={i}
               />
             ))}

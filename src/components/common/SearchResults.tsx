@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, ChevronsDownUp } from 'lucide-react';
 
+import { formatMoney } from "../../utils/money";
 interface Product {
   id: string;
   name: string;
@@ -157,7 +158,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({
               )}
               <div>
                 <p className="text-sm font-medium text-gray-900">{product.name}</p>
-                <p className="text-xs text-gray-500">₹{product.price}</p>
+                <p className="text-xs text-gray-500">{formatMoney(product.price)}</p>
               </div>
             </div>
           ))}

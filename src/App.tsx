@@ -9,6 +9,7 @@ import CreatorLayout from './pages/creator/CreatorLayout';
 import SuperAdminLayout from './pages/superadmin/SuperAdminLayout';
 
 import { CartProvider } from './context/CartContext';
+import { CurrencyProvider } from './context/CurrencyContext';
 import { AuthProvider } from './context/AuthContext';
 import { ToastProvider } from './context/ToastContext';
 import { GoogleOAuthProvider } from '@react-oauth/google';
@@ -313,6 +314,7 @@ const App: React.FC = () => {
   return (
     <ToastProvider>
       <AuthProvider>
+        <CurrencyProvider>
         <CartProvider>
           <WishlistProvider>
             <ShopWishlistProvider>
@@ -713,6 +715,7 @@ const App: React.FC = () => {
             </ShopWishlistProvider>
         </WishlistProvider>
       </CartProvider>
+        </CurrencyProvider>
     </AuthProvider>
     </ToastProvider>
   );

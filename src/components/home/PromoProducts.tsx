@@ -9,6 +9,7 @@ import { toast } from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 import { useAmazonTranslate } from '../../hooks/useAmazonTranslate';
 
+import { formatMoney } from "../../utils/money";
 // Product type for promo products from API
 export type PromoProduct = {
   product_id: number;
@@ -410,10 +411,10 @@ const PromoProducts: React.FC = () => {
                         <div>
                           <p className="font-normal text-sm font-worksans mb-2">{nameMap[product.product_id] || product.product_name}</p>
                           <div className="flex items-baseline mb-4">
-                            <span className="text-xl font-bold">₹{product.price.toFixed(2)}</span>
+                            <span className="text-xl font-bold">{formatMoney(product.price)}</span>
                             {product.originalPrice && product.originalPrice !== product.price && (
                               <span className="text-sm text-gray-500 line-through ml-3">
-                                ₹{product.originalPrice.toFixed(2)}
+                                {formatMoney(product.originalPrice)}
                               </span>
                             )}
                           </div>
