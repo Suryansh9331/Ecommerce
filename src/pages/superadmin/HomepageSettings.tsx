@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { PlusCircle, X, ChevronDown, ChevronUp, Save, Upload, Link as LinkIcon, Edit2, Trash2 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const FRONTEND_BASE_URL = import.meta.env.VITE_FRONTEND_BASE_URL ;
@@ -90,7 +89,6 @@ const HomepageSettings: React.FC = () => {
     const [shareableBrandLink, setShareableBrandLink] = useState<string>('');
     const [shareableProductLink, setShareableProductLink] = useState<string>('');
     const [carouselItems, setCarouselItems] = useState<ICarouselItem[]>([]);
-    const [orderLoading, setOrderLoading] = useState(false);
     const [selectedProductGroup, setSelectedProductGroup] = useState<'promo' | 'new' | 'featured'>('promo');
     const [editingCarousel, setEditingCarousel] = useState<ICarouselItem | null>(null);
     const [isEditing, setIsEditing] = useState(false);
@@ -100,6 +98,7 @@ const HomepageSettings: React.FC = () => {
     const [selectedSlot, setSelectedSlot] = useState<SlotType>('sidebar_right');
     const [slotImage, setSlotImage] = useState<File | null>(null);
     const [slotLink, setSlotLink] = useState<string>('');
+    const [previewMain, setPreviewMain] = useState(0); // live-rotating index for the preview main carousel
 
     useEffect(() => {
         fetchCategories();
@@ -109,6 +108,15 @@ const HomepageSettings: React.FC = () => {
         fetchCarousels();
         fetchCarouselItems();
     }, []);
+
+    // Auto-rotate the preview's main carousel, mirroring the real hero (3s)
+    useEffect(() => {
+        if (brandCarousel.length < 2) return;
+        const id = setInterval(() => {
+            setPreviewMain((p) => (p + 1) % brandCarousel.length);
+        }, 3000);
+        return () => clearInterval(id);
+    }, [brandCarousel.length]);
 
     const fetchCategories = async () => {
         try {
@@ -553,26 +561,30 @@ const HomepageSettings: React.FC = () => {
         );
     };
 
-    // Drag-and-drop handlers
-    const onDragEnd = (result: any) => {
-        if (!result.destination) return;
-        const reordered = Array.from(carouselItems);
-        const [removed] = reordered.splice(result.source.index, 1);
-        reordered.splice(result.destination.index, 0, removed);
-        // Update display_order locally
-        const updated = reordered.map((item, idx) => ({ ...item, display_order: idx }));
-        setCarouselItems(updated);
-    };
+    // Reorder banners within a single slot/group via the /carousels/order endpoint.
+    // Order is only meaningful within a group, so we reindex just that group 0..n.
+    const reorderWithinGroup = async (group: ICarouselItem[], index: number, direction: -1 | 1) => {
+        const target = index + direction;
+        if (target < 0 || target >= group.length) return;
+        const reordered = [...group];
+        [reordered[index], reordered[target]] = [reordered[target], reordered[index]];
+        const order = reordered.map((item, idx) => ({ id: item.id, display_order: idx }));
+        const orderMap = new Map(order.map((o) => [o.id, o.display_order]));
 
-    const handleSaveOrder = async () => {
+        // Optimistic update — reindex the affected items in place so the list
+        // reorders instantly without triggering the full-page loading spinner.
+        const applyOrder = (arr: ICarouselItem[]) =>
+            arr.map((it) => (orderMap.has(it.id) ? { ...it, display_order: orderMap.get(it.id)! } : it));
+        setBrandCarousel((prev) => applyOrder(prev));
+        setProductCarousel((prev) => applyOrder(prev));
+        setSlotBanners((prev) => applyOrder(prev));
+
         try {
-            setOrderLoading(true);
             const token = localStorage.getItem('access_token');
             if (!token) {
                 toast.error('Authentication token not found. Please login again.');
                 return;
             }
-            const order = carouselItems.map((item, idx) => ({ id: item.id, display_order: idx }));
             const response = await fetch(`${API_BASE_URL}/api/superadmin/carousels/order`, {
                 method: 'PUT',
                 headers: {
@@ -582,15 +594,36 @@ const HomepageSettings: React.FC = () => {
                 body: JSON.stringify({ order }),
             });
             if (!response.ok) throw new Error('Failed to update order');
-            toast.success('Carousel order updated!');
-            fetchCarouselItems();
         } catch (error) {
-            console.error('Error updating carousel order:', error);
-            toast.error('Failed to update carousel order');
-        } finally {
-            setOrderLoading(false);
+            console.error('Error reordering banners:', error);
+            toast.error('Failed to update order');
+            fetchCarousels(); // revert to server state on failure
         }
     };
+
+    // Small up/down reorder control shown inside each slot's banner list
+    const orderButtons = (group: ICarouselItem[], index: number) => (
+        <div className="flex flex-col">
+            <button
+                type="button"
+                disabled={index === 0}
+                onClick={() => reorderWithinGroup(group, index, -1)}
+                className="p-0.5 text-gray-500 hover:text-gray-800 disabled:opacity-30 disabled:cursor-not-allowed"
+                title="Move up"
+            >
+                <ChevronUp size={16} />
+            </button>
+            <button
+                type="button"
+                disabled={index === group.length - 1}
+                onClick={() => reorderWithinGroup(group, index, 1)}
+                className="p-0.5 text-gray-500 hover:text-gray-800 disabled:opacity-30 disabled:cursor-not-allowed"
+                title="Move down"
+            >
+                <ChevronDown size={16} />
+            </button>
+        </div>
+    );
 
     const handleEditCarousel = (item: ICarouselItem) => {
         setEditingCarousel(item);
@@ -700,6 +733,83 @@ const HomepageSettings: React.FC = () => {
         setShareableBrandLink('');
     };
 
+    // Jump to a banner uploader section (and select the slot for side/bottom banners)
+    const scrollToBanner = (targetId: string, slot?: SlotType) => {
+        if (slot) setSelectedSlot(slot);
+        const el = document.getElementById(targetId);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    };
+
+    const sortByOrder = (arr: ICarouselItem[]) => [...arr].sort((a, b) => a.display_order - b.display_order);
+    const rightBanners = sortByOrder(slotBanners.filter((b) => b.type === 'sidebar_right'));
+    const bottomLeftBanners = sortByOrder(slotBanners.filter((b) => b.type === 'bottom_left'));
+    const bottomRightBanners = sortByOrder(slotBanners.filter((b) => b.type === 'bottom_right'));
+
+    // Slots for the live hero-grid preview (mirrors the homepage Hero layout)
+    type PreviewCfg = { label: string; img?: string; count: number; target: string; slot?: SlotType; cta?: string; activeDot?: number };
+    const brandSorted = sortByOrder(brandCarousel);
+    const pv: Record<'left' | 'main' | 'right' | 'bottom1' | 'bottom2', PreviewCfg> = {
+        left: { label: 'Left Panel', img: sortByOrder(productCarousel)[0]?.image_url, count: productCarousel.length, target: 'banner-left' },
+        main: {
+            label: 'Main',
+            img: brandSorted[previewMain % Math.max(1, brandSorted.length)]?.image_url,
+            count: brandCarousel.length,
+            target: 'banner-main',
+            cta: 'Explore',
+            activeDot: brandCarousel.length ? previewMain % brandCarousel.length : 0,
+        },
+        right: { label: 'Right', img: rightBanners[0]?.image_url, count: rightBanners.length, target: 'banner-slots', slot: 'sidebar_right' },
+        bottom1: { label: 'Bottom L', img: bottomLeftBanners[0]?.image_url, count: bottomLeftBanners.length, target: 'banner-slots', slot: 'bottom_left' },
+        bottom2: { label: 'Bottom R', img: bottomRightBanners[0]?.image_url, count: bottomRightBanners.length, target: 'banner-slots', slot: 'bottom_right' },
+    };
+
+    const renderPreviewSlot = (cfg: PreviewCfg, area?: string) => {
+        const isSelected = cfg.slot && cfg.slot === selectedSlot;
+        return (
+            <button
+                type="button"
+                onClick={() => scrollToBanner(cfg.target, cfg.slot)}
+                style={area ? { gridArea: area } : undefined}
+                title={`${cfg.label}${cfg.count ? ` — ${cfg.count} banner(s)` : ' — empty'} (click to manage)`}
+                className={`group relative rounded-lg overflow-hidden border transition-all hover:ring-2 hover:ring-primary-600 w-full h-full ${
+                    cfg.img ? 'border-gray-200' : 'border-dashed border-gray-300 bg-white'
+                } ${isSelected ? 'ring-2 ring-primary-600' : ''}`}
+            >
+                {cfg.img ? (
+                    <img src={cfg.img} alt={cfg.label} className="w-full h-full object-cover" />
+                ) : (
+                    <div className="w-full h-full flex flex-col items-center justify-center text-gray-400">
+                        <PlusCircle className="w-6 h-6 mb-1" />
+                        <span className="text-xs">Empty — click to add</span>
+                    </div>
+                )}
+
+                {/* Non-navigating CTA button, mirroring the real hero */}
+                {cfg.cta && cfg.img && (
+                    <span className="pointer-events-none absolute bottom-7 left-1/2 -translate-x-1/2 bg-primary-600 text-white px-4 py-1.5 rounded-md text-sm font-medium shadow-md">
+                        {cfg.cta}
+                    </span>
+                )}
+
+                {/* Pagination dots for the rotating main */}
+                {cfg.img && typeof cfg.activeDot === 'number' && cfg.count > 1 && (
+                    <span className="pointer-events-none absolute bottom-1.5 left-1/2 -translate-x-1/2 flex items-center gap-1">
+                        {Array.from({ length: cfg.count }).map((_, i) => (
+                            <span
+                                key={i}
+                                className={`h-1.5 w-2.5 rounded-full ${i === cfg.activeDot ? 'bg-primary-600' : 'bg-primary-600/50'}`}
+                            />
+                        ))}
+                    </span>
+                )}
+
+                <span className="absolute top-1.5 left-1.5 px-1.5 py-0.5 rounded bg-black/60 text-white text-[10px] font-medium leading-none">
+                    {cfg.label}{cfg.count > 1 ? ` ·${cfg.count}` : ''}
+                </span>
+            </button>
+        );
+    };
+
     if (loading) {
         return (
             <div className="p-6">
@@ -772,8 +882,47 @@ const HomepageSettings: React.FC = () => {
                 </div>
             </div>
 
-            {/* Main Carousel Section - Brand Banners */}
+            {/* Live Hero Preview - mirrors the homepage hero grid */}
             <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-1">
+                    <h2 className="text-xl font-bold text-gray-800">Live Hero Preview</h2>
+                    <span className="text-xs text-gray-500">Click any slot to jump to its uploader</span>
+                </div>
+                <p className="text-sm text-gray-600 mb-4">
+                    A live mirror of how banners appear on the homepage hero (desktop layout). Empty slots are shown as dashed placeholders.
+                </p>
+
+                <div className="rounded-lg border border-gray-200 bg-gray-50 p-3 sm:p-4 overflow-x-auto">
+                    {/*
+                      Ratio-based layout: fr columns/rows preserve the real hero proportions
+                      (270 : 1fr(994) : 368 columns, 367 : 172 rows), and aspect-ratio makes
+                      the whole preview scale to the available dashboard width.
+                    */}
+                    <div
+                        className="grid w-full mx-auto"
+                        style={{
+                            minWidth: 600,
+                            maxWidth: 1280,
+                            aspectRatio: '1680 / 563',
+                            gap: '1.2%',
+                            gridTemplateAreas: `'left main right' 'left bottoms right'`,
+                            gridTemplateColumns: '270fr 994fr 368fr',
+                            gridTemplateRows: '367fr 172fr',
+                        }}
+                    >
+                        {renderPreviewSlot(pv.left, 'left')}
+                        {renderPreviewSlot(pv.main, 'main')}
+                        {renderPreviewSlot(pv.right, 'right')}
+                        <div style={{ gridArea: 'bottoms' }} className="grid grid-cols-2 gap-[1.2%]">
+                            {renderPreviewSlot(pv.bottom1)}
+                            {renderPreviewSlot(pv.bottom2)}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Main Carousel Section - Brand Banners */}
+            <div id="banner-main" className="bg-white rounded-lg shadow-md p-6 mb-6 scroll-mt-6">
                 <div className="flex items-center justify-between mb-4">
                     <div>
                         <h2 className="text-xl font-bold text-gray-800 mb-1">Main Carousel</h2>
@@ -880,7 +1029,7 @@ const HomepageSettings: React.FC = () => {
                                 Current Main Carousel Banners ({brandCarousel.length})
                             </h3>
                             <div className="space-y-2">
-                                {brandCarousel.map((item) => {
+                                {sortByOrder(brandCarousel).map((item, index, group) => {
                                     const brand = brands.find(b => b.brand_id === item.target_id);
                                     return (
                                         <div key={item.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 transition-colors">
@@ -892,6 +1041,7 @@ const HomepageSettings: React.FC = () => {
                                                 </div>
                                             </div>
                                             <div className="flex items-center space-x-2">
+                                                {orderButtons(group, index)}
                                                 <button
                                                     onClick={() => handleEditCarousel(item)}
                                                     className="p-2 text-blue-600 hover:bg-blue-50 rounded transition-colors"
@@ -917,7 +1067,7 @@ const HomepageSettings: React.FC = () => {
             </div>
 
             {/* Left Panel Carousel Section - Product Group Banners */}
-            <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+            <div id="banner-left" className="bg-white rounded-lg shadow-md p-6 mb-6 scroll-mt-6">
                 <div className="flex items-center justify-between mb-4">
                     <div>
                         <h2 className="text-xl font-bold text-gray-800 mb-1">Left Panel Carousel</h2>
@@ -1012,7 +1162,7 @@ const HomepageSettings: React.FC = () => {
                                 Current Left Panel Banners ({productCarousel.length})
                             </h3>
                             <div className="space-y-2">
-                                {productCarousel.map((item) => {
+                                {sortByOrder(productCarousel).map((item, index, group) => {
                                     const groupName = item.type === 'promo' ? 'Promo Products' :
                                         item.type === 'new' ? 'New Products' :
                                             item.type === 'featured' ? 'Featured Products' : '';
@@ -1026,6 +1176,7 @@ const HomepageSettings: React.FC = () => {
                                                 </div>
                                             </div>
                                             <div className="flex items-center space-x-2">
+                                                {orderButtons(group, index)}
                                                 {item.shareable_link && (
                                                     <a
                                                         href={item.shareable_link}
@@ -1063,7 +1214,7 @@ const HomepageSettings: React.FC = () => {
 
 
             {/* Side & Bottom Banners Section - Positional slots */}
-            <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+            <div id="banner-slots" className="bg-white rounded-lg shadow-md p-6 mb-6 scroll-mt-6">
                 <div className="flex items-center justify-between mb-4">
                     <div>
                         <h2 className="text-xl font-bold text-gray-800 mb-1">Side &amp; Bottom Banners</h2>
@@ -1127,7 +1278,7 @@ const HomepageSettings: React.FC = () => {
 
                     {/* Existing banners grouped by slot */}
                     {SLOT_KEYS.map((slot) => {
-                        const banners = slotBanners.filter((item) => item.type === slot);
+                        const banners = sortByOrder(slotBanners.filter((item) => item.type === slot));
                         if (banners.length === 0) return null;
                         return (
                             <div key={slot} className="mt-6">
@@ -1136,7 +1287,7 @@ const HomepageSettings: React.FC = () => {
                                     {SLOT_CONFIG[slot].label} ({banners.length})
                                 </h3>
                                 <div className="space-y-2">
-                                    {banners.map((item) => (
+                                    {banners.map((item, index, group) => (
                                         <div key={item.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 transition-colors">
                                             <div className="flex items-center space-x-3">
                                                 <img src={item.image_url} alt={SLOT_CONFIG[slot].label} className="w-12 h-12 object-cover rounded border border-gray-300" />
@@ -1146,6 +1297,7 @@ const HomepageSettings: React.FC = () => {
                                                 </div>
                                             </div>
                                             <div className="flex items-center space-x-2">
+                                                {orderButtons(group, index)}
                                                 {item.shareable_link && (
                                                     <a
                                                         href={item.shareable_link}
@@ -1172,73 +1324,6 @@ const HomepageSettings: React.FC = () => {
                         );
                     })}
                 </div>
-            </div>
-
-            {/* Carousel Order Management Section */}
-            <div className="bg-white rounded-lg shadow-md p-6 mt-8">
-                <h2 className="text-lg font-semibold mb-4">Manage Carousel Display Order</h2>
-                <DragDropContext onDragEnd={onDragEnd}>
-                    <Droppable droppableId="carousel-list">
-                        {(provided) => (
-                            <div ref={provided.innerRef} {...provided.droppableProps} className="space-y-2">
-                                {carouselItems.map((item, idx) => (
-                                    <Draggable key={item.id} draggableId={item.id.toString()} index={idx}>
-                                        {(provided, snapshot) => (
-                                            <div
-                                                ref={provided.innerRef}
-                                                {...provided.draggableProps}
-                                                {...provided.dragHandleProps}
-                                                className={`flex items-center bg-gray-50 rounded p-2 shadow-sm ${snapshot.isDragging ? 'ring-2 ring-primary-600' : ''}`}
-                                            >
-                                                <img src={item.image_url} alt={item.type} className="w-12 h-12 object-cover rounded mr-4" />
-                                                <span className="flex-1 font-medium">
-                                                    {item.type === 'brand'
-                                                        ? brands.find(b => b.brand_id === item.target_id)?.name
-                                                        : item.type === 'product'
-                                                            ? products.find(p => p.product_id === item.target_id)?.product_name
-                                                            : item.type === 'promo'
-                                                                ? 'Promo Products'
-                                                                : item.type === 'new'
-                                                                    ? 'New Products'
-                                                                    : 'Featured Products'}
-                                                </span>
-                                                <div className="flex items-center space-x-2">
-                                                    {item.shareable_link && (
-                                                        <a href={item.shareable_link} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700">
-                                                            <LinkIcon size={16} />
-                                                        </a>
-                                                    )}
-                                                    <button
-                                                        onClick={() => handleEditCarousel(item)}
-                                                        className="text-blue-500 hover:text-blue-700"
-                                                    >
-                                                        <Edit2 size={16} />
-                                                    </button>
-                                                    <button
-                                                        onClick={() => handleDeleteCarousel(item.id)}
-                                                        className="text-red-500 hover:text-red-700"
-                                                    >
-                                                        <Trash2 size={16} />
-                                                    </button>
-                                                    <span className="text-xs text-gray-400 ml-2">Order: {item.display_order}</span>
-                                                </div>
-                                            </div>
-                                        )}
-                                    </Draggable>
-                                ))}
-                                {provided.placeholder}
-                            </div>
-                        )}
-                    </Droppable>
-                </DragDropContext>
-                <button
-                    onClick={handleSaveOrder}
-                    className="mt-4 bg-primary-600 text-white px-4 py-2 rounded flex items-center hover:bg-primary-700 transition-colors disabled:opacity-50"
-                    disabled={orderLoading}
-                >
-                    <Save className="w-4 h-4 mr-2" />
-                    {orderLoading ? 'Saving...' : 'Save Order'}
-                </button>
             </div>
 
             {/* Edit Modal */}
