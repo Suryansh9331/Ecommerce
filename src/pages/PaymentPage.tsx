@@ -1367,7 +1367,7 @@ const PaymentPage: React.FC = () => {
           <div className="text-sm text-gray-500">No saved cards found</div>
           <button
             onClick={() => setShowCardForm(true)}
-            className="mt-2 flex items-center gap-2 text-orange-500 hover:text-orange-600"
+            className="mt-2 flex items-center gap-2 text-primary-500 hover:text-primary-600"
           >
             <Plus className="w-4 h-4" />
             Add New Card
@@ -1382,7 +1382,7 @@ const PaymentPage: React.FC = () => {
           <h3 className="text-sm font-medium">Saved Cards</h3>
           <button
             onClick={() => setShowCardForm(true)}
-            className="flex items-center gap-2 text-orange-500 hover:text-orange-600"
+            className="flex items-center gap-2 text-primary-500 hover:text-primary-600"
           >
             <Plus className="w-4 h-4" />
             Add New Card
@@ -1393,14 +1393,14 @@ const PaymentPage: React.FC = () => {
             <div
               key={card.card_id}
               className={`p-4 border rounded-lg cursor-pointer transition-colors ${selectedCardId === card.card_id
-                  ? "border-orange-500 bg-orange-50"
-                  : "border-gray-200 hover:border-orange-300"
+                  ? "border-primary-500 bg-primary-50"
+                  : "border-gray-200 hover:border-primary-300"
                 }`}
               onClick={() => setSelectedCardId(card.card_id)}
             >
               <div className="flex items-start justify-between">
                 <div className="flex items-start gap-3">
-                  <CreditCard className="w-5 h-5 text-orange-500 mt-0.5" />
+                  <CreditCard className="w-5 h-5 text-primary-500 mt-0.5" />
                   <div>
                     <p className="font-medium">{card.card_holder_name}</p>
                     <p className="text-sm text-gray-600">
@@ -1425,7 +1425,7 @@ const PaymentPage: React.FC = () => {
                         e.stopPropagation();
                         handleSetDefaultCard(card.card_id);
                       }}
-                      className="p-1 text-gray-500 hover:text-orange-500"
+                      className="p-1 text-gray-500 hover:text-primary-500"
                       title="Set as default"
                     >
                       <Star className="w-4 h-4" />
@@ -1479,7 +1479,7 @@ const PaymentPage: React.FC = () => {
               name="card_number"
               value={cardFormData.card_number}
               onChange={handleCardInputChange}
-              className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+              className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500"
               placeholder="1234 5678 9012 3456"
               maxLength={19}
               required
@@ -1496,7 +1496,7 @@ const PaymentPage: React.FC = () => {
                   name="expiry_month"
                   value={cardFormData.expiry_month}
                   onChange={handleCardInputChange}
-                  className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+                  className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500"
                   placeholder="MM"
                   maxLength={2}
                   required
@@ -1506,7 +1506,7 @@ const PaymentPage: React.FC = () => {
                   name="expiry_year"
                   value={cardFormData.expiry_year}
                   onChange={handleCardInputChange}
-                  className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+                  className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500"
                   placeholder="YY"
                   maxLength={2}
                   required
@@ -1520,7 +1520,7 @@ const PaymentPage: React.FC = () => {
                 name="cvv"
                 value={cardFormData.cvv}
                 onChange={handleCardInputChange}
-                className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+                className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500"
                 placeholder="123"
                 maxLength={4}
                 required
@@ -1536,7 +1536,7 @@ const PaymentPage: React.FC = () => {
               name="card_holder_name"
               value={cardFormData.card_holder_name}
               onChange={handleCardInputChange}
-              className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+              className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500"
               placeholder="John Doe"
               required
             />
@@ -1547,7 +1547,7 @@ const PaymentPage: React.FC = () => {
               name="card_type"
               value={cardFormData.card_type}
               onChange={handleCardInputChange}
-              className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+              className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500"
               required
             >
               <option value="credit">Credit Card</option>
@@ -1565,7 +1565,7 @@ const PaymentPage: React.FC = () => {
                   is_default: e.target.checked,
                 }))
               }
-              className="mr-2 accent-orange-500"
+              className="mr-2 accent-primary-500"
             />
             <label className="text-sm font-medium">
               Set as default payment method
@@ -1576,7 +1576,7 @@ const PaymentPage: React.FC = () => {
             disabled={savingCard}
             className={`w-full py-2 rounded font-medium transition-colors ${savingCard
                 ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                : "bg-orange-500 text-white hover:bg-orange-600"
+                : "bg-primary-500 text-white hover:bg-primary-600"
               }`}
           >
             {savingCard ? "Saving..." : "Save Card"}
@@ -1590,7 +1590,7 @@ const PaymentPage: React.FC = () => {
   if (loading) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-8 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
       </div>
     );
   }
@@ -1603,7 +1603,7 @@ const PaymentPage: React.FC = () => {
           <h2 className="text-lg font-semibold">{t('payment.title')}</h2>
           <button
             onClick={() => navigate(-1)}
-            className="text-sm text-orange-500 hover:text-orange-600 font-medium"
+            className="text-sm text-primary-500 hover:text-primary-600 font-medium"
           >
             &larr; {t('payment.continueShopping')}
           </button>
@@ -1632,7 +1632,7 @@ const PaymentPage: React.FC = () => {
                 });
                 setSelectedCountry(COUNTRY_CODES.find(c => c.code === "IN") || COUNTRY_CODES[0]);
               }}
-              className="flex items-center gap-2 text-orange-500 hover:text-orange-600 text-sm"
+              className="flex items-center gap-2 text-primary-500 hover:text-primary-600 text-sm"
             >
               <Plus className="w-4 h-4" />
               Add New Address
@@ -1645,14 +1645,14 @@ const PaymentPage: React.FC = () => {
                 <div
                   key={address.address_id}
                   className={`p-4 border rounded-lg cursor-pointer transition-colors ${selectedAddressId === address.address_id
-                      ? "border-orange-500 bg-orange-50"
-                      : "border-gray-200 hover:border-orange-300"
+                      ? "border-primary-500 bg-primary-50"
+                      : "border-gray-200 hover:border-primary-300"
                     }`}
                   onClick={() => handleAddressSelect(address)}
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex items-start gap-3">
-                      <MapPin className="w-5 h-5 text-orange-500 mt-0.5" />
+                      <MapPin className="w-5 h-5 text-primary-500 mt-0.5" />
                       <div>
                         <p className="font-medium">{address.contact_name}</p>
                         <p className="text-sm text-gray-600">
@@ -1688,7 +1688,7 @@ const PaymentPage: React.FC = () => {
                           e.stopPropagation();
                           handleEditAddress(address.address_id);
                         }}
-                        className="p-1 text-gray-500 hover:text-orange-500"
+                        className="p-1 text-gray-500 hover:text-primary-500"
                         title={t('payment.editAddress')}
                       >
                         <Edit2 className="w-4 h-4" />
@@ -1727,7 +1727,7 @@ const PaymentPage: React.FC = () => {
                 name="contact_name"
                 value={formData.contact_name}
                 onChange={handleInputChange}
-                className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+                className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500"
                 placeholder="Type full name"
                 required
               />
@@ -1741,7 +1741,7 @@ const PaymentPage: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setShowCountryCodes(!showCountryCodes)}
-                    className="flex items-center gap-1 px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+                    className="flex items-center gap-1 px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500"
                   >
                     {selectedCountry.phoneCode}
                     <ChevronDown className="w-4 h-4" />
@@ -1766,7 +1766,7 @@ const PaymentPage: React.FC = () => {
                   name="contact_phone"
                   value={formData.contact_phone}
                   onChange={handleInputChange}
-                  className="flex-1 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+                  className="flex-1 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500"
                   placeholder="Phone number"
                   required
                 />
@@ -1779,7 +1779,7 @@ const PaymentPage: React.FC = () => {
                 name="city"
                 value={formData.city}
                 onChange={handleInputChange}
-                className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+                className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500"
                 required
               />
             </div>
@@ -1792,7 +1792,7 @@ const PaymentPage: React.FC = () => {
                 name="state_province"
                 value={formData.state_province}
                 onChange={handleInputChange}
-                className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+                className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500"
                 required
               />
             </div>
@@ -1808,7 +1808,7 @@ const PaymentPage: React.FC = () => {
                 onBlur={handlePostalCodeBlur}
                 className={`w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 ${postalCodeError
                     ? "border-red-500 focus:ring-red-500 focus:border-red-500"
-                    : "border-gray-300 focus:ring-orange-500 focus:border-orange-500"
+                    : "border-gray-300 focus:ring-primary-500 focus:border-primary-500"
                   }`}
                 placeholder={`${t('payment.enterPostalCode')} ${selectedCountry.name}`}
                 required
@@ -1834,7 +1834,7 @@ const PaymentPage: React.FC = () => {
                     }));
                   }
                 }}
-                className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+                className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500"
                 required
               >
                 {COUNTRY_CODES.map((country) => (
@@ -1851,7 +1851,7 @@ const PaymentPage: React.FC = () => {
                 name="address_line1"
                 value={formData.address_line1}
                 onChange={handleInputChange}
-                className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+                className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500"
                 placeholder="Ex: ABC Building, 1890 NY"
                 required
               />
@@ -1865,7 +1865,7 @@ const PaymentPage: React.FC = () => {
                 name="landmark"
                 value={formData.landmark}
                 onChange={handleInputChange}
-                className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+                className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500"
                 placeholder="Ex: Near City Park"
               />
             </div>
@@ -1876,7 +1876,7 @@ const PaymentPage: React.FC = () => {
           <div className="mt-4">
             <label className="block text-sm font-medium mb-1">{t('payment.note')}</label>
             <textarea
-              className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+              className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500"
               placeholder={t('payment.noteAboutOrder')}
               rows={3}
             ></textarea>
@@ -1884,7 +1884,7 @@ const PaymentPage: React.FC = () => {
 
           <button
             type="submit"
-            className="w-full bg-orange-500 text-white py-3 rounded font-medium hover:bg-orange-600 transition-colors"
+            className="w-full bg-primary-500 text-white py-3 rounded font-medium hover:bg-primary-600 transition-colors"
           >
             {t('payment.saveAddress')}
           </button>
@@ -1926,7 +1926,7 @@ const PaymentPage: React.FC = () => {
                 value="cash_on_delivery"
                 checked={paymentMethod === "cash_on_delivery"}
                 onChange={() => setPaymentMethod("cash_on_delivery")}
-                className="accent-orange-500 bg-transparent shadow-none align-middle"
+                className="accent-primary-500 bg-transparent shadow-none align-middle"
               />
               <span className="text-black font-worksans ml-1 font-normal text-[14px]">{t('payment.cashOnDelivery')}</span>
             </label>
@@ -1937,7 +1937,7 @@ const PaymentPage: React.FC = () => {
                 value="razorpay"
                 checked={paymentMethod === "razorpay"}
                 onChange={() => setPaymentMethod("razorpay")}
-                className="accent-orange-500 bg-transparent shadow-none align-middle"
+                className="accent-primary-500 bg-transparent shadow-none align-middle"
               />
               <span className="text-black font-worksans ml-1 font-normal text-[14px]">Pay Now</span>
             </label>
@@ -1947,7 +1947,7 @@ const PaymentPage: React.FC = () => {
           onClick={handleOrder}
           disabled={!selectedAddressId || processingPayment}
           className={`w-full py-3 rounded font-medium transition-colors ${selectedAddressId && !processingPayment
-              ? "bg-orange-500 text-white hover:bg-orange-600"
+              ? "bg-primary-500 text-white hover:bg-primary-600"
               : "bg-gray-300 text-gray-500 cursor-not-allowed"
             }`}
         >
@@ -2010,7 +2010,6 @@ const PaymentPage: React.FC = () => {
           onClose={handleRazorpayClose}
           description="Aoin Store Purchase"
           businessName="Aoin Store"
-          businessLogo="https://aoinstore.com/logo.png"
         />
       )}
     </div>

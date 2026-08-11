@@ -135,11 +135,11 @@ const ShopReviewOverview: React.FC = () => {
   // --- Shop List View ---
   if (!selectedShop) {
     return (
-      <div className="bg-gradient-to-br from-orange-50 to-gray-50 min-h-screen p-4 sm:p-8">
+      <div className="bg-gradient-to-br from-primary-50 to-gray-50 min-h-screen p-4 sm:p-8">
         <div className="max-w-full mx-auto">
           <div className="flex items-center gap-3 mb-8">
-            <div className="bg-orange-100 p-2 rounded-full">
-              <SparklesIcon className="h-8 w-8 text-orange-500" />
+            <div className="bg-primary-100 p-2 rounded-full">
+              <SparklesIcon className="h-8 w-8 text-primary-500" />
             </div>
             <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Shop Reviews Overview</h1>
           </div>
@@ -148,7 +148,7 @@ const ShopReviewOverview: React.FC = () => {
             {shops.map((shop: Shop) => (
               <div
                 key={shop.shop_id}
-                className="bg-white rounded-2xl p-6 shadow-lg border border-orange-100 cursor-pointer hover:scale-[1.03] hover:shadow-2xl transition-all group relative"
+                className="bg-white rounded-2xl p-6 shadow-lg border border-primary-100 cursor-pointer hover:scale-[1.03] hover:shadow-2xl transition-all group relative"
                 onClick={() => {
                   setSelectedShop(shop);
                   setProducts([]);
@@ -157,7 +157,7 @@ const ShopReviewOverview: React.FC = () => {
                   setReviewCounts({});
                 }}
               >
-                <div className="text-lg font-bold mb-2 text-gray-800 group-hover:text-orange-600 transition">{shop.name}</div>
+                <div className="text-lg font-bold mb-2 text-gray-800 group-hover:text-primary-600 transition">{shop.name}</div>
                 <div className="text-xs text-gray-500">Shop #{shop.shop_id}</div>
               </div>
             ))}
@@ -176,26 +176,26 @@ const ShopReviewOverview: React.FC = () => {
   // --- Product Table View ---
   if (selectedShop && !selectedProduct) {
     return (
-      <div className="bg-gradient-to-br from-orange-50 to-gray-50 min-h-screen p-4 sm:p-8">
+      <div className="bg-gradient-to-br from-primary-50 to-gray-50 min-h-screen p-4 sm:p-8">
         <div className="max-w-full mx-auto">
           <button
-            className="mb-6 flex items-center gap-1 text-orange-600 hover:underline hover:text-orange-700 text-sm font-medium"
+            className="mb-6 flex items-center gap-1 text-primary-600 hover:underline hover:text-primary-700 text-sm font-medium"
             onClick={() => setSelectedShop(null)}
           >
             <span className="text-lg">←</span> Back to Shops
           </button>
           <div className="flex items-center gap-3 mb-6">
-            <SparklesIcon className="h-7 w-7 text-orange-400" />
+            <SparklesIcon className="h-7 w-7 text-primary-400" />
             <h2 className="text-2xl font-bold text-gray-900">Products in {selectedShop.name}</h2>
           </div>
-          <div className="overflow-x-auto bg-white shadow-xl rounded-2xl border border-orange-100">
+          <div className="overflow-x-auto bg-white shadow-xl rounded-2xl border border-primary-100">
             <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-orange-50 sticky top-0 z-10">
+              <thead className="bg-primary-50 sticky top-0 z-10">
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-bold text-orange-700 uppercase tracking-wider">Product Id</th>
-                  <th className="px-4 py-3 text-left text-xs font-bold text-orange-700 uppercase tracking-wider">Product</th>
-                  <th className="px-4 py-3 text-left text-xs font-bold text-orange-700 uppercase tracking-wider">Reviews</th>
-                  <th className="px-4 py-3 text-left text-xs font-bold text-orange-700 uppercase tracking-wider">Actions</th>
+                  <th className="px-4 py-3 text-left text-xs font-bold text-primary-700 uppercase tracking-wider">Product Id</th>
+                  <th className="px-4 py-3 text-left text-xs font-bold text-primary-700 uppercase tracking-wider">Product</th>
+                  <th className="px-4 py-3 text-left text-xs font-bold text-primary-700 uppercase tracking-wider">Reviews</th>
+                  <th className="px-4 py-3 text-left text-xs font-bold text-primary-700 uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-100">
@@ -208,15 +208,15 @@ const ShopReviewOverview: React.FC = () => {
                 {!loadingProducts && products.map(product => {
                   const count = reviewCounts[product.product_id] ?? 0;
                   return (
-                    <tr key={product.product_id} className="hover:bg-orange-50/40 transition-colors">
+                    <tr key={product.product_id} className="hover:bg-primary-50/40 transition-colors">
                       <td className="px-4 py-4 whitespace-nowrap text-gray-700">{product.product_id}</td>
                       <td className="px-4 py-4 whitespace-nowrap font-semibold text-gray-900">{product.product_name}</td>
                       <td className="px-4 py-4 whitespace-nowrap">
-                        <span className="bg-orange-50 text-orange-600 text-xs font-semibold px-2 py-0.5 rounded-full">{count} review{count !== 1 ? 's' : ''}</span>
+                        <span className="bg-primary-50 text-primary-600 text-xs font-semibold px-2 py-0.5 rounded-full">{count} review{count !== 1 ? 's' : ''}</span>
                       </td>
                       <td className="px-4 py-4 whitespace-nowrap">
                         <button
-                          className="text-orange-600 hover:underline hover:text-orange-700 font-semibold text-sm px-3 py-1 rounded transition"
+                          className="text-primary-600 hover:underline hover:text-primary-700 font-semibold text-sm px-3 py-1 rounded transition"
                           onClick={() => {
                             setSelectedProduct(product);
                             setReviewRatingFilter('all');
@@ -243,22 +243,22 @@ const ShopReviewOverview: React.FC = () => {
       ? reviews
       : reviews.filter((r: any) => r.rating === reviewRatingFilter);
     return (
-      <div className="bg-gradient-to-br from-orange-50 to-gray-50 min-h-screen p-4 sm:p-8">
+      <div className="bg-gradient-to-br from-primary-50 to-gray-50 min-h-screen p-4 sm:p-8">
         <div className="max-w-full mx-auto">
           <button
-            className="mb-6 flex items-center gap-1 text-orange-600 hover:underline hover:text-orange-700 text-sm font-medium"
+            className="mb-6 flex items-center gap-1 text-primary-600 hover:underline hover:text-primary-700 text-sm font-medium"
             onClick={() => setSelectedProduct(null)}
           >
             <span className="text-lg">←</span> Back to Products
           </button>
           <div className="flex items-center gap-3 mb-6">
-            <SparklesIcon className="h-7 w-7 text-orange-400" />
+            <SparklesIcon className="h-7 w-7 text-primary-400" />
             <h2 className="text-2xl font-bold text-gray-900">Reviews for {selectedProduct.product_name} <span className="text-base font-normal text-gray-500">(in {selectedShop.name})</span></h2>
           </div>
           <div className="flex flex-wrap items-center gap-4 mb-4">
             <label className="font-medium text-gray-700">Filter by Rating:</label>
             <select
-              className="border border-orange-200 rounded px-2 py-1 focus:ring-2 focus:ring-orange-300"
+              className="border border-primary-200 rounded px-2 py-1 focus:ring-2 focus:ring-primary-300"
               value={reviewRatingFilter}
               onChange={e => setReviewRatingFilter(e.target.value === 'all' ? 'all' : Number(e.target.value))}
             >
@@ -268,7 +268,7 @@ const ShopReviewOverview: React.FC = () => {
               ))}
             </select>
             <button
-              className="ml-auto px-3 py-1.5 text-sm border rounded bg-white hover:bg-orange-50 text-orange-700"
+              className="ml-auto px-3 py-1.5 text-sm border rounded bg-white hover:bg-primary-50 text-primary-700"
               onClick={() => {
                 // CSV export of currently loaded filtered reviews
                 const rows = filteredReviews.map((rev: any) => ({
@@ -294,15 +294,15 @@ const ShopReviewOverview: React.FC = () => {
               Export CSV
             </button>
           </div>
-          <div className="overflow-x-auto bg-white shadow-xl rounded-2xl border border-orange-100">
+          <div className="overflow-x-auto bg-white shadow-xl rounded-2xl border border-primary-100">
             <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-orange-50 sticky top-0 z-10">
+              <thead className="bg-primary-50 sticky top-0 z-10">
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-bold text-orange-700 uppercase tracking-wider">Reviewer</th>
-                  <th className="px-4 py-3 text-left text-xs font-bold text-orange-700 uppercase tracking-wider">Rating</th>
-                  <th className="px-4 py-3 text-left text-xs font-bold text-orange-700 uppercase tracking-wider">Title / Review</th>
-                  <th className="px-4 py-3 text-left text-xs font-bold text-orange-700 uppercase tracking-wider">Images</th>
-                  <th className="px-4 py-3 text-left text-xs font-bold text-orange-700 uppercase tracking-wider">Date</th>
+                  <th className="px-4 py-3 text-left text-xs font-bold text-primary-700 uppercase tracking-wider">Reviewer</th>
+                  <th className="px-4 py-3 text-left text-xs font-bold text-primary-700 uppercase tracking-wider">Rating</th>
+                  <th className="px-4 py-3 text-left text-xs font-bold text-primary-700 uppercase tracking-wider">Title / Review</th>
+                  <th className="px-4 py-3 text-left text-xs font-bold text-primary-700 uppercase tracking-wider">Images</th>
+                  <th className="px-4 py-3 text-left text-xs font-bold text-primary-700 uppercase tracking-wider">Date</th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-100">
@@ -329,13 +329,13 @@ const ShopReviewOverview: React.FC = () => {
                     : (review.user_id ? `User #${review.user_id}` : 'Unknown');
                   const created = review?.created_at ? new Date(review.created_at) : null;
                   return (
-                    <tr key={review.review_id ?? review.id} className="hover:bg-orange-50/40 transition-colors">
+                    <tr key={review.review_id ?? review.id} className="hover:bg-primary-50/40 transition-colors">
                       <td className="px-4 py-4 whitespace-nowrap font-semibold text-gray-900">{nameFromUser}</td>
                       <td className="px-4 py-4 whitespace-nowrap flex items-center gap-2">
-                        <span className="text-lg text-orange-500 font-bold">{review.rating}</span>
+                        <span className="text-lg text-primary-500 font-bold">{review.rating}</span>
                         <div className="flex items-center">
                           {[1,2,3,4,5].map(i => (
-                            <StarIcon key={i} className={`h-4 w-4 ${i <= review.rating ? 'text-orange-400' : 'text-gray-200'}`} />
+                            <StarIcon key={i} className={`h-4 w-4 ${i <= review.rating ? 'text-primary-400' : 'text-gray-200'}`} />
                           ))}
                         </div>
                       </td>

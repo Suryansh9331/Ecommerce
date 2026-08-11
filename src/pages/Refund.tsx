@@ -102,7 +102,7 @@ const Refund: React.FC = () => {
           <p className="text-gray-600 mb-6">We couldn't find the order you're looking for.</p>
           <button 
             onClick={() => navigate('/orders')}
-            className="px-6 py-2 bg-[#FF4D00] text-white rounded-lg hover:bg-[#FF4D00]/90 transition-colors"
+            className="px-6 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-600/90 transition-colors"
           >
             View All Orders
           </button>
@@ -133,14 +133,14 @@ const Refund: React.FC = () => {
           <div key={number} className="flex items-center">
             <div className={`
               w-8 h-8 rounded-full flex items-center justify-center
-              ${step >= number ? 'bg-[#FF4D00] text-white' : 'bg-gray-100 text-gray-400'}
+              ${step >= number ? 'bg-primary-600 text-white' : 'bg-gray-100 text-gray-400'}
             `}>
               {number}
             </div>
             {number < 3 && (
               <div className={`
                 w-full h-1 mx-2
-                ${step > number ? 'bg-[#FF4D00]' : 'bg-gray-200'}
+                ${step > number ? 'bg-primary-600' : 'bg-gray-200'}
               `} />
             )}
           </div>
@@ -174,7 +174,7 @@ const Refund: React.FC = () => {
                   key={reason.id}
                   className={`
                     block p-4 border rounded-lg cursor-pointer transition-colors
-                    ${selectedReason === reason.id ? 'border-[#FF4D00] bg-[#FF4D00]/5' : 'hover:border-gray-300'}
+                    ${selectedReason === reason.id ? 'border-primary-600 bg-primary-600/5' : 'hover:border-gray-300'}
                   `}
                 >
                   <div className="flex items-center gap-3">
@@ -184,7 +184,7 @@ const Refund: React.FC = () => {
                       value={reason.id}
                       checked={selectedReason === reason.id}
                       onChange={(e) => setSelectedReason(e.target.value)}
-                      className="text-[#FF4D00] focus:ring-[#FF4D00]"
+                      className="text-primary-600 focus:ring-primary-600"
                     />
                     <div>
                       <p className="font-medium">{reason.label}</p>
@@ -206,7 +206,7 @@ const Refund: React.FC = () => {
                   key={method.id}
                   className={`
                     block p-4 border rounded-lg cursor-pointer transition-colors
-                    ${selectedRefundMethod === method.id ? 'border-[#FF4D00] bg-[#FF4D00]/5' : 'hover:border-gray-300'}
+                    ${selectedRefundMethod === method.id ? 'border-primary-600 bg-primary-600/5' : 'hover:border-gray-300'}
                   `}
                 >
                   <div className="flex items-center gap-3">
@@ -216,7 +216,7 @@ const Refund: React.FC = () => {
                       value={method.id}
                       checked={selectedRefundMethod === method.id}
                       onChange={(e) => setSelectedRefundMethod(e.target.value)}
-                      className="text-[#FF4D00] focus:ring-[#FF4D00]"
+                      className="text-primary-600 focus:ring-primary-600"
                     />
                     <method.icon size={20} className="text-gray-400" />
                     <div>
@@ -246,7 +246,7 @@ const Refund: React.FC = () => {
                 </div>
                 <button 
                   onClick={() => setStep(1)}
-                  className="text-[#FF4D00]"
+                  className="text-primary-600"
                 >
                   <ChevronRight size={20} />
                 </button>
@@ -264,7 +264,7 @@ const Refund: React.FC = () => {
                 </div>
                 <button 
                   onClick={() => setStep(2)}
-                  className="text-[#FF4D00]"
+                  className="text-primary-600"
                 >
                   <ChevronRight size={20} />
                 </button>
@@ -307,7 +307,7 @@ const Refund: React.FC = () => {
               (step === 1 && !selectedReason) ||
               (step === 2 && !selectedRefundMethod)
             }
-            className="flex-1 py-3 bg-[#FF4D00] text-white rounded-lg hover:bg-[#FF4D00]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex-1 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-600/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {step === 3 ? 'Submit Refund Request' : 'Continue'}
           </button>

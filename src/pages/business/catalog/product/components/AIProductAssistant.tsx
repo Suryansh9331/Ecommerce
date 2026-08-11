@@ -163,7 +163,7 @@ const AIProductAssistant: React.FC<AIProductAssistantProps> = ({
             >
               <Dialog.Panel className="w-full max-w-4xl transform overflow-hidden rounded-2xl bg-white shadow-xl transition-all">
                 {/* Header */}
-                <div className="bg-gradient-to-r from-orange-500 to-orange-600 px-6 py-4">
+                <div className="bg-gradient-to-r from-primary-500 to-primary-600 px-6 py-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
                       <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white bg-opacity-20">
@@ -173,7 +173,7 @@ const AIProductAssistant: React.FC<AIProductAssistantProps> = ({
                         <Dialog.Title className="text-lg font-semibold text-white">
                           AI Product Assistant
                         </Dialog.Title>
-                        <p className="text-sm text-orange-100">
+                        <p className="text-sm text-primary-100">
                           Generate product descriptions and SEO content instantly
                         </p>
                       </div>
@@ -194,7 +194,7 @@ const AIProductAssistant: React.FC<AIProductAssistantProps> = ({
                       {/* Progress Steps */}
                       <div className="flex items-center justify-center space-x-4 pb-6 border-b border-gray-200">
                         <div className="flex items-center space-x-2">
-                          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-orange-100 text-orange-600 font-semibold text-sm">
+                          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary-100 text-primary-600 font-semibold text-sm">
                             1
                           </div>
                           <span className="text-sm font-medium text-gray-900">Product Details</span>
@@ -225,7 +225,7 @@ const AIProductAssistant: React.FC<AIProductAssistantProps> = ({
                           id="ai-product-title"
                           value={productTitle}
                           onChange={(e) => setProductTitle(e.target.value)}
-                          className="w-full rounded-lg border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500"
+                          className="w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                           placeholder="e.g., Wireless Bluetooth Headphones"
                         />
                         <p className="mt-1 text-xs text-gray-500">
@@ -275,7 +275,7 @@ const AIProductAssistant: React.FC<AIProductAssistantProps> = ({
                         <button
                           onClick={handleGenerate}
                           disabled={!productTitle.trim() || isGenerating}
-                          className="w-full flex items-center justify-center space-x-2 px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-lg font-medium hover:from-orange-600 hover:to-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                          className="w-full flex items-center justify-center space-x-2 px-6 py-3 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-lg font-medium hover:from-primary-600 hover:to-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                         >
                           {isGenerating ? (
                             <>
@@ -351,20 +351,20 @@ const AIProductAssistant: React.FC<AIProductAssistantProps> = ({
                       <div className="flex items-center justify-between pt-4 border-t border-gray-200">
                         {/* <button
                           onClick={handleStartOver}
-                          className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+                          className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
                         >
                           Generate Again
                         </button> */}
                         <div className="flex space-x-3">
                           <button
                             onClick={handleClose}
-                            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+                            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
                           >
                             Cancel
                           </button>
                           <button
                             onClick={handleApply}
-                            className="px-6 py-2 text-sm font-medium text-white bg-gradient-to-r from-orange-500 to-orange-600 rounded-lg hover:from-orange-600 hover:to-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+                            className="px-6 py-2 text-sm font-medium text-white bg-gradient-to-r from-primary-500 to-primary-600 rounded-lg hover:from-primary-600 hover:to-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
                           >
                             Apply to Product
                           </button>

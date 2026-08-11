@@ -9,14 +9,14 @@ import toast from 'react-hot-toast';
 import { useAuth } from '../../../context/AuthContext';
 
 const CHART_COLORS = {
-  primary: '#FF5733',
+  primary: '#1800AC',
   secondary: '#2DD4BF',
   tertiary: '#A855F7',
   quaternary: '#3B82F6',
   fifth: '#FFD600',
   sixth: '#00E676',
   seventh: '#651FFF',
-  eighth: '#FF6D00',
+  eighth: '#1800AC',
 };
 const PIE_COLORS = [
   '#34D399', // green
@@ -24,7 +24,7 @@ const PIE_COLORS = [
   '#FFD600', // yellow
   '#7C3AED', // purple
   '#00E676', // bright green
-  '#FF6D00', // orange
+  '#1800AC', // orange
   '#A855F7', // violet
   '#3B82F6', // blue
 ];
@@ -203,7 +203,7 @@ const ShopAnalytics: React.FC = () => {
   return (
     <div className="space-y-6 px-4 sm:px-6 lg:px-8">
       {/* Header */}
-      <div className="bg-[#F97316] text-white p-4 sm:p-6 rounded-xl shadow flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div className="bg-primary-600 text-white p-4 sm:p-6 rounded-xl shadow flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-xl sm:text-2xl font-bold">Shop Analytics</h1>
           <span className="text-base sm:text-lg font-medium">Overview & Insights</span>
@@ -211,7 +211,7 @@ const ShopAnalytics: React.FC = () => {
         <button
           onClick={() => setIsExportModalOpen(true)}
           disabled={!selectedShop}
-          className="flex items-center gap-2 bg-white text-[#C2410C] px-3 sm:px-4 py-2 rounded-lg font-medium hover:bg-gray-100 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base w-full sm:w-auto justify-center"
+          className="flex items-center gap-2 bg-white text-primary-800 px-3 sm:px-4 py-2 rounded-lg font-medium hover:bg-gray-100 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base w-full sm:w-auto justify-center"
         >
           <Download className="w-4 h-4 sm:w-5 sm:h-5" />
           Export Report

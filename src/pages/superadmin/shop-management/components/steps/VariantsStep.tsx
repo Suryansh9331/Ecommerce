@@ -315,7 +315,7 @@ const VariantsStep: React.FC<VariantsStepProps> = ({
           <select
             value={value as string}
             onChange={(e) => handleAttributeChange(variantId, attribute.attribute_id, e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white"
           >
             <option value="">Select {attribute.name}</option>
             {attribute.values?.map((attrValue) => (
@@ -346,7 +346,7 @@ const VariantsStep: React.FC<VariantsStepProps> = ({
                     
                     handleAttributeChange(variantId, attribute.attribute_id, newValues.join(','));
                   }}
-                  className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded"
+                  className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
                 />
                 <span className="ml-2 text-sm text-gray-700">{attrValue.value}</span>
               </label>
@@ -360,7 +360,7 @@ const VariantsStep: React.FC<VariantsStepProps> = ({
             type="number"
             value={value as number || ''}
             onChange={(e) => handleAttributeChange(variantId, attribute.attribute_id, parseFloat(e.target.value) || 0)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             placeholder={`Enter ${attribute.name}`}
           />
         );
@@ -374,7 +374,7 @@ const VariantsStep: React.FC<VariantsStepProps> = ({
                 name={`boolean-${variantId}-${attribute.attribute_id}`}
                 checked={value === true}
                 onChange={() => handleAttributeChange(variantId, attribute.attribute_id, true)}
-                className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300"
+                className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300"
               />
               <span className="ml-2 text-sm text-gray-700">Yes</span>
             </label>
@@ -384,7 +384,7 @@ const VariantsStep: React.FC<VariantsStepProps> = ({
                 name={`boolean-${variantId}-${attribute.attribute_id}`}
                 checked={value === false}
                 onChange={() => handleAttributeChange(variantId, attribute.attribute_id, false)}
-                className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300"
+                className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300"
               />
               <span className="ml-2 text-sm text-gray-700">No</span>
             </label>
@@ -397,7 +397,7 @@ const VariantsStep: React.FC<VariantsStepProps> = ({
             type="text"
             value={value as string || ''}
             onChange={(e) => handleAttributeChange(variantId, attribute.attribute_id, e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             placeholder={`Enter ${attribute.name}`}
           />
         );
@@ -598,8 +598,8 @@ const VariantsStep: React.FC<VariantsStepProps> = ({
       {/* Header */}
       <div className="text-center">
         <div className="flex justify-center mb-4">
-          <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center">
-            <Package className="h-8 w-8 text-orange-600" />
+          <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center">
+            <Package className="h-8 w-8 text-primary-600" />
           </div>
         </div>
         <h2 className="text-2xl font-bold text-gray-900">Product Variants</h2>
@@ -610,7 +610,7 @@ const VariantsStep: React.FC<VariantsStepProps> = ({
       <div className="flex justify-center">
         <button
           onClick={addVariant}
-          className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg flex items-center space-x-2 transition-colors"
+          className="bg-primary-500 hover:bg-primary-600 text-white px-6 py-3 rounded-lg flex items-center space-x-2 transition-colors"
         >
           <Plus size={20} />
           <span>Add Variant</span>
@@ -669,7 +669,7 @@ const VariantsStep: React.FC<VariantsStepProps> = ({
                         type="text"
                         value={variant.sku}
                         onChange={(e) => updateVariant(variant.id, 'sku', e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                         placeholder="Enter SKU"
                       />
                     </div>
@@ -680,7 +680,7 @@ const VariantsStep: React.FC<VariantsStepProps> = ({
                         step="0.01"
                         value={variant.selling_price}
                         onChange={(e) => updateVariant(variant.id, 'selling_price', parseFloat(e.target.value) || 0)}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                         placeholder="0.00"
                       />
                     </div>
@@ -691,7 +691,7 @@ const VariantsStep: React.FC<VariantsStepProps> = ({
                         step="0.01"
                         value={variant.cost_price}
                         onChange={(e) => updateVariant(variant.id, 'cost_price', parseFloat(e.target.value) || 0)}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                         placeholder="0.00"
                       />
                     </div>
@@ -701,7 +701,7 @@ const VariantsStep: React.FC<VariantsStepProps> = ({
                         type="number"
                         value={variant.stock_qty}
                         onChange={(e) => updateVariant(variant.id, 'stock_qty', parseInt(e.target.value) || 0)}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                         placeholder="0"
                       />
                     </div>
@@ -711,7 +711,7 @@ const VariantsStep: React.FC<VariantsStepProps> = ({
                         type="number"
                         value={variant.low_stock_threshold}
                         onChange={(e) => updateVariant(variant.id, 'low_stock_threshold', parseInt(e.target.value) || 0)}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                         placeholder="5"
                       />
                       <p className="text-xs text-gray-500 mt-1">Alert when stock reaches this level</p>
@@ -752,7 +752,7 @@ const VariantsStep: React.FC<VariantsStepProps> = ({
                   <div>
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 space-y-2 sm:space-y-0">
                       <h4 className="text-lg font-medium text-gray-900">Variant Media</h4>
-                      <label className="bg-orange-500 hover:bg-orange-600 text-white px-3 py-2 rounded-lg text-sm flex items-center space-x-2 cursor-pointer transition-colors w-fit">
+                      <label className="bg-primary-500 hover:bg-primary-600 text-white px-3 py-2 rounded-lg text-sm flex items-center space-x-2 cursor-pointer transition-colors w-fit">
                         <Upload size={16} />
                         <span>Upload Media</span>
                         <input
@@ -778,12 +778,12 @@ const VariantsStep: React.FC<VariantsStepProps> = ({
                     )}
 
                     {/* Media Guidelines */}
-                    <div className="bg-orange-50 border border-orange-200 rounded-lg p-3 mb-4">
+                    <div className="bg-primary-50 border border-primary-200 rounded-lg p-3 mb-4">
                       <div className="flex items-start space-x-2">
-                        <AlertCircle className="w-5 h-5 text-orange-500 mt-0.5 flex-shrink-0" />
+                        <AlertCircle className="w-5 h-5 text-primary-500 mt-0.5 flex-shrink-0" />
                         <div className="text-sm">
-                          <p className="text-orange-800 font-medium">Media Guidelines:</p>
-                          <ul className="text-orange-700 mt-1 space-y-1">
+                          <p className="text-primary-800 font-medium">Media Guidelines:</p>
+                          <ul className="text-primary-700 mt-1 space-y-1">
                             <li>• Max 4 images (5MB each) • Max 1 video (50MB)</li>
                             <li>• Formats: JPEG, PNG, WebP, SVG, MP4, MOV, AVI</li>
                             <li>• First uploaded image becomes primary automatically</li>
@@ -833,12 +833,12 @@ const VariantsStep: React.FC<VariantsStepProps> = ({
                                 {media.isUploading && (
                                   <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
                                     <div className="bg-white rounded-lg p-3 text-center">
-                                      <div className="animate-spin w-6 h-6 border-2 border-orange-500 border-t-transparent rounded-full mx-auto mb-2"></div>
+                                      <div className="animate-spin w-6 h-6 border-2 border-primary-500 border-t-transparent rounded-full mx-auto mb-2"></div>
                                       <p className="text-xs text-gray-600">Uploading...</p>
                                       {uploadProgress.find(p => p.fileName === media.file?.name) && (
                                         <div className="w-20 bg-gray-200 rounded-full h-1 mt-2">
                                           <div 
-                                            className="h-full bg-orange-500 transition-all duration-300 rounded-full"
+                                            className="h-full bg-primary-500 transition-all duration-300 rounded-full"
                                             style={{ 
                                               width: `${uploadProgress.find(p => p.fileName === media.file?.name)?.progress || 0}%` 
                                             }}
@@ -852,7 +852,7 @@ const VariantsStep: React.FC<VariantsStepProps> = ({
                               
                               {/* Primary Image Badge */}
                               {media.is_primary && (
-                                <div className="absolute top-2 left-2 bg-orange-500 text-white text-xs px-2 py-1 rounded">
+                                <div className="absolute top-2 left-2 bg-primary-500 text-white text-xs px-2 py-1 rounded">
                                   Primary
                                 </div>
                               )}
@@ -921,7 +921,7 @@ const VariantsStep: React.FC<VariantsStepProps> = ({
                             onUpdate('variants', updatedVariants);
                           }
                         }}
-                        className="rounded border-gray-300 text-orange-600 shadow-sm focus:border-orange-300 focus:ring focus:ring-orange-200 focus:ring-opacity-50"
+                        className="rounded border-gray-300 text-primary-600 shadow-sm focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50"
                       />
                       <span className="ml-2 text-sm text-gray-700">Set as default variant</span>
                     </label>

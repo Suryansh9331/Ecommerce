@@ -142,7 +142,7 @@ const UserManagement = () => {
     <div className="min-h-screen bg-white p-6">
       <div className="max-w-full mx-auto">
         <div className="flex items-center gap-3 mb-6">
-          <UserPlus className="text-orange-500 w-8 h-8" />
+          <UserPlus className="text-primary-500 w-8 h-8" />
           <h1 className="text-3xl font-bold text-black">User Management</h1>
         </div>
 
@@ -154,13 +154,13 @@ const UserManagement = () => {
                 placeholder="Search name, email or phone..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:outline-none"
+                className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:outline-none"
               />
             </div>
             <select
               value={filterRole}
               onChange={(e) => setFilterRole(e.target.value)}
-              className="border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:outline-none"
+              className="border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-primary-500 focus:outline-none"
             >
               <option value="All">All Roles</option>
               <option value="USER">Customer</option>
@@ -172,7 +172,7 @@ const UserManagement = () => {
 
           <button
             onClick={handleExport}
-            className="flex items-center gap-2 bg-orange-500 text-white px-4 py-2 rounded-md shadow hover:bg-orange-600 transition"
+            className="flex items-center gap-2 bg-primary-500 text-white px-4 py-2 rounded-md shadow hover:bg-primary-600 transition"
           >
             <Download className="w-5 h-5" />
             Export CSV
@@ -181,13 +181,13 @@ const UserManagement = () => {
 
         {loading ? (
           <div className="flex justify-center items-center py-4">
-            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-orange-500"></div>
+            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary-500"></div>
             <span className="ml-2 text-gray-500">Loading users...</span>
           </div>
         ) : (
           <div className="overflow-x-auto bg-white rounded-xl shadow">
             <table className="min-w-full text-left">
-              <thead className="bg-orange-500/10 text-orange-500/90">
+              <thead className="bg-primary-500/10 text-primary-500/90">
                 <tr>
                   <th className="p-4">Name</th>
                   <th className="p-4">Email</th>

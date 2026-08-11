@@ -24,7 +24,7 @@ export const ConfirmModal: React.FC<{
   const confirmClass =
     tone === 'danger'
       ? 'bg-rose-600 hover:bg-rose-700 focus:ring-rose-500'
-      : 'bg-orange-600 hover:bg-orange-700 focus:ring-orange-500';
+      : 'bg-primary-600 hover:bg-primary-700 focus:ring-primary-500';
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">

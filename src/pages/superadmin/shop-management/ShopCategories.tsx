@@ -190,7 +190,7 @@ const ShopCategories: React.FC = () => {
     if (loading) {
       return (
         <div className="flex items-center justify-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
         </div>
       );
     }
@@ -224,8 +224,8 @@ const ShopCategories: React.FC = () => {
                     className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg object-cover flex-shrink-0"
                   />
                 ) : (
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Store className="text-orange-500 sm:w-6 sm:h-6" size={20} />
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Store className="text-primary-500 sm:w-6 sm:h-6" size={20} />
                   </div>
                 )}
                 <div className="min-w-0 flex-1">
@@ -280,7 +280,7 @@ const ShopCategories: React.FC = () => {
         </div>
         <button
           onClick={() => setShowModal(true)}
-          className="bg-orange-500 hover:bg-orange-600 text-white px-3 sm:px-4 py-2 rounded-lg flex items-center justify-center space-x-2 transition-colors w-full sm:w-auto"
+          className="bg-primary-500 hover:bg-primary-600 text-white px-3 sm:px-4 py-2 rounded-lg flex items-center justify-center space-x-2 transition-colors w-full sm:w-auto"
         >
           <Plus size={18} className="sm:w-5 sm:h-5" />
           <span className="text-sm sm:text-base">Add Category</span>
@@ -310,7 +310,7 @@ const ShopCategories: React.FC = () => {
             placeholder="Search categories..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-9 sm:pl-10 pr-4 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-sm sm:text-base"
+            className="w-full pl-9 sm:pl-10 pr-4 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm sm:text-base"
           />
         </div>
       </div>
@@ -318,7 +318,7 @@ const ShopCategories: React.FC = () => {
       {/* Categories List */}
       {loading ? (
         <div className="flex items-center justify-center h-48 sm:h-64">
-          <div className="animate-spin rounded-full h-10 w-10 sm:h-12 sm:w-12 border-b-2 border-orange-500"></div>
+          <div className="animate-spin rounded-full h-10 w-10 sm:h-12 sm:w-12 border-b-2 border-primary-500"></div>
         </div>
       ) : (
         <div className="bg-white rounded-lg shadow overflow-hidden">
@@ -359,8 +359,8 @@ const ShopCategories: React.FC = () => {
                             className="w-6 h-6 sm:w-8 sm:h-8 rounded object-cover mr-2 sm:mr-3 flex-shrink-0"
                           />
                         ) : (
-                          <div className="w-6 h-6 sm:w-8 sm:h-8 bg-orange-100 rounded flex items-center justify-center mr-2 sm:mr-3 flex-shrink-0">
-                            <FolderOpen className="text-orange-500 sm:w-4 sm:h-4" size={14} />
+                          <div className="w-6 h-6 sm:w-8 sm:h-8 bg-primary-100 rounded flex items-center justify-center mr-2 sm:mr-3 flex-shrink-0">
+                            <FolderOpen className="text-primary-500 sm:w-4 sm:h-4" size={14} />
                           </div>
                         )}
                         <div className="min-w-0 flex-1">
@@ -454,7 +454,7 @@ const ShopCategories: React.FC = () => {
                     required
                     value={formData.name}
                     onChange={(e) => handleNameChange(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-sm"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm"
                     placeholder="Enter category name"
                   />
                 </div>
@@ -468,7 +468,7 @@ const ShopCategories: React.FC = () => {
                     required
                     value={formData.slug}
                     onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-sm"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm"
                     placeholder="Enter category slug (URL-friendly)"
                   />
                 </div>
@@ -481,7 +481,7 @@ const ShopCategories: React.FC = () => {
                     value={formData.description}
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                     rows={2}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-sm"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm"
                     placeholder="Enter category description"
                   />
                 </div>
@@ -508,7 +508,7 @@ const ShopCategories: React.FC = () => {
                   <select
                     value={formData.parent_id || ''}
                     onChange={(e) => setFormData({ ...formData, parent_id: e.target.value ? parseInt(e.target.value) : null })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-sm"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm"
                   >
                     <option value="">None (Root Category)</option>
                     {categories
@@ -529,7 +529,7 @@ const ShopCategories: React.FC = () => {
                     type="number"
                     value={formData.sort_order}
                     onChange={(e) => setFormData({ ...formData, sort_order: parseInt(e.target.value) || 0 })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-sm"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm"
                     placeholder="Enter sort order"
                   />
                 </div>
@@ -540,7 +540,7 @@ const ShopCategories: React.FC = () => {
                     id="is_active"
                     checked={formData.is_active}
                     onChange={(e) => setFormData({ ...formData, is_active: e.target.checked })}
-                    className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded"
+                    className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
                   />
                   <label htmlFor="is_active" className="ml-2 block text-sm text-gray-900">
                     Active
@@ -565,7 +565,7 @@ const ShopCategories: React.FC = () => {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-4 py-2 bg-orange-500 hover:bg-orange-600 disabled:bg-orange-300 disabled:cursor-not-allowed text-white rounded-lg transition-colors flex items-center justify-center text-sm"
+                  className="px-4 py-2 bg-primary-500 hover:bg-primary-600 disabled:bg-primary-300 disabled:cursor-not-allowed text-white rounded-lg transition-colors flex items-center justify-center text-sm"
                 >
                   {submitting ? (
                     <>

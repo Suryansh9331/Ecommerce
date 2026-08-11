@@ -76,8 +76,8 @@ const CreatorPortfolio: React.FC = () => {
       {/* Header */}
       <div className="flex items-start justify-between gap-4 flex-wrap">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-[#FFF5F0] flex items-center justify-center">
-            <Briefcase className="w-5 h-5 text-[#FF4D00]" />
+          <div className="w-10 h-10 rounded-2xl bg-primary-50 flex items-center justify-center">
+            <Briefcase className="w-5 h-5 text-primary-600" />
           </div>
           <div>
             <h1 className="text-[24px] font-extrabold text-gray-900 leading-tight">Portfolio</h1>
@@ -86,7 +86,7 @@ const CreatorPortfolio: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-2">
-          {dirty ? <StatusChip label="Unsaved changes" tone="warning" dotClassName="bg-orange-400" /> : <StatusChip label="Saved" tone="success" dotClassName="bg-emerald-400" />}
+          {dirty ? <StatusChip label="Unsaved changes" tone="warning" dotClassName="bg-primary-400" /> : <StatusChip label="Saved" tone="success" dotClassName="bg-emerald-400" />}
           <button
             type="button"
             onClick={() => setShareOpen(true)}
@@ -99,7 +99,7 @@ const CreatorPortfolio: React.FC = () => {
             onClick={onSave}
             disabled={!dirty || !!noteErr}
             className={`px-4 py-2.5 rounded-2xl text-[12px] font-extrabold transition-colors ${
-              dirty && !noteErr ? 'bg-[#FF4D00] text-white hover:bg-[#e64500]' : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+              dirty && !noteErr ? 'bg-primary-600 text-white hover:bg-primary-700' : 'bg-gray-100 text-gray-400 cursor-not-allowed'
             }`}
           >
             Save
@@ -109,7 +109,7 @@ const CreatorPortfolio: React.FC = () => {
 
       {/* Media kit top */}
       <section className="rounded-3xl border border-gray-100/80 bg-white shadow-sm overflow-hidden">
-        <div className="px-6 py-6 bg-[radial-gradient(circle_at_15%_10%,rgba(255,77,0,0.14),transparent_55%),radial-gradient(circle_at_85%_25%,rgba(17,24,39,0.12),transparent_55%),linear-gradient(135deg,#ffffff,#fff7f2)]">
+        <div className="px-6 py-6 bg-[radial-gradient(circle_at_15%_10%,rgba(24, 0, 172,0.14),transparent_55%),radial-gradient(circle_at_85%_25%,rgba(17,24,39,0.12),transparent_55%),linear-gradient(135deg,#ffffff,#F2F0FF)]">
           <div className="flex items-start justify-between gap-4 flex-wrap">
             <div className="min-w-0">
               <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2">
@@ -154,7 +154,7 @@ const CreatorPortfolio: React.FC = () => {
             <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest">Featured reels</p>
             <p className="text-[13px] text-gray-600 mt-1">Select up to 12 reels to appear in your media kit.</p>
           </div>
-          <Link to="/creator/reels" className="text-[12px] font-bold text-[#FF4D00] hover:underline">
+          <Link to="/creator/reels" className="text-[12px] font-bold text-primary-600 hover:underline">
             Manage reels <ArrowUpRight className="w-4 h-4 inline-block" />
           </Link>
         </div>
@@ -196,14 +196,14 @@ const CreatorPortfolio: React.FC = () => {
                   type="button"
                   onClick={() => toggleFeatured(r.id)}
                   className={`relative aspect-square rounded-2xl overflow-hidden border transition-colors ${
-                    on ? 'border-[#FF4D00]' : 'border-gray-100 hover:border-gray-200'
+                    on ? 'border-primary-600' : 'border-gray-100 hover:border-gray-200'
                   }`}
                 >
                   <img src={r.thumb} alt={r.title} className="w-full h-full object-cover" />
                   <div className="absolute inset-0 bg-black/10" />
                   <div className="absolute top-2 left-2">
                     {on ? (
-                      <span className="inline-flex items-center gap-1 px-2 py-1 rounded-xl bg-[#FF4D00] text-white text-[10px] font-extrabold">
+                      <span className="inline-flex items-center gap-1 px-2 py-1 rounded-xl bg-primary-600 text-white text-[10px] font-extrabold">
                         <CheckCircle2 className="w-3.5 h-3.5" />
                         Featured
                       </span>
@@ -227,7 +227,7 @@ const CreatorPortfolio: React.FC = () => {
             <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest">Brand collaborations</p>
             <p className="text-[13px] text-gray-600 mt-1">Quick proof for brands: outcomes + what worked.</p>
           </div>
-          <Link to="/creator/deals?tab=completed" className="text-[12px] font-bold text-[#FF4D00] hover:underline">
+          <Link to="/creator/deals?tab=completed" className="text-[12px] font-bold text-primary-600 hover:underline">
             Completed deals <ArrowUpRight className="w-4 h-4 inline-block" />
           </Link>
         </div>
@@ -278,7 +278,7 @@ const CreatorPortfolio: React.FC = () => {
                   const v = e.target.value.replace(/\D/g, '');
                   setDraft((d) => ({ ...d, packages: { ...d.packages, reelRate: v ? Number(v) : undefined } }));
                 }}
-                className="mt-1 w-full rounded-2xl border border-gray-200 bg-white px-3 py-2.5 text-[13px] font-bold text-gray-900 outline-none focus:ring-2 focus:ring-[#FF4D00]/20 focus:border-[#FF4D00]"
+                className="mt-1 w-full rounded-2xl border border-gray-200 bg-white px-3 py-2.5 text-[13px] font-bold text-gray-900 outline-none focus:ring-2 focus:ring-primary-600/20 focus:border-primary-600"
                 placeholder="₹"
                 disabled={!draft.packages.showRates}
                 inputMode="numeric"
@@ -314,7 +314,7 @@ const CreatorPortfolio: React.FC = () => {
                 <input
                   value={draft.packages.revisionPolicy ?? ''}
                   onChange={(e) => setDraft((d) => ({ ...d, packages: { ...d.packages, revisionPolicy: e.target.value } }))}
-                  className="mt-1 w-full rounded-2xl border border-gray-200 bg-white px-3 py-2.5 text-[13px] font-bold text-gray-900 outline-none focus:ring-2 focus:ring-[#FF4D00]/20 focus:border-[#FF4D00]"
+                  className="mt-1 w-full rounded-2xl border border-gray-200 bg-white px-3 py-2.5 text-[13px] font-bold text-gray-900 outline-none focus:ring-2 focus:ring-primary-600/20 focus:border-primary-600"
                   placeholder="1 revision included"
                 />
                 {noteErr && <p className="text-[11px] text-red-600 font-semibold mt-1">{noteErr}</p>}
@@ -339,7 +339,7 @@ const CreatorPortfolio: React.FC = () => {
               <input
                 value={draft.socialLinks[f.key] ?? ''}
                 onChange={(e) => setDraft((d) => ({ ...d, socialLinks: { ...d.socialLinks, [f.key]: e.target.value } }))}
-                className="mt-3 w-full rounded-2xl border border-gray-200 bg-white px-3 py-2.5 text-[13px] font-semibold text-gray-900 outline-none focus:ring-2 focus:ring-[#FF4D00]/20 focus:border-[#FF4D00]"
+                className="mt-3 w-full rounded-2xl border border-gray-200 bg-white px-3 py-2.5 text-[13px] font-semibold text-gray-900 outline-none focus:ring-2 focus:ring-primary-600/20 focus:border-primary-600"
                 placeholder="https://"
               />
               {draft.socialLinks[f.key] ? (
@@ -347,7 +347,7 @@ const CreatorPortfolio: React.FC = () => {
                   href={draft.socialLinks[f.key]}
                   target="_blank"
                   rel="noreferrer"
-                  className="mt-3 inline-flex items-center gap-2 text-[12px] font-bold text-[#FF4D00] hover:underline"
+                  className="mt-3 inline-flex items-center gap-2 text-[12px] font-bold text-primary-600 hover:underline"
                 >
                   Open <ExternalLink className="w-4 h-4" />
                 </a>
@@ -411,7 +411,7 @@ const CreatorPortfolio: React.FC = () => {
               href={`${window.location.origin}/portfolio/${shareSlug}`}
               target="_blank"
               rel="noreferrer"
-              className="flex-1 inline-flex items-center justify-center gap-2 py-3 rounded-2xl bg-[#FF4D00] text-white font-extrabold text-[13px] hover:bg-[#e64500] transition-colors"
+              className="flex-1 inline-flex items-center justify-center gap-2 py-3 rounded-2xl bg-primary-600 text-white font-extrabold text-[13px] hover:bg-primary-700 transition-colors"
             >
               <ExternalLink className="w-4 h-4" /> Open
             </a>

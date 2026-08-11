@@ -23,14 +23,14 @@ const Games: React.FC = () => {
       name: 'Spin & Win',
       description: 'Spin the wheel to win amazing discounts!',
       icon: <Target className="w-8 h-8" />,
-      color: 'bg-gradient-to-r from-[#F2631F] to-orange-600'
+      color: 'bg-gradient-to-r from-primary-600 to-primary-600'
     },
     {
       id: 'memory-game',
       name: 'Memory Match',
       description: 'Match pairs to unlock special offers!',
       icon: <Zap className="w-8 h-8" />,
-      color: 'bg-gradient-to-r from-[#F2631F] to-orange-600'
+      color: 'bg-gradient-to-r from-primary-600 to-primary-600'
     }
   ];
 
@@ -102,7 +102,7 @@ const Games: React.FC = () => {
     style.innerHTML = `
       @keyframes floatCard {
         0% { transform: translateY(0px); }
-        50% { transform: translateY(-12px) scale(1.03); box-shadow: 0 8px 32px 0 rgba(242,99,31,0.10); }
+        50% { transform: translateY(-12px) scale(1.03); box-shadow: 0 8px 32px 0 rgba(24, 0, 172,0.10); }
         100% { transform: translateY(0px); }
       }
       @keyframes fadeInUp {
@@ -129,15 +129,15 @@ const Games: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-white py-12 font-['Work_Sans'] relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-primary-50 to-white py-12 font-['Work_Sans'] relative overflow-hidden">
       {/* Animated Confetti Background */}
       <svg className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-20 z-0" style={{ animation: 'confettiMove 3s infinite alternate' }} xmlns="http://www.w3.org/2000/svg">
-        <circle cx="10%" cy="20%" r="30" fill="#F2631F" />
-        <circle cx="80%" cy="10%" r="20" fill="#FF8A4C" />
-        <circle cx="50%" cy="80%" r="25" fill="#FF6B35" />
-        <circle cx="90%" cy="60%" r="15" fill="#E55A2B" />
-        <rect x="20%" y="70%" width="18" height="18" fill="#F2631F" rx="4" />
-        <rect x="70%" y="30%" width="12" height="12" fill="#FF8A4C" rx="3" />
+        <circle cx="10%" cy="20%" r="30" fill="#1800AC" />
+        <circle cx="80%" cy="10%" r="20" fill="#7561EF" />
+        <circle cx="50%" cy="80%" r="25" fill="#3B1EEB" />
+        <circle cx="90%" cy="60%" r="15" fill="#14008F" />
+        <rect x="20%" y="70%" width="18" height="18" fill="#1800AC" rx="4" />
+        <rect x="70%" y="30%" width="12" height="12" fill="#7561EF" rx="3" />
       </svg>
       <div className="container mx-auto mt-12 px-4 max-w-4xl relative z-10">
         {/* Header */}
@@ -146,7 +146,7 @@ const Games: React.FC = () => {
             🎮 Play & Win Rewards
           </h1>
           <p className="text-lg text-gray-700">
-            Play exciting games and win promo codes worth up to <span className="text-[#F2631F] font-semibold">20% off</span> instantly.
+            Play exciting games and win promo codes worth up to <span className="text-primary-600 font-semibold">20% off</span> instantly.
           </p>
         </div>
 
@@ -158,7 +158,7 @@ const Games: React.FC = () => {
               <div
                 key={game.id}
                 onClick={() => eligible && setSelectedGame(game.id)}
-                className={`${game.color} rounded-3xl p-8 cursor-pointer shadow-xl transition hover:scale-105 hover:shadow-2xl border-2 border-orange-200 hover:border-orange-400 relative ${!eligible ? 'opacity-60 pointer-events-none' : ''}`}
+                className={`${game.color} rounded-3xl p-8 cursor-pointer shadow-xl transition hover:scale-105 hover:shadow-2xl border-2 border-primary-200 hover:border-primary-400 relative ${!eligible ? 'opacity-60 pointer-events-none' : ''}`}
                 style={{
                   animation: `floatCard 3s ease-in-out ${idx * 0.3}s infinite, fadeInUp 0.8s cubic-bezier(.4,0,.2,1) both`,
                   animationDelay: `${0.2 + idx * 0.15}s, ${0.2 + idx * 0.15}s`
@@ -187,7 +187,7 @@ const Games: React.FC = () => {
 
         {/* Promo Code Section */}
         {wonCodes.length > 0 && (
-          <div className="bg-white rounded-2xl p-6 shadow-lg mb-12 border border-orange-100" style={{ animation: 'fadeInUp 0.8s 0.2s cubic-bezier(.4,0,.2,1) both' }}>
+          <div className="bg-white rounded-2xl p-6 shadow-lg mb-12 border border-primary-100" style={{ animation: 'fadeInUp 0.8s 0.2s cubic-bezier(.4,0,.2,1) both' }}>
             <h2 className="text-2xl font-bold text-center text-gray-800 mb-4">
               🎉 Your Won Promo Codes
             </h2>
@@ -223,15 +223,15 @@ const Games: React.FC = () => {
         )}
 
         {/* Instructions Section */}
-        <div className="bg-white rounded-3xl p-8 shadow-xl border border-orange-100" style={{ animation: 'fadeInUp 0.8s 0.3s cubic-bezier(.4,0,.2,1) both' }}>
+        <div className="bg-white rounded-3xl p-8 shadow-xl border border-primary-100" style={{ animation: 'fadeInUp 0.8s 0.3s cubic-bezier(.4,0,.2,1) both' }}>
           <h2 className="text-2xl font-extrabold text-gray-900 mb-8 text-center">
             How to Play & Win
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
             {[1, 2, 3].map((step) => (
               <div key={step} style={{ animation: `fadeInUp 0.7s ${0.4 + step * 0.1}s both` }}>
-                <div className="bg-[#F2631F]/10 rounded-full w-14 h-14 flex items-center justify-center mx-auto mb-3">
-                  <span className="text-[#F2631F] font-bold text-lg">{step}</span>
+                <div className="bg-primary-600/10 rounded-full w-14 h-14 flex items-center justify-center mx-auto mb-3">
+                  <span className="text-primary-600 font-bold text-lg">{step}</span>
                 </div>
                 <h3 className="font-semibold text-gray-900 mb-1">
                   {step === 1 && 'Choose a Game'}

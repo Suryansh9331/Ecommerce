@@ -189,7 +189,7 @@ const MarketplaceHealth = () => {
   };
 
   // Colors for the pie charts
-  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+  const COLORS = ['#0088FE', '#00C49F', '#FDB022', '#F79009'];
 
   if (isLoading) {
     return (
@@ -312,7 +312,7 @@ const MarketplaceHealth = () => {
                 <XAxis dataKey="name" />
                 <YAxis domain={[0, 100]} />
                 <Tooltip />
-                <Line type="monotone" dataKey="value" stroke="#FFBB28" strokeWidth={2} />
+                <Line type="monotone" dataKey="value" stroke="#FDB022" strokeWidth={2} />
               </LineChart>
             </ResponsiveContainer>
           </div>

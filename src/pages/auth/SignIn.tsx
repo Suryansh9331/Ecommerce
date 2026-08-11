@@ -208,7 +208,7 @@ const SignIn: React.FC = () => {
               type="button"
               onClick={() => { setAuthMethod('email'); setError(''); }}
               className={`flex-1 py-2 text-sm font-medium rounded-md transition-colors ${
-                authMethod === 'email' ? 'bg-white text-[#F2631F] shadow-sm' : 'text-gray-500'
+                authMethod === 'email' ? 'bg-white text-primary-600 shadow-sm' : 'text-gray-500'
               }`}
             >
               Email
@@ -217,7 +217,7 @@ const SignIn: React.FC = () => {
               type="button"
               onClick={() => { setAuthMethod('phone'); setError(''); }}
               className={`flex-1 py-2 text-sm font-medium rounded-md transition-colors ${
-                authMethod === 'phone' ? 'bg-white text-[#F2631F] shadow-sm' : 'text-gray-500'
+                authMethod === 'phone' ? 'bg-white text-primary-600 shadow-sm' : 'text-gray-500'
               }`}
             >
               Phone
@@ -236,7 +236,7 @@ const SignIn: React.FC = () => {
 
           {authMethod === 'email' && showResend && !isSubmitting && (
             <div
-              className="mb-4 text-sm text-[#F2631F] cursor-pointer hover:underline"
+              className="mb-4 text-sm text-primary-600 cursor-pointer hover:underline"
               onClick={handleResend}
             >
               Didn't get a verification email? Resend link.
@@ -255,7 +255,7 @@ const SignIn: React.FC = () => {
                   value={email}
                   onChange={e => setEmail(e.target.value)}
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#F2631F] focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent"
                   placeholder="you@example.com"
                 />
               </div>
@@ -270,7 +270,7 @@ const SignIn: React.FC = () => {
                     value={password}
                     onChange={e => setPassword(e.target.value)}
                     required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#F2631F] focus:border-transparent pr-10"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent pr-10"
                     placeholder="••••••••"
                   />
                   <button
@@ -286,13 +286,13 @@ const SignIn: React.FC = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="bg-[#F2631F] hover:bg-orange-600 text-white py-2 px-6 rounded-md font-medium transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+                  className="bg-primary-600 hover:bg-primary-600 text-white py-2 px-6 rounded-md font-medium transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? 'Signing in...' : 'Sign In'}
                 </button>
                 <Link
                   to="/request-password-reset"
-                  className="text-sm text-[#F2631F] hover:text-orange-600 font-medium"
+                  className="text-sm text-primary-600 hover:text-primary-600 font-medium"
                 >
                   Forgot Password
                 </Link>
@@ -323,7 +323,7 @@ const SignIn: React.FC = () => {
           </p>
           <Link
             to="/signup"
-            className="bg-[#F2631F] hover:bg-orange-600 text-white py-2 px-6 rounded-md font-medium transition-colors"
+            className="bg-primary-600 hover:bg-primary-600 text-white py-2 px-6 rounded-md font-medium transition-colors"
           >
             Create An Account
           </Link>

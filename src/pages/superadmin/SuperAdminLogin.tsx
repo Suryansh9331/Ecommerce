@@ -120,7 +120,7 @@ const SuperAdminLogin: React.FC = () => {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F2631F] focus:border-transparent transition-colors"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent transition-colors"
                 placeholder="admin@example.com"
                 required
               />
@@ -136,7 +136,7 @@ const SuperAdminLogin: React.FC = () => {
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F2631F] focus:border-transparent transition-colors pr-12"
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent transition-colors pr-12"
                   placeholder="••••••••"
                   required
                 />
@@ -159,8 +159,8 @@ const SuperAdminLogin: React.FC = () => {
               disabled={isSubmitting}
               className={`w-full py-2.5 px-4 rounded-md text-white font-medium transition-colors ${
                 isSubmitting
-                  ? 'bg-[#F2631F]/70 cursor-not-allowed'
-                  : 'bg-[#F2631F] hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-[#F2631F] focus:ring-offset-2'
+                  ? 'bg-primary-600/70 cursor-not-allowed'
+                  : 'bg-primary-600 hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2'
               }`}
             >
               {isSubmitting ? 'Authenticating...' : 'Sign In'}

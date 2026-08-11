@@ -231,8 +231,8 @@ const ShopProducts: React.FC = () => {
               className="bg-white rounded-lg shadow-md border border-gray-200 p-4 sm:p-6 hover:shadow-lg transition-shadow text-left"
             >
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <Store className="text-orange-500" size={20} />
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <Store className="text-primary-500" size={20} />
                 </div>
                 <div className="min-w-0 flex-1">
                   <h3 className="text-base sm:text-lg font-semibold text-gray-900 truncate">{shop.name}</h3>
@@ -332,7 +332,7 @@ const ShopProducts: React.FC = () => {
               setEditingProduct(null);
               setShowModal(true);
             }}
-            className="bg-orange-500 hover:bg-orange-600 text-white px-3 sm:px-4 py-2 rounded-lg flex items-center justify-center space-x-2 text-sm sm:text-base"
+            className="bg-primary-500 hover:bg-primary-600 text-white px-3 sm:px-4 py-2 rounded-lg flex items-center justify-center space-x-2 text-sm sm:text-base"
           >
             <Plus size={18} />
             <span className="hidden sm:inline">Add Product</span>
@@ -353,7 +353,7 @@ const ShopProducts: React.FC = () => {
                   const brand = brands.find(b => b.brand_id === parseInt(e.target.value));
                   setSelectedBrand(brand || null);
                 }}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-sm"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm"
               >
                 <option value="">All Brands</option>
                 {brands.map((brand) => (
@@ -370,7 +370,7 @@ const ShopProducts: React.FC = () => {
                 step="0.01"
                 value={filters.min_price}
                 onChange={(e) => setFilters({ ...filters, min_price: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-sm"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm"
                 placeholder="0.00"
               />
             </div>
@@ -381,7 +381,7 @@ const ShopProducts: React.FC = () => {
                 step="0.01"
                 value={filters.max_price}
                 onChange={(e) => setFilters({ ...filters, max_price: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-sm"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm"
                 placeholder="999.99"
               />
             </div>
@@ -390,7 +390,7 @@ const ShopProducts: React.FC = () => {
               <select
                 value={filters.is_published}
                 onChange={(e) => setFilters({ ...filters, is_published: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-sm"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm"
               >
                 <option value="">All Status</option>
                 <option value="true">Published</option>
@@ -407,7 +407,7 @@ const ShopProducts: React.FC = () => {
             </button>
             <button
               onClick={fetchProducts}
-              className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg text-sm"
+              className="bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg text-sm"
             >
               Apply Filters
             </button>
@@ -424,7 +424,7 @@ const ShopProducts: React.FC = () => {
             placeholder="Search products by name or SKU..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-sm"
+            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm"
           />
         </div>
       </div>
@@ -432,7 +432,7 @@ const ShopProducts: React.FC = () => {
       {/* Products Grid */}
       {loading ? (
         <div className="flex items-center justify-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
         </div>
       ) : (
         <>

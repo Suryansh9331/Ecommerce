@@ -145,10 +145,10 @@ export default function PlatformPerformance() {
   const { accessToken, isAuthenticated } = useAuth();
   
   // Primary color theme
-  const primaryColor = '#FF5733';
-  const primaryLightColor = '#FF8C33';
-  const primaryDarkerColor = '#FF4500';
-  const primaryLightestBg = '#FFF5E6';
+  const primaryColor = '#1800AC';
+  const primaryLightColor = '#3B1EEB';
+  const primaryDarkerColor = '#14008F';
+  const primaryLightestBg = '#F2F0FF';
 
   // State for various performance metrics
   const [uptimeStatus, setUptimeStatus] = useState('operational');
@@ -485,10 +485,10 @@ export default function PlatformPerformance() {
   // Color for bar chart
   const getBarColor = (entry: ErrorData): string => {
     const colors: Record<string, string> = {
-      '4xx Errors': '#FF8C33',
-      '5xx Errors': '#FF5733',
-      'Timeout Errors': '#FFB366',
-      'Network Errors': '#FFDAB9',
+      '4xx Errors': '#3B1EEB',
+      '5xx Errors': '#1800AC',
+      'Timeout Errors': '#FEC84B',
+      'Network Errors': '#FEDF89',
     };
     return colors[entry.name] || '#6b7280';
   };
@@ -553,11 +553,11 @@ export default function PlatformPerformance() {
 
   // Update chart colors
   const CHART_COLORS = {
-    primary: '#FF5733',
+    primary: '#1800AC',
     secondary: '#2DD4BF',
     tertiary: '#A855F7',
     quaternary: '#3B82F6',
-    background: '#FFF5E6'
+    background: '#F2F0FF'
   };
 
   // Add new section for detailed service analytics
@@ -696,7 +696,7 @@ export default function PlatformPerformance() {
                   <td className="px-6 py-4 whitespace-nowrap">
                     <button 
                       className="text-sm font-medium hover:underline"
-                      style={{ color: '#FF5733' }}
+                      style={{ color: '#1800AC' }}
                       onClick={(e) => {
                         e.stopPropagation();
                         fetchServiceDetails(service.name);
@@ -783,7 +783,7 @@ export default function PlatformPerformance() {
 
           <div className="space-y-6">
             {/* Performance Score */}
-            <div className="bg-gradient-to-r from-orange-500 to-orange-600 rounded-lg p-4 text-white">
+            <div className="bg-gradient-to-r from-primary-500 to-primary-600 rounded-lg p-4 text-white">
               <h3 className="text-lg font-semibold mb-2">Performance Score</h3>
               <div className="text-3xl font-bold">{performance_score.toFixed(2)}/100</div>
             </div>
@@ -877,7 +877,7 @@ export default function PlatformPerformance() {
         <div className="flex space-x-4">
           <button 
             onClick={handleRefresh} 
-            className="flex items-center gap-2 bg-[#FF5733]/20 text-[#FF5733] px-4 py-2 rounded-lg font-medium hover:bg-[#FF5733]/30 transition-all duration-300 group"
+            className="flex items-center gap-2 bg-primary-600/20 text-primary-600 px-4 py-2 rounded-lg font-medium hover:bg-primary-600/30 transition-all duration-300 group"
             disabled={loadingData}
           >
             <RefreshCw className={`w-5 h-5 ${loadingData ? 'animate-spin' : 'group-hover:rotate-180 transition-transform duration-500'}`} />
@@ -885,7 +885,7 @@ export default function PlatformPerformance() {
           </button>
           <button 
             onClick={() => setIsExportModalOpen(true)}
-            className="flex items-center gap-2 bg-[#FF5733] text-white px-4 py-2 rounded-lg font-medium hover:bg-[#FF4500] transition-all duration-300"
+            className="flex items-center gap-2 bg-primary-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-primary-700 transition-all duration-300"
           >
             <Download className="w-5 h-5" />
             Export Report
@@ -910,20 +910,20 @@ export default function PlatformPerformance() {
 
         <div className={`p-4 rounded-lg shadow-sm border bg-${primaryLightestBg} flex items-center justify-between`} style={{ backgroundColor: primaryLightestBg }}>
           <div className="flex items-center gap-3">
-            <Activity className="w-5 h-5" style={{ color: '#FF5733' }} />
+            <Activity className="w-5 h-5" style={{ color: '#1800AC' }} />
             <div>
               <h3 className="font-medium text-gray-700">Uptime</h3>
-              <p className="font-bold" style={{ color: '#FF5733' }}>{uptimePercentage}% last 30 days</p>
+              <p className="font-bold" style={{ color: '#1800AC' }}>{uptimePercentage}% last 30 days</p>
             </div>
           </div>
         </div>
 
         <div className={`p-4 rounded-lg shadow-sm border bg-${primaryLightestBg} flex items-center justify-between`} style={{ backgroundColor: primaryLightestBg }}>
           <div className="flex items-center gap-3">
-            <Clock className="w-5 h-5" style={{ color: '#FF5733' }} />
+            <Clock className="w-5 h-5" style={{ color: '#1800AC' }} />
             <div>
               <h3 className="font-medium text-gray-700">Avg Response Time</h3>
-              <p className="font-bold" style={{ color: '#FF5733' }}>
+              <p className="font-bold" style={{ color: '#1800AC' }}>
                 {responseTimeData.length > 0 
                   ? `${Math.round(responseTimeData.reduce((sum, item) => sum + (item.responseTime || 0), 0) / responseTimeData.length)}ms` 
                   : 'Calculating...'}
@@ -942,7 +942,7 @@ export default function PlatformPerformance() {
               ? 'text-white' 
               : 'text-gray-600 hover:bg-gray-100'
           }`}
-          style={{ backgroundColor: selectedTimeframe === '24h' ? '#FF5733' : '' }}
+          style={{ backgroundColor: selectedTimeframe === '24h' ? '#1800AC' : '' }}
         >
           24 Hours
         </button>
@@ -953,7 +953,7 @@ export default function PlatformPerformance() {
               ? 'text-white' 
               : 'text-gray-600 hover:bg-gray-100'
           }`}
-          style={{ backgroundColor: selectedTimeframe === '7d' ? '#FF5733' : '' }}
+          style={{ backgroundColor: selectedTimeframe === '7d' ? '#1800AC' : '' }}
         >
           7 Days
         </button>
@@ -964,7 +964,7 @@ export default function PlatformPerformance() {
               ? 'text-white' 
               : 'text-gray-600 hover:bg-gray-100'
           }`}
-          style={{ backgroundColor: selectedTimeframe === '30d' ? '#FF5733' : '' }}
+          style={{ backgroundColor: selectedTimeframe === '30d' ? '#1800AC' : '' }}
         >
           30 Days
         </button>
@@ -980,7 +980,7 @@ export default function PlatformPerformance() {
           <h2 className="text-lg font-medium mb-4 text-black">Response Time Trend</h2>
           {loadingData ? (
             <div className="flex justify-center items-center h-64">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2" style={{ borderColor: '#FF5733' }}></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2" style={{ borderColor: '#1800AC' }}></div>
             </div>
           ) : (
             <ResponsiveContainer width="100%" height={300}>
@@ -991,7 +991,7 @@ export default function PlatformPerformance() {
                 <Tooltip 
                   contentStyle={{ 
                     backgroundColor: 'white', 
-                    border: `1px solid #FF8C33`,
+                    border: `1px solid #3B1EEB`,
                     borderRadius: '4px'
                   }} 
                 />
@@ -1015,7 +1015,7 @@ export default function PlatformPerformance() {
           <h2 className="text-lg font-medium mb-4 text-black">Error Distribution</h2>
           {loadingData ? (
             <div className="flex justify-center items-center h-64">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2" style={{ borderColor: '#FF5733' }}></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2" style={{ borderColor: '#1800AC' }}></div>
             </div>
           ) : (
             <ResponsiveContainer width="100%" height={300}>
@@ -1026,7 +1026,7 @@ export default function PlatformPerformance() {
                 <Tooltip 
                   contentStyle={{ 
                     backgroundColor: 'white', 
-                    border: `1px solid #FF8C33`,
+                    border: `1px solid #3B1EEB`,
                     borderRadius: '4px'
                   }} 
                 />

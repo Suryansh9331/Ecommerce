@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Mail, Phone, MapPin, Twitter, Facebook, Linkedin, Instagram } from 'lucide-react';
+import { PLATFORM_LOGO_URL } from '../../config';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -46,14 +47,20 @@ const Footer: React.FC = () => {
   const APP_STORE_URL = 'https://apps.apple.com/app/aoin/id674500938762';
 
   return (
-    <footer className="bg-[#FFE7DB] text-black w-full">
+    <footer className="bg-primary-100 text-black w-full">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-14 py-8 sm:py-10 lg:py-14">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-6 xl:gap-8">
 
           {/* Column 1 - Logo & Contact (phone and email once) */}
           <div className="lg:col-span-1">
             <Link to="/" className="inline-block mb-4 lg:mb-6">
-              <img src="https://res.cloudinary.com/do3vxz4gw/image/upload/v1751687784/public_assets_images/public_assets_images_logo.svg" alt="Aoin" className="h-8 sm:h-10" />
+              <img
+                src={PLATFORM_LOGO_URL}
+                alt="Aoin Store"
+                width={162}
+                height={48}
+                className="h-10 sm:h-12 w-auto object-contain"
+              />
             </Link>
             <div className="space-y-3 text-[13px] sm:text-[14px] font-light text-[#161616]">
               <div className="flex items-start gap-3">
@@ -68,11 +75,11 @@ const Footer: React.FC = () => {
               </div>
               <div className="flex items-center gap-3">
                 <Phone size={16} className="text-[#161616] flex-shrink-0" />
-                <a href="tel:9893361162" className="text-[#F2631F] hover:underline">+91 9893361162</a>
+                <a href="tel:9893361162" className="text-primary-600 hover:underline">+91 9893361162</a>
               </div>
               <div className="flex items-center gap-3">
                 <Mail size={16} className="text-[#161616] flex-shrink-0" />
-                <a href="mailto:infoaoinstore@gmail.com" className="text-[#F2631F] hover:underline transition-colors">infoaoinstore@gmail.com</a>
+                <a href="mailto:infoaoinstore@gmail.com" className="text-primary-600 hover:underline transition-colors">infoaoinstore@gmail.com</a>
               </div>
             </div>
           </div>
@@ -81,9 +88,9 @@ const Footer: React.FC = () => {
           <div className="lg:col-span-1">
             <h4 className="text-[15px] sm:text-[17px] font-semibold text-[#161616] mb-3 lg:mb-4 font-worksans">{t('footer.shop')}</h4>
             <ul className="space-y-2 text-[13px] sm:text-[14px] text-[#161616] font-normal font-worksans">
-              <li><Link to="/new-product" className="hover:text-[#F2631F] transition-colors">{t('footer.newProduct')}</Link></li>
-              <li><Link to="/live-shop" className="hover:text-[#F2631F] transition-colors">{t('footer.liveShop')}</Link></li>
-              <li><Link to="/promo-products" className="hover:text-[#F2631F] transition-colors">{t('footer.promotion')}</Link></li>
+              <li><Link to="/new-product" className="hover:text-primary-600 transition-colors">{t('footer.newProduct')}</Link></li>
+              <li><Link to="/live-shop" className="hover:text-primary-600 transition-colors">{t('footer.liveShop')}</Link></li>
+              <li><Link to="/promo-products" className="hover:text-primary-600 transition-colors">{t('footer.promotion')}</Link></li>
             </ul>
           </div>
 
@@ -91,13 +98,13 @@ const Footer: React.FC = () => {
           <div className="lg:col-span-1">
             <h4 className="text-[15px] sm:text-[17px] font-semibold font-worksans text-[#161616] mb-3 lg:mb-4">{t('footer.policies')}</h4>
             <ul className="space-y-2 font-worksans text-[13px] sm:text-[14px] text-[#161616] font-normal">
-              <li><a href="/privacy-policy" target="_blank" rel="noopener noreferrer" className="hover:text-[#F2631F] transition-colors">{t('footer.privacyPolicy')}</a></li>
-              <li><Link to="/cancellation-policy" className="hover:text-[#F2631F] transition-colors">{t('footer.cancellationPolicy')}</Link></li>
-              <li><Link to="/payment-policy" className="hover:text-[#F2631F] transition-colors">Payment Policy</Link></li>
-              <li><Link to="/replacement-policy" className="hover:text-[#F2631F] transition-colors">Replacement Policy</Link></li>
-              <li><Link to="/return-refund" className="hover:text-[#F2631F] transition-colors">{t('footer.returnRefund')}</Link></li>
-              <li><Link to="/shipping-delivery" className="hover:text-[#F2631F] transition-colors">{t('footer.shippingDelivery')}</Link></li>
-              <li><Link to="/merchant-nda" className="hover:text-[#F2631F] transition-colors">Merchant NDA</Link></li>
+              <li><a href="/privacy-policy" target="_blank" rel="noopener noreferrer" className="hover:text-primary-600 transition-colors">{t('footer.privacyPolicy')}</a></li>
+              <li><Link to="/cancellation-policy" className="hover:text-primary-600 transition-colors">{t('footer.cancellationPolicy')}</Link></li>
+              <li><Link to="/payment-policy" className="hover:text-primary-600 transition-colors">Payment Policy</Link></li>
+              <li><Link to="/replacement-policy" className="hover:text-primary-600 transition-colors">Replacement Policy</Link></li>
+              <li><Link to="/return-refund" className="hover:text-primary-600 transition-colors">{t('footer.returnRefund')}</Link></li>
+              <li><Link to="/shipping-delivery" className="hover:text-primary-600 transition-colors">{t('footer.shippingDelivery')}</Link></li>
+              <li><Link to="/merchant-nda" className="hover:text-primary-600 transition-colors">Merchant NDA</Link></li>
             </ul>
           </div>
 
@@ -105,10 +112,10 @@ const Footer: React.FC = () => {
           <div className="lg:col-span-1">
             <h4 className="text-[15px] sm:text-[17px] font-semibold font-worksans text-[#161616] mb-3 lg:mb-4">{t('footer.customerSupport')}</h4>
             <ul className="space-y-2 font-worksans text-[13px] sm:text-[14px] text-[#161616] font-normal">
-              <li><Link to="/faq" className="hover:text-[#F2631F] transition-colors">{t('footer.faq')}</Link></li>
-              <li><Link to="/contact" className="hover:text-[#F2631F] transition-colors">{t('footer.contactUs')}</Link></li>
-              <li><Link to="/terms" className="hover:text-[#F2631F] transition-colors">{t('footer.termsConditions')}</Link></li>
-              <li><Link to="/shipping" className="hover:text-[#F2631F] transition-colors">{t('footer.shippingMethods')}</Link></li>
+              <li><Link to="/faq" className="hover:text-primary-600 transition-colors">{t('footer.faq')}</Link></li>
+              <li><Link to="/contact" className="hover:text-primary-600 transition-colors">{t('footer.contactUs')}</Link></li>
+              <li><Link to="/terms" className="hover:text-primary-600 transition-colors">{t('footer.termsConditions')}</Link></li>
+              <li><Link to="/shipping" className="hover:text-primary-600 transition-colors">{t('footer.shippingMethods')}</Link></li>
             </ul>
           </div>
 
@@ -117,10 +124,10 @@ const Footer: React.FC = () => {
             <div>
               <h4 className="text-[15px] sm:text-[17px] font-semibold font-worksans text-[#161616] mb-3 lg:mb-4">{t('footer.followUs')}</h4>
               <div className="flex gap-4 mb-4">
-                <a href="https://x.com/AOIN111111" target="_blank" rel="noopener noreferrer" className="text-[#F2631F] transition-colors"><Twitter size={18} className="sm:w-5 sm:h-5" /></a>
-                <a href="https://www.facebook.com/profile.php?id=61578809217780" target="_blank" rel="noopener noreferrer" className="text-[#F2631F] transition-colors"><Facebook size={18} className="sm:w-5 sm:h-5" /></a>
-                <a href="https://www.instagram.com/aoinstore/" target="_blank" rel="noopener noreferrer" className="text-[#F2631F] transition-colors"><Instagram size={18} className="sm:w-5 sm:h-5" /></a>
-                <a href="https://www.linkedin.com/company/aoinstore" target="_blank" rel="noopener noreferrer" className="text-[#F2631F] transition-colors"><Linkedin size={18} className="sm:w-5 sm:h-5" /></a>
+                <a href="https://x.com/AOIN111111" target="_blank" rel="noopener noreferrer" className="text-primary-600 transition-colors"><Twitter size={18} className="sm:w-5 sm:h-5" /></a>
+                <a href="https://www.facebook.com/profile.php?id=61578809217780" target="_blank" rel="noopener noreferrer" className="text-primary-600 transition-colors"><Facebook size={18} className="sm:w-5 sm:h-5" /></a>
+                <a href="https://www.instagram.com/aoinstore/" target="_blank" rel="noopener noreferrer" className="text-primary-600 transition-colors"><Instagram size={18} className="sm:w-5 sm:h-5" /></a>
+                <a href="https://www.linkedin.com/company/aoinstore" target="_blank" rel="noopener noreferrer" className="text-primary-600 transition-colors"><Linkedin size={18} className="sm:w-5 sm:h-5" /></a>
               </div>
             </div>
             <form className="flex flex-wrap items-stretch bg-white rounded-xl shadow-sm max-w-full overflow-hidden" onSubmit={handleNewsletterSubmit}>
@@ -137,7 +144,7 @@ const Footer: React.FC = () => {
               />
               <button
                 type="submit"
-                className="bg-[#F2631F] hover:bg-[#d44f12] font-worksans text-white px-4 py-2.5 text-xs font-medium transition-colors shrink-0"
+                className="bg-primary-600 hover:bg-primary-800 font-worksans text-white px-4 py-2.5 text-xs font-medium transition-colors shrink-0"
                 disabled={newsletterLoading}
               >
                 {newsletterLoading ? t('footer.submitting') : t('footer.submit')}
@@ -164,7 +171,7 @@ const Footer: React.FC = () => {
                     href={PLAY_STORE_URL}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center bg-[#F2631F] rounded-lg px-3 py-2 hover:bg-[#e55a1a] transition-colors border-0"
+                    className="inline-flex items-center justify-center bg-primary-600 rounded-lg px-3 py-2 hover:bg-primary-700 transition-colors border-0"
                   >
                     <img
                       src="https://res.cloudinary.com/ddnb10zkq/image/upload/v1773762535/498c9aeb-855c-4c36-ba40-e49f461b0754.png"
@@ -176,7 +183,7 @@ const Footer: React.FC = () => {
                     href={APP_STORE_URL}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center bg-[#F2631F] rounded-lg px-3 py-2 hover:bg-[#e55a1a] transition-colors border-0"
+                    className="inline-flex items-center justify-center bg-primary-600 rounded-lg px-3 py-2 hover:bg-primary-700 transition-colors border-0"
                   >
                     <img
                       src="https://res.cloudinary.com/ddnb10zkq/image/upload/v1773762539/d4c6468e-6692-4099-b6a1-29ebb8940c85.png"

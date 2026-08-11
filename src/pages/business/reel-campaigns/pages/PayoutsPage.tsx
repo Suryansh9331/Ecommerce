@@ -82,7 +82,7 @@ const PayoutsPage: React.FC = () => {
           <select
             value={days}
             onChange={(e) => setDays(Number(e.target.value) as any)}
-            className="rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 text-sm"
+            className="rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 text-sm"
           >
             <option value={7}>Last 7 days</option>
             <option value={30}>Last 30 days</option>
@@ -118,7 +118,7 @@ const PayoutsPage: React.FC = () => {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {creatorRows.map((r) => (
-                <tr key={r.creatorId} className="hover:bg-orange-50">
+                <tr key={r.creatorId} className="hover:bg-primary-50">
                   <td className="px-4 py-3 text-sm font-semibold text-gray-900 whitespace-nowrap">{r.creatorName}</td>
                   <td className="px-4 py-3 text-sm text-gray-700 whitespace-nowrap tabular-nums">{r.campaignsCount}</td>
                   <td className="px-4 py-3 text-sm text-gray-700 whitespace-nowrap tabular-nums">{money(r.eligible)}</td>
@@ -128,7 +128,7 @@ const PayoutsPage: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => openCreatorLedger(r.creatorId)}
-                      className="text-sm font-semibold text-orange-700 hover:underline"
+                      className="text-sm font-semibold text-primary-700 hover:underline"
                     >
                       View ledger
                     </button>

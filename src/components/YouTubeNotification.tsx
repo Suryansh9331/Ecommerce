@@ -89,9 +89,9 @@ const YouTubeNotification: React.FC<NotificationProps> = ({
         };
       case 'expiring_soon':
         return {
-          color: 'bg-orange-100 border-orange-200 text-orange-800',
+          color: 'bg-primary-100 border-primary-200 text-primary-800',
           icon: Clock,
-          iconColor: 'text-orange-600',
+          iconColor: 'text-primary-600',
           title: 'YouTube Token Expiring Soon',
           message: `Expires in ${status.token_info?.days_until_expiry || 0} days`,
           severity: 'medium' as const

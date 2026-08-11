@@ -75,8 +75,8 @@ const PasswordChangePopup: React.FC<PasswordChangePopupProps> = ({
         </button>
 
         <div className="flex items-center gap-3 mb-6">
-          <div className="bg-orange-100 p-2 rounded-lg">
-            <Lock className="w-6 h-6 text-orange-500" />
+          <div className="bg-primary-100 p-2 rounded-lg">
+            <Lock className="w-6 h-6 text-primary-500" />
           </div>
           <h2 className="text-xl font-semibold text-gray-900">Change Password</h2>
         </div>
@@ -92,7 +92,7 @@ const PasswordChangePopup: React.FC<PasswordChangePopupProps> = ({
                 name="currentPassword"
                 value={formData.currentPassword}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                 required
               />
               <button
@@ -115,7 +115,7 @@ const PasswordChangePopup: React.FC<PasswordChangePopupProps> = ({
                 name="newPassword"
                 value={formData.newPassword}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                 required
               />
               <button
@@ -138,7 +138,7 @@ const PasswordChangePopup: React.FC<PasswordChangePopupProps> = ({
                 name="confirmPassword"
                 value={formData.confirmPassword}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                 required
               />
               <button
@@ -162,7 +162,7 @@ const PasswordChangePopup: React.FC<PasswordChangePopupProps> = ({
             <button
               type="submit"
               disabled={loading}
-              className="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors disabled:opacity-50"
+              className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors disabled:opacity-50"
             >
               {loading ? 'Changing...' : 'Change Password'}
             </button>

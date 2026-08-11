@@ -434,7 +434,7 @@ const HomepageSettings: React.FC = () => {
         return (
             <div key={category.category_id} className="mb-2">
                 <div
-                    className={`flex items-center p-3 rounded-lg ${isSelected ? 'bg-[#FF5733] bg-opacity-10' : 'hover:bg-gray-50'
+                    className={`flex items-center p-3 rounded-lg ${isSelected ? 'bg-primary-600 bg-opacity-10' : 'hover:bg-gray-50'
                         }`}
                     style={{ paddingLeft: `${level * 2 + 1}rem` }}
                 >
@@ -465,7 +465,7 @@ const HomepageSettings: React.FC = () => {
                                 type="checkbox"
                                 checked={isSelected}
                                 onChange={() => handleCategorySelect(category.category_id)}
-                                className="w-4 h-4 text-[#FF5733] border-gray-300 rounded focus:ring-[#FF5733]"
+                                className="w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-600"
                             />
                             <span className="text-sm text-gray-600">Show on homepage</span>
                         </label>
@@ -634,7 +634,7 @@ const HomepageSettings: React.FC = () => {
         return (
             <div className="p-6">
                 <div className="flex items-center justify-center h-64">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#FF5733]"></div>
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
                 </div>
             </div>
         );
@@ -647,7 +647,7 @@ const HomepageSettings: React.FC = () => {
                 <button
                     onClick={handleSaveSettings}
                     disabled={loading}
-                    className="bg-[#FF5733] text-white px-4 py-2 rounded flex items-center hover:bg-[#FF4500] transition-colors disabled:opacity-50"
+                    className="bg-primary-600 text-white px-4 py-2 rounded flex items-center hover:bg-primary-700 transition-colors disabled:opacity-50"
                 >
                     <Save className="w-4 h-4 mr-2" />
                     Save Changes
@@ -1006,7 +1006,7 @@ const HomepageSettings: React.FC = () => {
                                                 ref={provided.innerRef}
                                                 {...provided.draggableProps}
                                                 {...provided.dragHandleProps}
-                                                className={`flex items-center bg-gray-50 rounded p-2 shadow-sm ${snapshot.isDragging ? 'ring-2 ring-[#FF5733]' : ''}`}
+                                                className={`flex items-center bg-gray-50 rounded p-2 shadow-sm ${snapshot.isDragging ? 'ring-2 ring-primary-600' : ''}`}
                                             >
                                                 <img src={item.image_url} alt={item.type} className="w-12 h-12 object-cover rounded mr-4" />
                                                 <span className="flex-1 font-medium">
@@ -1051,7 +1051,7 @@ const HomepageSettings: React.FC = () => {
                 </DragDropContext>
                 <button
                     onClick={handleSaveOrder}
-                    className="mt-4 bg-[#FF5733] text-white px-4 py-2 rounded flex items-center hover:bg-[#FF4500] transition-colors disabled:opacity-50"
+                    className="mt-4 bg-primary-600 text-white px-4 py-2 rounded flex items-center hover:bg-primary-700 transition-colors disabled:opacity-50"
                     disabled={orderLoading}
                 >
                     <Save className="w-4 h-4 mr-2" />
@@ -1125,7 +1125,7 @@ const HomepageSettings: React.FC = () => {
                                 <button
                                     onClick={handleUpdateCarousel}
                                     disabled={loading}
-                                    className="px-4 py-2 bg-[#FF5733] text-white rounded hover:bg-[#FF4500] disabled:opacity-50"
+                                    className="px-4 py-2 bg-primary-600 text-white rounded hover:bg-primary-700 disabled:opacity-50"
                                 >
                                     {loading ? 'Updating...' : 'Update'}
                                 </button>

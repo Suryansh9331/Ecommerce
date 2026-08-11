@@ -173,8 +173,8 @@ const CreatorUploadReel: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto">
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-10 h-10 rounded-xl bg-[#FFF5F0] flex items-center justify-center">
-          <Video className="w-5 h-5 text-[#FF4D00]" />
+        <div className="w-10 h-10 rounded-xl bg-primary-50 flex items-center justify-center">
+          <Video className="w-5 h-5 text-primary-600" />
         </div>
         <div>
           <h1 className="text-xl font-bold text-gray-900">Upload Reel</h1>
@@ -197,7 +197,7 @@ const CreatorUploadReel: React.FC = () => {
             <div key={s} className="flex items-center gap-2">
               <div
                 className={`w-7 h-7 rounded-xl flex items-center justify-center text-[11px] font-extrabold ${
-                  active ? 'bg-[#FF4D00] text-white' : done ? 'bg-emerald-100 text-emerald-700' : 'bg-white border border-gray-200 text-gray-500'
+                  active ? 'bg-primary-600 text-white' : done ? 'bg-emerald-100 text-emerald-700' : 'bg-white border border-gray-200 text-gray-500'
                 }`}
               >
                 {done ? <CheckCircle2 className="w-4 h-4" /> : s}
@@ -227,7 +227,7 @@ const CreatorUploadReel: React.FC = () => {
                     type="button"
                     onClick={() => setSelectedCampaignId(c.id)}
                     className={`text-left rounded-2xl border p-4 transition-shadow ${
-                      selected ? 'border-[#FF4D00] shadow-sm bg-[#fff8f5]' : 'border-gray-100 hover:shadow-sm'
+                      selected ? 'border-primary-600 shadow-sm bg-primary-50' : 'border-gray-100 hover:shadow-sm'
                     }`}
                   >
                     <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Campaign #{c.id}</p>
@@ -251,7 +251,7 @@ const CreatorUploadReel: React.FC = () => {
                 onClick={() => setStep(2)}
                 disabled={!canGoStep2}
                 className={`px-4 py-2.5 rounded-xl text-[13px] font-bold transition-colors ${
-                  canGoStep2 ? 'bg-[#FF4D00] text-white hover:bg-[#e64500]' : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                  canGoStep2 ? 'bg-primary-600 text-white hover:bg-primary-700' : 'bg-gray-100 text-gray-400 cursor-not-allowed'
                 }`}
               >
                 Continue
@@ -294,7 +294,7 @@ const CreatorUploadReel: React.FC = () => {
                         className="hidden"
                         onChange={(e) => onPickFile(e.target.files?.[0] ?? null)}
                       />
-                      <span className="px-4 py-2.5 rounded-xl bg-[#FF4D00] text-white text-[13px] font-bold hover:bg-[#e64500] transition-colors cursor-pointer">
+                      <span className="px-4 py-2.5 rounded-xl bg-primary-600 text-white text-[13px] font-bold hover:bg-primary-700 transition-colors cursor-pointer">
                         Browse file
                       </span>
                     </label>
@@ -354,7 +354,7 @@ const CreatorUploadReel: React.FC = () => {
                 onClick={() => setStep(3)}
                 disabled={!canGoStep3}
                 className={`px-4 py-2.5 rounded-xl text-[13px] font-bold transition-colors ${
-                  canGoStep3 ? 'bg-[#FF4D00] text-white hover:bg-[#e64500]' : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                  canGoStep3 ? 'bg-primary-600 text-white hover:bg-primary-700' : 'bg-gray-100 text-gray-400 cursor-not-allowed'
                 }`}
               >
                 Continue
@@ -377,7 +377,7 @@ const CreatorUploadReel: React.FC = () => {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 rows={5}
-                className="w-full rounded-2xl border border-gray-200 px-4 py-3 text-[13px] outline-none focus:ring-2 focus:ring-[#FF4D00]/20 focus:border-[#FF4D00]"
+                className="w-full rounded-2xl border border-gray-200 px-4 py-3 text-[13px] outline-none focus:ring-2 focus:ring-primary-600/20 focus:border-primary-600"
                 placeholder="Example: Styling this Kurta set for monsoon — breathable fabric, perfect fit. Shop now via my link."
               />
               <div className="flex items-center justify-between mt-2">
@@ -408,7 +408,7 @@ const CreatorUploadReel: React.FC = () => {
                 onClick={() => setStep(4)}
                 disabled={!canGoStep4}
                 className={`px-4 py-2.5 rounded-xl text-[13px] font-bold transition-colors ${
-                  canGoStep4 ? 'bg-[#FF4D00] text-white hover:bg-[#e64500]' : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                  canGoStep4 ? 'bg-primary-600 text-white hover:bg-primary-700' : 'bg-gray-100 text-gray-400 cursor-not-allowed'
                 }`}
               >
                 Continue
@@ -466,7 +466,7 @@ const CreatorUploadReel: React.FC = () => {
                 onClick={onSubmitMock}
                 disabled={!canSubmit}
                 className={`px-4 py-2.5 rounded-xl text-[13px] font-bold transition-colors ${
-                  canSubmit ? 'bg-[#FF4D00] text-white hover:bg-[#e64500]' : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                  canSubmit ? 'bg-primary-600 text-white hover:bg-primary-700' : 'bg-gray-100 text-gray-400 cursor-not-allowed'
                 }`}
               >
                 Submit for review
@@ -517,7 +517,7 @@ const CreatorUploadReel: React.FC = () => {
                     setStep(2);
                     setSubmitStatus('draft');
                   }}
-                  className="px-4 py-2.5 rounded-xl bg-[#FF4D00] text-white text-[13px] font-bold hover:bg-[#e64500] transition-colors"
+                  className="px-4 py-2.5 rounded-xl bg-primary-600 text-white text-[13px] font-bold hover:bg-primary-700 transition-colors"
                 >
                   Re-upload
                 </button>

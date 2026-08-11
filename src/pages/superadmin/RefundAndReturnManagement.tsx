@@ -98,13 +98,13 @@ const RefundAndReturnManagement: React.FC = () => {
 
   return (
     <div className="min-h-[80vh] p-6 bg-white border border-gray-200 shadow-xl rounded-xl">
-      <h1 className="text-2xl font-bold text-orange-500 mb-4">Refund & Return Management</h1>
+      <h1 className="text-2xl font-bold text-primary-500 mb-4">Refund & Return Management</h1>
 
       {/* Search and Filter */}
       <div className="flex flex-col md:flex-row md:items-center gap-3 mb-5">
         <input
           type="text"
-          className="md:w-1/3 w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+          className="md:w-1/3 w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
           placeholder="Search by Order ID, Name, Reason, or Item..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
@@ -112,7 +112,7 @@ const RefundAndReturnManagement: React.FC = () => {
         <select
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
-          className="w-full md:w-40 px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+          className="w-full md:w-40 px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
         >
           <option value="All">All</option>
           <option value="Pending">Pending</option>
@@ -123,7 +123,7 @@ const RefundAndReturnManagement: React.FC = () => {
 
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5 text-sm">
-        <div className="bg-orange-100 p-3 rounded-md text-center text-orange-700 font-semibold">
+        <div className="bg-primary-100 p-3 rounded-md text-center text-primary-700 font-semibold">
           Total: {mockRequests.length}
         </div>
         <div className="bg-yellow-100 p-3 rounded-md text-center text-yellow-700 font-semibold">
@@ -138,9 +138,9 @@ const RefundAndReturnManagement: React.FC = () => {
       </div>
 
       {/* Table */}
-      <div className="rounded-xl border border-orange-100 overflow-x-auto">
+      <div className="rounded-xl border border-primary-100 overflow-x-auto">
         <table className="min-w-full text-sm text-left table-fixed">
-          <thead className="bg-orange-50 text-orange-600 uppercase text-xs">
+          <thead className="bg-primary-50 text-primary-600 uppercase text-xs">
             <tr>
               <th className="px-3 py-2 w-[90px]">Order ID</th>
               <th className="px-3 py-2 w-[100px]">Name</th>
@@ -152,9 +152,9 @@ const RefundAndReturnManagement: React.FC = () => {
               <th className="px-3 py-2 w-[80px] text-center">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-orange-100">
+          <tbody className="divide-y divide-primary-100">
             {filteredRequests.map((req) => (
-              <tr key={req.id} className="hover:bg-orange-50">
+              <tr key={req.id} className="hover:bg-primary-50">
                 <td className="px-3 py-2">{req.orderId}</td>
                 <td className="px-3 py-2">{req.Name}</td>
                 <td className="px-3 py-2 truncate">{req.item}</td>
@@ -179,12 +179,12 @@ const RefundAndReturnManagement: React.FC = () => {
                     </button>
                     <button 
                       title="Delete" 
-                      className="text-orange-600 hover:text-orange-700"
+                      className="text-primary-600 hover:text-primary-700"
                       onClick={() => handleDeleteClick(req.id, req.Name)}
                     >
                       <Trash2 className="h-4 w-4" />
                     </button>
-                    <button title="View" className="text-orange-600 hover:text-orange-700">
+                    <button title="View" className="text-primary-600 hover:text-primary-700">
                       <Eye className="h-4 w-4" />
                     </button>
                   </div>
@@ -200,7 +200,7 @@ const RefundAndReturnManagement: React.FC = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 w-full max-w-sm shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
             <div className="flex items-center justify-start mb-4">
-              <AlertCircle className="h-8 w-8 text-orange-500 mr-3" />
+              <AlertCircle className="h-8 w-8 text-primary-500 mr-3" />
               <h3 className="text-xl font-semibold text-gray-900">Confirm Deletion</h3>
             </div>
             <div className="mt-2">
@@ -211,14 +211,14 @@ const RefundAndReturnManagement: React.FC = () => {
             <div className="mt-5 sm:mt-6 sm:flex sm:flex-row-reverse">
               <button
                 type="button"
-                className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-orange-500 text-base font-medium text-white hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 sm:ml-3 sm:w-auto sm:text-sm"
+                className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary-500 text-base font-medium text-white hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 sm:ml-3 sm:w-auto sm:text-sm"
                 onClick={handleConfirmDelete}
               >
                 Delete
               </button>
               <button
                 type="button"
-                className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 sm:mt-0 sm:w-auto sm:text-sm"
+                className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 sm:mt-0 sm:w-auto sm:text-sm"
                 onClick={cancelDelete}
               >
                 Cancel
@@ -232,7 +232,7 @@ const RefundAndReturnManagement: React.FC = () => {
       {loading && (
         <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg flex items-center space-x-3">
-            <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-orange-500"></div>
+            <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-primary-500"></div>
             <span className="text-gray-700">Processing...</span>
           </div>
         </div>

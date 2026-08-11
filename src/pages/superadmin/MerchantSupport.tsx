@@ -247,14 +247,14 @@ const MerchantSupportAdminPage: React.FC = () => {
             placeholder="Search UID, title, merchant..."
             value={searchTerm}
             onChange={(e) => {setSearchTerm(e.target.value); setCurrentPage(1);}}
-            className="pl-10 w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500"
+            className="pl-10 w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500"
           />
         </div>
         <div className="relative">
             <select
             value={filterStatus}
             onChange={(e) => {setFilterStatus(e.target.value); setCurrentPage(1);}}
-            className="w-full p-2 pr-8 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 appearance-none"
+            className="w-full p-2 pr-8 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 appearance-none"
             >
             <option value="all">All Statuses</option>
             {['open', 'in_progress', 'awaiting_merchant_reply', 'awaiting_customer_reply', 'resolved', 'closed'].map(s => (
@@ -267,7 +267,7 @@ const MerchantSupportAdminPage: React.FC = () => {
             <select
             value={filterPriority}
             onChange={(e) => {setFilterPriority(e.target.value); setCurrentPage(1);}}
-            className="w-full p-2 pr-8 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 appearance-none"
+            className="w-full p-2 pr-8 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 appearance-none"
             >
             <option value="all">All Priorities</option>
             {['low', 'medium', 'high'].map(p => (
@@ -289,16 +289,16 @@ const MerchantSupportAdminPage: React.FC = () => {
       ) : (
         <div className="bg-white rounded-lg shadow overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-orange-50">
+            <thead className="bg-primary-50">
               <tr>
                 {['Ticket ID', 'Title', 'Merchant', 'Priority', 'Status', 'Last Updated', 'Assigned To', 'Actions'].map(header => (
-                  <th key={header} className="px-6 py-3 text-left text-xs font-medium text-orange-600 uppercase tracking-wider">{header}</th>
+                  <th key={header} className="px-6 py-3 text-left text-xs font-medium text-primary-600 uppercase tracking-wider">{header}</th>
                 ))}
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {tickets.map((ticket) => (
-                <tr key={ticket.ticket_uid} className="hover:bg-orange-50/30">
+                <tr key={ticket.ticket_uid} className="hover:bg-primary-50/30">
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{ticket.ticket_uid}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 max-w-xs truncate" title={ticket.title}>{ticket.title}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{ticket.merchant_name || ticket.creator_name}</td>
@@ -315,7 +315,7 @@ const MerchantSupportAdminPage: React.FC = () => {
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{new Date(ticket.updated_at).toLocaleString()}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{ticket.assigned_admin_name || 'Unassigned'}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <button onClick={() => handleViewTicket(ticket)} className="text-orange-600 hover:text-orange-800 p-1 rounded-full hover:bg-orange-100" title="View Details">
+                    <button onClick={() => handleViewTicket(ticket)} className="text-primary-600 hover:text-primary-800 p-1 rounded-full hover:bg-primary-100" title="View Details">
                       <Eye size={18} />
                     </button>
                   </td>
@@ -373,7 +373,7 @@ const MerchantSupportAdminPage: React.FC = () => {
 
               <div className="mt-2">
                 <strong className="text-gray-600 block mb-1 text-sm">Description:</strong>
-                <div className="p-3 bg-orange-50 rounded-md border border-orange-100 text-sm text-gray-700 whitespace-pre-wrap">{selectedTicket.description}</div>
+                <div className="p-3 bg-primary-50 rounded-md border border-primary-100 text-sm text-gray-700 whitespace-pre-wrap">{selectedTicket.description}</div>
               </div>
 
               {selectedTicket.image_url && (
@@ -389,7 +389,7 @@ const MerchantSupportAdminPage: React.FC = () => {
                   {(selectedTicket.messages || []).map((msg) => (
                     <div key={msg.id} className={`p-3 rounded-lg shadow-sm ${msg.is_admin_reply ? 'bg-blue-50 border-blue-200' : 'bg-gray-50 border-gray-200'}`}>
                       <p className="text-sm text-gray-800 whitespace-pre-wrap">{msg.message_text}</p>
-                      {msg.attachment_url && <a href={msg.attachment_url} target="_blank" rel="noopener noreferrer" className="text-xs text-orange-600 hover:underline flex items-center mt-1"><Paperclip size={12}/>View Attachment</a>}
+                      {msg.attachment_url && <a href={msg.attachment_url} target="_blank" rel="noopener noreferrer" className="text-xs text-primary-600 hover:underline flex items-center mt-1"><Paperclip size={12}/>View Attachment</a>}
                       <p className="text-xs text-gray-500 mt-1 text-right">
                         {msg.sender_name} ({msg.sender_role}) - {new Date(msg.created_at).toLocaleString()}
                       </p>
@@ -409,11 +409,11 @@ const MerchantSupportAdminPage: React.FC = () => {
                             onChange={(e) => setAdminReply(e.target.value)}
                             placeholder="Type your reply..."
                             rows={3}
-                            className="w-full p-2 border border-gray-300 rounded-md focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                            className="w-full p-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
                             disabled={isReplying}
                         />
                         <div className="flex justify-between items-center">
-                             <label htmlFor={`admin-reply-attachment-merchant-${selectedTicket.ticket_uid}`} className="cursor-pointer text-orange-600 hover:text-orange-700 p-2 rounded-full hover:bg-orange-100">
+                             <label htmlFor={`admin-reply-attachment-merchant-${selectedTicket.ticket_uid}`} className="cursor-pointer text-primary-600 hover:text-primary-700 p-2 rounded-full hover:bg-primary-100">
                                 <Paperclip className="h-5 w-5"/>
                                 <input id={`admin-reply-attachment-merchant-${selectedTicket.ticket_uid}`} type="file" className="hidden" onChange={(e) => setAdminReplyAttachment(e.target.files ? e.target.files[0] : null)} disabled={isReplying}/>
                             </label>
@@ -421,7 +421,7 @@ const MerchantSupportAdminPage: React.FC = () => {
                             <button
                                 type="submit"
                                 disabled={(!adminReply.trim() && !adminReplyAttachment) || isReplying}
-                                className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50"
+                                className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-500 hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50"
                             >
                                 {isReplying ? 'Sending...' : <><Send className="h-4 w-4 mr-2"/>Send Reply</>}
                             </button>

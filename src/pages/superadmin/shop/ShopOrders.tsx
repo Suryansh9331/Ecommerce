@@ -42,7 +42,7 @@ const StatusBadge = ({ status }: { status: string }) => {
     case 'DELIVERED': bgColor = 'bg-emerald-100'; textColor = 'text-emerald-800'; break;
     case 'SHIPPED': bgColor = 'bg-sky-100'; textColor = 'text-sky-800'; break;
     case 'PROCESSING': bgColor = 'bg-amber-100'; textColor = 'text-amber-800'; break;
-    case 'PENDING_PAYMENT': bgColor = 'bg-orange-100'; textColor = 'text-orange-800'; break;
+    case 'PENDING_PAYMENT': bgColor = 'bg-primary-100'; textColor = 'text-primary-800'; break;
     case 'CANCELLED':
     case 'CANCELLED_BY_CUSTOMER':
     case 'CANCELLED_BY_MERCHANT':
@@ -50,7 +50,7 @@ const StatusBadge = ({ status }: { status: string }) => {
     case 'SUCCESSFUL': bgColor = 'bg-emerald-100'; textColor = 'text-emerald-800'; break;
     case 'FAILED': bgColor = 'bg-rose-100'; textColor = 'text-rose-800'; break;
     case 'REFUNDED': bgColor = 'bg-purple-100'; textColor = 'text-purple-800'; break;
-    case 'PENDING': bgColor = 'bg-orange-100'; textColor = 'text-orange-800'; break;
+    case 'PENDING': bgColor = 'bg-primary-100'; textColor = 'text-primary-800'; break;
     default: bgColor = 'bg-gray-100'; textColor = 'text-gray-800';
   }
   return (
@@ -68,7 +68,7 @@ const MobileOrderCard = ({ order, onView }: { order: any, onView: (orderId: stri
         <p className="text-xs text-gray-500">{new Date(order.order_date).toLocaleDateString()}</p>
       </div>
       <div className="flex space-x-2">
-        <button onClick={() => onView(order.order_id)} className="text-orange-600 hover:text-orange-900">
+        <button onClick={() => onView(order.order_id)} className="text-primary-600 hover:text-primary-900">
           <EyeIcon className="h-4 w-4" />
         </button>
       </div>
@@ -182,7 +182,7 @@ const ShopOrders: React.FC = () => {
     navigate(`/superadmin/order-management/${orderId}`, { state: { order } });
   };
 
-  if (loading) return (<div className="flex justify-center items-center h-64"><div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-500"></div></div>);
+  if (loading) return (<div className="flex justify-center items-center h-64"><div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-500"></div></div>);
 
   return (
     <div className="space-y-4 lg:space-y-6">
@@ -192,25 +192,25 @@ const ShopOrders: React.FC = () => {
       <div className="bg-white p-3 sm:p-4 rounded-lg shadow-sm border border-gray-200">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
           <div className="relative">
-            <input type="text" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} placeholder="Search orders..." className="block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 text-sm" />
+            <input type="text" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} placeholder="Search orders..." className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 text-sm" />
           </div>
-          <select value={selectedShop} onChange={e => { setSelectedShop(e.target.value); setPage(1); }} className="block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 text-sm">
+          <select value={selectedShop} onChange={e => { setSelectedShop(e.target.value); setPage(1); }} className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 text-sm">
             <option value="All">All Shops</option>
             {SHOPS.map(shop => <option key={shop.shop_id} value={shop.shop_id}>{shop.name}</option>)}
           </select>
-          <select value={selectedStatus} onChange={e => { setSelectedStatus(e.target.value); setPage(1); }} className="block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 text-sm">
+          <select value={selectedStatus} onChange={e => { setSelectedStatus(e.target.value); setPage(1); }} className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 text-sm">
             {STATUS_OPTIONS.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
           </select>
-          <select value={selectedPayment} onChange={e => setSelectedPayment(e.target.value)} className="block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 text-sm">
+          <select value={selectedPayment} onChange={e => setSelectedPayment(e.target.value)} className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 text-sm">
             <option value="All">All Payment Status</option>
             {PAYMENT_OPTIONS.map(status => <option key={status} value={status}>{status}</option>)}
           </select>
-          <button className="inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-orange-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"><FunnelIcon className="h-4 w-4 mr-2" /><span className="hidden sm:inline">More Filters</span><span className="sm:hidden">Filters</span></button>
+          <button className="inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"><FunnelIcon className="h-4 w-4 mr-2" /><span className="hidden sm:inline">More Filters</span><span className="sm:hidden">Filters</span></button>
         </div>
       </div>
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 relative">
         <div className="block lg:hidden"><div className="p-4">{filteredOrders.length === 0 ? (<div className="text-center py-8"><p className="text-gray-500">No orders found</p></div>) : (<div className="space-y-4">{filteredOrders.map(order => (<MobileOrderCard key={order.order_id} order={order} onView={handleView} />))}</div>)}</div></div>
-        <div className="hidden lg:block"><div className="overflow-x-auto"><table className="min-w-full divide-y divide-gray-200" style={tableZoomStyle}><thead className="bg-gray-50"><tr>{['Order ID', 'Date', 'Shop', 'Customer', 'Items', 'Total', 'Status', 'Payment', 'Actions'].map(header => (<th key={header} className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ padding: cellPadding }}><div className="flex items-center space-x-1"><span>{header}</span></div></th>))}</tr></thead><tbody className="bg-white divide-y divide-gray-200">{filteredOrders.map(order => (<tr key={order.order_id} className="hover:bg-orange-50"><td className="text-sm font-medium text-gray-900" style={{ padding: cellPadding }}>{order.order_id}</td><td className="text-sm text-gray-500" style={{ padding: cellPadding }}>{new Date(order.order_date).toLocaleDateString()}</td><td className="text-sm text-gray-900" style={{ padding: cellPadding }}>{order.shop_name || shopNameById.get(order.shop_id) || 'N/A'}</td><td className="whitespace-normal text-sm text-gray-900 max-w-xs" style={{ padding: cellPadding }}><div>{order.shipping_address_details?.address_line1 || 'N/A'}</div><div className="text-gray-500">{order.shipping_address_details?.city || 'N/A'}</div></td><td className="text-sm text-gray-500" style={{ padding: cellPadding }}>{order.items.length}</td><td className="text-sm text-gray-900" style={{ padding: cellPadding }}>{order.currency} {parseFloat(order.total_amount).toFixed(2)}</td><td style={{ padding: cellPadding }}><StatusBadge status={order.order_status} /></td><td style={{ padding: cellPadding }}><StatusBadge status={order.payment_status} /></td><td className="text-sm text-gray-500" style={{ padding: cellPadding }}><div className="flex space-x-2"><button onClick={() => handleView(order.order_id)} className="text-orange-600 hover:text-orange-900"><EyeIcon className="h-5 w-5" /></button></div></td></tr>))}</tbody></table></div></div>
+        <div className="hidden lg:block"><div className="overflow-x-auto"><table className="min-w-full divide-y divide-gray-200" style={tableZoomStyle}><thead className="bg-gray-50"><tr>{['Order ID', 'Date', 'Shop', 'Customer', 'Items', 'Total', 'Status', 'Payment', 'Actions'].map(header => (<th key={header} className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ padding: cellPadding }}><div className="flex items-center space-x-1"><span>{header}</span></div></th>))}</tr></thead><tbody className="bg-white divide-y divide-gray-200">{filteredOrders.map(order => (<tr key={order.order_id} className="hover:bg-primary-50"><td className="text-sm font-medium text-gray-900" style={{ padding: cellPadding }}>{order.order_id}</td><td className="text-sm text-gray-500" style={{ padding: cellPadding }}>{new Date(order.order_date).toLocaleDateString()}</td><td className="text-sm text-gray-900" style={{ padding: cellPadding }}>{order.shop_name || shopNameById.get(order.shop_id) || 'N/A'}</td><td className="whitespace-normal text-sm text-gray-900 max-w-xs" style={{ padding: cellPadding }}><div>{order.shipping_address_details?.address_line1 || 'N/A'}</div><div className="text-gray-500">{order.shipping_address_details?.city || 'N/A'}</div></td><td className="text-sm text-gray-500" style={{ padding: cellPadding }}>{order.items.length}</td><td className="text-sm text-gray-900" style={{ padding: cellPadding }}>{order.currency} {parseFloat(order.total_amount).toFixed(2)}</td><td style={{ padding: cellPadding }}><StatusBadge status={order.order_status} /></td><td style={{ padding: cellPadding }}><StatusBadge status={order.payment_status} /></td><td className="text-sm text-gray-500" style={{ padding: cellPadding }}><div className="flex space-x-2"><button onClick={() => handleView(order.order_id)} className="text-primary-600 hover:text-primary-900"><EyeIcon className="h-5 w-5" /></button></div></td></tr>))}</tbody></table></div></div>
         {/* Pagination */}
         <div className="flex items-center justify-between px-4 py-3 border-t border-gray-200 bg-white">
           <div className="text-sm text-gray-600">Total: {total}</div>
@@ -228,7 +228,7 @@ const ShopOrders: React.FC = () => {
             >Next</button>
           </div>
         </div>
-        <div className="hidden lg:block fixed z-50 bottom-20 right-4 flex flex-col space-y-3"><button className="w-12 h-12 flex items-center justify-center rounded-full bg-white shadow-lg border border-gray-200 hover:bg-orange-100 transition" onClick={() => setZoom(z => Math.min(2, z + 0.1))} title="Zoom In" type="button"><MagnifyingGlassPlusIcon className="w-7 h-7 text-orange-600" /></button><button className="w-12 h-12 flex items-center justify-center rounded-full bg-white shadow-lg border border-gray-200 hover:bg-orange-100 transition" onClick={() => setZoom(z => Math.max(0.5, z - 0.1))} title="Zoom Out" type="button"><MagnifyingGlassMinusIcon className="w-7 h-7 text-orange-600" /></button></div>
+        <div className="hidden lg:block fixed z-50 bottom-20 right-4 flex flex-col space-y-3"><button className="w-12 h-12 flex items-center justify-center rounded-full bg-white shadow-lg border border-gray-200 hover:bg-primary-100 transition" onClick={() => setZoom(z => Math.min(2, z + 0.1))} title="Zoom In" type="button"><MagnifyingGlassPlusIcon className="w-7 h-7 text-primary-600" /></button><button className="w-12 h-12 flex items-center justify-center rounded-full bg-white shadow-lg border border-gray-200 hover:bg-primary-100 transition" onClick={() => setZoom(z => Math.max(0.5, z - 0.1))} title="Zoom Out" type="button"><MagnifyingGlassMinusIcon className="w-7 h-7 text-primary-600" /></button></div>
       </div>
     </div>
   );

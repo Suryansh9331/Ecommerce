@@ -167,7 +167,7 @@ const CreatorReels: React.FC = () => {
     <div className="space-y-5 text-gray-900">
       {/* IG-style header */}
       <section className="relative overflow-hidden rounded-3xl border border-gray-100/80 bg-white shadow-sm">
-        <div className="relative h-[150px] bg-[radial-gradient(circle_at_12%_0%,rgba(255,77,0,0.55),transparent_55%),radial-gradient(circle_at_70%_25%,rgba(17,24,39,0.28),transparent_55%),linear-gradient(135deg,#12131f,#14192e)]">
+        <div className="relative h-[150px] bg-[radial-gradient(circle_at_12%_0%,rgba(24, 0, 172,0.55),transparent_55%),radial-gradient(circle_at_70%_25%,rgba(17,24,39,0.28),transparent_55%),linear-gradient(135deg,#12131f,#14192e)]">
           <div className="absolute inset-0 opacity-20 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.10),transparent)]" />
         </div>
 
@@ -175,7 +175,7 @@ const CreatorReels: React.FC = () => {
           <div className="-mt-8 flex items-end justify-between gap-4 flex-wrap relative z-10">
             <div className="flex items-end gap-4 min-w-0">
               <div className="relative">
-                <div className="w-[88px] h-[88px] rounded-[26px] p-[3px] bg-gradient-to-br from-[#FF4D00] via-[#ff7840] to-[#ffd6c4] shadow-lg">
+                <div className="w-[88px] h-[88px] rounded-[26px] p-[3px] bg-gradient-to-br from-primary-600 via-primary-400 to-primary-200 shadow-lg">
                   <div className="w-full h-full rounded-[23px] bg-white overflow-hidden">
                     {profile.avatarUrl ? (
                       <img src={profile.avatarUrl} alt={profile.name} className="w-full h-full object-cover" />
@@ -225,7 +225,7 @@ const CreatorReels: React.FC = () => {
             <div className="flex items-center gap-2">
               <Link
                 to="/creator/upload-reel"
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-[#FF4D00] text-white text-[12px] font-bold hover:bg-[#e64500] transition-colors"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-primary-600 text-white text-[12px] font-bold hover:bg-primary-700 transition-colors"
               >
                 <Upload className="w-4 h-4" />
                 Upload reel
@@ -321,7 +321,7 @@ const CreatorReels: React.FC = () => {
           <p className="text-[12px] text-gray-400 mt-1">Try changing filters or upload your first reel.</p>
           <Link
             to="/creator/upload-reel"
-            className="mt-4 inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#FF4D00] text-white text-[12px] font-bold hover:bg-[#e64500] transition-colors"
+            className="mt-4 inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-primary-600 text-white text-[12px] font-bold hover:bg-primary-700 transition-colors"
           >
             <Upload className="w-4 h-4" />
             Upload reel
@@ -430,7 +430,7 @@ const CreatorReels: React.FC = () => {
               {selected.status === 'rejected' ? (
                 <Link
                   to={`/creator/upload-reel?campaignId=${selected.campaignId}`}
-                  className="flex-1 inline-flex items-center justify-center gap-2 py-3 rounded-2xl bg-[#FF4D00] text-white font-bold text-[14px] hover:bg-[#e64500] transition-colors"
+                  className="flex-1 inline-flex items-center justify-center gap-2 py-3 rounded-2xl bg-primary-600 text-white font-bold text-[14px] hover:bg-primary-700 transition-colors"
                 >
                   <Upload className="w-4 h-4" />
                   Re-upload

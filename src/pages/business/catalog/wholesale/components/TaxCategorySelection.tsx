@@ -100,7 +100,7 @@ const TaxCategorySelection: React.FC<TaxCategorySelectionProps> = ({
   if (isLoading) {
     return (
       <div className="flex justify-center items-center py-12">
-        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-orange-600"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary-600"></div>
       </div>
     );
   }
@@ -131,24 +131,24 @@ const TaxCategorySelection: React.FC<TaxCategorySelectionProps> = ({
               <div
                 key={category.id}
                 className={`flex items-center justify-between px-4 py-3 hover:bg-gray-50 cursor-pointer transition-colors duration-150 ${
-                  selectedTaxCategoryId === category.id ? 'bg-orange-50' : ''
+                  selectedTaxCategoryId === category.id ? 'bg-primary-50' : ''
                 } ${isUpdating ? 'opacity-50 cursor-not-allowed' : ''}`}
                 onClick={() => !isUpdating && handleTaxCategorySelect(category.id)}
               >
                 <div className="flex-1">
                   <div className="flex items-center">
                     <div className={`text-sm font-medium ${
-                      selectedTaxCategoryId === category.id ? 'text-orange-700' : 'text-gray-900'
+                      selectedTaxCategoryId === category.id ? 'text-primary-700' : 'text-gray-900'
                     }`}>
                       {category.name}
                     </div>
                     {selectedTaxCategoryId === category.id && (
-                      <CheckCircleIcon className="h-5 w-5 text-orange-600 ml-2" />
+                      <CheckCircleIcon className="h-5 w-5 text-primary-600 ml-2" />
                     )}
                   </div>
                   {category.description && (
                     <div className={`text-xs mt-1 ${
-                      selectedTaxCategoryId === category.id ? 'text-orange-600' : 'text-gray-500'
+                      selectedTaxCategoryId === category.id ? 'text-primary-600' : 'text-gray-500'
                     }`}>
                       {category.description}
                     </div>
@@ -157,7 +157,7 @@ const TaxCategorySelection: React.FC<TaxCategorySelectionProps> = ({
                 <div className="ml-4">
                   <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                     selectedTaxCategoryId === category.id
-                      ? 'bg-orange-100 text-orange-800'
+                      ? 'bg-primary-100 text-primary-800'
                       : 'bg-gray-100 text-gray-800'
                   }`}>
                     {category.tax_rate.toFixed(1)}%

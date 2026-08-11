@@ -299,11 +299,11 @@ const NewProduct: React.FC = () => {
             {(priceFilter !== 'all' || activeFilter) && (
               <div className="flex flex-wrap gap-2 mt-2">
                 {priceFilter !== 'all' && (
-                  <span className="inline-flex items-center gap-1 px-2 py-1 bg-orange-100 text-orange-800 text-xs rounded-full">
+                  <span className="inline-flex items-center gap-1 px-2 py-1 bg-primary-100 text-primary-800 text-xs rounded-full">
                     Price: {priceFilterOptions.find(opt => opt.value === priceFilter)?.label || 'Custom'}
                     <button 
                       onClick={() => setPriceFilter('all')}
-                      className="hover:bg-orange-200 rounded-full p-0.5"
+                      className="hover:bg-primary-200 rounded-full p-0.5"
                     >
                       <X size={12} />
                     </button>
@@ -369,7 +369,7 @@ const NewProduct: React.FC = () => {
             <SlidersHorizontal size={20} />
             <span>Filters</span>
             {priceFilter !== 'all' && (
-              <span className="bg-orange-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+              <span className="bg-primary-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                 1
               </span>
             )}
@@ -503,7 +503,7 @@ const NewProduct: React.FC = () => {
                         value={option.value}
                         checked={priceFilter === option.value}
                         onChange={(e) => handlePriceFilter(e.target.value)}
-                        className="mr-3 text-orange-500"
+                        className="mr-3 text-primary-500"
                       />
                       <span>{option.label}</span>
                     </label>
@@ -551,7 +551,7 @@ const NewProduct: React.FC = () => {
                 </button>
                 <button
                   onClick={applyFilters}
-                  className="flex-1 px-4 py-2 bg-orange-500 text-white rounded-lg font-worksans"
+                  className="flex-1 px-4 py-2 bg-primary-500 text-white rounded-lg font-worksans"
                 >
                   Apply Filters
                 </button>
@@ -579,7 +579,7 @@ const NewProduct: React.FC = () => {
                     onClick={() => handleSort(option.value)}
                     className={`w-full text-left px-4 py-3 rounded-lg ${
                       selectedSort === option.value
-                        ? 'bg-orange-50 text-[#F2631F]'
+                        ? 'bg-primary-50 text-primary-600'
                         : 'hover:bg-gray-50'
                     }`}
                   >

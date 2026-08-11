@@ -50,19 +50,19 @@ const formatSelectedAttributes = (selectedAttributes: {[key: number]: string | s
 
 const trustItems = [
   {
-    icon: <ShieldCheck size={20} className="text-orange-500" />,
+    icon: <ShieldCheck size={20} className="text-primary-500" />,
     label: 'Secure Payments',
   },
   {
-    icon: <RefreshCcw size={20} className="text-orange-500" />,
+    icon: <RefreshCcw size={20} className="text-primary-500" />,
     label: 'Easy Returns',
   },
   {
-    icon: <BadgeCheck size={20} className="text-orange-500" />,
+    icon: <BadgeCheck size={20} className="text-primary-500" />,
     label: 'Genuine Products',
   },
   {
-    icon: <Headphones size={20} className="text-orange-500" />,
+    icon: <Headphones size={20} className="text-primary-500" />,
     label: '24/7 Support',
   },
 ];
@@ -142,7 +142,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({
               value={promoCode}
               onChange={(e) => setPromoCode(e.target.value)}
               placeholder="Enter promo code" 
-              className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500" 
+              className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500" 
               disabled={isApplyingPromo}
             />
             <button 
@@ -175,7 +175,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({
       <button 
         onClick={onCheckout}
         disabled={loading || (finalTotal || totalPrice) === 0}
-        className="w-full bg-orange-500 text-white py-3 rounded font-medium hover:bg-orange-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full bg-primary-500 text-white py-3 rounded font-medium hover:bg-primary-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {loading ? 'Processing...' : 'Proceed to Checkout'}
       </button>

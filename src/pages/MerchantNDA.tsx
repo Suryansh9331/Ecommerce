@@ -5,20 +5,20 @@ const MerchantNDA = () => {
     <div className="bg-white min-h-screen">
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8 lg:px-16 xl:px-32 2xl:px-6 py-8 sm:py-12 lg:py-16">
         <div className="text-center mb-8 sm:mb-12">
-          <h1 className="text-2xl sm:text-3xl md:text-[36px] font-medium text-[#FF4D00] mb-2">AOINSTORE MERCHANT NDA</h1>
+          <h1 className="text-2xl sm:text-3xl md:text-[36px] font-medium text-primary-600 mb-2">AOINSTORE MERCHANT NDA</h1>
           <h2 className="text-xl sm:text-2xl md:text-[28px] font-medium text-gray-900 mb-3 sm:mb-4">(NON-DISCLOSURE AND NON-LIABILITY AGREEMENT)</h2>
         </div>
 
         <div className="space-y-6 sm:space-y-8">
           <section>
-            <h2 className="text-xl sm:text-2xl font-medium text-[#FF4D00] mb-3 sm:mb-4">1. PURPOSE OF AGREEMENT</h2>
+            <h2 className="text-xl sm:text-2xl font-medium text-primary-600 mb-3 sm:mb-4">1. PURPOSE OF AGREEMENT</h2>
             <p className="text-gray-700 mb-4 text-sm sm:text-base">
               This Non-Disclosure and Non-Liability Agreement is executed between Aoinstore ('Platform') and the Merchant ('Seller') for the purpose of onboarding the Merchant onto the Aoinstore multi-vendor marketplace. This Agreement ensures confidentiality, legal compliance, operational responsibility, and complete protection for Aoinstore from any liability arising out of Merchant activities.
             </p>
           </section>
 
           <section>
-            <h2 className="text-xl sm:text-2xl font-medium text-[#FF4D00] mb-3 sm:mb-4">2. NATURE OF RELATIONSHIP</h2>
+            <h2 className="text-xl sm:text-2xl font-medium text-primary-600 mb-3 sm:mb-4">2. NATURE OF RELATIONSHIP</h2>
             <p className="text-gray-700 mb-2 text-sm sm:text-base">The Merchant acknowledges and agrees that:</p>
             <ul className="list-disc pl-4 sm:pl-6 text-gray-700 mb-4 space-y-1 text-sm sm:text-base">
               <li>Aoinstore is only a technology platform connecting buyers and sellers.</li>
@@ -30,7 +30,7 @@ const MerchantNDA = () => {
           </section>
 
           <section>
-            <h2 className="text-xl sm:text-2xl font-medium text-[#FF4D00] mb-3 sm:mb-4">3. CONFIDENTIALITY AND NON-DISCLOSURE</h2>
+            <h2 className="text-xl sm:text-2xl font-medium text-primary-600 mb-3 sm:mb-4">3. CONFIDENTIALITY AND NON-DISCLOSURE</h2>
             <p className="text-gray-700 mb-2 text-sm sm:text-base">The Merchant agrees that:</p>
             <ul className="list-disc pl-4 sm:pl-6 text-gray-700 mb-4 space-y-1 text-sm sm:text-base">
               <li>All business information shared by Aoinstore is confidential.</li>
@@ -41,7 +41,7 @@ const MerchantNDA = () => {
           </section>
 
           <section>
-            <h2 className="text-xl sm:text-2xl font-medium text-[#FF4D00] mb-3 sm:mb-4">4. MERCHANT RESPONSIBILITIES</h2>
+            <h2 className="text-xl sm:text-2xl font-medium text-primary-600 mb-3 sm:mb-4">4. MERCHANT RESPONSIBILITIES</h2>
             <p className="text-gray-700 mb-2 text-sm sm:text-base">The Merchant accepts full responsibility for:</p>
             <ul className="list-disc pl-4 sm:pl-6 text-gray-700 mb-4 space-y-1 text-sm sm:text-base">
               <li>Providing genuine, legal, and safe products.</li>
@@ -53,14 +53,14 @@ const MerchantNDA = () => {
           </section>
 
           <section>
-            <h2 className="text-xl sm:text-2xl font-medium text-[#FF4D00] mb-3 sm:mb-4">5. THIRD-PARTY INVOLVEMENT</h2>
+            <h2 className="text-xl sm:text-2xl font-medium text-primary-600 mb-3 sm:mb-4">5. THIRD-PARTY INVOLVEMENT</h2>
             <p className="text-gray-700 mb-4 text-sm sm:text-base">
               Merchant understands and agrees that Aoinstore uses third-party services for logistics, payment gateways, KYC, and hosting. Aoinstore is not responsible for delays, service breakdowns, or losses caused by third-party entities.
             </p>
           </section>
 
           <section>
-            <h2 className="text-xl sm:text-2xl font-medium text-[#FF4D00] mb-3 sm:mb-4">6. ZERO LIABILITY FOR AOINSTORE</h2>
+            <h2 className="text-xl sm:text-2xl font-medium text-primary-600 mb-3 sm:mb-4">6. ZERO LIABILITY FOR AOINSTORE</h2>
             <p className="text-gray-700 mb-2 text-sm sm:text-base">The Merchant agrees that Aoinstore holds no liability for:</p>
             <ul className="list-disc pl-4 sm:pl-6 text-gray-700 mb-4 space-y-1 text-sm sm:text-base">
               <li>Product defects or counterfeit items.</li>
@@ -73,28 +73,28 @@ const MerchantNDA = () => {
           </section>
 
           <section>
-            <h2 className="text-xl sm:text-2xl font-medium text-[#FF4D00] mb-3 sm:mb-4">7. INDEMNITY</h2>
+            <h2 className="text-xl sm:text-2xl font-medium text-primary-600 mb-3 sm:mb-4">7. INDEMNITY</h2>
             <p className="text-gray-700 mb-4 text-sm sm:text-base">
               The Merchant agrees to indemnify, defend, and hold harmless Aoinstore, its owners, directors, employees, and partners from all claims, losses, damages, penalties, customer complaints, government notices, or legal actions arising from Merchant products or activities.
             </p>
           </section>
 
           <section>
-            <h2 className="text-xl sm:text-2xl font-medium text-[#FF4D00] mb-3 sm:mb-4">8. DATA PROTECTION</h2>
+            <h2 className="text-xl sm:text-2xl font-medium text-primary-600 mb-3 sm:mb-4">8. DATA PROTECTION</h2>
             <p className="text-gray-700 mb-4 text-sm sm:text-base">
               The Merchant must comply with the Digital Personal Data Protection Act (DPDP Act) 2023 and shall not store, misuse, or share customer data. Any misuse may result in termination and legal consequences.
             </p>
           </section>
 
           <section>
-            <h2 className="text-xl sm:text-2xl font-medium text-[#FF4D00] mb-3 sm:mb-4">9. PAYMENT AND SETTLEMENTS</h2>
+            <h2 className="text-xl sm:text-2xl font-medium text-primary-600 mb-3 sm:mb-4">9. PAYMENT AND SETTLEMENTS</h2>
             <p className="text-gray-700 mb-4 text-sm sm:text-base">
               Aoinstore will release payments after deducting commissions, penalties, and charges. Aoinstore is not liable for delays caused by banks, payment gateways, or verification processes.
             </p>
           </section>
 
           <section>
-            <h2 className="text-xl sm:text-2xl font-medium text-[#FF4D00] mb-3 sm:mb-4">10. TERMINATION</h2>
+            <h2 className="text-xl sm:text-2xl font-medium text-primary-600 mb-3 sm:mb-4">10. TERMINATION</h2>
             <p className="text-gray-700 mb-2 text-sm sm:text-base">Aoinstore may immediately terminate Merchant access for:</p>
             <ul className="list-disc pl-4 sm:pl-6 text-gray-700 mb-4 space-y-1 text-sm sm:text-base">
               <li>Policy violations.</li>
@@ -105,14 +105,14 @@ const MerchantNDA = () => {
           </section>
 
           <section>
-            <h2 className="text-xl sm:text-2xl font-medium text-[#FF4D00] mb-3 sm:mb-4">11. GOVERNING LAW</h2>
+            <h2 className="text-xl sm:text-2xl font-medium text-primary-600 mb-3 sm:mb-4">11. GOVERNING LAW</h2>
             <p className="text-gray-700 mb-4 text-sm sm:text-base">
               This NDA is governed by the laws of India. Any disputes shall fall under the jurisdiction of competent courts in India.
             </p>
           </section>
 
           <section>
-            <h2 className="text-xl sm:text-2xl font-medium text-[#FF4D00] mb-3 sm:mb-4">12. ACCEPTANCE</h2>
+            <h2 className="text-xl sm:text-2xl font-medium text-primary-600 mb-3 sm:mb-4">12. ACCEPTANCE</h2>
             <p className="text-gray-700 mb-4 text-sm sm:text-base">
               By signing this agreement, the Merchant confirms they understand and agree to all terms and acknowledge that Aoinstore cannot be held liable for Merchant-related issues of any nature.
             </p>

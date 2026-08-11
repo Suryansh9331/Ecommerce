@@ -31,7 +31,7 @@ const ExportModal: React.FC<ExportModalProps> = ({ isOpen, onClose, onExport, is
             <button
               onClick={() => onExport('csv')}
               disabled={isExporting}
-              className="w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+              className="w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
             >
               Export as CSV
             </button>
@@ -39,7 +39,7 @@ const ExportModal: React.FC<ExportModalProps> = ({ isOpen, onClose, onExport, is
             <button
               onClick={() => onExport('excel')}
               disabled={isExporting}
-              className="w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+              className="w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
             >
               Export as Excel
             </button>
@@ -47,7 +47,7 @@ const ExportModal: React.FC<ExportModalProps> = ({ isOpen, onClose, onExport, is
             <button
               onClick={() => onExport('pdf')}
               disabled={isExporting}
-              className="w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+              className="w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
             >
               Export as PDF
             </button>
@@ -55,7 +55,7 @@ const ExportModal: React.FC<ExportModalProps> = ({ isOpen, onClose, onExport, is
 
           {isExporting && (
             <div className="flex items-center justify-center text-sm text-gray-500">
-              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-orange-500 mr-2"></div>
+              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary-500 mr-2"></div>
               Exporting...
             </div>
           )}

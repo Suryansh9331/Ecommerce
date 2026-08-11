@@ -309,7 +309,7 @@ const Support: React.FC = () => {
     switch (status) {
       case 'open': return 'bg-blue-100 text-blue-700';
       case 'in_progress': return 'bg-purple-100 text-purple-700';
-      case 'awaiting_customer_reply': return 'bg-orange-100 text-orange-700';
+      case 'awaiting_customer_reply': return 'bg-primary-100 text-primary-700';
       case 'awaiting_merchant_reply': return 'bg-yellow-100 text-yellow-700';
       case 'resolved': return 'bg-green-100 text-green-700';
       case 'closed': return 'bg-gray-100 text-gray-600';
@@ -340,7 +340,7 @@ const Support: React.FC = () => {
       {/* Top Header */}
       <div className="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between shadow-sm">
         <div className="flex items-center gap-3">
-          <MessageSquare className="h-6 w-6 text-orange-500" />
+          <MessageSquare className="h-6 w-6 text-primary-500" />
           <div>
             <h1 className="text-lg font-semibold text-gray-900">Support Center</h1>
             <p className="text-xs text-gray-500">Chat with our support team</p>
@@ -351,7 +351,7 @@ const Support: React.FC = () => {
             setShowNewTicketForm(true);
             setSelectedTicket(null);
           }}
-          className="inline-flex items-center px-3 py-1.5 bg-orange-500 text-white rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors shadow-sm"
+          className="inline-flex items-center px-3 py-1.5 bg-primary-500 text-white rounded-lg text-sm font-medium hover:bg-primary-600 transition-colors shadow-sm"
         >
           <Plus className="h-4 w-4 mr-1.5" />
           New Ticket
@@ -367,7 +367,7 @@ const Support: React.FC = () => {
             placeholder="Search conversations..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+            className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
           />
         </div>
       </div>
@@ -390,7 +390,7 @@ const Support: React.FC = () => {
                   onClick={() => setFilterStatus(tab.key as typeof filterStatus)}
                   className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${
                     filterStatus === tab.key
-                      ? 'bg-orange-100 text-orange-700'
+                      ? 'bg-primary-100 text-primary-700'
                       : 'text-gray-600 hover:bg-gray-100'
                   }`}
                 >
@@ -413,7 +413,7 @@ const Support: React.FC = () => {
                   key={ticket.ticket_uid}
                   onClick={() => setSelectedTicket(ticket)}
                   className={`p-4 border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors ${
-                    selectedTicket?.ticket_uid === ticket.ticket_uid ? 'bg-orange-50 border-r-2 border-orange-500' : ''
+                    selectedTicket?.ticket_uid === ticket.ticket_uid ? 'bg-primary-50 border-r-2 border-primary-500' : ''
                   }`}
                 >
                   <div className="flex items-start justify-between mb-2">
@@ -456,8 +456,8 @@ const Support: React.FC = () => {
                     <ArrowLeft className="h-4 w-4" />
                   </button>
                   <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center">
-                      <MessageSquare className="h-4 w-4 text-orange-600" />
+                    <div className="w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center">
+                      <MessageSquare className="h-4 w-4 text-primary-600" />
                     </div>
                     <div>
                       <h2 className="font-medium text-gray-900 text-sm" title={selectedTicket.title}>
@@ -481,12 +481,12 @@ const Support: React.FC = () => {
               <div className="flex-1 overflow-y-auto p-4 space-y-4" style={{ background: 'linear-gradient(to bottom, #f9fafb, #f3f4f6)' }}>
                 {isLoadingMessages ? (
                   <div className="flex justify-center items-center h-32">
-                    <div className="animate-spin rounded-full h-8 w-8 border-2 border-orange-500 border-t-transparent"></div>
+                    <div className="animate-spin rounded-full h-8 w-8 border-2 border-primary-500 border-t-transparent"></div>
                   </div>
                 ) : selectedTicketMessages.length === 0 ? (
                   <div className="text-center py-8">
-                    <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                      <MessageSquare className="h-8 w-8 text-orange-500" />
+                    <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                      <MessageSquare className="h-8 w-8 text-primary-500" />
                     </div>
                     <p className="text-gray-600 font-medium">Start the conversation</p>
                     <p className="text-sm text-gray-500 mt-1">Send a message to begin getting help with your issue.</p>
@@ -513,7 +513,7 @@ const Support: React.FC = () => {
                           
                           <div className={`rounded-2xl px-4 py-2.5 shadow-sm ${
                             isOwn 
-                              ? 'bg-orange-500 text-white rounded-br-md' 
+                              ? 'bg-primary-500 text-white rounded-br-md' 
                               : 'bg-white text-gray-800 border border-gray-200 rounded-bl-md'
                           }`}>
                             <p className="text-sm leading-relaxed whitespace-pre-wrap break-words">
@@ -526,7 +526,7 @@ const Support: React.FC = () => {
                                 target="_blank" 
                                 rel="noopener noreferrer" 
                                 className={`mt-2 inline-flex items-center gap-1 text-xs underline ${
-                                  isOwn ? 'text-orange-100 hover:text-white' : 'text-orange-600 hover:text-orange-700'
+                                  isOwn ? 'text-primary-100 hover:text-white' : 'text-primary-600 hover:text-primary-700'
                                 }`}
                               >
                                 <Paperclip className="h-3 w-3" />
@@ -546,7 +546,7 @@ const Support: React.FC = () => {
                         
                         {isOwn && (
                           <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium ${showAvatar ? 'visible' : 'invisible'}`}>
-                            <div className="w-full h-full bg-orange-500 rounded-full flex items-center justify-center text-white">
+                            <div className="w-full h-full bg-primary-500 rounded-full flex items-center justify-center text-white">
                               {message.sender_name.charAt(0).toUpperCase()}
                             </div>
                           </div>
@@ -585,7 +585,7 @@ const Support: React.FC = () => {
                         }}
                         placeholder="Type a message..."
                         rows={1}
-                        className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-2xl resize-none overflow-hidden bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-sm transition-colors"
+                        className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-2xl resize-none overflow-hidden bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm transition-colors"
                         disabled={isSendingMessage}
                         style={{ 
                           minHeight: '2.75rem',
@@ -603,7 +603,7 @@ const Support: React.FC = () => {
                       
                       <label 
                         htmlFor="message-attachment-input" 
-                        className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-400 hover:text-orange-500 transition-colors"
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-400 hover:text-primary-500 transition-colors"
                       >
                         <Paperclip className="h-5 w-5" />
                         <input 
@@ -619,7 +619,7 @@ const Support: React.FC = () => {
                     <button
                       type="submit"
                       disabled={(!newMessage.trim() && !newMessageAttachment) || isSendingMessage}
-                      className="w-11 h-11 bg-orange-500 hover:bg-orange-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-white rounded-full flex items-center justify-center transition-colors shadow-lg"
+                      className="w-11 h-11 bg-primary-500 hover:bg-primary-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-white rounded-full flex items-center justify-center transition-colors shadow-lg"
                     >
                       {isSendingMessage ? (
                         <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
@@ -653,8 +653,8 @@ const Support: React.FC = () => {
           ) : (
             <div className="flex-1 flex items-center justify-center p-8">
               <div className="text-center max-w-md">
-                <div className="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <MessageSquare className="h-10 w-10 text-orange-500" />
+                <div className="w-20 h-20 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <MessageSquare className="h-10 w-10 text-primary-500" />
                 </div>
                 <h3 className="text-lg font-medium text-gray-900 mb-2">Welcome to Support Center</h3>
                 <p className="text-gray-500">Select a conversation from the left to view your support tickets and chat with our team.</p>

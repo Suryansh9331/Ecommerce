@@ -431,7 +431,7 @@ const ExploreScreen: React.FC = () => {
 
       {isLoading ? (
         <div className="py-20 flex items-center justify-center">
-          <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-orange-500" />
+          <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-primary-500" />
         </div>
       ) : (
         <div className="space-y-8">
@@ -555,7 +555,7 @@ const BannerGroupSection: React.FC<{
       <header className="p-4 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
           <div className="flex items-center gap-2.5">
-            <Meta.icon className="h-6 w-6 text-orange-500" />
+            <Meta.icon className="h-6 w-6 text-primary-500" />
             <h2 className="text-lg font-bold text-gray-800">{Meta.name}</h2>
           </div>
           <p className="text-sm text-gray-500 ml-9">
@@ -565,7 +565,7 @@ const BannerGroupSection: React.FC<{
         <button
           onClick={onAdd}
           disabled={slotsFull}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-sm self-start sm:self-center disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed bg-orange-500 text-white hover:bg-orange-600"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-sm self-start sm:self-center disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed bg-primary-500 text-white hover:bg-primary-600"
         >
           <PlusIcon className="h-5 w-5" /> Add Image
         </button>
@@ -592,7 +592,7 @@ const BannerGroupSection: React.FC<{
                 >
                   <ArrowUpIcon className="h-4 w-4" />
                 </button>
-                <span className="text-sm font-bold text-gray-700 w-6 h-6 rounded-full bg-orange-100 text-orange-700 flex items-center justify-center">
+                <span className="text-sm font-bold text-gray-700 w-6 h-6 rounded-full bg-primary-100 text-primary-700 flex items-center justify-center">
                   {idx + 1}
                 </span>
                 <button
@@ -616,7 +616,7 @@ const BannerGroupSection: React.FC<{
                 </h3>
                 <div className="mt-2 flex items-center gap-2 min-w-0">
                   {item.ctaText && (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-orange-500 text-white text-xs font-medium flex-shrink-0">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-primary-500 text-white text-xs font-medium flex-shrink-0">
                       <CursorArrowRaysIcon className="h-3.5 w-3.5" />
                       {item.ctaText}
                     </span>
@@ -715,10 +715,10 @@ const BannerItemModal: React.FC<{
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="w-full border-2 border-dashed border-orange-200 rounded-xl py-10 flex flex-col items-center justify-center bg-[#fffaf3] hover:bg-[#fff3e6]"
+              className="w-full border-2 border-dashed border-primary-200 rounded-xl py-10 flex flex-col items-center justify-center bg-primary-50 hover:bg-primary-50"
             >
-              <PhotoIcon className="h-10 w-10 text-orange-300 mb-2" />
-              <span className="text-sm font-medium text-orange-600">
+              <PhotoIcon className="h-10 w-10 text-primary-300 mb-2" />
+              <span className="text-sm font-medium text-primary-600">
                 Click to upload
               </span>
               <span className="text-xs text-gray-400 mt-0.5">
@@ -738,7 +738,7 @@ const BannerItemModal: React.FC<{
               setForm((prev) => prev && { ...prev, title: e.target.value })
             }
             placeholder="e.g. Summer Collection"
-            className="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+            className="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-primary-400"
           />
         </div>
         <div>
@@ -753,7 +753,7 @@ const BannerItemModal: React.FC<{
               setForm((prev) => prev && { ...prev, ctaText: e.target.value })
             }
             placeholder="e.g. Shop Now"
-            className="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+            className="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-primary-400"
           />
         </div>
         <div>
@@ -768,7 +768,7 @@ const BannerItemModal: React.FC<{
               setForm((prev) => prev && { ...prev, ctaPath: e.target.value })
             }
             placeholder="e.g. /collections/summer"
-            className="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+            className="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-primary-400"
           />
         </div>
         <div className="flex items-center justify-end gap-3 pt-2">
@@ -783,7 +783,7 @@ const BannerItemModal: React.FC<{
           <button
             type="submit"
             disabled={isSaving}
-            className="px-5 py-2.5 rounded-lg bg-orange-500 text-white text-sm font-medium hover:bg-orange-600 disabled:opacity-60 inline-flex items-center gap-2"
+            className="px-5 py-2.5 rounded-lg bg-primary-500 text-white text-sm font-medium hover:bg-primary-600 disabled:opacity-60 inline-flex items-center gap-2"
           >
             {isSaving && (
               <span className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white" />
@@ -862,7 +862,7 @@ const ImageCropModal: React.FC<{
         <button
           type="button"
           onClick={onConfirm}
-          className="px-5 py-2.5 rounded-lg bg-orange-500 text-white text-sm font-medium hover:bg-orange-600 inline-flex items-center gap-2"
+          className="px-5 py-2.5 rounded-lg bg-primary-500 text-white text-sm font-medium hover:bg-primary-600 inline-flex items-center gap-2"
         >
           <CheckIcon className="h-5 w-5" />
           Confirm Crop

@@ -350,8 +350,8 @@ const Promotions: React.FC = () => {
     <div className="p-6 max-w-full mx-auto bg-gray-50 min-h-screen">
       {/* --- Game Promos Table Section --- */}
       <div className="mb-12">
-        <div className="bg-gradient-to-r from-orange-50 to-orange-100 border border-orange-200 rounded-xl shadow-lg p-6 mb-4">
-          <h2 className="text-2xl font-extrabold mb-4 text-orange-700 tracking-tight flex items-center gap-2">
+        <div className="bg-gradient-to-r from-primary-50 to-primary-100 border border-primary-200 rounded-xl shadow-lg p-6 mb-4">
+          <h2 className="text-2xl font-extrabold mb-4 text-primary-700 tracking-tight flex items-center gap-2">
             🎮 Current Game Promo Codes
           </h2>
           <div className="flex flex-wrap gap-4 mb-4">
@@ -374,22 +374,22 @@ const Promotions: React.FC = () => {
           </div>
           <div className="bg-white rounded-lg shadow-md overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-orange-50">
+              <thead className="bg-primary-50">
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-orange-700 uppercase">Code</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-orange-700 uppercase">Discount</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-orange-700 uppercase">Type</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-orange-700 uppercase">Validity</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-orange-700 uppercase">Status</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-orange-700 uppercase">Description</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-primary-700 uppercase">Code</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-primary-700 uppercase">Discount</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-primary-700 uppercase">Type</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-primary-700 uppercase">Validity</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-primary-700 uppercase">Status</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-primary-700 uppercase">Description</th>
                 </tr>
               </thead>
               <tbody>
                 {gamePromoLoading ? (
-                  <tr><td colSpan={6} className="text-center py-8"><Loader2 className="mx-auto animate-spin text-orange-500" /></td></tr>
+                  <tr><td colSpan={6} className="text-center py-8"><Loader2 className="mx-auto animate-spin text-primary-500" /></td></tr>
                 ) : filteredGamePromos.length > 0 ? filteredGamePromos.map(promo => (
-                  <tr key={promo.promotion_id} className="hover:bg-orange-50">
-                    <td className="px-4 py-3 font-mono text-orange-700 font-bold">{promo.code}</td>
+                  <tr key={promo.promotion_id} className="hover:bg-primary-50">
+                    <td className="px-4 py-3 font-mono text-primary-700 font-bold">{promo.code}</td>
                     <td className="px-4 py-3">
                       {promo.discount_type === 'percentage' ? `${promo.discount_value}%` : `₹${promo.discount_value}`}
                     </td>
@@ -407,7 +407,7 @@ const Promotions: React.FC = () => {
             </table>
           </div>
         </div>
-        <div className="border-b-2 border-orange-200 my-8"></div>
+        <div className="border-b-2 border-primary-200 my-8"></div>
       </div>
       {/* --- End Game Promos Table Section --- */}
       <h1 className="text-3xl font-bold mb-8 text-gray-800">Promotions Management</h1>
@@ -425,7 +425,7 @@ const Promotions: React.FC = () => {
                 setTargetId('');
                 setIsCodeManuallySet(false);
               }}
-              className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+              className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
             >
               <option value="sitewide">Sitewide</option>
               <option value="category">Category</option>
@@ -446,7 +446,7 @@ const Promotions: React.FC = () => {
                 setIsCodeManuallySet(false);
               }}
               disabled={targetType === 'sitewide'}
-              className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-orange-500 disabled:bg-gray-100"
+              className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:bg-gray-100"
             >
               <option value="">Select a {targetType}...</option>
               {targetOptions.map((option) => (
@@ -466,7 +466,7 @@ const Promotions: React.FC = () => {
                 setDiscountType(e.target.value as any);
                 setDiscountValue(''); // Clear value on type change to prevent errors
               }}
-              className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+              className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
             >
               <option value="percentage">Percentage (%)</option>
               <option value="fixed">Fixed Amount (₹)</option>
@@ -483,7 +483,7 @@ const Promotions: React.FC = () => {
                 setDiscountValue(e.target.value);
                 setIsCodeManuallySet(false);
               }}
-              className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+              className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
               placeholder={discountType === 'percentage' ? 'e.g., 15 for 15%' : 'e.g., 500 for ₹500'}
               required
             />
@@ -523,7 +523,7 @@ const Promotions: React.FC = () => {
         </div>
         
         <div className="mt-6 flex gap-4">
-          <button type="submit" disabled={loading} className="inline-flex items-center bg-orange-600 text-white px-6 py-3 rounded-md hover:bg-orange-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+          <button type="submit" disabled={loading} className="inline-flex items-center bg-primary-600 text-white px-6 py-3 rounded-md hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
             {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             {editingPromotion ? 'Update Promotion' : 'Create Promotion'}
           </button>
@@ -562,7 +562,7 @@ const Promotions: React.FC = () => {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {loading && !promotions.length ? (
-                 <tr><td colSpan={6} className="px-6 py-8 text-center"><Loader2 className="h-6 w-6 animate-spin mx-auto text-orange-500" /></td></tr>
+                 <tr><td colSpan={6} className="px-6 py-8 text-center"><Loader2 className="h-6 w-6 animate-spin mx-auto text-primary-500" /></td></tr>
               ) : filteredPromotions.length > 0 ? filteredPromotions.map((p) => (
                   <tr key={p.promotion_id} className="hover:bg-gray-50">
                     <td className="px-6 py-4"><span className="font-mono bg-gray-100 text-gray-800 px-2 py-1 rounded">{p.code}</span></td>

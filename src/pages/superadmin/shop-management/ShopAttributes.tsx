@@ -331,8 +331,8 @@ const ShopAttributes: React.FC = () => {
               className="bg-white rounded-lg shadow-md border border-gray-200 p-6 hover:shadow-lg transition-shadow text-left"
             >
               <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
-                  <Store className="text-orange-500" size={24} />
+                <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center">
+                  <Store className="text-primary-500" size={24} />
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900">{shop.name}</h3>
@@ -423,7 +423,7 @@ const ShopAttributes: React.FC = () => {
         </div>
         <button
           onClick={() => setShowModal(true)}
-          className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg flex items-center justify-center space-x-2 w-full sm:w-auto"
+          className="bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg flex items-center justify-center space-x-2 w-full sm:w-auto"
         >
           <Plus size={20} />
           <span>Add Attribute</span>
@@ -453,7 +453,7 @@ const ShopAttributes: React.FC = () => {
             placeholder="Search attributes..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
           />
         </div>
       </div>
@@ -461,7 +461,7 @@ const ShopAttributes: React.FC = () => {
       {/* Attributes List */}
       {loading ? (
         <div className="flex items-center justify-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
         </div>
       ) : (
         <div className="space-y-4">
@@ -609,7 +609,7 @@ const ShopAttributes: React.FC = () => {
                     required
                     value={formData.name}
                     onChange={(e) => handleNameChange(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                     placeholder="Enter attribute name"
                   />
                 </div>
@@ -621,7 +621,7 @@ const ShopAttributes: React.FC = () => {
                     required
                     value={formData.slug}
                     onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                     placeholder="Enter attribute slug"
                   />
                 </div>
@@ -631,7 +631,7 @@ const ShopAttributes: React.FC = () => {
                   <select
                     value={formData.type}
                     onChange={(e) => setFormData({ ...formData, type: e.target.value as any })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                   >
                     <option value="text">Text</option>
                     <option value="number">Number</option>
@@ -649,7 +649,7 @@ const ShopAttributes: React.FC = () => {
                     value={formData.description}
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                     rows={3}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                     placeholder="Enter attribute description"
                   />
                 </div>
@@ -661,7 +661,7 @@ const ShopAttributes: React.FC = () => {
                       type="number"
                       value={formData.sort_order}
                       onChange={(e) => setFormData({ ...formData, sort_order: parseInt(e.target.value) || 0 })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                       placeholder="0"
                       min="0"
                     />
@@ -674,7 +674,7 @@ const ShopAttributes: React.FC = () => {
                           id="is_required"
                           checked={formData.is_required}
                           onChange={(e) => setFormData({ ...formData, is_required: e.target.checked })}
-                          className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded"
+                          className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
                         />
                         <label htmlFor="is_required" className="ml-2 block text-sm text-gray-900">Required</label>
                       </div>
@@ -684,7 +684,7 @@ const ShopAttributes: React.FC = () => {
                           id="is_filterable"
                           checked={formData.is_filterable}
                           onChange={(e) => setFormData({ ...formData, is_filterable: e.target.checked })}
-                          className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded"
+                          className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
                         />
                         <label htmlFor="is_filterable" className="ml-2 block text-sm text-gray-900">Filterable</label>
                       </div>
@@ -694,7 +694,7 @@ const ShopAttributes: React.FC = () => {
                           id="is_active"
                           checked={formData.is_active}
                           onChange={(e) => setFormData({ ...formData, is_active: e.target.checked })}
-                          className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded"
+                          className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
                         />
                         <label htmlFor="is_active" className="ml-2 block text-sm text-gray-900">Active</label>
                       </div>
@@ -721,7 +721,7 @@ const ShopAttributes: React.FC = () => {
                     </button>
                     <button
                       type="submit"
-                      className="w-full sm:w-auto px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg"
+                      className="w-full sm:w-auto px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white rounded-lg"
                     >
                       {editingAttribute ? 'Update' : 'Create'}
                     </button>
@@ -766,7 +766,7 @@ const ShopAttributes: React.FC = () => {
                       required
                       value={valueFormData.value}
                       onChange={(e) => setValueFormData({ ...valueFormData, value: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                       placeholder="Enter attribute value"
                     />
                   </div>
@@ -778,7 +778,7 @@ const ShopAttributes: React.FC = () => {
                         type="number"
                         value={valueFormData.sort_order}
                         onChange={(e) => setValueFormData({ ...valueFormData, sort_order: parseInt(e.target.value) || 0 })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                         placeholder="0"
                         min="0"
                       />
@@ -790,7 +790,7 @@ const ShopAttributes: React.FC = () => {
                           id="value_is_active"
                           checked={valueFormData.is_active}
                           onChange={(e) => setValueFormData({ ...valueFormData, is_active: e.target.checked })}
-                          className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded"
+                          className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
                         />
                         <label htmlFor="value_is_active" className="ml-2 block text-sm text-gray-900">Active</label>
                       </div>
@@ -821,7 +821,7 @@ const ShopAttributes: React.FC = () => {
                     </button>
                     <button
                       type="submit"
-                      className="w-full sm:w-auto px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg"
+                      className="w-full sm:w-auto px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white rounded-lg"
                     >
                       {editingValue ? 'Update' : 'Create'}
                     </button>

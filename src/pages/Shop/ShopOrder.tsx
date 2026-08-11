@@ -513,7 +513,7 @@ const ShopOrder: React.FC<ShopOrderProps> = ({ shopId, shopName }) => {
             <p className="text-gray-600 mb-4">Add your first address to continue with checkout</p>
             <button
               onClick={handleAddNewAddress}
-              className="bg-orange-500 text-white px-6 py-2 rounded-lg font-medium hover:bg-orange-600 transition-colors"
+              className="bg-primary-500 text-white px-6 py-2 rounded-lg font-medium hover:bg-primary-600 transition-colors"
             >
               Add Address
             </button>
@@ -528,7 +528,7 @@ const ShopOrder: React.FC<ShopOrderProps> = ({ shopId, shopName }) => {
           <h3 className="text-lg font-semibold">Delivery Address</h3>
           <button
             onClick={handleAddNewAddress}
-            className="text-orange-500 hover:text-orange-600 font-medium flex items-center gap-1"
+            className="text-primary-500 hover:text-primary-600 font-medium flex items-center gap-1"
           >
             <Plus className="w-4 h-4" />
             Add New Address
@@ -540,14 +540,14 @@ const ShopOrder: React.FC<ShopOrderProps> = ({ shopId, shopName }) => {
               key={address.address_id}
               className={`p-4 border rounded-lg cursor-pointer transition-colors ${
                 selectedAddressId === address.address_id
-                  ? "border-orange-500 bg-orange-50"
-                  : "border-gray-200 hover:border-orange-300"
+                  ? "border-primary-500 bg-primary-50"
+                  : "border-gray-200 hover:border-primary-300"
               }`}
               onClick={() => handleAddressSelect(address)}
             >
               <div className="flex items-start justify-between">
                 <div className="flex items-start gap-3">
-                  <MapPin className="w-5 h-5 text-orange-500 mt-0.5" />
+                  <MapPin className="w-5 h-5 text-primary-500 mt-0.5" />
                   <div>
                     <p className="font-medium">{address.contact_name}</p>
                     <p className="text-sm text-gray-600">
@@ -581,7 +581,7 @@ const ShopOrder: React.FC<ShopOrderProps> = ({ shopId, shopName }) => {
                       e.stopPropagation();
                       handleEditAddress(address.address_id);
                     }}
-                    className="p-1 text-gray-500 hover:text-orange-500"
+                    className="p-1 text-gray-500 hover:text-primary-500"
                     title="Edit address"
                   >
                     <Edit2 className="w-4 h-4" />
@@ -631,7 +631,7 @@ const ShopOrder: React.FC<ShopOrderProps> = ({ shopId, shopName }) => {
                 name="contact_name"
                 value={addressFormData.contact_name}
                 onChange={handleAddressInputChange}
-                className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+                className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500"
                 required
               />
             </div>
@@ -644,7 +644,7 @@ const ShopOrder: React.FC<ShopOrderProps> = ({ shopId, shopName }) => {
                   <button
                     type="button"
                     onClick={() => setShowCountryCodes(!showCountryCodes)}
-                    className="flex items-center gap-1 px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+                    className="flex items-center gap-1 px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500"
                   >
                     {selectedCountry.phoneCode}
                     <ChevronDown className="w-4 h-4" />
@@ -669,7 +669,7 @@ const ShopOrder: React.FC<ShopOrderProps> = ({ shopId, shopName }) => {
                   name="contact_phone"
                   value={addressFormData.contact_phone}
                   onChange={handleAddressInputChange}
-                  className="flex-1 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+                  className="flex-1 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500"
                   required
                 />
               </div>
@@ -684,7 +684,7 @@ const ShopOrder: React.FC<ShopOrderProps> = ({ shopId, shopName }) => {
               name="address_line1"
               value={addressFormData.address_line1}
               onChange={handleAddressInputChange}
-              className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+              className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500"
               required
             />
           </div>
@@ -697,7 +697,7 @@ const ShopOrder: React.FC<ShopOrderProps> = ({ shopId, shopName }) => {
               name="address_line2"
               value={addressFormData.address_line2}
               onChange={handleAddressInputChange}
-              className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+              className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500"
             />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -708,7 +708,7 @@ const ShopOrder: React.FC<ShopOrderProps> = ({ shopId, shopName }) => {
                 name="city"
                 value={addressFormData.city}
                 onChange={handleAddressInputChange}
-                className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+                className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500"
                 required
               />
             </div>
@@ -721,7 +721,7 @@ const ShopOrder: React.FC<ShopOrderProps> = ({ shopId, shopName }) => {
                 name="state_province"
                 value={addressFormData.state_province}
                 onChange={handleAddressInputChange}
-                className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+                className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500"
                 required
               />
             </div>
@@ -734,7 +734,7 @@ const ShopOrder: React.FC<ShopOrderProps> = ({ shopId, shopName }) => {
                 name="postal_code"
                 value={addressFormData.postal_code}
                 onChange={handleAddressInputChange}
-                className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+                className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500"
                 required
               />
             </div>
@@ -746,7 +746,7 @@ const ShopOrder: React.FC<ShopOrderProps> = ({ shopId, shopName }) => {
                 name="is_default_shipping"
                 checked={addressFormData.is_default_shipping}
                 onChange={handleAddressInputChange}
-                className="mr-2 accent-orange-500"
+                className="mr-2 accent-primary-500"
               />
               <span className="text-sm">Set as default shipping address</span>
             </label>
@@ -756,7 +756,7 @@ const ShopOrder: React.FC<ShopOrderProps> = ({ shopId, shopName }) => {
                 name="is_default_billing"
                 checked={addressFormData.is_default_billing}
                 onChange={handleAddressInputChange}
-                className="mr-2 accent-orange-500"
+                className="mr-2 accent-primary-500"
               />
               <span className="text-sm">Set as default billing address</span>
             </label>
@@ -765,7 +765,7 @@ const ShopOrder: React.FC<ShopOrderProps> = ({ shopId, shopName }) => {
             <button
               type="submit"
               disabled={savingAddress}
-              className="bg-orange-500 text-white px-6 py-2 rounded-lg font-medium hover:bg-orange-600 transition-colors disabled:bg-orange-300"
+              className="bg-primary-500 text-white px-6 py-2 rounded-lg font-medium hover:bg-primary-600 transition-colors disabled:bg-primary-300"
             >
               {savingAddress ? 'Saving...' : (editingAddressId ? 'Update Address' : 'Save Address')}
             </button>
@@ -787,14 +787,14 @@ const ShopOrder: React.FC<ShopOrderProps> = ({ shopId, shopName }) => {
       <div className="mb-6">
         <h3 className="text-lg font-semibold mb-4">Payment Method</h3>
         <div className="space-y-3">
-          <label className="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-orange-300 transition-colors">
+          <label className="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-primary-300 transition-colors">
             <input
               type="radio"
               name="payment_method"
               value="cash_on_delivery"
               checked={paymentMethod === "cash_on_delivery"}
               onChange={(e) => setPaymentMethod(e.target.value)}
-              className="mr-3 accent-orange-500"
+              className="mr-3 accent-primary-500"
             />
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
@@ -807,14 +807,14 @@ const ShopOrder: React.FC<ShopOrderProps> = ({ shopId, shopName }) => {
             </div>
           </label>
           
-          <label className="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-orange-300 transition-colors">
+          <label className="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-primary-300 transition-colors">
             <input
               type="radio"
               name="payment_method"
               value="credit_card"
               checked={paymentMethod === "credit_card"}
               onChange={(e) => setPaymentMethod(e.target.value)}
-              className="mr-3 accent-orange-500"
+              className="mr-3 accent-primary-500"
             />
             <div className="flex items-center gap-3">
               <CreditCard className="w-8 h-8 text-blue-600" />
@@ -825,14 +825,14 @@ const ShopOrder: React.FC<ShopOrderProps> = ({ shopId, shopName }) => {
             </div>
           </label>
           
-          <label className="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-orange-300 transition-colors">
+          <label className="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-primary-300 transition-colors">
             <input
               type="radio"
               name="payment_method"
               value="debit_card"
               checked={paymentMethod === "debit_card"}
               onChange={(e) => setPaymentMethod(e.target.value)}
-              className="mr-3 accent-orange-500"
+              className="mr-3 accent-primary-500"
             />
             <div className="flex items-center gap-3">
               <CreditCard className="w-8 h-8 text-green-600" />
@@ -855,8 +855,8 @@ const ShopOrder: React.FC<ShopOrderProps> = ({ shopId, shopName }) => {
                       key={card.card_id}
                       className={`flex items-center p-3 border rounded-lg cursor-pointer transition-colors ${
                         selectedCardId === card.card_id
-                          ? "border-orange-500 bg-orange-50"
-                          : "border-gray-200 hover:border-orange-300"
+                          ? "border-primary-500 bg-primary-50"
+                          : "border-gray-200 hover:border-primary-300"
                       }`}
                     >
                       <input
@@ -865,7 +865,7 @@ const ShopOrder: React.FC<ShopOrderProps> = ({ shopId, shopName }) => {
                         value={card.card_id}
                         checked={selectedCardId === card.card_id}
                         onChange={() => setSelectedCardId(card.card_id)}
-                        className="mr-3 accent-orange-500"
+                        className="mr-3 accent-primary-500"
                       />
                       <div className="flex items-center gap-3">
                         <CreditCard className="w-6 h-6 text-gray-600" />
@@ -884,7 +884,7 @@ const ShopOrder: React.FC<ShopOrderProps> = ({ shopId, shopName }) => {
                 <button
                   type="button"
                   onClick={() => setShowCardForm(!showCardForm)}
-                  className="mt-3 text-orange-500 hover:text-orange-600 font-medium flex items-center gap-1"
+                  className="mt-3 text-primary-500 hover:text-primary-600 font-medium flex items-center gap-1"
                 >
                   <Plus className="w-4 h-4" />
                   Add New Card
@@ -897,7 +897,7 @@ const ShopOrder: React.FC<ShopOrderProps> = ({ shopId, shopName }) => {
                 <button
                   type="button"
                   onClick={() => setShowCardForm(true)}
-                  className="bg-orange-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-orange-600 transition-colors"
+                  className="bg-primary-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-primary-600 transition-colors"
                 >
                   Add Payment Card
                 </button>
@@ -912,7 +912,7 @@ const ShopOrder: React.FC<ShopOrderProps> = ({ shopId, shopName }) => {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-500"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-500"></div>
       </div>
     );
   }
@@ -924,7 +924,7 @@ const ShopOrder: React.FC<ShopOrderProps> = ({ shopId, shopName }) => {
         <p className="text-gray-600 mb-8">Add some items to your cart before placing an order</p>
         <button
           onClick={() => navigate(`/shop${shopId}`)}
-          className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+          className="bg-primary-500 hover:bg-primary-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
         >
           Continue Shopping
         </button>
@@ -936,7 +936,7 @@ const ShopOrder: React.FC<ShopOrderProps> = ({ shopId, shopName }) => {
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-          <div className="px-6 py-4 bg-orange-500">
+          <div className="px-6 py-4 bg-primary-500">
             <h1 className="text-2xl font-bold text-white">Checkout - {shopName}</h1>
           </div>
 
@@ -1008,7 +1008,7 @@ const ShopOrder: React.FC<ShopOrderProps> = ({ shopId, shopName }) => {
                       <span>Estimated delivery: 3-7 business days</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+                      <div className="w-2 h-2 bg-primary-500 rounded-full"></div>
                       <span>ShipRocket powered delivery</span>
                     </div>
                     <div className="flex items-center gap-2">
@@ -1025,7 +1025,7 @@ const ShopOrder: React.FC<ShopOrderProps> = ({ shopId, shopName }) => {
                 <button
                   onClick={handlePlaceOrder}
                   disabled={isPlacingOrder || !selectedAddressId || ((paymentMethod === "credit_card" || paymentMethod === "debit_card") && !selectedCardId)}
-                  className="w-full mt-6 bg-orange-500 hover:bg-orange-600 disabled:bg-orange-300 text-white py-3 px-6 rounded-lg font-semibold transition-colors flex items-center justify-center"
+                  className="w-full mt-6 bg-primary-500 hover:bg-primary-600 disabled:bg-primary-300 text-white py-3 px-6 rounded-lg font-semibold transition-colors flex items-center justify-center"
                 >
                   {isPlacingOrder ? (
                     <>

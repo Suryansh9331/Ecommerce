@@ -142,7 +142,7 @@ const ProductsReport = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <ArrowPathIcon className="h-8 w-8 text-orange-600 animate-spin" />
+        <ArrowPathIcon className="h-8 w-8 text-primary-600 animate-spin" />
       </div>
     );
   }
@@ -157,7 +157,7 @@ const ProductsReport = () => {
         <p className="text-gray-600 mb-6">{error}</p>
         <button
           onClick={fetchData}
-          className="px-6 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition-colors"
+          className="px-6 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700 transition-colors"
         >
           Try Again
         </button>
@@ -166,12 +166,12 @@ const ProductsReport = () => {
   }
 
   return (
-    <div className="p-6 space-y-6 min-h-screen bg-[#FFF6F2]">
+    <div className="p-6 space-y-6 min-h-screen bg-primary-50">
       {/* Header with date range */}
       <div className="flex flex-wrap gap-4 justify-between items-center">
-        <h1 className="text-2xl font-bold text-[#FF4D00] drop-shadow-sm tracking-tight">Products Report</h1>
+        <h1 className="text-2xl font-bold text-primary-600 drop-shadow-sm tracking-tight">Products Report</h1>
         <div className="flex items-center gap-2">
-          <button className="flex items-center gap-2 px-4 py-2 bg-[#FF4D00] border border-[#FF4D00] rounded-lg text-sm text-white font-semibold shadow-md hover:bg-[#e04300] transition-colors">
+          <button className="flex items-center gap-2 px-4 py-2 bg-primary-600 border border-primary-600 rounded-lg text-sm text-white font-semibold shadow-md hover:bg-primary-700 transition-colors">
             <Calendar className="w-4 h-4" />
             <span>{dateRange.start}</span>
             <span>to</span>
@@ -208,8 +208,8 @@ const ProductsReport = () => {
                 <Line
                   type="monotone"
                   dataKey="quantity"
-                  stroke="#FF4D00"
-                  fill="#FF4D00"
+                  stroke="#1800AC"
+                  fill="#1800AC"
                   name="Quantity Sold"
                 />
                 <Line

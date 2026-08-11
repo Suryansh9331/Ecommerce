@@ -8,7 +8,7 @@ const Terms: React.FC = () => {
     <div className="bg-white min-h-screen">
       <div className="max-w-[1440px] mx-auto px-4 md:px-16 py-16">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-[36px] font-medium text-[#FF4D00] text-center mb-4">{t('terms.title')}</h1>
+          <h1 className="text-[36px] font-medium text-primary-600 text-center mb-4">{t('terms.title')}</h1>
           <p className="text-gray-600 text-center mb-12">
             {t('terms.lastUpdated')}: December 15, 2024
           </p>
@@ -128,7 +128,7 @@ const Terms: React.FC = () => {
                   </p>
                 </div>
 
-                <div className="bg-[#FFF9E5] p-6 rounded-lg">
+                <div className="bg-accent-50 p-6 rounded-lg">
                   <h2 className="text-xl font-medium text-gray-900 mb-4">{t('terms.sections.disclaimer.title')}</h2>
                   <p className="text-gray-700 mb-4">
                     {t('terms.sections.disclaimer.content.0')}
@@ -138,7 +138,7 @@ const Terms: React.FC = () => {
                   </p>
                 </div>
 
-                <div className="bg-[#FFF9E5] p-6 rounded-lg">
+                <div className="bg-accent-50 p-6 rounded-lg">
                   <h2 className="text-xl font-medium text-gray-900 mb-4">{t('terms.sections.limitation.title')}</h2>
                   <p className="text-gray-700 mb-4">
                     {t('terms.sections.limitation.content.0')}
@@ -195,13 +195,13 @@ const Terms: React.FC = () => {
                       return Array.isArray(addr) ? addr.map((line, i) => <p key={i}>{line}</p>) : null;
                     })()}
                     <p className="mt-2">
-                      <span className="text-[#FF4D00]">{t('common.email')}:</span> infoaoinstore@gmail.com
+                      <span className="text-primary-600">{t('common.email')}:</span> infoaoinstore@gmail.com
                     </p>
                     <p>
-                      <span className="text-[#FF4D00]">{t('common.phone')}:</span> 989 336 1162
+                      <span className="text-primary-600">{t('common.phone')}:</span> 989 336 1162
                     </p>
                     <p>
-                      <span className="text-[#FF4D00]">{t('terms.sections.contact.customerSupport')}:</span> infoaoinstore@gmail.com
+                      <span className="text-primary-600">{t('terms.sections.contact.customerSupport')}:</span> infoaoinstore@gmail.com
                     </p>
                   </div>
                 </div>

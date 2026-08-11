@@ -495,32 +495,32 @@ const ShopInventoryManagement: React.FC = () => {
           {/* Summary cards */}
           {stats && (
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-4 sm:mb-6">
-              <div className="bg-orange-50 rounded-lg p-3 sm:p-4 flex flex-col items-start">
-                <span className="text-orange-500 text-lg sm:text-2xl font-bold">
+              <div className="bg-primary-50 rounded-lg p-3 sm:p-4 flex flex-col items-start">
+                <span className="text-primary-500 text-lg sm:text-2xl font-bold">
                   {stats.total_products}
                 </span>
                 <span className="text-gray-600 mt-1 sm:mt-2 text-xs sm:text-sm">
                   Total Products
                 </span>
               </div>
-              <div className="bg-orange-50 rounded-lg p-3 sm:p-4 flex flex-col items-start">
-                <span className="text-orange-500 text-lg sm:text-2xl font-bold">
+              <div className="bg-primary-50 rounded-lg p-3 sm:p-4 flex flex-col items-start">
+                <span className="text-primary-500 text-lg sm:text-2xl font-bold">
                   {stats.low_stock_count}
                 </span>
                 <span className="text-gray-600 mt-1 sm:mt-2 text-xs sm:text-sm">
                   Low Stock Alerts
                 </span>
               </div>
-              <div className="bg-orange-50 rounded-lg p-3 sm:p-4 flex flex-col items-start">
-                <span className="text-orange-500 text-lg sm:text-2xl font-bold">
+              <div className="bg-primary-50 rounded-lg p-3 sm:p-4 flex flex-col items-start">
+                <span className="text-primary-500 text-lg sm:text-2xl font-bold">
                   {stats.out_of_stock_count}
                 </span>
                 <span className="text-gray-600 mt-1 sm:mt-2 text-xs sm:text-sm">
                   Out of Stock Items
                 </span>
               </div>
-              <div className="bg-orange-50 rounded-lg p-3 sm:p-4 flex flex-col items-start">
-                <span className="text-orange-500 text-lg sm:text-2xl font-bold">
+              <div className="bg-primary-50 rounded-lg p-3 sm:p-4 flex flex-col items-start">
+                <span className="text-primary-500 text-lg sm:text-2xl font-bold">
                   {stats.total_stock}
                 </span>
                 <span className="text-gray-600 mt-1 sm:mt-2 text-xs sm:text-sm">
@@ -615,7 +615,7 @@ const ShopInventoryManagement: React.FC = () => {
           <div className="overflow-x-auto bg-white rounded-lg shadow">
             {loading ? (
               <div className="p-8 text-center">
-                <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
+                <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
                 <p className="mt-2 text-gray-600 text-sm sm:text-base">
                   Loading inventory...
                 </p>
@@ -667,7 +667,7 @@ const ShopInventoryManagement: React.FC = () => {
                           <td className="px-4 py-2 text-sm">
                             <button
                               onClick={() => openEditModal(item)}
-                              className="text-orange-500 hover:text-orange-700"
+                              className="text-primary-500 hover:text-primary-700"
                               disabled={updating}
                             >
                               <svg
@@ -709,7 +709,7 @@ const ShopInventoryManagement: React.FC = () => {
                           <h3 className="font-semibold text-sm">{item.name}</h3>
                           <button
                             onClick={() => openEditModal(item)}
-                            className="text-orange-500 hover:text-orange-700"
+                            className="text-primary-500 hover:text-primary-700"
                             disabled={updating}
                           >
                             <svg
@@ -783,7 +783,7 @@ const ShopInventoryManagement: React.FC = () => {
                 >
                   Previous
                 </button>
-                <span className="px-3 py-1 border rounded bg-orange-500 text-white text-sm">
+                <span className="px-3 py-1 border rounded bg-primary-500 text-white text-sm">
                   {page}
                 </span>
                 <button
@@ -855,7 +855,7 @@ const ShopInventoryManagement: React.FC = () => {
                     Cancel
                   </button>
                   <button
-                    className="px-4 py-2 rounded bg-orange-500 text-white font-semibold disabled:opacity-50 text-sm"
+                    className="px-4 py-2 rounded bg-primary-500 text-white font-semibold disabled:opacity-50 text-sm"
                     onClick={handleEditSave}
                     disabled={updating}
                   >

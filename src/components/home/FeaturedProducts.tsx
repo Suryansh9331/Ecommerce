@@ -146,7 +146,7 @@ const FeaturedProducts: React.FC = () => {
             <p className="text-red-500 mb-4">{t('common.error')}: {error}</p>
             <button 
               onClick={fetchFeaturedProducts}
-              className="px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600"
+              className="px-4 py-2 bg-primary-500 text-white rounded hover:bg-primary-600"
             >
               {t('common.retry', 'Try Again')}
             </button>
@@ -163,7 +163,7 @@ const FeaturedProducts: React.FC = () => {
         <div className="flex justify-between items-center mb-6">
       <h6 className="text-xl font-medium font-worksans">{t('home.sections.featuredTitle')}</h6>
           <div className="flex items-center">
-            <Link to="/featured-products" className="text-orange-500 text-sm font-medium mr-3 sm:mr-10 font-worksans">
+            <Link to="/featured-products" className="text-primary-500 text-sm font-medium mr-3 sm:mr-10 font-worksans">
         {t('home.seeAll')}
             </Link>
             <div className="flex items-center space-x-1 sm:space-x-3">

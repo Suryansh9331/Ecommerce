@@ -304,7 +304,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
   if (isLoading) {
     return (
       <div className="flex justify-center items-center py-8">
-        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-orange-600"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary-600"></div>
       </div>
     );
   }
@@ -334,7 +334,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
             value={selectedPresetId}
             onChange={(e) => handlePresetChange(e.target.value)}
             disabled={isLoadingPresets}
-            className="flex-1 rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm"
+            className="flex-1 rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
           >
             <option value="">Select a preset or enter manually...</option>
             {presets.map((preset) => (
@@ -394,7 +394,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
             }}
             step="0.001"
             min="0.001"
-            className={`flex-1 rounded-l-md border-gray-300 focus:border-orange-500 focus:ring-orange-500 sm:text-sm ${
+            className={`flex-1 rounded-l-md border-gray-300 focus:border-primary-500 focus:ring-primary-500 sm:text-sm ${
               validationErrors.weight || errors.weight ? 'border-red-300' : ''
             }`}
             placeholder="Enter product weight"
@@ -403,7 +403,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
           <select
             value={weightUnit}
             onChange={(e) => onShippingChange('weightUnit', e.target.value)}
-            className="rounded-r-md border-l-0 border-gray-300 focus:border-orange-500 focus:ring-orange-500 sm:text-sm"
+            className="rounded-r-md border-l-0 border-gray-300 focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
           >
             {weightUnits.map(unit => (
               <option key={unit.value} value={unit.value}>
@@ -454,7 +454,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
               className={`block w-full rounded-md shadow-sm sm:text-sm ${
                 validationErrors.length || errors.dimensions?.length
                   ? 'border-red-300 focus:border-red-500 focus:ring-red-500'
-                  : 'border-gray-300 focus:border-orange-500 focus:ring-orange-500'
+                  : 'border-gray-300 focus:border-primary-500 focus:ring-primary-500'
               }`}
               placeholder="Length"
               required
@@ -494,7 +494,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
               className={`block w-full rounded-md shadow-sm sm:text-sm ${
                 validationErrors.width || errors.dimensions?.width
                   ? 'border-red-300 focus:border-red-500 focus:ring-red-500'
-                  : 'border-gray-300 focus:border-orange-500 focus:ring-orange-500'
+                  : 'border-gray-300 focus:border-primary-500 focus:ring-primary-500'
               }`}
               placeholder="Width"
               required
@@ -534,7 +534,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
               className={`block w-full rounded-md shadow-sm sm:text-sm ${
                 validationErrors.height || errors.dimensions?.height
                   ? 'border-red-300 focus:border-red-500 focus:ring-red-500'
-                  : 'border-gray-300 focus:border-orange-500 focus:ring-orange-500'
+                  : 'border-gray-300 focus:border-primary-500 focus:ring-primary-500'
               }`}
               placeholder="Height"
               required
@@ -548,7 +548,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
           <select
             value={dimensionUnit}
             onChange={(e) => onShippingChange('dimensionUnit', e.target.value)}
-            className="block w-full rounded-md border-gray-300 focus:border-orange-500 focus:ring-orange-500 sm:text-sm"
+            className="block w-full rounded-md border-gray-300 focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
           >
             {dimensionUnits.map(unit => (
               <option key={unit.value} value={unit.value}>
@@ -588,7 +588,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
             className={`block w-full rounded-md shadow-sm sm:text-sm ${
               validationErrors.shippingClass || errors.shippingClass
                 ? 'border-red-300 focus:border-red-500 focus:ring-red-500'
-                : 'border-gray-300 focus:border-orange-500 focus:ring-orange-500'
+                : 'border-gray-300 focus:border-primary-500 focus:ring-primary-500'
             }`}
             required
           >
@@ -628,7 +628,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
         <button
           onClick={handleUpdateShipping}
           disabled={isLoading || !isFormValid()}
-          className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
+          className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
           title={!isFormValid() ? 'Please fill all required shipping fields correctly' : ''}
         >
           {isLoading ? 'Updating...' : 'Update Shipping'}

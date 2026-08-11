@@ -52,7 +52,7 @@ const OrderConfirmationPage = () => {
           </button>
           <button
             onClick={handleViewOrder}
-            className="px-6 py-2.5 rounded-lg text-sm font-medium text-white bg-orange-500 hover:bg-orange-600 transition-colors"
+            className="px-6 py-2.5 rounded-lg text-sm font-medium text-white bg-primary-500 hover:bg-primary-600 transition-colors"
           >
             View Order
           </button>

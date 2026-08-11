@@ -183,14 +183,14 @@ const GSTRuleForm: React.FC<GSTRuleFormProps> = ({
             value={formData.name || ""}
             onChange={handleChange}
             required
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
           />
         </div>
 
         {/* <div>
           <label htmlFor="description" className="block text-sm font-medium text-gray-700">Description</label>
           <textarea name="description" id="description" value={formData.description || ''} onChange={handleChange} rows={2} // Reduced rows for smaller modals
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm" />
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm" />
         </div> */}
 
         <div>
@@ -206,7 +206,7 @@ const GSTRuleForm: React.FC<GSTRuleFormProps> = ({
             value={formData.category_id || ""}
             onChange={handleChange}
             required
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
           >
             <option value="" disabled>
               Select a category
@@ -233,7 +233,7 @@ const GSTRuleForm: React.FC<GSTRuleFormProps> = ({
               id="price_condition_type"
               value={formData.price_condition_type}
               onChange={handleChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
             >
               {Object.values(ProductPriceConditionType).map((type) => (
                 <option key={type} value={type}>
@@ -257,7 +257,7 @@ const GSTRuleForm: React.FC<GSTRuleFormProps> = ({
               value={formData.price_condition_value || ""}
               onChange={handleChange}
               disabled={isPriceValueDisabled}
-              className={`mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm ${
+              className={`mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm ${
                 isPriceValueDisabled ? "bg-gray-100 cursor-not-allowed" : ""
               }`}
             />
@@ -281,7 +281,7 @@ const GSTRuleForm: React.FC<GSTRuleFormProps> = ({
             value={formData.gst_rate_percentage || ""}
             onChange={handleChange}
             required
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
           />
         </div>
 
@@ -299,7 +299,7 @@ const GSTRuleForm: React.FC<GSTRuleFormProps> = ({
               id="start_date"
               value={formData.start_date || ""}
               onChange={handleChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
             />
           </div>
           <div>
@@ -315,7 +315,7 @@ const GSTRuleForm: React.FC<GSTRuleFormProps> = ({
               id="end_date"
               value={formData.end_date || ""}
               onChange={handleChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
             />
           </div>
         </div>
@@ -327,7 +327,7 @@ const GSTRuleForm: React.FC<GSTRuleFormProps> = ({
             id="is_active"
             checked={!!formData.is_active}
             onChange={handleChange} // Ensure checked is boolean
-            className="h-4 w-4 text-orange-600 border-gray-300 rounded focus:ring-orange-500"
+            className="h-4 w-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500"
           />
           <label
             htmlFor="is_active"
@@ -343,14 +343,14 @@ const GSTRuleForm: React.FC<GSTRuleFormProps> = ({
             type="button"
             onClick={onCancel}
             disabled={isLoading}
-            className="w-full sm:w-auto px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50"
+            className="w-full sm:w-auto px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50"
           >
             Cancel
           </button>
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full sm:w-auto px-4 py-2 text-sm font-medium text-white bg-orange-600 border border-transparent rounded-md shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50"
+            className="w-full sm:w-auto px-4 py-2 text-sm font-medium text-white bg-primary-600 border border-transparent rounded-md shadow-sm hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50"
           >
             {isLoading
               ? initialData

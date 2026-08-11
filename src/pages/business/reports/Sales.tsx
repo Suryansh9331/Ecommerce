@@ -290,7 +290,7 @@ const Sales = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <ArrowPathIcon className="h-8 w-8 text-orange-600 animate-spin" />
+        <ArrowPathIcon className="h-8 w-8 text-primary-600 animate-spin" />
       </div>
     );
   }
@@ -305,7 +305,7 @@ const Sales = () => {
         <p className="text-gray-600 mb-6">{error}</p>
         <button
           onClick={fetchData}
-          className="px-6 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition-colors"
+          className="px-6 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700 transition-colors"
         >
           Try Again
         </button>
@@ -319,7 +319,7 @@ const Sales = () => {
   const averageOrderValue = merchantPerformance?.average_order_value.value || 0;
 
   // Define a color palette for up to 3 categories
-  const pieColors = ['#FF4D00', '#00E5BE', '#8B5CF6'];
+  const pieColors = ['#1800AC', '#00E5BE', '#8B5CF6'];
 
   // Map categoryData to ensure value is a number and assign a color
   const pieChartData = categoryData.map((cat, idx) => ({
@@ -336,7 +336,7 @@ const Sales = () => {
           <p className="font-semibold break-words whitespace-normal">
             {item.name}
           </p>
-          <p className="text-orange-600">revenue : {item.revenue.toFixed(2)}</p>
+          <p className="text-primary-600">revenue : {item.revenue.toFixed(2)}</p>
         </div>
       );
     }
@@ -355,7 +355,7 @@ const Sales = () => {
           >
             {item.name}
           </p>
-          <p className="text-orange-600">
+          <p className="text-primary-600">
             Revenue: {item.revenue?.toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 })}
           </p>
         </div>
@@ -371,7 +371,7 @@ const Sales = () => {
       return (
         <div className="bg-white p-3 rounded-lg shadow-lg border text-sm">
           <p className="font-semibold text-gray-800 mb-1">{item.name}</p>
-          <p className="text-orange-600 font-medium">{Number(item.value).toFixed(1)}%</p>
+          <p className="text-primary-600 font-medium">{Number(item.value).toFixed(1)}%</p>
         </div>
       );
     }
@@ -381,19 +381,19 @@ const Sales = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-wrap gap-4 justify-between items-center bg-[#FF4D00] text-white p-6 rounded-xl">
+      <div className="flex flex-wrap gap-4 justify-between items-center bg-primary-600 text-white p-6 rounded-xl">
         <h1 className="text-2xl font-semibold">Sales Performance Report</h1>
         <div className="flex gap-3">
           <button
             onClick={fetchData}
-            className="flex items-center gap-2 bg-white text-[#FF4D00] px-4 py-2 rounded-lg hover:bg-opacity-90"
+            className="flex items-center gap-2 bg-white text-primary-600 px-4 py-2 rounded-lg hover:bg-opacity-90"
           >
             <ArrowPathIcon className="w-5 h-5" />
             Refresh Data
           </button>
           <button 
             onClick={() => setIsExportModalOpen(true)}
-            className="flex items-center gap-2 bg-[#FF3800] text-white px-4 py-2 rounded-lg hover:bg-opacity-90"
+            className="flex items-center gap-2 bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-opacity-90"
           >
             <ArrowDownTrayIcon className="w-5 h-5" />
             Export Report
@@ -405,21 +405,21 @@ const Sales = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-white p-6 rounded-xl shadow-sm">
           <p className="text-gray-600">Total Revenue</p>
-          <p className="text-3xl font-semibold text-[#FF4D00]">{formatCurrency(totalRevenue)}</p>
+          <p className="text-3xl font-semibold text-primary-600">{formatCurrency(totalRevenue)}</p>
         </div>
         <div className="bg-white p-6 rounded-xl shadow-sm">
           <p className="text-gray-600">Total Orders</p>
-          <p className="text-3xl font-semibold text-[#FF4D00]">{totalUnits.toLocaleString()} <span className="text-gray-500 text-base">orders</span></p>
+          <p className="text-3xl font-semibold text-primary-600">{totalUnits.toLocaleString()} <span className="text-gray-500 text-base">orders</span></p>
         </div>
         <div className="bg-white p-6 rounded-xl shadow-sm">
           <p className="text-gray-600">Average Order Value</p>
-          <p className="text-3xl font-semibold text-[#FF4D00]">{formatCurrency(averageOrderValue)}</p>
+          <p className="text-3xl font-semibold text-primary-600">{formatCurrency(averageOrderValue)}</p>
         </div>
       </div>
 
       {/* Revenue & Sales Trend Chart */}
       <div className="bg-white p-6 rounded-xl shadow-sm">
-        <h2 className="text-xl font-semibold text-[#FF4D00] mb-4">Revenue & Sales Trend</h2>
+        <h2 className="text-xl font-semibold text-primary-600 mb-4">Revenue & Sales Trend</h2>
         <div className="h-80 overflow-x-auto">
   <div className="min-w-[600px] h-full">
     <ResponsiveContainer width="100%" height="100%">
@@ -442,9 +442,9 @@ const Sales = () => {
           yAxisId="left"
           type="monotone"
           dataKey="revenue"
-          stroke="#FF4D00"
+          stroke="#1800AC"
           name="Revenue"
-          dot={{ fill: '#FF4D00' }}
+          dot={{ fill: '#1800AC' }}
         />
         <Line
           yAxisId="right"
@@ -463,10 +463,10 @@ const Sales = () => {
 
       {/* Detailed Sales Data */}
       <div className="bg-white rounded-xl shadow-sm overflow-hidden">
-        <h2 className="text-xl font-semibold text-[#FF4D00] p-6">Detailed Sales Data</h2>
+        <h2 className="text-xl font-semibold text-primary-600 p-6">Detailed Sales Data</h2>
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-[#FF4D00] text-white">
+            <thead className="bg-primary-600 text-white">
               <tr>
                 <th className="px-6 py-3 text-left">MONTH</th>
                 <th className="px-6 py-3 text-left">PRODUCT</th>
@@ -497,7 +497,7 @@ const Sales = () => {
         {/* Product Performance */}
         <div className="bg-white p-6 rounded-xl shadow-sm">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-semibold text-[#FF4D00]">Product Performance</h2>
+            <h2 className="text-xl font-semibold text-primary-600">Product Performance</h2>
             <select className="border rounded-lg px-3 py-2 text-gray-600">
               <option>Sort by Revenue</option>
             </select>
@@ -515,7 +515,7 @@ const Sales = () => {
         />
         <YAxis />
         <Tooltip content={<ProductPerformanceTooltip />} />
-        <Bar dataKey="revenue" fill="#FF4D00" />
+        <Bar dataKey="revenue" fill="#1800AC" />
       </BarChart>
     </ResponsiveContainer>
           </div>
@@ -523,7 +523,7 @@ const Sales = () => {
 
         {/* Revenue by Category */}
         <div className="bg-white p-6 rounded-xl shadow-sm">
-          <h2 className="text-xl font-semibold text-[#FF4D00] mb-4">Revenue by Category</h2>
+          <h2 className="text-xl font-semibold text-primary-600 mb-4">Revenue by Category</h2>
           <div className="h-80 [&_.recharts-pie-sector]:outline-none [&_.recharts-pie-sector]:focus:outline-none [&_.recharts-pie-sector]:focus-visible:outline-none [&_.recharts-pie-sector]:active:outline-none">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>

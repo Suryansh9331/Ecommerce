@@ -104,8 +104,8 @@ const StatusBadge: React.FC<{ status: string }> = ({ status }) => {
       textColor = "text-yellow-800";
       break;
     case "pending":
-      bgColor = "bg-orange-100";
-      textColor = "text-orange-800";
+      bgColor = "bg-primary-100";
+      textColor = "text-primary-800";
       break;
     case "cancelled":
       bgColor = "bg-red-100";
@@ -300,7 +300,7 @@ const Dashboard: React.FC = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <ArrowPathIcon className="h-8 w-8 text-orange-600 animate-spin" />
+        <ArrowPathIcon className="h-8 w-8 text-primary-600 animate-spin" />
       </div>
     );
   }
@@ -315,7 +315,7 @@ const Dashboard: React.FC = () => {
         <p className="text-gray-600 mb-6 text-center">{error}</p>
         <button
           onClick={fetchData}
-          className="px-6 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition-colors"
+          className="px-6 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700 transition-colors"
         >
           Try Again
         </button>
@@ -331,8 +331,8 @@ const Dashboard: React.FC = () => {
       change: "vs last period",
       trend: orderStats?.total_sales?.change_percent ?? 0,
       icon: CurrencyDollarIcon,
-      iconBg: "bg-orange-100",
-      iconColor: "text-orange-700",
+      iconBg: "bg-primary-100",
+      iconColor: "text-primary-700",
     },
     {
       name: "Total Orders",
@@ -340,8 +340,8 @@ const Dashboard: React.FC = () => {
       change: "vs last period",
       trend: orderStats?.total_orders?.change_percent ?? 0,
       icon: ShoppingBagIcon,
-      iconBg: "bg-orange-100",
-      iconColor: "text-orange-700",
+      iconBg: "bg-primary-100",
+      iconColor: "text-primary-700",
     },
     {
       name: "Average Order Value",
@@ -349,8 +349,8 @@ const Dashboard: React.FC = () => {
       change: "vs last period",
       trend: orderStats?.average_order_value?.change_percent ?? 0,
       icon: ShoppingBagIcon,
-      iconBg: "bg-orange-100",
-      iconColor: "text-orange-700",
+      iconBg: "bg-primary-100",
+      iconColor: "text-primary-700",
     },
     {
       name: "Conversion Rate",
@@ -362,8 +362,8 @@ const Dashboard: React.FC = () => {
       change: "vs last period",
       trend: 0,
       icon: ClipboardDocumentCheckIcon,
-      iconBg: "bg-orange-100",
-      iconColor: "text-orange-700",
+      iconBg: "bg-primary-100",
+      iconColor: "text-primary-700",
     },
   ];
   // Custom Tooltip for Viewing full product names on hover
@@ -400,8 +400,8 @@ const Dashboard: React.FC = () => {
             onClick={() => setTimeframe("daily")}
             className={`flex-1 sm:flex-none px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium rounded-l-md ${
               timeframe === "daily"
-                ? "bg-orange-600 text-white"
-                : "bg-white text-gray-700 hover:bg-orange-50"
+                ? "bg-primary-600 text-white"
+                : "bg-white text-gray-700 hover:bg-primary-50"
             } border border-gray-300`}
           >
             Daily
@@ -411,8 +411,8 @@ const Dashboard: React.FC = () => {
             onClick={() => setTimeframe("weekly")}
             className={`flex-1 sm:flex-none px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium ${
               timeframe === "weekly"
-                ? "bg-orange-600 text-white"
-                : "bg-white text-gray-700 hover:bg-orange-50"
+                ? "bg-primary-600 text-white"
+                : "bg-white text-gray-700 hover:bg-primary-50"
             } border-t border-b border-gray-300`}
           >
             Weekly
@@ -422,8 +422,8 @@ const Dashboard: React.FC = () => {
             onClick={() => setTimeframe("monthly")}
             className={`flex-1 sm:flex-none px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium rounded-r-md ${
               timeframe === "monthly"
-                ? "bg-orange-600 text-white"
-                : "bg-white text-gray-700 hover:bg-orange-50"
+                ? "bg-primary-600 text-white"
+                : "bg-white text-gray-700 hover:bg-primary-50"
             } border border-gray-300`}
           >
             Monthly
@@ -436,7 +436,7 @@ const Dashboard: React.FC = () => {
         {stats.map((stat) => (
           <div
             key={stat.name}
-            className="bg-white rounded-lg shadow-sm p-4 sm:p-5 border border-gray-200 hover:border-orange-300 transition-colors"
+            className="bg-white rounded-lg shadow-sm p-4 sm:p-5 border border-gray-200 hover:border-primary-300 transition-colors"
           >
             <div className="flex items-start justify-between gap-3 sm:gap-4">
               <div className="flex-1 min-w-0">
@@ -554,7 +554,7 @@ const Dashboard: React.FC = () => {
           <h2 className="text-base sm:text-lg font-medium text-gray-900">Recent Orders</h2>
           <Link
             to="/business/orders"
-            className="text-sm font-medium text-orange-600 hover:text-orange-700 self-start sm:self-auto"
+            className="text-sm font-medium text-primary-600 hover:text-primary-700 self-start sm:self-auto"
           >
             View All
           </Link>
@@ -589,9 +589,9 @@ const Dashboard: React.FC = () => {
                   {(recentOrders || []).map((order) => (
                     <tr
                       key={order.order_id}
-                      className="hover:bg-orange-50 transition-colors"
+                      className="hover:bg-primary-50 transition-colors"
                     >
-                      <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-xs sm:text-sm font-medium text-orange-600 hover:text-orange-700">
+                      <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-xs sm:text-sm font-medium text-primary-600 hover:text-primary-700">
                         <span className="hidden sm:inline">{order.order_id}</span>
                         <span className="sm:hidden">{order.order_id.slice(0, 8)}...</span>
                       </td>
@@ -612,7 +612,7 @@ const Dashboard: React.FC = () => {
                       <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-xs sm:text-sm text-gray-500">
                         <Link
                           to={`/business/orders/${order.order_id}`}
-                          className="text-orange-600 hover:text-orange-700"
+                          className="text-primary-600 hover:text-primary-700"
                         >
                           View
                         </Link>

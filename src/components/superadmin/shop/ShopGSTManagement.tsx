@@ -114,7 +114,7 @@ const ShopGSTManagement: React.FC = () => {
           <button
             onClick={handleCreateNew}
             disabled={loading}
-            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-orange-600 dark:bg-orange-500 hover:bg-orange-700 dark:hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 dark:focus:ring-orange-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary-600 dark:bg-primary-500 hover:bg-primary-700 dark:hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 dark:focus:ring-primary-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
           >
             <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -139,7 +139,7 @@ const ShopGSTManagement: React.FC = () => {
                 placeholder="Search by rule name, shop, or category..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-500 dark:focus:ring-orange-400 focus:border-transparent transition-colors duration-200"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent transition-colors duration-200"
               />
             </div>
 
@@ -157,7 +157,7 @@ const ShopGSTManagement: React.FC = () => {
               <div>
                 <button
                   onClick={clearFilters}
-                  className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors duration-200"
+                  className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200"
                 >
                   Clear Filters
                 </button>
@@ -167,20 +167,20 @@ const ShopGSTManagement: React.FC = () => {
 
           {/* Filter Summary */}
           {(filterShop || searchTerm) && (
-            <div className="mt-4 p-3 bg-orange-50 dark:bg-orange-900/20 rounded-md">
-              <div className="flex flex-wrap items-center gap-2 text-sm text-orange-800 dark:text-orange-200">
+            <div className="mt-4 p-3 bg-primary-50 dark:bg-primary-900/20 rounded-md">
+              <div className="flex flex-wrap items-center gap-2 text-sm text-primary-800 dark:text-primary-200">
                 <span>Filters active:</span>
                 {filterShop && (
-                  <span className="px-2 py-1 bg-orange-100 dark:bg-orange-800 rounded-md">
+                  <span className="px-2 py-1 bg-primary-100 dark:bg-primary-800 rounded-md">
                     Shop: {filterShop.name}
                   </span>
                 )}
                 {searchTerm && (
-                  <span className="px-2 py-1 bg-orange-100 dark:bg-orange-800 rounded-md">
+                  <span className="px-2 py-1 bg-primary-100 dark:bg-primary-800 rounded-md">
                     Search: "{searchTerm}"
                   </span>
                 )}
-                <span className="text-orange-600 dark:text-orange-400 font-medium">
+                <span className="text-primary-600 dark:text-primary-400 font-medium">
                   ({filteredRules.length} of {rules.length} rules shown)
                 </span>
               </div>
@@ -226,8 +226,8 @@ const ShopGSTManagement: React.FC = () => {
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <div className="w-8 h-8 bg-orange-100 dark:bg-orange-900/20 rounded-md flex items-center justify-center">
-                  <svg className="w-4 h-4 text-orange-600 dark:text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-8 h-8 bg-primary-100 dark:bg-primary-900/20 rounded-md flex items-center justify-center">
+                  <svg className="w-4 h-4 text-primary-600 dark:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                   </svg>
                 </div>

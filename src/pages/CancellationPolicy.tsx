@@ -5,20 +5,20 @@ const CancellationPolicy = () => {
     <div className="bg-white min-h-screen">
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8 lg:px-16 xl:px-32 2xl:px-6 py-8 sm:py-12 lg:py-16">
         <div className="text-center mb-8 sm:mb-12">
-          <h1 className="text-2xl sm:text-3xl md:text-[36px] font-medium text-[#FF4D00] mb-2">AOINSTORE</h1>
+          <h1 className="text-2xl sm:text-3xl md:text-[36px] font-medium text-primary-600 mb-2">AOINSTORE</h1>
           <h2 className="text-xl sm:text-2xl md:text-[28px] font-medium text-gray-900 mb-3 sm:mb-4">CANCELLATION POLICY</h2>
         </div>
 
         <div className="space-y-6 sm:space-y-8">
           <section>
-            <h2 className="text-xl sm:text-2xl font-medium text-[#FF4D00] mb-3 sm:mb-4">1. INTRODUCTION</h2>
+            <h2 className="text-xl sm:text-2xl font-medium text-primary-600 mb-3 sm:mb-4">1. INTRODUCTION</h2>
             <p className="text-gray-700 mb-4 text-sm sm:text-base">
               This Cancellation Policy explains how customers may cancel orders placed through Aoinstore, including timelines, eligibility, refund rules, and seller responsibilities. The policy aligns with the Consumer Protection Act 2019 and Consumer Protection E-Commerce Rules 2020.
             </p>
           </section>
 
           <section>
-            <h2 className="text-xl sm:text-2xl font-medium text-[#FF4D00] mb-3 sm:mb-4">2. ORDER CANCELLATION BY CUSTOMER</h2>
+            <h2 className="text-xl sm:text-2xl font-medium text-primary-600 mb-3 sm:mb-4">2. ORDER CANCELLATION BY CUSTOMER</h2>
             <p className="text-gray-700 mb-2 text-sm sm:text-base">A customer may cancel an order under the following conditions:</p>
             <ul className="list-disc pl-4 sm:pl-6 text-gray-700 mb-4 space-y-1 text-sm sm:text-base">
               <li>The order is not yet packed or shipped by the seller.</li>
@@ -28,7 +28,7 @@ const CancellationPolicy = () => {
           </section>
 
           <section>
-            <h2 className="text-xl sm:text-2xl font-medium text-[#FF4D00] mb-3 sm:mb-4">3. NON CANCELLABLE ORDERS</h2>
+            <h2 className="text-xl sm:text-2xl font-medium text-primary-600 mb-3 sm:mb-4">3. NON CANCELLABLE ORDERS</h2>
             <p className="text-gray-700 mb-2 text-sm sm:text-base">Certain orders cannot be cancelled once placed. Such cases include:</p>
             <ul className="list-disc pl-4 sm:pl-6 text-gray-700 mb-4 space-y-1 text-sm sm:text-base">
               <li>The order is already packed or shipped.</li>
@@ -38,7 +38,7 @@ const CancellationPolicy = () => {
           </section>
 
           <section>
-            <h2 className="text-xl sm:text-2xl font-medium text-[#FF4D00] mb-3 sm:mb-4">4. HOW TO CANCEL AN ORDER</h2>
+            <h2 className="text-xl sm:text-2xl font-medium text-primary-600 mb-3 sm:mb-4">4. HOW TO CANCEL AN ORDER</h2>
             <p className="text-gray-700 mb-2 text-sm sm:text-base">To cancel an order, customers must follow these steps:</p>
             <ul className="list-disc pl-4 sm:pl-6 text-gray-700 mb-4 space-y-1 text-sm sm:text-base">
               <li>Log in to Aoinstore account.</li>
@@ -51,7 +51,7 @@ const CancellationPolicy = () => {
           </section>
 
           <section>
-            <h2 className="text-xl sm:text-2xl font-medium text-[#FF4D00] mb-3 sm:mb-4">5. REFUND ON CANCELLATION</h2>
+            <h2 className="text-xl sm:text-2xl font-medium text-primary-600 mb-3 sm:mb-4">5. REFUND ON CANCELLATION</h2>
             <p className="text-gray-700 mb-2 text-sm sm:text-base">Refunds for cancelled orders are processed as follows:</p>
             <ul className="list-disc pl-4 sm:pl-6 text-gray-700 mb-4 space-y-1 text-sm sm:text-base">
               <li>Prepaid orders: Refunded to original payment method.</li>
@@ -63,7 +63,7 @@ const CancellationPolicy = () => {
           </section>
 
           <section>
-            <h2 className="text-xl sm:text-2xl font-medium text-[#FF4D00] mb-3 sm:mb-4">6. SELLER CANCELLATION</h2>
+            <h2 className="text-xl sm:text-2xl font-medium text-primary-600 mb-3 sm:mb-4">6. SELLER CANCELLATION</h2>
             <p className="text-gray-700 mb-2 text-sm sm:text-base">A seller may cancel an order under rare conditions such as:</p>
             <ul className="list-disc pl-4 sm:pl-6 text-gray-700 mb-4 space-y-1 text-sm sm:text-base">
               <li>Product out of stock.</li>
@@ -76,7 +76,7 @@ const CancellationPolicy = () => {
           </section>
 
           <section>
-            <h2 className="text-xl sm:text-2xl font-medium text-[#FF4D00] mb-3 sm:mb-4">7. AUTOMATIC CANCELLATION</h2>
+            <h2 className="text-xl sm:text-2xl font-medium text-primary-600 mb-3 sm:mb-4">7. AUTOMATIC CANCELLATION</h2>
             <p className="text-gray-700 mb-2 text-sm sm:text-base">Aoinstore may cancel orders automatically in scenarios including:</p>
             <ul className="list-disc pl-4 sm:pl-6 text-gray-700 mb-4 space-y-1 text-sm sm:text-base">
               <li>Payment failure or incomplete payment confirmation.</li>
@@ -86,14 +86,14 @@ const CancellationPolicy = () => {
           </section>
 
           <section>
-            <h2 className="text-xl sm:text-2xl font-medium text-[#FF4D00] mb-3 sm:mb-4">8. CANCELLATION AFTER SHIPPING</h2>
+            <h2 className="text-xl sm:text-2xl font-medium text-primary-600 mb-3 sm:mb-4">8. CANCELLATION AFTER SHIPPING</h2>
             <p className="text-gray-700 mb-4 text-sm sm:text-base">
               Once the order is shipped, cancellation is not allowed. The customer may request a return after delivery, depending on the product's return eligibility.
             </p>
           </section>
 
           <section>
-            <h2 className="text-xl sm:text-2xl font-medium text-[#FF4D00] mb-3 sm:mb-4">9. DELIVERY REFUSAL</h2>
+            <h2 className="text-xl sm:text-2xl font-medium text-primary-600 mb-3 sm:mb-4">9. DELIVERY REFUSAL</h2>
             <p className="text-gray-700 mb-2 text-sm sm:text-base">Customers may refuse delivery at the doorstep only if:</p>
             <ul className="list-disc pl-4 sm:pl-6 text-gray-700 mb-4 space-y-1 text-sm sm:text-base">
               <li>The package is visibly damaged or tampered.</li>
@@ -105,7 +105,7 @@ const CancellationPolicy = () => {
           </section>
 
           <section>
-            <h2 className="text-xl sm:text-2xl font-medium text-[#FF4D00] mb-3 sm:mb-4">10. FRAUD PREVENTION</h2>
+            <h2 className="text-xl sm:text-2xl font-medium text-primary-600 mb-3 sm:mb-4">10. FRAUD PREVENTION</h2>
             <p className="text-gray-700 mb-2 text-sm sm:text-base">Repeated cancellations, misuse of COD, or suspicious behavior may lead to:</p>
             <ul className="list-disc pl-4 sm:pl-6 text-gray-700 mb-4 space-y-1 text-sm sm:text-base">
               <li>Order cancellation restrictions.</li>
@@ -115,14 +115,14 @@ const CancellationPolicy = () => {
           </section>
 
           <section>
-            <h2 className="text-xl sm:text-2xl font-medium text-[#FF4D00] mb-3 sm:mb-4">11. LEGAL COMPLIANCE</h2>
+            <h2 className="text-xl sm:text-2xl font-medium text-primary-600 mb-3 sm:mb-4">11. LEGAL COMPLIANCE</h2>
             <p className="text-gray-700 mb-4 text-sm sm:text-base">
               This policy is compliant with the Consumer Protection Act 2019 and E-Commerce Rules 2020. As per IT Act 2000 Section 79, Aoinstore is an intermediary and is not liable for seller-side cancellation delays or errors.
             </p>
           </section>
 
           <section>
-            <h2 className="text-xl sm:text-2xl font-medium text-[#FF4D00] mb-3 sm:mb-4">12. FINAL DECISION AUTHORITY</h2>
+            <h2 className="text-xl sm:text-2xl font-medium text-primary-600 mb-3 sm:mb-4">12. FINAL DECISION AUTHORITY</h2>
             <p className="text-gray-700 mb-4 text-sm sm:text-base">
               Aoinstore reserves the right to modify cancellation rules and approve or deny cancellation requests. The decision of Aoinstore shall be final and binding.
             </p>

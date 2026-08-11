@@ -59,7 +59,7 @@ const ShopOrderDetail: React.FC<ShopOrderDetailProps> = ({ shopId }) => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-500"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-500"></div>
       </div>
     );
   }
@@ -71,7 +71,7 @@ const ShopOrderDetail: React.FC<ShopOrderDetailProps> = ({ shopId }) => {
           <p className="text-red-600 mb-3">{error || 'Order not found'}</p>
           <button
             onClick={() => navigate('/orders', { state: { shopView: true, selectedShopId: shopId } })}
-            className="px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600"
+            className="px-4 py-2 bg-primary-500 text-white rounded hover:bg-primary-600"
           >
             Back to Orders
           </button>

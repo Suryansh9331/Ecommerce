@@ -718,7 +718,7 @@ const MerchantDetails: React.FC = () => {
   if (!merchant) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[calc(100vh-120px)] p-4 text-center">
-        <AlertCircle size={48} className="text-orange-500 mb-4" />
+        <AlertCircle size={48} className="text-primary-500 mb-4" />
         <p className="text-xl font-semibold text-gray-800">Merchant Not Found</p>
         <p className="text-gray-600 mb-6">The requested merchant could not be found or you do not have permission to view it.</p>
         <button
@@ -747,7 +747,7 @@ const MerchantDetails: React.FC = () => {
         
         {/* --- HEADER: NO COLOR CHANGES HERE --- */}
         <div className="bg-white shadow rounded-lg overflow-hidden">
-          <div className="bg-gradient-to-r from-orange-500 to-orange-700 px-4 sm:px-6 md:px-8 py-4 sm:py-6">
+          <div className="bg-gradient-to-r from-primary-500 to-primary-700 px-4 sm:px-6 md:px-8 py-4 sm:py-6">
             <h1 className="text-xl sm:text-2xl font-bold text-white mb-2 truncate" title={merchant.name}>{merchant.name}</h1>
             <div className="flex flex-wrap items-center gap-2">
               <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusBadgeClass(merchant.status)}`}>
@@ -844,7 +844,7 @@ const MerchantDetails: React.FC = () => {
                               onClick={() => openDocumentViewer(doc.id.toString())}
                               title={`View ${documentTypeMapping[doc.document_type] || doc.document_type}`}
                               aria-label={`View ${documentTypeMapping[doc.document_type] || doc.document_type}`}
-                              className="ml-2 flex items-center px-2 py-1 rounded-md text-xs sm:text-sm text-orange-600 hover:text-orange-700 hover:bg-orange-100 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:ring-offset-1 transition-colors duration-150 flex-shrink-0"
+                              className="ml-2 flex items-center px-2 py-1 rounded-md text-xs sm:text-sm text-primary-600 hover:text-primary-700 hover:bg-primary-100 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:ring-offset-1 transition-colors duration-150 flex-shrink-0"
                             >
                               <Eye size={14} className="mr-1 sm:mr-1.5" />
                               View

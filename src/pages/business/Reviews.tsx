@@ -138,7 +138,7 @@ const Reviews: React.FC = () => {
       <Star
         key={index}
         className={`w-4 h-4 ${
-          index < rating ? 'fill-[#FF4D00] text-[#FF4D00]' : 'text-gray-300'
+          index < rating ? 'fill-primary-600 text-primary-600' : 'text-gray-300'
         }`}
       />
     ));
@@ -151,7 +151,7 @@ const Reviews: React.FC = () => {
       <div className="bg-white rounded-lg p-4 mb-6">
         <h2 className="text-lg font-semibold mb-4">Rating Overview</h2>
         <div className="flex items-center gap-4 mb-4">
-          <div className="text-3xl font-bold text-[#FF4D00]">
+          <div className="text-3xl font-bold text-primary-600">
             {stats.average_rating}
           </div>
           <div>
@@ -168,11 +168,11 @@ const Reviews: React.FC = () => {
             <div key={rating} className="flex items-center gap-3">
               <div className="flex items-center gap-1 w-20">
                 <span className="text-sm font-medium">{rating}</span>
-                <Star className="w-3 h-3 fill-[#FF4D00] text-[#FF4D00]" />
+                <Star className="w-3 h-3 fill-primary-600 text-primary-600" />
               </div>
               <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-[#FF4D00] transition-all duration-300"
+                  className="h-full bg-primary-600 transition-all duration-300"
                   style={{
                     width: `${stats.total_reviews > 0 ? (count / stats.total_reviews) * 100 : 0}%`,
                   }}
@@ -202,7 +202,7 @@ const Reviews: React.FC = () => {
         <div className="flex gap-4">
   <div className="relative inline-block">
     <select
-      className="appearance-none bg-white border border-gray-200 rounded-lg py-2 px-4 pr-6 leading-tight focus:outline-none focus:border-[#FF4D00] text-sm"
+      className="appearance-none bg-white border border-gray-200 rounded-lg py-2 px-4 pr-6 leading-tight focus:outline-none focus:border-primary-600 text-sm"
       value={filters.rating}
       onChange={(e) => setFilters({ ...filters, rating: e.target.value })}
     >
@@ -213,7 +213,7 @@ const Reviews: React.FC = () => {
         </option>
       ))}
     </select>
-    {/* <Filter className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#FF4D00] pointer-events-none" /> */}
+    {/* <Filter className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-primary-600 pointer-events-none" /> */}
   </div>
 </div>
 
@@ -252,7 +252,7 @@ const Reviews: React.FC = () => {
                     {renderStars(review.rating)}
                   </div>
                 </div>
-                <button className="text-gray-400 hover:text-[#FF4D00] transition-colors">
+                <button className="text-gray-400 hover:text-primary-600 transition-colors">
                   <MoreHorizontal className="w-5 h-5" />
                 </button>
               </div>

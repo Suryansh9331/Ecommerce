@@ -86,8 +86,8 @@ const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
       {/* Header */}
       <div className="text-center">
         <div className="flex justify-center mb-4">
-          <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center">
-            <Store className="text-orange-500" size={32} />
+          <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center">
+            <Store className="text-primary-500" size={32} />
           </div>
         </div>
         <h3 className="text-xl font-semibold text-gray-900">Basic Product Information</h3>
@@ -120,7 +120,7 @@ const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
             type="text"
             value={data.product_name}
             onChange={(e) => handleInputChange('product_name', e.target.value)}
-            className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
+            className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent ${
               errors.product_name ? 'border-red-500' : 'border-gray-300'
             }`}
             placeholder="Enter product name"
@@ -139,7 +139,7 @@ const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
               type="text"
               value={data.sku}
               onChange={(e) => handleInputChange('sku', e.target.value)}
-              className={`w-full px-3 py-2 pl-10 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
+              className={`w-full px-3 py-2 pl-10 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent ${
                 errors.sku ? 'border-red-500' : 'border-gray-300'
               }`}
               placeholder="Auto-generated or enter custom SKU"
@@ -157,7 +157,7 @@ const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
           <select
             value={data.brand_id || ''}
             onChange={(e) => handleInputChange('brand_id', e.target.value ? parseInt(e.target.value) : undefined)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             disabled={loading}
           >
             <option value="">Select a brand (optional)</option>
@@ -179,7 +179,7 @@ const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
             value={data.product_description}
             onChange={(e) => handleInputChange('product_description', e.target.value)}
             rows={3}
-            className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent resize-none ${
+            className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none ${
               errors.product_description ? 'border-red-500' : 'border-gray-300'
             }`}
             placeholder="Brief description of the product"
@@ -201,7 +201,7 @@ const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
                 min="0"
                 value={data.cost_price || ''}
                 onChange={(e) => handleInputChange('cost_price', parseFloat(e.target.value) || 0)}
-                className={`w-full px-3 py-2 pl-8 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
+                className={`w-full px-3 py-2 pl-8 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent ${
                   errors.cost_price ? 'border-red-500' : 'border-gray-300'
                 }`}
                 placeholder="0.00"
@@ -222,7 +222,7 @@ const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
                 min="0"
                 value={data.selling_price || ''}
                 onChange={(e) => handleInputChange('selling_price', parseFloat(e.target.value) || 0)}
-                className={`w-full px-3 py-2 pl-8 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
+                className={`w-full px-3 py-2 pl-8 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent ${
                   errors.selling_price ? 'border-red-500' : 'border-gray-300'
                 }`}
                 placeholder="0.00"

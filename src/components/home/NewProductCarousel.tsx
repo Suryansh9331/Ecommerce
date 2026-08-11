@@ -118,8 +118,11 @@ import { Link } from "react-router-dom";
 const NewProductCarousel: React.FC = () => {
   return (
     <div className="w-full relative py-0">
+      {/* 125/46 = 2.717:1 — the banner artwork's own ratio, so object-cover has
+          nothing to crop. The old lg:16/4 (4:1) frame was far wider than the
+          image, so it filled the width and cut the top and bottom off. */}
       <div
-        className="relative w-full h-auto aspect-[16/6] sm:aspect-[16/5] md:aspect-[16/4.5] lg:aspect-[16/4]"
+        className="relative w-full h-auto aspect-[125/46]"
         style={{
           marginLeft: "calc(-50vw + 50%)",
           marginRight: "calc(-50vw + 50%)",
@@ -128,7 +131,7 @@ const NewProductCarousel: React.FC = () => {
       >
         <Link to="/new-product" className="block w-full h-full">
           <img
-            src='https://res.cloudinary.com/djimsqy66/image/upload/v1770105272/ProductBanner_etnova.jpg'
+            src='https://res.cloudinary.com/dggzjpqdi/image/upload/v1786432439/ChatGPT_Image_Aug_11_2026_12_41_38_PM_snsfxj.png'
             alt="New Product Banner"
             className="w-full h-full object-cover"
             style={{ backgroundColor: "#f8f8f8" }}

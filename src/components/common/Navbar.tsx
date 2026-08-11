@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ShoppingCart, Heart, LogOut, User, ChevronDown, Menu, X, Gift, Search, Package, Tag } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
+import { PLATFORM_LOGO_URL } from '../../config';
 import { useAuth } from '../../context/AuthContext';
 import CategoryDropdown from '../home/CategoryDropdown';
 import SearchResults from './SearchResults';
@@ -215,7 +216,7 @@ const Navbar: React.FC = () => {
           </div>
           <button
             type="submit"
-            className="flex-shrink-0 h-full w-10 min-w-[2.5rem] flex items-center justify-center bg-[#F2631F] text-white hover:bg-[#e55a1a] transition-colors"
+            className="flex-shrink-0 h-full w-10 min-w-[2.5rem] flex items-center justify-center bg-primary-600 text-white hover:bg-primary-700 transition-colors"
             aria-label="Search"
           >
             <Search size={20} className="shrink-0 text-white" strokeWidth={2} />
@@ -246,11 +247,11 @@ const Navbar: React.FC = () => {
       <style>
         {`
           @keyframes colorChange {
-            0% { background-color: #F2631F; }
+            0% { background-color: #1800AC; }
             25% { background-color: #63BC86; }
             50% { background-color: #DB4173; }
             75% { background-color: #8B4CCE; }
-            100% { background-color: #F2631F; }
+            100% { background-color: #1800AC; }
           }
           @keyframes pulse {
             0%, 100% { opacity: 1; }
@@ -272,11 +273,11 @@ const Navbar: React.FC = () => {
         </button>
         <Link to="/" className="flex-shrink-0">
           <img
-            src="https://res.cloudinary.com/do3vxz4gw/image/upload/v1751687784/public_assets_images/public_assets_images_logo.svg"
-            alt="Aoin"
-            width={100}
-            height={32}
-            className="h-8 w-auto max-w-[100px] object-contain"
+            src={PLATFORM_LOGO_URL}
+            alt="Aoin Store"
+            width={135}
+            height={40}
+            className="h-10 w-auto object-contain"
           />
         </Link>
         <Link
@@ -286,7 +287,7 @@ const Navbar: React.FC = () => {
         >
           <ShoppingCart size={22} />
           {totalItems > 0 && (
-            <span className="absolute top-1.5 right-1 min-w-[18px] h-[18px] flex items-center justify-center bg-[#F2631F] text-white text-xs font-medium rounded-full px-1">
+            <span className="absolute top-1.5 right-1 min-w-[18px] h-[18px] flex items-center justify-center bg-primary-600 text-white text-xs font-medium rounded-full px-1">
               {totalItems > 99 ? '99+' : totalItems}
             </span>
           )}
@@ -309,7 +310,7 @@ const Navbar: React.FC = () => {
               />
               <button
                 type="submit"
-                className="flex-shrink-0 h-full min-w-[44px] flex items-center justify-center rounded-r-2xl bg-[#F2631F] text-white hover:bg-[#e55a1a] active:bg-[#d95218] transition-colors"
+                className="flex-shrink-0 h-full min-w-[44px] flex items-center justify-center rounded-r-2xl bg-primary-600 text-white hover:bg-primary-700 active:bg-primary-800 transition-colors"
                 aria-label="Search"
               >
                 <Search className="w-5 h-5" />
@@ -391,7 +392,7 @@ const Navbar: React.FC = () => {
                     <ShoppingCart className="w-5 h-5 mr-3 text-gray-500" />
                     {t('nav.cart')}
                     {totalItems > 0 && (
-                      <span className="ml-2 bg-[#F2631F] text-white text-xs font-medium rounded-full min-w-[20px] h-5 flex items-center justify-center px-1.5">{totalItems}</span>
+                      <span className="ml-2 bg-primary-600 text-white text-xs font-medium rounded-full min-w-[20px] h-5 flex items-center justify-center px-1.5">{totalItems}</span>
                     )}
                   </Link>
                 </li>
@@ -447,7 +448,7 @@ const Navbar: React.FC = () => {
                   <Link to="/promo-products" onClick={closeMobileDrawer} className="flex items-center min-h-[44px] px-3 rounded-lg text-gray-800 hover:bg-gray-50 text-[15px]">
                     <Tag className="w-5 h-5 mr-3 text-gray-500" />
                     {t('nav.promotion')}
-                    <span className="ml-2 bg-[#F2631F] text-white text-xs font-medium rounded-full px-2 py-0.5">HOT</span>
+                    <span className="ml-2 bg-primary-600 text-white text-xs font-medium rounded-full px-2 py-0.5">HOT</span>
                   </Link>
                 </li>
               </ul>
@@ -484,7 +485,7 @@ const Navbar: React.FC = () => {
                                 i18n.changeLanguage(option.code);
                                 setIsLanguageDropdownOpen(false);
                               }}
-                              className={`w-full flex items-center gap-2 px-3 py-2.5 text-sm text-left hover:bg-gray-50 ${(i18n.language?.split('-')[0] || 'en') === option.code ? 'bg-orange-50 text-orange-600 font-medium' : 'text-gray-700'}`}
+                              className={`w-full flex items-center gap-2 px-3 py-2.5 text-sm text-left hover:bg-gray-50 ${(i18n.language?.split('-')[0] || 'en') === option.code ? 'bg-primary-50 text-primary-600 font-medium' : 'text-gray-700'}`}
                             >
                               <span>{option.flag}</span>
                               <span>{option.label}</span>
@@ -496,7 +497,7 @@ const Navbar: React.FC = () => {
                   </div>
                 </li>
                 <li>
-                  <Link to="/live-shop" onClick={closeMobileDrawer} className="flex items-center min-h-[44px] px-3 rounded-lg text-white bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-[15px] font-medium mt-2">
+                  <Link to="/live-shop" onClick={closeMobileDrawer} className="flex items-center min-h-[44px] px-3 rounded-lg text-white bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-[15px] font-medium mt-2">
                     {t('nav.aoinLive')}
                   </Link>
                 </li>
@@ -511,29 +512,29 @@ const Navbar: React.FC = () => {
         <div className="container mx-auto w-full flex items-center justify-between gap-4">
           <Link to="/" className="flex-shrink-0">
             <img
-              src="https://res.cloudinary.com/do3vxz4gw/image/upload/v1751687784/public_assets_images/public_assets_images_logo.svg"
-              alt="Aoin"
-              width={120}
-              height={40}
-              className="h-9 w-auto object-contain"
+              src={PLATFORM_LOGO_URL}
+              alt="Aoin Store"
+              width={148}
+              height={44}
+              className="h-11 w-auto object-contain"
             />
           </Link>
 
           {desktopSearchBar}
 
           <div className="flex-shrink-0 flex items-center gap-5">
-            <Link to="/wishlist" className="p-2 text-gray-600 hover:text-[#F2631F] transition-colors rounded-lg" aria-label="Wishlist">
+            <Link to="/wishlist" className="p-2 text-gray-600 hover:text-primary-600 transition-colors rounded-lg" aria-label="Wishlist">
               <Heart className="w-5 h-5" />
             </Link>
-            <Link to="/cart" className="relative p-2 text-gray-600 hover:text-[#F2631F] transition-colors rounded-lg" aria-label="Cart">
+            <Link to="/cart" className="relative p-2 text-gray-600 hover:text-primary-600 transition-colors rounded-lg" aria-label="Cart">
               <ShoppingCart className="w-5 h-5" />
               {totalItems > 0 && (
-                <span className="absolute top-0.5 right-0.5 min-w-[18px] h-[18px] flex items-center justify-center bg-[#F2631F] text-white text-xs font-medium rounded-full px-1">
+                <span className="absolute top-0.5 right-0.5 min-w-[18px] h-[18px] flex items-center justify-center bg-primary-600 text-white text-xs font-medium rounded-full px-1">
                   {totalItems > 99 ? '99+' : totalItems}
                 </span>
               )}
             </Link>
-            <Link to="/profile" className="p-2 text-gray-600 hover:text-[#F2631F] transition-colors rounded-lg" aria-label="Account">
+            <Link to="/profile" className="p-2 text-gray-600 hover:text-primary-600 transition-colors rounded-lg" aria-label="Account">
               <User className="w-5 h-5" />
             </Link>
             <div className="relative" ref={languageDropdownRef}>
@@ -553,7 +554,7 @@ const Navbar: React.FC = () => {
                       key={option.code}
                       type="button"
                       onClick={() => { i18n.changeLanguage(option.code); setIsLanguageDropdownOpen(false); }}
-                      className={`w-full flex items-center gap-2 px-4 py-2.5 text-sm text-left hover:bg-gray-50 ${(i18n.language?.split('-')[0] || 'en') === option.code ? 'bg-orange-50 text-orange-600 font-medium' : 'text-gray-700'}`}
+                      className={`w-full flex items-center gap-2 px-4 py-2.5 text-sm text-left hover:bg-gray-50 ${(i18n.language?.split('-')[0] || 'en') === option.code ? 'bg-primary-50 text-primary-600 font-medium' : 'text-gray-700'}`}
                     >
                       <span>{option.flag}</span>
                       <span>{option.label}</span>
@@ -564,7 +565,7 @@ const Navbar: React.FC = () => {
             </div>
             <Link
               to="/business/login"
-              className="flex-shrink-0 h-9 px-4 flex items-center justify-center bg-[#F2631F] text-white text-sm font-semibold rounded-lg hover:bg-[#e55a1a] transition-colors whitespace-nowrap"
+              className="flex-shrink-0 h-9 px-4 flex items-center justify-center bg-primary-600 text-white text-sm font-semibold rounded-lg hover:bg-primary-700 transition-colors whitespace-nowrap"
             >
               Become a Merchant
             </Link>
@@ -577,7 +578,7 @@ const Navbar: React.FC = () => {
         <div className="container mx-auto px-6">
           <nav className="flex items-center justify-between gap-6 py-3 text-sm font-medium">
             <div className="flex items-center gap-6">
-            <Link to="/" className="text-gray-700 hover:text-[#F2631F] transition-colors">
+            <Link to="/" className="text-gray-700 hover:text-primary-600 transition-colors">
                 {t('nav.home')}
               </Link>
               <div className="relative">
@@ -586,7 +587,7 @@ const Navbar: React.FC = () => {
                   onClick={toggleCategoryDropdown}
                   aria-expanded={isCategoryDropdownOpen}
                   ref={desktopCategoryButtonRef}
-                  className="flex items-center gap-1.5 text-gray-700 hover:text-[#F2631F] transition-colors"
+                  className="flex items-center gap-1.5 text-gray-700 hover:text-primary-600 transition-colors"
                 >
                   <Package className="w-4 h-4" />
                   <span>{t('nav.category')}</span>
@@ -599,32 +600,32 @@ const Navbar: React.FC = () => {
                   type="button"
                   onClick={() => setIsProductsNavOpen(!isProductsNavOpen)}
                   ref={productsNavButtonRef}
-                  className="flex items-center gap-1.5 text-gray-700 hover:text-[#F2631F] transition-colors"
+                  className="flex items-center gap-1.5 text-gray-700 hover:text-primary-600 transition-colors"
                 >
                   <span>Products</span>
                   <ChevronDown className={`w-4 h-4 transition-transform ${isProductsNavOpen ? 'rotate-180' : ''}`} />
                 </button>
                 {isProductsNavOpen && (
                   <div className="absolute top-full left-0 mt-1 w-48 bg-white rounded-lg border border-gray-100 shadow-md py-1 z-50">
-                    <Link to="/all-products" onClick={() => setIsProductsNavOpen(false)} className="block px-4 py-2.5 text-gray-700 hover:bg-orange-50/50 hover:text-[#F2631F]">
+                    <Link to="/all-products" onClick={() => setIsProductsNavOpen(false)} className="block px-4 py-2.5 text-gray-700 hover:bg-primary-50/50 hover:text-primary-600">
                       {t('nav.allProducts')}
                     </Link>
-                    <Link to="/new-product" onClick={() => setIsProductsNavOpen(false)} className="block px-4 py-2.5 text-gray-700 hover:bg-orange-50/50 hover:text-[#F2631F]">
+                    <Link to="/new-product" onClick={() => setIsProductsNavOpen(false)} className="block px-4 py-2.5 text-gray-700 hover:bg-primary-50/50 hover:text-primary-600">
                       {t('nav.newProduct')}
                     </Link>
-                    <button type="button" onClick={() => { setIsProductsNavOpen(false); toggleCategoryDropdown(); }} className="block w-full text-left px-4 py-2.5 text-gray-700 hover:bg-orange-50/50 hover:text-[#F2631F]">
+                    <button type="button" onClick={() => { setIsProductsNavOpen(false); toggleCategoryDropdown(); }} className="block w-full text-left px-4 py-2.5 text-gray-700 hover:bg-primary-50/50 hover:text-primary-600">
                       {t('nav.category')}
                     </button>
                   </div>
                 )}
               </div>
-              <Link to="/promo-products" className="flex items-center gap-1.5 text-gray-700 hover:text-[#F2631F] transition-colors">
+              <Link to="/promo-products" className="flex items-center gap-1.5 text-gray-700 hover:text-primary-600 transition-colors">
                 {t('nav.promotion')}
-                <span className="bg-[#F2631F] text-white text-xs font-medium rounded-full px-2 py-0.5">HOT</span>
+                <span className="bg-primary-600 text-white text-xs font-medium rounded-full px-2 py-0.5">HOT</span>
               </Link>
             </div>
             <div className="flex items-center gap-6">
-              <Link to="/track-order" className="flex items-center gap-1.5 text-gray-700 hover:text-[#F2631F] transition-colors">
+              <Link to="/track-order" className="flex items-center gap-1.5 text-gray-700 hover:text-primary-600 transition-colors">
                 <img src="https://res.cloudinary.com/do3vxz4gw/image/upload/v1751687786/public_assets_images/public_assets_images_track-order.svg" alt="" className="w-4 h-4 opacity-70" />
                 {t('nav.trackOrder')}
               </Link>
@@ -639,14 +640,14 @@ const Navbar: React.FC = () => {
       {/* Announcement bar — thin (32–36px), soft background, subtle animation; Play with soft pulse */}
       {showPromoBar && (
         <div className="relative z-10 w-full">
-          <div className="h-8 nav:h-9 flex items-center justify-center gap-2 px-4 bg-gradient-to-r from-amber-50/90 via-orange-50/80 to-amber-50/90 border-b border-orange-100/80 text-center animate-slideDown">
+          <div className="h-8 nav:h-9 flex items-center justify-center gap-2 px-4 bg-gradient-to-r from-amber-50/90 via-primary-50/80 to-amber-50/90 border-b border-primary-100/80 text-center animate-slideDown">
             <span className="text-base nav:text-sm">🎮</span>
             <span className="text-gray-700 text-xs md:text-sm font-medium">
-              Play & Get <span className="text-orange-600 font-semibold">20% OFF</span>
+              Play & Get <span className="text-primary-600 font-semibold">20% OFF</span>
             </span>
             <Link
               to="/games"
-              className="announcement-play-btn ml-1 h-6 nav:h-7 px-4 flex items-center justify-center rounded-full bg-[#F2631F] text-white text-xs md:text-sm font-semibold hover:bg-[#e55a1a] transition-colors shadow-sm"
+              className="announcement-play-btn ml-1 h-6 nav:h-7 px-4 flex items-center justify-center rounded-full bg-primary-600 text-white text-xs md:text-sm font-semibold hover:bg-primary-700 transition-colors shadow-sm"
             >
               Play
             </Link>
@@ -665,8 +666,8 @@ const Navbar: React.FC = () => {
             }
             .animate-slideDown { animation: slideDown 0.5s cubic-bezier(.4,0,.2,1) both; }
             @keyframes softPulse {
-              0%, 100% { box-shadow: 0 0 0 0 rgba(242, 99, 31, 0.35); }
-              50% { box-shadow: 0 0 0 6px rgba(242, 99, 31, 0); }
+              0%, 100% { box-shadow: 0 0 0 0 rgba(24, 0, 172, 0.35); }
+              50% { box-shadow: 0 0 0 6px rgba(24, 0, 172, 0); }
             }
             .announcement-play-btn { animation: softPulse 2s ease-in-out infinite; }
           `}</style>

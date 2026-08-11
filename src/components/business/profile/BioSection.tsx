@@ -74,7 +74,7 @@ const BioSection = ({ value, limits, onSaved }: BioSectionProps) => {
       <div className="p-6 sm:p-8">
         <div className="flex justify-between items-center mb-2">
           <div className="flex items-center space-x-2">
-            <IdentificationIcon className="w-6 h-6 text-orange-500" />
+            <IdentificationIcon className="w-6 h-6 text-primary-500" />
             <h2 className="text-xl font-semibold text-gray-900">Bio</h2>
           </div>
           {isEditing ? (
@@ -89,7 +89,7 @@ const BioSection = ({ value, limits, onSaved }: BioSectionProps) => {
               <button
                 onClick={handleSave}
                 disabled={!canSave}
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-orange-500 hover:bg-orange-600 disabled:opacity-50 transition-colors"
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary-500 hover:bg-primary-600 disabled:opacity-50 transition-colors"
               >
                 {saving ? 'Saving…' : 'Save'}
               </button>
@@ -97,7 +97,7 @@ const BioSection = ({ value, limits, onSaved }: BioSectionProps) => {
           ) : (
             <button
               onClick={() => setIsEditing(true)}
-              className="inline-flex items-center px-4 py-2 border border-orange-500 text-sm font-medium rounded-md text-orange-500 hover:bg-orange-50 transition-colors"
+              className="inline-flex items-center px-4 py-2 border border-primary-500 text-sm font-medium rounded-md text-primary-500 hover:bg-primary-50 transition-colors"
             >
               Edit
             </button>
@@ -117,10 +117,10 @@ const BioSection = ({ value, limits, onSaved }: BioSectionProps) => {
                 rows={4}
                 onChange={(e) => setBio(e.target.value)}
                 placeholder={'Handmade brass décor from Moradabad ✨\nShips worldwide.'}
-                className={`block w-full rounded-md border px-3 py-2 focus:ring-orange-500 ${
+                className={`block w-full rounded-md border px-3 py-2 focus:ring-primary-500 ${
                   overLength || overLines
                     ? 'border-red-400 focus:border-red-500'
-                    : 'border-gray-300 focus:border-orange-500'
+                    : 'border-gray-300 focus:border-primary-500'
                 }`}
               />
               <div className="mt-1 flex justify-between text-xs">
@@ -147,7 +147,7 @@ const BioSection = ({ value, limits, onSaved }: BioSectionProps) => {
                     value={bioLink}
                     onChange={(e) => setBioLink(e.target.value)}
                     placeholder="https://example.com"
-                    className="block w-full rounded-r-md border-0 px-3 py-2 focus:border-orange-500 focus:ring-orange-500"
+                    className="block w-full rounded-r-md border-0 px-3 py-2 focus:border-primary-500 focus:ring-primary-500"
                   />
                 </div>
                 <p className="mt-1 text-xs text-gray-500">One link, shown under your bio.</p>
@@ -161,7 +161,7 @@ const BioSection = ({ value, limits, onSaved }: BioSectionProps) => {
                   onChange={(e) => setBioLinkLabel(e.target.value)}
                   placeholder="Our catalogue"
                   disabled={!bioLink.trim()}
-                  className="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-orange-500 focus:ring-orange-500 disabled:bg-gray-50 disabled:text-gray-500"
+                  className="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-primary-500 focus:ring-primary-500 disabled:bg-gray-50 disabled:text-gray-500"
                 />
                 <p className="mt-1 text-xs text-gray-500">
                   {bioLink.trim() ? 'Optional. Defaults to the URL.' : 'Add a link first.'}
@@ -183,7 +183,7 @@ const BioSection = ({ value, limits, onSaved }: BioSectionProps) => {
                 href={value.bio_link}
                 target="_blank"
                 rel="noopener noreferrer nofollow"
-                className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-orange-600 hover:text-orange-700 break-all"
+                className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-primary-600 hover:text-primary-700 break-all"
               >
                 <LinkIcon className="w-4 h-4 shrink-0" />
                 {value.bio_link_label || value.bio_link}

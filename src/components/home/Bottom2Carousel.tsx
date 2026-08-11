@@ -1,12 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 
 const images = [
-  // "https://res.cloudinary.com/do3vxz4gw/image/upload/v1751544854/svg_assets/bottom2crousel_Image1.svg",
-  // "https://res.cloudinary.com/do3vxz4gw/image/upload/v1751544854/svg_assets/bottom2crousel_Image2.svg",
-  // "https://res.cloudinary.com/do3vxz4gw/image/upload/v1751544854/svg_assets/bottom2crousel_Image3.svg"
-  "https://res.cloudinary.com/djimsqy66/image/upload/v1770105245/banner2_xzrfp0.jpg",
-  "https://res.cloudinary.com/djimsqy66/image/upload/v1770105243/banner3_ohwtha.jpg",
-  "https://res.cloudinary.com/djimsqy66/image/upload/v1770105272/ProductBanner_etnova.jpg"
+  "https://res.cloudinary.com/dggzjpqdi/image/upload/v1786432439/ChatGPT_Image_Aug_11_2026_12_41_38_PM_snsfxj.png"
 ];
 
 const CAROUSEL_HEIGHT = 172; // px, same as Bottom1Carousel

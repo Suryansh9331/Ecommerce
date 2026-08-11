@@ -563,18 +563,18 @@ const ShopProducts: React.FC = () => {
     let spanClass = 'text-sm font-normal';
     
     if (level === 0) {
-      btnClass += ' bg-transparent text-black hover:bg-orange-50 rounded-none';
+      btnClass += ' bg-transparent text-black hover:bg-primary-50 rounded-none';
     } else if (hasSubcategories) {
       if (isSelected) {
-        btnClass += ' bg-white border border-[#F2631F] text-black rounded-md shadow-sm';
+        btnClass += ' bg-white border border-primary-600 text-black rounded-md shadow-sm';
       } else {
-        btnClass += ' bg-transparent text-black hover:bg-orange-50 rounded-md';
+        btnClass += ' bg-transparent text-black hover:bg-primary-50 rounded-md';
       }
     } else {
       if (isSelected) {
-        btnClass += ' bg-[#F2631F] text-white rounded-md shadow';
+        btnClass += ' bg-primary-600 text-white rounded-md shadow';
       } else {
-        btnClass += ' bg-transparent text-black hover:bg-orange-50 rounded-md';
+        btnClass += ' bg-transparent text-black hover:bg-primary-50 rounded-md';
       }
     }
 
@@ -595,9 +595,9 @@ const ShopProducts: React.FC = () => {
           {hasSubcategories && (
             <span className="flex items-center ml-auto">
               {isExpanded ? (
-                <ChevronUp size={16} className="text-[#F2631F]" />
+                <ChevronUp size={16} className="text-primary-600" />
               ) : (
-                <ChevronDown size={16} className="text-[#F2631F]" />
+                <ChevronDown size={16} className="text-primary-600" />
               )}
             </span>
           )}
@@ -671,8 +671,8 @@ const ShopProducts: React.FC = () => {
                   onClick={() => toggleBrand(String(brand.id))}
                   className={`px-3 py-1.5 rounded-full border text-xs transition-colors ${
                     isSelected
-                      ? 'bg-orange-500 text-white border-orange-500'
-                      : 'bg-gray-100 border-gray-200 text-black hover:border-orange-500'
+                      ? 'bg-primary-500 text-white border-primary-500'
+                      : 'bg-gray-100 border-gray-200 text-black hover:border-primary-500'
                   }`}
                 >
                   {brand.name}
@@ -704,7 +704,7 @@ const ShopProducts: React.FC = () => {
         
         <button
           onClick={resetFilters}
-          className="w-full px-4 py-2 text-orange-500 border border-orange-500 rounded hover:bg-orange-50"
+          className="w-full px-4 py-2 text-primary-500 border border-primary-500 rounded hover:bg-primary-50"
         >
           Reset Filters
         </button>
@@ -730,7 +730,7 @@ const ShopProducts: React.FC = () => {
               key={option.value}
               onClick={() => handleSort(option.value)}
               className={`w-full text-left p-3 rounded ${
-                selectedSort === option.value ? 'bg-orange-100 text-orange-600' : 'hover:bg-gray-100'
+                selectedSort === option.value ? 'bg-primary-100 text-primary-600' : 'hover:bg-gray-100'
               }`}
             >
               {option.label}
@@ -746,14 +746,14 @@ const ShopProducts: React.FC = () => {
       <div className="container mx-auto px-4 py-4">
         {/* Breadcrumb */}
         <div className="text-xs text-gray-500 mb-4">
-          <Link to="/" className="hover:text-orange-500">Home</Link> / 
-          <Link to="/all-products" className="hover:text-orange-500"> Products</Link> / 
+          <Link to="/" className="hover:text-primary-500">Home</Link> / 
+          <Link to="/all-products" className="hover:text-primary-500"> Products</Link> / 
           <span> {shopInfo?.name}</span>
         </div>
         
         {/* Shop Header */}
         {shopInfo && (
-          <div className="bg-gradient-to-r from-orange-50 to-orange-100 rounded-xl p-6 mb-6">
+          <div className="bg-gradient-to-r from-primary-50 to-primary-100 rounded-xl p-6 mb-6">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between">
               <div>
                 <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">{shopInfo.name}</h1>
@@ -769,7 +769,7 @@ const ShopProducts: React.FC = () => {
                 </div>
               </div>
               <div className="mt-4 md:mt-0">
-                <span className="inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium bg-orange-500 text-white">
+                <span className="inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium bg-primary-500 text-white">
                   {shopInfo.category}
                 </span>
               </div>
@@ -799,8 +799,8 @@ const ShopProducts: React.FC = () => {
                       onClick={() => toggleBrand(String(brand.id))}
                       className={`px-3 py-1.5 rounded-full border text-xs font-normal transition-colors focus:outline-none ${
                         isSelected
-                          ? 'bg-[#F2631F] text-white border-[#F2631F] shadow'
-                          : 'bg-gray-100 border-gray-200 text-black hover:border-[#F2631F] hover:text-[#F2631F]'
+                          ? 'bg-primary-600 text-white border-primary-600 shadow'
+                          : 'bg-gray-100 border-gray-200 text-black hover:border-primary-600 hover:text-primary-600'
                       }`}
                     >
                       {brand.name}
@@ -821,7 +821,7 @@ const ShopProducts: React.FC = () => {
                 <div className="relative pt-1">
                   <div className="w-full h-1 bg-gray-200 rounded-lg">
                     <div
-                      className="absolute h-1 bg-[#F2631F] rounded-lg"
+                      className="absolute h-1 bg-primary-600 rounded-lg"
                       style={{ width: `${(priceRange[1] / 100000) * 100}%` }}
                     ></div>
                   </div>
@@ -841,7 +841,7 @@ const ShopProducts: React.FC = () => {
             {/* Reset Filters */}
             <button
               onClick={resetFilters}
-              className="w-full px-4 py-2 text-sm font-normal text-[#F2631F] border border-[#F2631F] rounded hover:bg-orange-50 transition-colors"
+              className="w-full px-4 py-2 text-sm font-normal text-primary-600 border border-primary-600 rounded hover:bg-primary-50 transition-colors"
             >
               Reset Filters
             </button>
@@ -874,7 +874,7 @@ const ShopProducts: React.FC = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={`Search products in ${shopInfo?.name || 'this shop'}...`}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
               />
             </div>
 
@@ -889,7 +889,7 @@ const ShopProducts: React.FC = () => {
                   id="sort"
                   value={selectedSort}
                   onChange={(e) => setSelectedSort(e.target.value)}
-                  className="border border-gray-300 rounded-md py-1.5 px-3 focus:outline-none focus:ring-1 focus:ring-orange-500 text-sm bg-white"
+                  className="border border-gray-300 rounded-md py-1.5 px-3 focus:outline-none focus:ring-1 focus:ring-primary-500 text-sm bg-white"
                 >
                   <option value="newest">Newest First</option>
                   <option value="oldest">Oldest First</option>
@@ -927,7 +927,7 @@ const ShopProducts: React.FC = () => {
             {/* No Products Message */}
             {filteredProducts.length === 0 && (
               <div className="flex flex-col items-center justify-center py-16 px-4 bg-white rounded-lg shadow-sm border border-gray-100">
-                <div className="w-24 h-24 mb-6 text-orange-500">
+                <div className="w-24 h-24 mb-6 text-primary-500">
                   <svg className="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
@@ -936,7 +936,7 @@ const ShopProducts: React.FC = () => {
                 <p className="text-gray-500 mb-4">Try adjusting your filters or search terms.</p>
                 <button
                   onClick={resetFilters}
-                  className="px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600"
+                  className="px-4 py-2 bg-primary-500 text-white rounded hover:bg-primary-600"
                 >
                   Clear Filters
                 </button>
@@ -960,7 +960,7 @@ const ShopProducts: React.FC = () => {
                     onClick={() => setCurrentPage(i + 1)}
                     className={`w-8 h-8 flex items-center justify-center border rounded ${
                       currentPage === i + 1
-                        ? 'bg-orange-500 text-white border-orange-500'
+                        ? 'bg-primary-500 text-white border-primary-500'
                         : 'border-gray-300 hover:bg-gray-50'
                     }`}
                   >

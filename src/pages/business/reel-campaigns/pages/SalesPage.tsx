@@ -49,7 +49,7 @@ const SalesPage: React.FC = () => {
           <select
             value={days}
             onChange={(e) => setDays(Number(e.target.value) as any)}
-            className="rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 text-sm"
+            className="rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 text-sm"
           >
             <option value={7}>Last 7 days</option>
             <option value={30}>Last 30 days</option>
@@ -87,8 +87,8 @@ const SalesPage: React.FC = () => {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {rows.map((r) => (
-                <tr key={r.c.id} className="hover:bg-orange-50">
-                  <td className="px-4 py-3 text-sm font-semibold text-orange-700 whitespace-nowrap">
+                <tr key={r.c.id} className="hover:bg-primary-50">
+                  <td className="px-4 py-3 text-sm font-semibold text-primary-700 whitespace-nowrap">
                     <button
                       type="button"
                       onClick={() => navigate(`/business/reel-campaigns/campaigns?campaignId=${r.c.id}`)}

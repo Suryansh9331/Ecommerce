@@ -62,7 +62,7 @@ const RequestPasswordReset: React.FC = () => {
               value={email}
               onChange={e => setEmail(e.target.value)}
               required
-              className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#F2631F] focus:border-transparent"
+              className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent"
               placeholder="you@example.com"
             />
           </div>
@@ -71,14 +71,14 @@ const RequestPasswordReset: React.FC = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full sm:w-auto bg-[#F2631F] hover:bg-orange-600 text-white py-3 px-6 rounded-md font-medium transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+              className="w-full sm:w-auto bg-primary-600 hover:bg-primary-600 text-white py-3 px-6 rounded-md font-medium transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
             >
               {isSubmitting ? 'Sending...' : 'Send Reset Link'}
             </button>
             
             <Link
               to="/"
-              className="text-sm text-[#F2631F] hover:text-orange-600 font-medium text-center sm:text-left"
+              className="text-sm text-primary-600 hover:text-primary-600 font-medium text-center sm:text-left"
             >
               Back to Home Page
             </Link>

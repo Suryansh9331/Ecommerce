@@ -170,7 +170,7 @@ const ShopCartSummary: React.FC<ShopCartSummaryProps> = ({
               value={promoCode}
               onChange={(e) => setPromoCode(e.target.value)}
               placeholder="Enter promo code" 
-              className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500" 
+              className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500" 
               disabled={isApplyingPromo}
             />
             <button 
@@ -203,7 +203,7 @@ const ShopCartSummary: React.FC<ShopCartSummaryProps> = ({
       <button 
         onClick={onCheckout}
         disabled={loading || (finalTotal || totalPrice) === 0}
-        className="w-full bg-orange-500 text-white py-3 rounded font-medium hover:bg-orange-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full bg-primary-500 text-white py-3 rounded font-medium hover:bg-primary-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {loading ? 'Processing...' : 'Proceed to Checkout'}
       </button>

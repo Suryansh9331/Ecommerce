@@ -610,7 +610,7 @@ const Aoinlive: React.FC = () => {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
       </div>
     );
   }
@@ -622,7 +622,7 @@ const Aoinlive: React.FC = () => {
         
         {isScheduling && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
-            <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-orange-600"></div>
+            <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-primary-600"></div>
           </div>
         )}
 
@@ -895,7 +895,7 @@ const Aoinlive: React.FC = () => {
                   name="streamTitle"
                   value={formData.streamTitle}
                   onChange={handleInputChange}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
                   placeholder="Enter stream title"
                   required
                 />
@@ -910,7 +910,7 @@ const Aoinlive: React.FC = () => {
                   name="productId"
                   value={formData.productId}
                   onChange={handleInputChange}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
                   required
                 >
                   <option value="">Select a product</option>
@@ -934,7 +934,7 @@ const Aoinlive: React.FC = () => {
                   name="description"
                   value={formData.description}
                   onChange={handleInputChange}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
                   placeholder="Enter stream description"
                   required
                 />
@@ -951,7 +951,7 @@ const Aoinlive: React.FC = () => {
                     name="scheduledDate"
                     value={formData.scheduledDate}
                     onChange={handleInputChange}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm"
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
                     required
                   />
                 </div>
@@ -965,7 +965,7 @@ const Aoinlive: React.FC = () => {
                     name="slot"
                     value={selectedSlot}
                     onChange={handleSlotChange}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm"
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
                     required
                   >
                     <option value="">Select a slot</option>
@@ -979,7 +979,7 @@ const Aoinlive: React.FC = () => {
                       type="time"
                       value={customSlot}
                       onChange={handleCustomSlotChange}
-                      className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm"
+                      className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
                       required
                     />
                   )}
@@ -999,8 +999,8 @@ const Aoinlive: React.FC = () => {
                     file:mr-4 file:py-2 file:px-4
                     file:rounded-md file:border-0
                     file:text-sm file:font-semibold
-                    file:bg-orange-50 file:text-orange-700
-                    hover:file:bg-orange-100"
+                    file:bg-primary-50 file:text-primary-700
+                    hover:file:bg-primary-100"
                   required
                 />
               </div>
@@ -1012,7 +1012,7 @@ const Aoinlive: React.FC = () => {
                     Thumbnail Preview
                   </label>
                   <div className="relative w-full max-w-xs mx-auto">
-                    <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden border-2 border-orange-200 shadow-sm">
+                    <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden border-2 border-primary-200 shadow-sm">
                       <img 
                         src={thumbnailPreview} 
                         alt="Thumbnail preview" 
@@ -1020,7 +1020,7 @@ const Aoinlive: React.FC = () => {
                       />
                     </div>
                     <div className="absolute top-2 right-2">
-                      <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-800 border border-orange-200">
+                      <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-primary-100 text-primary-800 border border-primary-200">
                         Preview
                       </span>
                     </div>
@@ -1039,7 +1039,7 @@ const Aoinlive: React.FC = () => {
             <button
               type="submit"
               disabled={isScheduling}
-              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isScheduling ? (
                 <>

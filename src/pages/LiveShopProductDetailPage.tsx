@@ -338,7 +338,7 @@ const LiveShopProductDetailPage: React.FC = () => {
                       <button
                         key={attr.attribute_id}
                         onClick={() => handleAttributeSelect(firstAttr.attribute_id, currentValue, true)}
-                        className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${isSelected ? "border-2 border-orange-500 bg-orange-50 text-orange-700 shadow-sm" : "border-2 border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:bg-gray-50"}`}
+                        className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${isSelected ? "border-2 border-primary-500 bg-primary-50 text-primary-700 shadow-sm" : "border-2 border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:bg-gray-50"}`}
                       >
                         {currentValue}
                       </button>
@@ -360,7 +360,7 @@ const LiveShopProductDetailPage: React.FC = () => {
                       <button
                         key={attr.attribute_id}
                         onClick={() => handleAttributeSelect(firstAttr.attribute_id, value, false)}
-                        className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${isSelected ? "border-2 border-orange-500 bg-orange-50 text-orange-700 shadow-sm" : "border-2 border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:bg-gray-50"}`}
+                        className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${isSelected ? "border-2 border-primary-500 bg-primary-50 text-primary-700 shadow-sm" : "border-2 border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:bg-gray-50"}`}
                       >
                         {value}
                       </button>
@@ -403,7 +403,7 @@ const LiveShopProductDetailPage: React.FC = () => {
       <div className="max-w-[1600px] mx-auto px-4 2xl:px-4 xl:px-2 lg:px-4 xs:px-4 ">
         {/* Header */}
         <div className="px-4 sm:px-6 py-3">
-          <h1 className="text-[#FF4D00] text-lg font-medium">{stream?.title}</h1>
+          <h1 className="text-primary-600 text-lg font-medium">{stream?.title}</h1>
         </div>
         <div className="flex flex-col lg:flex-row">
           {/* Left Section - Live Stream or Product Image */}
@@ -508,13 +508,13 @@ const LiveShopProductDetailPage: React.FC = () => {
                   </div>
                   {/* Wishlist Button */}
                   <button
-                    className={`p-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors min-w-[40px] ${isInWishlist(Number(product?.product_id)) ? "text-[#F2631F]" : "text-gray-600 flex items-center justify-center"}`}
+                    className={`p-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors min-w-[40px] ${isInWishlist(Number(product?.product_id)) ? "text-primary-600" : "text-gray-600 flex items-center justify-center"}`}
                     onClick={handleWishlist}
                     disabled={wishlistLoading}
                     aria-label="Add to Wishlist"
                   >
                     {wishlistLoading ? (
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-[#F2631F] mx-auto"></div>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary-600 mx-auto"></div>
                     ) : (
                       <Heart size={18} className={isInWishlist(Number(product?.product_id)) ? "fill-current" : ""} />
                     )}
@@ -524,7 +524,7 @@ const LiveShopProductDetailPage: React.FC = () => {
                 <div className="flex gap-2 w-full mt-2">
                   <button
                     onClick={handleAddToCart}
-                    className="bg-[#FF4D00] text-white px-8 py-3 rounded-lg text-sm font-medium hover:bg-black duration-300 transition-colors w-full"
+                    className="bg-primary-600 text-white px-8 py-3 rounded-lg text-sm font-medium hover:bg-black duration-300 transition-colors w-full"
                   >
                     Add to Cart
                   </button>

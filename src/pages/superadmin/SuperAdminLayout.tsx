@@ -326,11 +326,11 @@ export const catalogSections: MenuSection[] = [
 export const getCategoryColorClasses = () => {
   // Use the same orange theme for all categories
   return {
-    text: "text-orange-600",
-    bg: "bg-orange-50",
-    border: "border-orange-100",
-    hover: "hover:text-orange-600",
-    active: "bg-orange-200 text-orange-700",
+    text: "text-primary-600",
+    bg: "bg-primary-50",
+    border: "border-primary-100",
+    hover: "hover:text-primary-600",
+    active: "bg-primary-200 text-primary-700",
   };
 };
 
@@ -533,9 +533,9 @@ const SuperAdminLayout = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white to-orange-50">
+    <div className="min-h-screen bg-gradient-to-br from-white to-primary-50">
       {/* Fixed Header */}
-      <div className="fixed top-0 left-0 right-0 z-30 bg-orange-500">
+      <div className="fixed top-0 left-0 right-0 z-30 bg-primary-500">
         <SuperadminHeader onMenuClick={toggleSidebar} />
       </div>
 
@@ -552,19 +552,19 @@ const SuperAdminLayout = () => {
           className={`
           ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} 
           fixed md:static z-20 transform md:translate-x-0 transition-transform duration-300 ease-in-out
-          w-64 h-[calc(100vh-4rem)] top-16 bg-orange-100 shadow-md flex flex-col
+          w-64 h-[calc(100vh-4rem)] top-16 bg-primary-100 shadow-md flex flex-col
           will-change-transform
         `}
         >
           {/* Sidebar Header */}
-          <div className="p-4 border-b border-orange-200 flex-shrink-0">
+          <div className="p-4 border-b border-primary-200 flex-shrink-0">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
                 <Home className="w-6 h-6 text-black" />
                 <h2 className="text-xl font-bold text-black">Super Admin</h2>
               </div>
               <button
-                className="md:hidden p-2 text-black hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors duration-200"
+                className="md:hidden p-2 text-black hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors duration-200"
                 onClick={toggleSidebar}
               >
                 <X className="h-5 w-5" />
@@ -583,8 +583,8 @@ const SuperAdminLayout = () => {
                     w-full flex items-center px-4 py-3 rounded-lg text-left
                     ${
                       isCategoryActive("Dashboard")
-                        ? "bg-orange-200 text-orange-700"
-                        : "text-black hover:bg-orange-50"
+                        ? "bg-primary-200 text-primary-700"
+                        : "text-black hover:bg-primary-50"
                     }
                     transition-all duration-200
                   `}
@@ -617,7 +617,7 @@ const SuperAdminLayout = () => {
                         ${
                           isActive
                             ? colorClasses.active
-                            : "text-black hover:bg-orange-50"
+                            : "text-black hover:bg-primary-50"
                         }
                         transition-all duration-200
                       `}
@@ -649,15 +649,15 @@ const SuperAdminLayout = () => {
                                 w-full flex items-center px-3 py-2 rounded-md text-left
                                 ${
                                   isItemActive
-                                    ? "bg-orange-50 text-orange-700"
-                                    : "text-black hover:bg-orange-50"
+                                    ? "bg-primary-50 text-primary-700"
+                                    : "text-black hover:bg-primary-50"
                                 }
                               `}
                             >
                               <ItemIcon
                                 className={`w-4 h-4 ${
                                   isItemActive
-                                    ? "text-orange-600"
+                                    ? "text-primary-600"
                                     : "text-gray-500"
                                 } mr-2`}
                               />
@@ -680,7 +680,7 @@ const SuperAdminLayout = () => {
                     ${
                       isCategoryActive("Catalog Management")
                         ? getCategoryColorClasses().active
-                        : "text-black hover:bg-orange-50"
+                        : "text-black hover:bg-primary-50"
                     }
                     transition-all duration-200
                   `}
@@ -724,15 +724,15 @@ const SuperAdminLayout = () => {
                             w-full flex items-center px-3 py-2 rounded-md text-left
                             ${
                               isItemActive
-                                ? "bg-orange-50 text-orange-700"
-                                : "text-black hover:bg-orange-50"
+                                ? "bg-primary-50 text-primary-700"
+                                : "text-black hover:bg-primary-50"
                             }
                           `}
                           >
                             <ItemIcon
                               className={`w-4 h-4 ${
                                 isItemActive
-                                  ? "text-orange-600"
+                                  ? "text-primary-600"
                                   : "text-gray-500"
                               } mr-2`}
                             />
@@ -753,7 +753,7 @@ const SuperAdminLayout = () => {
                     ${
                       isCategoryActive("Setting")
                         ? getCategoryColorClasses().active
-                        : "text-black hover:bg-orange-50"
+                        : "text-black hover:bg-primary-50"
                     }
                     transition-all duration-200
                   `}

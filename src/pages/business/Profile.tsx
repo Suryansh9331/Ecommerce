@@ -474,7 +474,7 @@ const Profile = () => {
       <div className="min-h-screen bg-gray-50 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="h-40 flex items-center justify-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-orange-500"></div>
+            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary-500"></div>
           </div>
         </div>
       </div>
@@ -509,12 +509,12 @@ const Profile = () => {
             <div className="p-6 sm:p-8">
               <div className="flex justify-between items-center mb-6">
                 <div className="flex items-center space-x-2">
-                  <UserCircleIcon className="w-6 h-6 text-orange-500" />
+                  <UserCircleIcon className="w-6 h-6 text-primary-500" />
                   <h2 className="text-xl font-semibold text-gray-900">Personal Information</h2>
                 </div>
                 <button
                   onClick={() => setIsEditing(!isEditing)}
-                  className="inline-flex items-center px-4 py-2 border border-orange-500 text-sm font-medium rounded-md text-orange-500 hover:bg-orange-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors"
+                  className="inline-flex items-center px-4 py-2 border border-primary-500 text-sm font-medium rounded-md text-primary-500 hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors"
                 >
                   {isEditing ? 'Cancel' : 'Edit'}
                 </button>
@@ -528,7 +528,7 @@ const Profile = () => {
                     value={profileData.personalInfo.name}
                     disabled={!isEditing}
                     onChange={(e) => updatePersonalInfo('name', e.target.value)}
-                    className="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-orange-500 focus:ring-orange-500 disabled:bg-gray-50 disabled:text-gray-500"
+                    className="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-primary-500 focus:ring-primary-500 disabled:bg-gray-50 disabled:text-gray-500"
                   />
                 </div>
                 <div>
@@ -556,7 +556,7 @@ const Profile = () => {
                       value={profileData.personalInfo.phone}
                       disabled={!isEditing}
                       onChange={(e) => updatePersonalInfo('phone', e.target.value)}
-                      className="block w-full rounded-r-md border-0 px-3 py-2 focus:border-orange-500 focus:ring-orange-500 disabled:bg-gray-50 disabled:text-gray-500"
+                      className="block w-full rounded-r-md border-0 px-3 py-2 focus:border-primary-500 focus:ring-primary-500 disabled:bg-gray-50 disabled:text-gray-500"
                     />
                   </div>
                 </div>
@@ -568,7 +568,7 @@ const Profile = () => {
           <div className="bg-white rounded-lg shadow">
             <div className="p-6 sm:p-8">
               <div className="flex items-center space-x-2 mb-6">
-                <BuildingOfficeIcon className="w-6 h-6 text-orange-500" />
+                <BuildingOfficeIcon className="w-6 h-6 text-primary-500" />
                 <h2 className="text-xl font-semibold text-gray-900">Verification Details</h2>
               </div>
 
@@ -579,7 +579,7 @@ const Profile = () => {
                   value={selectedCountry}
                   onChange={handleCountryChange}
                   disabled={!isEditing}
-                  className="block w-full max-w-md rounded-md border border-gray-300 bg-white px-3 py-2 shadow-sm focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+                  className="block w-full max-w-md rounded-md border border-gray-300 bg-white px-3 py-2 shadow-sm focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500"
                 >
                   {supportedCountries.map(country => (
                     <option key={country.code} value={country.code}>{country.name}</option>
@@ -598,7 +598,7 @@ const Profile = () => {
                       value={businessDetails.panNumber || ''}
                       onChange={handleBusinessDetailsChange}
                       disabled={!isEditing}
-                      className="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-orange-500 focus:ring-orange-500 disabled:bg-gray-50 disabled:text-gray-500"
+                      className="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-primary-500 focus:ring-primary-500 disabled:bg-gray-50 disabled:text-gray-500"
                       placeholder="ABCDE1234F"
                     />
                   </div>
@@ -610,7 +610,7 @@ const Profile = () => {
                       value={businessDetails.gstin || ''}
                       onChange={handleBusinessDetailsChange}
                       disabled={!isEditing}
-                      className="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-orange-500 focus:ring-orange-500 disabled:bg-gray-50 disabled:text-gray-500"
+                      className="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-primary-500 focus:ring-primary-500 disabled:bg-gray-50 disabled:text-gray-500"
                       placeholder="22AAAAA0000A1Z5"
                     />
                   </div>
@@ -625,7 +625,7 @@ const Profile = () => {
                       value={businessDetails.taxId || ''}
                       onChange={handleBusinessDetailsChange}
                       disabled={!isEditing}
-                      className="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-orange-500 focus:ring-orange-500 disabled:bg-gray-50 disabled:text-gray-500"
+                      className="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-primary-500 focus:ring-primary-500 disabled:bg-gray-50 disabled:text-gray-500"
                     />
                   </div>
                   <div>
@@ -636,7 +636,7 @@ const Profile = () => {
                       value={businessDetails.vatNumber || ''}
                       onChange={handleBusinessDetailsChange}
                       disabled={!isEditing}
-                      className="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-orange-500 focus:ring-orange-500 disabled:bg-gray-50 disabled:text-gray-500"
+                      className="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-primary-500 focus:ring-primary-500 disabled:bg-gray-50 disabled:text-gray-500"
                     />
                   </div>
                 </div>
@@ -652,7 +652,7 @@ const Profile = () => {
                     value={bankDetails.accountNumber || ''}
                     onChange={handleBankDetailsChange}
                     disabled={!isEditing}
-                    className="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-orange-500 focus:ring-orange-500 disabled:bg-gray-50 disabled:text-gray-500"
+                    className="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-primary-500 focus:ring-primary-500 disabled:bg-gray-50 disabled:text-gray-500"
                   />
                 </div>
                 <div>
@@ -663,7 +663,7 @@ const Profile = () => {
                     value={bankDetails.bankName || ''}
                     onChange={handleBankDetailsChange}
                     disabled={!isEditing}
-                    className="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-orange-500 focus:ring-orange-500 disabled:bg-gray-50 disabled:text-gray-500"
+                    className="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-primary-500 focus:ring-primary-500 disabled:bg-gray-50 disabled:text-gray-500"
                   />
                 </div>
                 {selectedCountry === 'IN' ? (
@@ -675,7 +675,7 @@ const Profile = () => {
                       value={bankDetails.ifscCode || ''}
                       onChange={handleBankDetailsChange}
                       disabled={!isEditing}
-                      className="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-orange-500 focus:ring-orange-500 disabled:bg-gray-50 disabled:text-gray-500"
+                      className="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-primary-500 focus:ring-primary-500 disabled:bg-gray-50 disabled:text-gray-500"
                       placeholder="SBIN0001234"
                     />
                   </div>
@@ -689,7 +689,7 @@ const Profile = () => {
                         value={bankDetails.swiftCode || ''}
                         onChange={handleBankDetailsChange}
                         disabled={!isEditing}
-                        className="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-orange-500 focus:ring-orange-500 disabled:bg-gray-50 disabled:text-gray-500"
+                        className="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-primary-500 focus:ring-primary-500 disabled:bg-gray-50 disabled:text-gray-500"
                       />
                     </div>
                     <div>
@@ -700,7 +700,7 @@ const Profile = () => {
                         value={bankDetails.routingNumber || ''}
                         onChange={handleBankDetailsChange}
                         disabled={!isEditing}
-                        className="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-orange-500 focus:ring-orange-500 disabled:bg-gray-50 disabled:text-gray-500"
+                        className="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-primary-500 focus:ring-primary-500 disabled:bg-gray-50 disabled:text-gray-500"
                       />
                     </div>
                     <div className="sm:col-span-2">
@@ -711,7 +711,7 @@ const Profile = () => {
                         value={bankDetails.iban || ''}
                         onChange={handleBankDetailsChange}
                         disabled={!isEditing}
-                        className="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-orange-500 focus:ring-orange-500 disabled:bg-gray-50 disabled:text-gray-500"
+                        className="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-primary-500 focus:ring-primary-500 disabled:bg-gray-50 disabled:text-gray-500"
                       />
                     </div>
                   </>
@@ -741,12 +741,12 @@ const Profile = () => {
                               <button
                                 type="button"
                                 onClick={() => window.open(doc.fileUrl as string, '_blank', 'noopener,noreferrer')}
-                                className="text-sm text-orange-600 hover:text-orange-700 font-medium py-1 px-2 rounded-md hover:bg-orange-50 transition-colors"
+                                className="text-sm text-primary-600 hover:text-primary-700 font-medium py-1 px-2 rounded-md hover:bg-primary-50 transition-colors"
                                 disabled={!isEditing}
                               >
                                 View
                               </button>
-                              <label className={`mt-2 text-sm font-medium py-1 px-2 rounded-md transition-colors ${!isEditing ? 'text-gray-400 cursor-not-allowed' : 'text-orange-600 hover:text-orange-700 hover:bg-orange-50 cursor-pointer'}`}>
+                              <label className={`mt-2 text-sm font-medium py-1 px-2 rounded-md transition-colors ${!isEditing ? 'text-gray-400 cursor-not-allowed' : 'text-primary-600 hover:text-primary-700 hover:bg-primary-50 cursor-pointer'}`}>
                                 Update
                                 <input
                                   type="file"
@@ -807,7 +807,7 @@ const Profile = () => {
           <div className="bg-white rounded-lg shadow">
             <div className="p-6 sm:p-8">
               <div className="flex items-center space-x-2 mb-6">
-                <BuildingOfficeIcon className="w-6 h-6 text-orange-500" />
+                <BuildingOfficeIcon className="w-6 h-6 text-primary-500" />
                 <h2 className="text-xl font-semibold text-gray-900">Business Information</h2>
               </div>
               
@@ -819,7 +819,7 @@ const Profile = () => {
                     value={profileData.businessInfo.businessName}
                     disabled={!isEditing}
                     onChange={(e) => updateBusinessInfo('businessName', e.target.value)}
-                    className="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-orange-500 focus:ring-orange-500 disabled:bg-gray-50 disabled:text-gray-500"
+                    className="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-primary-500 focus:ring-primary-500 disabled:bg-gray-50 disabled:text-gray-500"
                   />
                 </div>
                 <div>
@@ -829,7 +829,7 @@ const Profile = () => {
                     value={profileData.businessInfo.businessDescription}
                     disabled={!isEditing}
                     onChange={(e) => updateBusinessInfo('businessDescription', e.target.value)}
-                    className="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-orange-500 focus:ring-orange-500 disabled:bg-gray-50 disabled:text-gray-500"
+                    className="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-primary-500 focus:ring-primary-500 disabled:bg-gray-50 disabled:text-gray-500"
                   />
                 </div>
                 <div>
@@ -839,7 +839,7 @@ const Profile = () => {
                     value={profileData.businessInfo.registrationNumber}
                     disabled={!isEditing}
                     onChange={(e) => updateBusinessInfo('registrationNumber', e.target.value)}
-                    className="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-orange-500 focus:ring-orange-500 disabled:bg-gray-50 disabled:text-gray-500"
+                    className="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-primary-500 focus:ring-primary-500 disabled:bg-gray-50 disabled:text-gray-500"
                   />
                 </div>
                 <div className="sm:col-span-2">
@@ -853,7 +853,7 @@ const Profile = () => {
                       value={profileData.businessInfo.website}
                       disabled={!isEditing}
                       onChange={(e) => updateBusinessInfo('website', e.target.value)}
-                      className="block w-full rounded-r-md border-0 px-3 py-2 focus:border-orange-500 focus:ring-orange-500 disabled:bg-gray-50 disabled:text-gray-500"
+                      className="block w-full rounded-r-md border-0 px-3 py-2 focus:border-primary-500 focus:ring-primary-500 disabled:bg-gray-50 disabled:text-gray-500"
                     />
                   </div>
                 </div>
@@ -868,7 +868,7 @@ const Profile = () => {
                       value={profileData.businessInfo.address}
                       disabled={!isEditing}
                       onChange={(e) => updateBusinessInfo('address', e.target.value)}
-                      className="block w-full rounded-r-md border-0 px-3 py-2 focus:border-orange-500 focus:ring-orange-500 disabled:bg-gray-50 disabled:text-gray-500"
+                      className="block w-full rounded-r-md border-0 px-3 py-2 focus:border-primary-500 focus:ring-primary-500 disabled:bg-gray-50 disabled:text-gray-500"
                     />
                   </div>
                 </div>
@@ -879,7 +879,7 @@ const Profile = () => {
                     value={profileData.businessInfo.city}
                     disabled={!isEditing}
                     onChange={(e) => updateBusinessInfo('city', e.target.value)}
-                    className="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-orange-500 focus:ring-orange-500 disabled:bg-gray-50 disabled:text-gray-500"
+                    className="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-primary-500 focus:ring-primary-500 disabled:bg-gray-50 disabled:text-gray-500"
                   />
                 </div>
                 <div>
@@ -889,7 +889,7 @@ const Profile = () => {
                     value={profileData.businessInfo.state}
                     disabled={!isEditing}
                     onChange={(e) => updateBusinessInfo('state', e.target.value)}
-                    className="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-orange-500 focus:ring-orange-500 disabled:bg-gray-50 disabled:text-gray-500"
+                    className="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-primary-500 focus:ring-primary-500 disabled:bg-gray-50 disabled:text-gray-500"
                   />
                 </div>
                 <div>
@@ -899,7 +899,7 @@ const Profile = () => {
                     value={profileData.businessInfo.zipCode}
                     disabled={!isEditing}
                     onChange={(e) => updateBusinessInfo('zipCode', e.target.value)}
-                    className="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-orange-500 focus:ring-orange-500 disabled:bg-gray-50 disabled:text-gray-500"
+                    className="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-primary-500 focus:ring-primary-500 disabled:bg-gray-50 disabled:text-gray-500"
                   />
                 </div>
                 <div>
@@ -909,7 +909,7 @@ const Profile = () => {
                     value={profileData.businessInfo.country}
                     disabled={!isEditing}
                     onChange={(e) => updateBusinessInfo('country', e.target.value)}
-                    className="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-orange-500 focus:ring-orange-500 disabled:bg-gray-50 disabled:text-gray-500"
+                    className="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-primary-500 focus:ring-primary-500 disabled:bg-gray-50 disabled:text-gray-500"
                   />
                 </div>
               </div>
@@ -923,7 +923,7 @@ const Profile = () => {
             <div className="flex justify-end">
               <button
                 onClick={handleSave}
-                className="w-full sm:w-auto inline-flex justify-center py-2 px-6 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors"
+                className="w-full sm:w-auto inline-flex justify-center py-2 px-6 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-500 hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors"
               >
                 Save Changes
               </button>

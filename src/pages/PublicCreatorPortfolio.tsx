@@ -114,7 +114,7 @@ const PublicCreatorPortfolio: React.FC = () => {
             <div className="mt-3 flex items-center gap-2 flex-wrap">
               <StatusChip label="Creator portfolio" tone="info" dotClassName="bg-blue-400" />
               <StatusChip label="Public preview" tone="neutral" />
-              {!snap && <StatusChip label="Mock data" tone="warning" dotClassName="bg-orange-400" />}
+              {!snap && <StatusChip label="Mock data" tone="warning" dotClassName="bg-primary-400" />}
             </div>
           </div>
         </div>
@@ -125,7 +125,7 @@ const PublicCreatorPortfolio: React.FC = () => {
       </div>
 
       <section className="rounded-3xl border border-gray-100/80 bg-white shadow-sm overflow-hidden">
-        <div className="px-6 py-5 bg-[radial-gradient(circle_at_15%_10%,rgba(255,77,0,0.14),transparent_55%),radial-gradient(circle_at_85%_25%,rgba(17,24,39,0.12),transparent_55%),linear-gradient(135deg,#ffffff,#fff7f2)]">
+        <div className="px-6 py-5 bg-[radial-gradient(circle_at_15%_10%,rgba(24, 0, 172,0.14),transparent_55%),radial-gradient(circle_at_85%_25%,rgba(17,24,39,0.12),transparent_55%),linear-gradient(135deg,#ffffff,#F2F0FF)]">
           <div className="flex items-start justify-between gap-4 flex-wrap">
             <div>
               <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2">
@@ -312,7 +312,7 @@ const PublicCreatorPortfolio: React.FC = () => {
               <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2">{x.icon}{x.k}</p>
               <p className="text-[12px] text-gray-700 font-semibold mt-3 break-all">{x.v || '—'}</p>
               {x.v ? (
-                <a className="mt-3 inline-flex items-center gap-2 text-[12px] font-bold text-[#FF4D00] hover:underline" href={x.v} target="_blank" rel="noreferrer">
+                <a className="mt-3 inline-flex items-center gap-2 text-[12px] font-bold text-primary-600 hover:underline" href={x.v} target="_blank" rel="noreferrer">
                   Open <ExternalLink className="w-4 h-4" />
                 </a>
               ) : null}

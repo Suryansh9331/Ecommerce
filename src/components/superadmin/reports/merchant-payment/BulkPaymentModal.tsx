@@ -73,10 +73,10 @@ const BulkPaymentModal: React.FC<BulkPaymentModalProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-xl w-full max-w-2xl shadow-2xl border border-orange-100 transform transition-all duration-300 scale-95 hover:scale-100">
+      <div className="bg-white rounded-xl w-full max-w-2xl shadow-2xl border border-primary-100 transform transition-all duration-300 scale-95 hover:scale-100">
         <div className="p-4 sm:p-6 md:p-8">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-xl sm:text-2xl font-bold text-orange-600">Confirm Bulk Payment</h2>
+            <h2 className="text-xl sm:text-2xl font-bold text-primary-600">Confirm Bulk Payment</h2>
             <button
               onClick={onClose}
               className="text-gray-400 hover:text-gray-600 transition-colors p-2"
@@ -86,7 +86,7 @@ const BulkPaymentModal: React.FC<BulkPaymentModalProps> = ({
           </div>
 
           <div className="mb-8">
-            <div className="flex items-center justify-center mb-6 text-orange-500">
+            <div className="flex items-center justify-center mb-6 text-primary-500">
               <FaMoneyBillWave className="text-4xl sm:text-5xl" />
             </div>
             
@@ -95,13 +95,13 @@ const BulkPaymentModal: React.FC<BulkPaymentModalProps> = ({
             </p>
 
             <div className="mb-6">
-              <div className="flex items-center p-3 bg-orange-50 rounded-t-xl">
+              <div className="flex items-center p-3 bg-primary-50 rounded-t-xl">
                 <label className="flex items-center space-x-3 text-sm font-medium text-gray-700">
                   <input
                     type="checkbox"
                     checked={selectAll}
                     onChange={handleSelectAll}
-                    className="form-checkbox h-5 w-5 text-orange-500 rounded border-gray-300 focus:ring-orange-500"
+                    className="form-checkbox h-5 w-5 text-primary-500 rounded border-gray-300 focus:ring-primary-500"
                   />
                   <span>Select All Merchants</span>
                 </label>
@@ -115,7 +115,7 @@ const BulkPaymentModal: React.FC<BulkPaymentModalProps> = ({
                         type="checkbox"
                         checked={selectedMerchants.includes(merchant.id)}
                         onChange={() => handleMerchantToggle(merchant.id)}
-                        className="form-checkbox h-5 w-5 text-orange-500 rounded border-gray-300 focus:ring-orange-500"
+                        className="form-checkbox h-5 w-5 text-primary-500 rounded border-gray-300 focus:ring-primary-500"
                       />
                       <span className="text-sm font-medium text-gray-700">{merchant.merchantName}</span>
                     </label>
@@ -132,7 +132,7 @@ const BulkPaymentModal: React.FC<BulkPaymentModalProps> = ({
                         value={selectedMerchants.includes(merchant.id) ? (amounts[merchant.id] ?? merchant.pendingAmount) : ''}
                         onChange={(e) => handleAmountChange(merchant.id, e.target.value)}
                         placeholder="Enter amount"
-                        className="w-full border rounded-md px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-orange-500 disabled:bg-gray-100"
+                        className="w-full border rounded-md px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-primary-500 disabled:bg-gray-100"
                       />
                     </div>
                   </div>
@@ -140,10 +140,10 @@ const BulkPaymentModal: React.FC<BulkPaymentModalProps> = ({
               </div>
             </div>
 
-            <div className="bg-orange-50 p-4 sm:p-6 rounded-xl mb-6">
+            <div className="bg-primary-50 p-4 sm:p-6 rounded-xl mb-6">
               <div className="flex justify-between mb-3">
                 <span className="text-gray-600 font-medium text-sm sm:text-base">Selected Merchants:</span>
-                <span className="font-bold text-orange-700 text-sm sm:text-base">{selectedMerchants.length}</span>
+                <span className="font-bold text-primary-700 text-sm sm:text-base">{selectedMerchants.length}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600 font-medium text-sm sm:text-base">Selected Amount:</span>
@@ -159,14 +159,14 @@ const BulkPaymentModal: React.FC<BulkPaymentModalProps> = ({
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
             <button
               onClick={onClose}
-              className="w-full px-4 sm:px-6 py-2 sm:py-3 border border-orange-200 rounded-xl text-orange-600 hover:bg-orange-50 transition-colors font-medium text-sm sm:text-base"
+              className="w-full px-4 sm:px-6 py-2 sm:py-3 border border-primary-200 rounded-xl text-primary-600 hover:bg-primary-50 transition-colors font-medium text-sm sm:text-base"
             >
               Cancel
             </button>
             <button
               onClick={() => onConfirm(selectedMerchants.map(id => ({ merchantId: id, amount: amounts[id] ?? 0 })).filter(s => s.amount > 0))}
               disabled={selectedMerchants.length === 0}
-              className="w-full px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl hover:from-orange-600 hover:to-orange-700 transition-colors font-medium shadow-lg hover:shadow-xl text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-xl hover:from-primary-600 hover:to-primary-700 transition-colors font-medium shadow-lg hover:shadow-xl text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Confirm Payment
             </button>

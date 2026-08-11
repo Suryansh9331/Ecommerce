@@ -68,8 +68,8 @@ const MetaStep: React.FC<MetaStepProps> = ({ data, onChange }) => {
       {/* Header */}
       <div className="text-center">
         <div className="flex justify-center mb-4">
-          <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center">
-            <FileText className="text-orange-500" size={32} />
+          <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center">
+            <FileText className="text-primary-500" size={32} />
           </div>
         </div>
         <h3 className="text-xl font-semibold text-gray-900">Product Descriptions & SEO</h3>
@@ -87,7 +87,7 @@ const MetaStep: React.FC<MetaStepProps> = ({ data, onChange }) => {
             value={data.short_desc}
             onChange={(e) => handleInputChange('short_desc', e.target.value)}
             rows={3}
-            className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent resize-none ${
+            className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none ${
               errors.short_desc ? 'border-red-500' : 'border-gray-300'
             }`}
             placeholder="Brief product description for product cards and search results"
@@ -116,7 +116,7 @@ const MetaStep: React.FC<MetaStepProps> = ({ data, onChange }) => {
             <button
               type="button"
               onClick={() => setShowPreview(!showPreview)}
-              className="ml-auto text-orange-600 hover:text-orange-700 text-xs"
+              className="ml-auto text-primary-600 hover:text-primary-700 text-xs"
             >
               {showPreview ? 'Edit' : 'Preview'}
             </button>
@@ -132,7 +132,7 @@ const MetaStep: React.FC<MetaStepProps> = ({ data, onChange }) => {
               value={data.full_desc}
               onChange={(e) => handleInputChange('full_desc', e.target.value)}
               rows={8}
-              className={`w-full px-3 py-2 border border-t-0 border-gray-300 rounded-b-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent resize-none ${
+              className={`w-full px-3 py-2 border border-t-0 border-gray-300 rounded-b-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none ${
                 errors.full_desc ? 'border-red-500' : ''
               }`}
               placeholder="Detailed product description with features, benefits, and specifications.
@@ -159,7 +159,7 @@ This will be displayed on the product page with proper formatting."
             <button
               type="button"
               onClick={autoGenerateMeta}
-              className="text-sm bg-orange-100 hover:bg-orange-200 text-orange-700 px-3 py-1 rounded"
+              className="text-sm bg-primary-100 hover:bg-primary-200 text-primary-700 px-3 py-1 rounded"
             >
               Auto-Generate
             </button>
@@ -176,7 +176,7 @@ This will be displayed on the product page with proper formatting."
                 type="text"
                 value={data.meta_title}
                 onChange={(e) => handleInputChange('meta_title', e.target.value)}
-                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
+                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent ${
                   errors.meta_title ? 'border-red-500' : 'border-gray-300'
                 }`}
                 placeholder="SEO-friendly title for search engines"
@@ -196,7 +196,7 @@ This will be displayed on the product page with proper formatting."
                 type="text"
                 value={data.meta_keywords}
                 onChange={(e) => handleInputChange('meta_keywords', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 placeholder="keyword1, keyword2, keyword3"
               />
               <p className="text-gray-500 text-xs mt-1">Comma-separated keywords for SEO</p>
@@ -213,7 +213,7 @@ This will be displayed on the product page with proper formatting."
               value={data.meta_desc}
               onChange={(e) => handleInputChange('meta_desc', e.target.value)}
               rows={3}
-              className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent resize-none ${
+              className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none ${
                 errors.meta_desc ? 'border-red-500' : 'border-gray-300'
               }`}
               placeholder="Brief description that appears in search engine results"

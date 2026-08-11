@@ -49,8 +49,8 @@ const HeavyDiscountProducts: React.FC = () => {
 
   if (loading) {
     return (
-      <section className="relative px-4 pt-5 pb-4 nav:pt-8 nav:pb-6 overflow-hidden bg-orange-100/90">
-        <div className="absolute top-0 right-0 w-40 h-40 nav:w-56 nav:h-56 rounded-full bg-[#F2631F]/12 -translate-y-1/2 translate-x-1/2" />
+      <section className="relative px-4 pt-5 pb-4 nav:pt-8 nav:pb-6 overflow-hidden bg-primary-100/90">
+        <div className="absolute top-0 right-0 w-40 h-40 nav:w-56 nav:h-56 rounded-full bg-primary-600/12 -translate-y-1/2 translate-x-1/2" />
         <div className="container relative mx-auto max-w-6xl">
           <div className="grid grid-cols-2 nav:grid-cols-4 gap-3 nav:gap-8">
             {[1, 2, 3, 4].map((i) => (
@@ -65,13 +65,13 @@ const HeavyDiscountProducts: React.FC = () => {
   if (error || !products.length) return null;
 
   return (
-    <section className="relative px-4 pt-5 pb-4 nav:pt-8 nav:pb-6 overflow-hidden bg-gradient-to-b from-orange-100 via-amber-100/95 to-orange-100">
+    <section className="relative px-4 pt-5 pb-4 nav:pt-8 nav:pb-6 overflow-hidden bg-gradient-to-b from-primary-100 via-amber-100/95 to-primary-100">
       {/* Decorative orange circles - top right */}
       <div
-        className="absolute top-0 right-0 w-48 h-48 nav:w-72 nav:h-72 rounded-full bg-[#F2631F]/18 -translate-y-1/2 translate-x-1/4"
+        className="absolute top-0 right-0 w-48 h-48 nav:w-72 nav:h-72 rounded-full bg-primary-600/18 -translate-y-1/2 translate-x-1/4"
         aria-hidden
       />
-      <div className="absolute top-4 right-8 nav:top-8 nav:right-16 w-24 h-24 nav:w-32 nav:h-32 rounded-full bg-[#F2631F]/12" aria-hidden />
+      <div className="absolute top-4 right-8 nav:top-8 nav:right-16 w-24 h-24 nav:w-32 nav:h-32 rounded-full bg-primary-600/12" aria-hidden />
       <div className="absolute bottom-1/4 left-0 w-32 h-32 nav:w-44 nav:h-44 rounded-full bg-amber-200/40 -translate-x-1/2" aria-hidden />
 
       <div className="container relative mx-auto max-w-6xl">
@@ -91,7 +91,7 @@ const HeavyDiscountProducts: React.FC = () => {
               <Link
                 key={product.product_id}
                 to={`/product/${product.product_id}`}
-                className="group block rounded-2xl overflow-hidden bg-white/60 shadow-md hover:shadow-xl transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F2631F] focus-visible:ring-offset-2"
+                className="group block rounded-2xl overflow-hidden bg-white/60 shadow-md hover:shadow-xl transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2"
               >
                 <div className="relative aspect-[4/5] overflow-hidden">
                   {imageUrl ? (

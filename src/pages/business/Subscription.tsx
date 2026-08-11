@@ -355,12 +355,12 @@ const Subscription: React.FC = () => {
             key={plan.plan_id}
             className={`relative rounded-2xl shadow-lg overflow-hidden ${
               plan.can_place_premium
-                ? 'border-2 border-orange-500 transform scale-105'
+                ? 'border-2 border-primary-500 transform scale-105'
                 : 'border border-gray-200'
             }`}
           >
             {plan.can_place_premium && (
-              <div className="absolute top-0 right-0 bg-orange-500 text-white px-4 py-1 text-sm font-medium rounded-bl-lg">
+              <div className="absolute top-0 right-0 bg-primary-500 text-white px-4 py-1 text-sm font-medium rounded-bl-lg">
                 Premium
               </div>
             )}
@@ -374,20 +374,20 @@ const Subscription: React.FC = () => {
               
               <ul className="space-y-4 mb-8">
                 <li className="flex items-start">
-                  <CheckIcon className="h-6 w-6 text-orange-500 mr-2 flex-shrink-0" />
+                  <CheckIcon className="h-6 w-6 text-primary-500 mr-2 flex-shrink-0" />
                   <span className="text-gray-600">{plan.description}</span>
                 </li>
                 <li className="flex items-start">
-                  <CheckIcon className="h-6 w-6 text-orange-500 mr-2 flex-shrink-0" />
+                  <CheckIcon className="h-6 w-6 text-primary-500 mr-2 flex-shrink-0" />
                   <span className="text-gray-600">{plan.featured_limit} featured products</span>
                 </li>
                 <li className="flex items-start">
-                  <CheckIcon className="h-6 w-6 text-orange-500 mr-2 flex-shrink-0" />
+                  <CheckIcon className="h-6 w-6 text-primary-500 mr-2 flex-shrink-0" />
                   <span className="text-gray-600">{plan.promo_limit} promotional products</span>
                 </li>
                 {plan.can_place_premium && (
                   <li className="flex items-start">
-                    <CheckIcon className="h-6 w-6 text-orange-500 mr-2 flex-shrink-0" />
+                    <CheckIcon className="h-6 w-6 text-primary-500 mr-2 flex-shrink-0" />
                     <span className="text-gray-600">Premium product placement</span>
                   </li>
                 )}
@@ -398,7 +398,7 @@ const Subscription: React.FC = () => {
                 disabled={subscribing || paymentProcessing || (currentSubscription?.plan?.plan_id === plan.plan_id)}
                 className={`w-full py-3 px-6 rounded-lg font-medium transition-colors ${
                   plan.can_place_premium
-                    ? 'bg-orange-500 text-white hover:bg-orange-600'
+                    ? 'bg-primary-500 text-white hover:bg-primary-600'
                     : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
                 } disabled:opacity-50 disabled:cursor-not-allowed`}
               >
@@ -499,7 +499,6 @@ const Subscription: React.FC = () => {
           onClose={handlePaymentClose}
           description={`Subscription to ${selectedPlan.name} plan`}
           businessName="Aoin Store"
-          businessLogo="https://aoinstore.com/logo.png"
         />
       )}
     </div>

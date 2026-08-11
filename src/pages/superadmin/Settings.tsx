@@ -327,7 +327,7 @@ const Settings: React.FC = () => {
   if (fetching) {
     return (
       <div className="min-h-[80vh] flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-500"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-500"></div>
       </div>
     );
   }
@@ -335,9 +335,9 @@ const Settings: React.FC = () => {
   return (
     <div className="min-h-[80dvh] p-4 sm:p-6 lg:p-10 bg-white border border-gray-200 shadow-xl rounded-xl overflow-hidden">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-orange-500 drop-shadow-sm">Super Admin Users Management</h1>
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-primary-500 drop-shadow-sm">Super Admin Users Management</h1>
         <button
-          className="flex items-center justify-center gap-2 bg-gradient-to-r from-orange-400 to-orange-500 text-white px-4 sm:px-5 py-2 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 text-sm font-semibold w-full sm:w-auto"
+          className="flex items-center justify-center gap-2 bg-gradient-to-r from-primary-400 to-primary-500 text-white px-4 sm:px-5 py-2 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 text-sm font-semibold w-full sm:w-auto"
           onClick={() => { 
             setShowModal(true); 
             setIsEdit(false); 
@@ -359,9 +359,9 @@ const Settings: React.FC = () => {
       </div>
 
       {/* Desktop Table View */}
-      <div className="hidden lg:block bg-white/80 backdrop-blur-md rounded-xl shadow-lg overflow-x-auto border border-orange-100">
-        <table className="min-w-full divide-y divide-orange-200">
-          <thead className="bg-orange-100 text-orange-500 font-semibold">
+      <div className="hidden lg:block bg-white/80 backdrop-blur-md rounded-xl shadow-lg overflow-x-auto border border-primary-100">
+        <table className="min-w-full divide-y divide-primary-200">
+          <thead className="bg-primary-100 text-primary-500 font-semibold">
             <tr>
               <th className="px-6 py-3 text-left text-xs uppercase tracking-wider">Name</th>
               <th className="px-6 py-3 text-left text-xs uppercase tracking-wider">Email</th>
@@ -371,9 +371,9 @@ const Settings: React.FC = () => {
               <th className="px-6 py-3 text-center text-xs uppercase tracking-wider">Actions</th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-orange-100">
+          <tbody className="bg-white divide-y divide-primary-100">
             {admins.map((admin) => (
-              <tr key={admin.id} className="hover:bg-orange-50 transition-colors duration-200">
+              <tr key={admin.id} className="hover:bg-primary-50 transition-colors duration-200">
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                   {admin.first_name} {admin.last_name}
                 </td>
@@ -397,7 +397,7 @@ const Settings: React.FC = () => {
                   {admin.is_active ? (
                     <>
                       <button 
-                        className="text-orange-400 hover:text-orange-500 transition-colors" 
+                        className="text-primary-400 hover:text-primary-500 transition-colors" 
                         onClick={() => handleEditAdmin(admin)} 
                         title="Edit"
                       >
@@ -431,7 +431,7 @@ const Settings: React.FC = () => {
       {/* Mobile/Tablet Card View */}
       <div className="lg:hidden space-y-4">
         {admins.map((admin) => (
-          <div key={admin.id} className="bg-white/80 backdrop-blur-md rounded-xl shadow-lg border border-orange-100 p-4 hover:shadow-xl transition-shadow duration-200">
+          <div key={admin.id} className="bg-white/80 backdrop-blur-md rounded-xl shadow-lg border border-primary-100 p-4 hover:shadow-xl transition-shadow duration-200">
             <div className="flex flex-col space-y-3">
               <div className="flex items-center justify-between">
                 <div className="flex-1">
@@ -462,11 +462,11 @@ const Settings: React.FC = () => {
                 </div>
               </div>
               
-              <div className="flex items-center justify-end gap-2 pt-2 border-t border-orange-100">
+              <div className="flex items-center justify-end gap-2 pt-2 border-t border-primary-100">
                 {admin.is_active ? (
                   <>
                     <button 
-                      className="flex items-center gap-1 text-orange-400 hover:text-orange-500 transition-colors text-sm font-medium" 
+                      className="flex items-center gap-1 text-primary-400 hover:text-primary-500 transition-colors text-sm font-medium" 
                       onClick={() => handleEditAdmin(admin)} 
                     >
                       <Pencil className="w-4 h-4" />
@@ -501,7 +501,7 @@ const Settings: React.FC = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg p-6 w-full max-w-sm shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
             <div className="flex items-center justify-start mb-4">
-              <AlertCircle className="h-6 w-6 sm:h-8 sm:w-8 text-orange-500 mr-3" />
+              <AlertCircle className="h-6 w-6 sm:h-8 sm:w-8 text-primary-500 mr-3" />
               <h3 className="text-lg sm:text-xl font-semibold text-gray-900">Confirm Deletion</h3>
             </div>
             <div className="mt-2">
@@ -534,15 +534,15 @@ const Settings: React.FC = () => {
 
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-          <div ref={modalRef} className="bg-white/90 backdrop-blur-md rounded-2xl shadow-2xl w-full max-w-lg p-4 sm:p-8 relative border border-orange-200 animate-scaleIn max-h-[90vh] overflow-y-auto">
+          <div ref={modalRef} className="bg-white/90 backdrop-blur-md rounded-2xl shadow-2xl w-full max-w-lg p-4 sm:p-8 relative border border-primary-200 animate-scaleIn max-h-[90vh] overflow-y-auto">
             <button 
-              className="absolute top-4 right-4 text-gray-400 hover:text-orange-500" 
+              className="absolute top-4 right-4 text-gray-400 hover:text-primary-500" 
               onClick={() => { setShowModal(false); setError(''); setIsEdit(false); setEditId(null); }}
               disabled={loading}
             >
               <X className="w-5 h-5" />
             </button>
-            <h2 className="text-lg sm:text-xl font-bold mb-6 text-orange-500 pr-8">
+            <h2 className="text-lg sm:text-xl font-bold mb-6 text-primary-500 pr-8">
               {isEdit ? 'Edit Super Admin User' : 'Add New Super Admin User'}
             </h2>
             <form className="space-y-4" onSubmit={handleAddUser}>
@@ -552,7 +552,7 @@ const Settings: React.FC = () => {
                 onChange={handleInputChange} 
                 type="email" 
                 placeholder="Email Address *" 
-                className="w-full border border-orange-200 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400 text-sm shadow-sm" 
+                className="w-full border border-primary-200 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary-400 text-sm shadow-sm" 
                 disabled={isEdit}
               />
               <div className="flex flex-col sm:flex-row gap-4">
@@ -562,7 +562,7 @@ const Settings: React.FC = () => {
                   onChange={handleInputChange} 
                   type="text" 
                   placeholder="First Name *" 
-                  className="w-full sm:w-1/2 border border-orange-200 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400 text-sm shadow-sm" 
+                  className="w-full sm:w-1/2 border border-primary-200 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary-400 text-sm shadow-sm" 
                 />
                 <input 
                   name="last_name" 
@@ -570,7 +570,7 @@ const Settings: React.FC = () => {
                   onChange={handleInputChange} 
                   type="text" 
                   placeholder="Last Name *" 
-                  className="w-full sm:w-1/2 border border-orange-200 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400 text-sm shadow-sm" 
+                  className="w-full sm:w-1/2 border border-primary-200 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary-400 text-sm shadow-sm" 
                 />
               </div>
               <input 
@@ -579,7 +579,7 @@ const Settings: React.FC = () => {
                 onChange={handleInputChange} 
                 type="tel" 
                 placeholder="Phone Number (optional)" 
-                className="w-full border border-orange-200 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400 text-sm shadow-sm" 
+                className="w-full border border-primary-200 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary-400 text-sm shadow-sm" 
               />
               {!isEdit && (
                 <div className="flex flex-col sm:flex-row gap-4">
@@ -589,7 +589,7 @@ const Settings: React.FC = () => {
                     onChange={handleInputChange} 
                     type="password" 
                     placeholder="Password *" 
-                    className="w-full sm:w-1/2 border border-orange-200 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400 text-sm shadow-sm" 
+                    className="w-full sm:w-1/2 border border-primary-200 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary-400 text-sm shadow-sm" 
                   />
                   <input 
                     name="confirmPassword" 
@@ -597,7 +597,7 @@ const Settings: React.FC = () => {
                     onChange={handleInputChange} 
                     type="password" 
                     placeholder="Confirm Password *" 
-                    className="w-full sm:w-1/2 border border-orange-200 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400 text-sm shadow-sm" 
+                    className="w-full sm:w-1/2 border border-primary-200 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary-400 text-sm shadow-sm" 
                   />
                 </div>
               )}
@@ -605,7 +605,7 @@ const Settings: React.FC = () => {
               <div className="flex flex-col sm:flex-row justify-end gap-3 mt-6">
                 <button 
                   type="button" 
-                  className="w-full sm:w-auto bg-orange-50 text-orange-500 px-5 py-2 rounded-full text-sm font-medium hover:bg-orange-100 transition-colors border border-orange-200" 
+                  className="w-full sm:w-auto bg-primary-50 text-primary-500 px-5 py-2 rounded-full text-sm font-medium hover:bg-primary-100 transition-colors border border-primary-200" 
                   onClick={() => { setShowModal(false); setError(''); setIsEdit(false); setEditId(null); }}
                   disabled={loading}
                 >
@@ -613,7 +613,7 @@ const Settings: React.FC = () => {
                 </button>
                 <button 
                   type="submit" 
-                  className="w-full sm:w-auto flex items-center justify-center bg-gradient-to-r from-orange-400 to-orange-500 text-white px-5 py-2 rounded-full text-sm font-semibold shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200 disabled:opacity-50"
+                  className="w-full sm:w-auto flex items-center justify-center bg-gradient-to-r from-primary-400 to-primary-500 text-white px-5 py-2 rounded-full text-sm font-semibold shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200 disabled:opacity-50"
                   disabled={loading}
                 >
                   {loading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}

@@ -20,7 +20,7 @@ const FALLBACK_COLORS = [
   'bg-emerald-100',
   'bg-violet-100',
   'bg-teal-100',
-  'bg-orange-100',
+  'bg-primary-100',
   'bg-pink-100',
 ];
 
@@ -145,7 +145,7 @@ const Categories: React.FC = () => {
             <p>{t('common.error')}: {error}</p>
             <button 
               onClick={fetchCategories}
-              className="mt-2 px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600"
+              className="mt-2 px-4 py-2 bg-primary-500 text-white rounded hover:bg-primary-600"
             >
               {t('common.retry', 'Try Again')}
             </button>
@@ -166,9 +166,9 @@ const Categories: React.FC = () => {
                 key={category.category_id}
                 type="button"
                 onClick={() => navigate(`/all-products?category=${category.category_id}`)}
-                className="group flex-shrink-0 flex flex-col items-center gap-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F2631F] focus-visible:ring-offset-2 rounded-lg"
+                className="group flex-shrink-0 flex flex-col items-center gap-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 rounded-lg"
               >
-                <div className="w-14 h-14 rounded-lg overflow-hidden bg-gray-50 flex items-center justify-center transition-shadow duration-200 group-hover:shadow-[0_4px_12px_-2px_rgba(249,115,22,0.2)]">
+                <div className="w-14 h-14 rounded-lg overflow-hidden bg-gray-50 flex items-center justify-center transition-shadow duration-200 group-hover:shadow-[0_4px_12px_-2px_rgba(24, 0, 172,0.2)]">
                   {category.icon_url ? (
                     <img
                       src={category.icon_url}
@@ -197,7 +197,7 @@ const Categories: React.FC = () => {
             </h2>
           </div>
           <div className="flex justify-end items-center mb-6">
-            <Link to="/all-products" className="text-orange-500 text-sm font-medium mr-3 sm:mr-6">
+            <Link to="/all-products" className="text-primary-500 text-sm font-medium mr-3 sm:mr-6">
               {t('home.seeAll')}
             </Link>
             <div className="flex items-center space-x-1 sm:space-x-3">
@@ -227,7 +227,7 @@ const Categories: React.FC = () => {
               key={category.category_id}
               type="button"
               onClick={() => navigate(`/all-products?category=${category.category_id}`)}
-              className="group flex-shrink-0 flex flex-col items-center gap-3 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F2631F] focus-visible:ring-offset-2 rounded-xl"
+              className="group flex-shrink-0 flex flex-col items-center gap-3 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 rounded-xl"
             >
               {/* Square image container - fixed size; image zooms inside, light orange shadow on hover */}
               <div
@@ -235,7 +235,7 @@ const Categories: React.FC = () => {
                   w-24 h-24 sm:w-28 sm:h-28 rounded-lg overflow-hidden
                   bg-gray-50
                   transition-shadow duration-300 ease-out
-                  group-hover:shadow-[0_8px_24px_-4px_rgba(249,115,22,0.2)]
+                  group-hover:shadow-[0_8px_24px_-4px_rgba(24, 0, 172,0.2)]
                   flex items-center justify-center
                 `}
               >
@@ -255,7 +255,7 @@ const Categories: React.FC = () => {
                 )}
               </div>
               {/* Category name below */}
-              <span className="font-medium text-sm sm:text-base font-worksans text-gray-800 group-hover:text-[#F2631F] transition-colors duration-200 max-w-[7rem] text-center leading-tight line-clamp-2">
+              <span className="font-medium text-sm sm:text-base font-worksans text-gray-800 group-hover:text-primary-600 transition-colors duration-200 max-w-[7rem] text-center leading-tight line-clamp-2">
                 {getCategoryName(category)}
               </span>
             </button>

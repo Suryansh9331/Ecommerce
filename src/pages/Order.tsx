@@ -524,7 +524,7 @@ const Order: React.FC = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-500"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-500"></div>
       </div>
     );
   }
@@ -537,7 +537,7 @@ const Order: React.FC = () => {
           <p>{error}</p>
           <button 
             onClick={() => fetchOrders()}
-            className="mt-4 px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600"
+            className="mt-4 px-4 py-2 bg-primary-500 text-white rounded hover:bg-primary-600"
           >
             Try Again
           </button>
@@ -552,13 +552,13 @@ const Order: React.FC = () => {
         <h1 className="text-xl sm:text-2xl font-bold">Your Orders</h1>
         <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
           <button 
-            className="px-3 sm:px-4 py-2 text-[#FF4D00] border border-[#FF4D00] rounded-lg hover:bg-[#FF4D00] hover:text-white transition-colors text-sm sm:text-base"
+            className="px-3 sm:px-4 py-2 text-primary-600 border border-primary-600 rounded-lg hover:bg-primary-600 hover:text-white transition-colors text-sm sm:text-base"
             onClick={() => navigate('/return-refund')}
           >
             Returns Policy
           </button>
           <button 
-            className="px-3 sm:px-4 py-2 bg-[#FF4D00] text-white rounded-lg hover:bg-[#FF4D00]/90 transition-colors text-sm sm:text-base"
+            className="px-3 sm:px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-600/90 transition-colors text-sm sm:text-base"
             onClick={() => navigate('/track-order')}
           >
             Track Package
@@ -570,13 +570,13 @@ const Order: React.FC = () => {
       <div className="mb-6">
         <div className="inline-flex rounded-lg border border-gray-200 overflow-hidden">
           <button
-            className={`px-4 py-2 text-sm font-medium ${!shopView ? 'bg-orange-500 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}`}
+            className={`px-4 py-2 text-sm font-medium ${!shopView ? 'bg-primary-500 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}`}
             onClick={() => setShopView(false)}
           >
             Marketplace Orders
           </button>
           <button
-            className={`px-4 py-2 text-sm font-medium ${shopView ? 'bg-orange-500 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}`}
+            className={`px-4 py-2 text-sm font-medium ${shopView ? 'bg-primary-500 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}`}
             onClick={() => setShopView(true)}
           >
             Shop Orders
@@ -593,7 +593,7 @@ const Order: React.FC = () => {
               <button
                 key={id}
                 onClick={() => { setSelectedShopId(id); setShopCurrentPage(1); }}
-                className={`p-3 rounded-lg border text-sm font-medium transition-colors ${selectedShopId === id ? 'border-orange-500 bg-orange-50 text-orange-700' : 'border-gray-200 hover:border-orange-300'}`}
+                className={`p-3 rounded-lg border text-sm font-medium transition-colors ${selectedShopId === id ? 'border-primary-500 bg-primary-50 text-primary-700' : 'border-gray-200 hover:border-primary-300'}`}
               >
                 Shop {id}
               </button>
@@ -605,7 +605,7 @@ const Order: React.FC = () => {
             <div className="text-center text-gray-500 py-12">Select a shop to view your orders</div>
           ) : shopLoading ? (
             <div className="flex items-center justify-center py-12">
-              <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-orange-500"></div>
+              <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-primary-500"></div>
             </div>
           ) : shopError ? (
             <div className="text-center text-red-600 py-12">{shopError}</div>
@@ -635,7 +635,7 @@ const Order: React.FC = () => {
                       <div className="mt-4 flex flex-wrap gap-2">
                         <button
                           onClick={() => navigate(`/shop${selectedShopId}/order/${o.order_id}`, { state: { from: '/orders', shopView: true, selectedShopId } })}
-                          className="px-3 py-2 bg-orange-500 text-white rounded hover:bg-orange-600 text-sm"
+                          className="px-3 py-2 bg-primary-500 text-white rounded hover:bg-primary-600 text-sm"
                         >
                           View details
                         </button>
@@ -651,7 +651,7 @@ const Order: React.FC = () => {
                   <button 
                     onClick={() => setShopCurrentPage(prev => Math.max(prev - 1, 1))}
                     disabled={shopCurrentPage === 1}
-                    className="w-8 h-8 flex items-center justify-center border rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:border-orange-500 flex-shrink-0"
+                    className="w-8 h-8 flex items-center justify-center border rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:border-primary-500 flex-shrink-0"
                   >
                     <ChevronLeft className="h-4 w-4" />
                   </button>
@@ -660,7 +660,7 @@ const Order: React.FC = () => {
                       key={i + 1}
                       onClick={() => setShopCurrentPage(i + 1)}
                       className={`w-8 h-8 flex items-center justify-center border rounded-lg flex-shrink-0 text-sm ${
-                        shopCurrentPage === i + 1 ? 'bg-orange-500 text-white' : 'hover:border-orange-500'
+                        shopCurrentPage === i + 1 ? 'bg-primary-500 text-white' : 'hover:border-primary-500'
                       }`}
                     >
                       {i + 1}
@@ -669,7 +669,7 @@ const Order: React.FC = () => {
                   <button 
                     onClick={() => setShopCurrentPage(prev => Math.min(prev + 1, shopTotalPages))}
                     disabled={shopCurrentPage === shopTotalPages}
-                    className="w-8 h-8 flex items-center justify-center border rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:border-orange-500 flex-shrink-0"
+                    className="w-8 h-8 flex items-center justify-center border rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:border-primary-500 flex-shrink-0"
                   >
                     <ChevronRight className="h-4 w-4" />
                   </button>
@@ -691,12 +691,12 @@ const Order: React.FC = () => {
             placeholder="Search orders by product name or order ID"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full px-4 py-2 pl-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF4D00] text-sm sm:text-base"
+            className="w-full px-4 py-2 pl-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600 text-sm sm:text-base"
           />
         </div>
         <div className="relative">
           <button 
-            className="w-full sm:w-auto px-4 py-2 border rounded-lg flex items-center justify-center sm:justify-start gap-2 hover:border-[#FF4D00] transition-colors text-sm sm:text-base"
+            className="w-full sm:w-auto px-4 py-2 border rounded-lg flex items-center justify-center sm:justify-start gap-2 hover:border-primary-600 transition-colors text-sm sm:text-base"
             onClick={() => setFilterOpen(!filterOpen)}
           >
             <Filter size={20} />
@@ -710,7 +710,7 @@ const Order: React.FC = () => {
                   <button 
                     key={filter}
                     className={`w-full text-left px-3 py-2 rounded capitalize text-sm sm:text-base ${
-                      selectedFilter === filter ? 'bg-[#FF4D00] text-white' : 'hover:bg-gray-100'
+                      selectedFilter === filter ? 'bg-primary-600 text-white' : 'hover:bg-gray-100'
                     }`}
                     onClick={() => {
                       setSelectedFilter(filter);
@@ -739,7 +739,7 @@ const Order: React.FC = () => {
               <div
                 key={order.order_id}
                 onClick={() => handleOrderClick(order)}
-                className="border rounded-lg p-4 sm:p-6 space-y-4 cursor-pointer hover:border-[#FF4D00] transition-colors bg-white shadow-sm"
+                className="border rounded-lg p-4 sm:p-6 space-y-4 cursor-pointer hover:border-primary-600 transition-colors bg-white shadow-sm"
               >
                 {order.items.map((item) => (
                   <div key={item.order_item_id} className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
@@ -785,14 +785,14 @@ const Order: React.FC = () => {
                       <>
                         <button
                           onClick={(e) => handleAction(e, 'return', order)}
-                          className="px-3 sm:px-4 py-2 text-[#FF4D00] border border-[#FF4D00] rounded-lg hover:bg-[#FF4D00] hover:text-white transition-colors flex items-center gap-2 text-sm"
+                          className="px-3 sm:px-4 py-2 text-primary-600 border border-primary-600 rounded-lg hover:bg-primary-600 hover:text-white transition-colors flex items-center gap-2 text-sm"
                         >
                           <RotateCcw size={16} />
                           Return
                         </button>
                         <button
                           onClick={(e) => handleAction(e, 'review', order)}
-                          className="px-3 sm:px-4 py-2 text-[#FF4D00] border border-[#FF4D00] rounded-lg hover:bg-[#FF4D00] hover:text-white transition-colors flex items-center gap-2 text-sm"
+                          className="px-3 sm:px-4 py-2 text-primary-600 border border-primary-600 rounded-lg hover:bg-primary-600 hover:text-white transition-colors flex items-center gap-2 text-sm"
                         >
                           <Star size={16} />
                           Review
@@ -803,7 +803,7 @@ const Order: React.FC = () => {
                   <div className="flex flex-wrap gap-2 sm:gap-3">
                     <button
                       onClick={(e) => handleAction(e, 'track', order)}
-                      className="px-3 sm:px-4 py-2 bg-[#FF4D00] text-white rounded-lg hover:bg-[#FF4D00]/90 transition-colors flex items-center gap-2 text-sm"
+                      className="px-3 sm:px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-600/90 transition-colors flex items-center gap-2 text-sm"
                     >
                       Track Order
                     </button>
@@ -845,7 +845,7 @@ const Order: React.FC = () => {
           <button 
             onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
-            className="w-8 h-8 flex items-center justify-center border rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:border-[#FF4D00] flex-shrink-0"
+            className="w-8 h-8 flex items-center justify-center border rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:border-primary-600 flex-shrink-0"
           >
             <ChevronLeft className="h-4 w-4" />
           </button>
@@ -856,8 +856,8 @@ const Order: React.FC = () => {
               onClick={() => setCurrentPage(i + 1)}
               className={`w-8 h-8 flex items-center justify-center border rounded-lg flex-shrink-0 text-sm ${
                 currentPage === i + 1
-                  ? 'bg-[#FF4D00] text-white'
-                  : 'hover:border-[#FF4D00]'
+                  ? 'bg-primary-600 text-white'
+                  : 'hover:border-primary-600'
               }`}
             >
               {i + 1}
@@ -867,7 +867,7 @@ const Order: React.FC = () => {
           <button 
             onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
             disabled={currentPage === totalPages}
-            className="w-8 h-8 flex items-center justify-center border rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:border-[#FF4D00] flex-shrink-0"
+            className="w-8 h-8 flex items-center justify-center border rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:border-primary-600 flex-shrink-0"
           >
             <ChevronRight className="h-4 w-4" />
           </button>

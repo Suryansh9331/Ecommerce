@@ -7,6 +7,13 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    /* Platform logo for the printed-invoice watermark below. Deliberately empty:
+       main.tsx sets it from PLATFORM_LOGO_URL in src/config.ts at boot, so the
+       logo URL is never duplicated here and cannot drift out of sync. */
+    --platform-logo-url: none;
+  }
+
   html, body {
     overflow-x: hidden;
     max-width: 100%;
@@ -125,8 +132,8 @@
   textarea:focus,
   select:focus {
     outline: none !important;
-    border-color: #FF4D00 !important;
-    box-shadow: 0 0 0 3px rgba(255, 77, 0, 0.15) !important;
+    border-color: #1800AC !important;
+    box-shadow: 0 0 0 3px rgba(24, 0, 172, 0.15) !important;
     transform: translateY(-1px) !important;
   }
 
@@ -343,9 +350,13 @@ body.printing-active .print-only {
   left: 50%;
   width: 600px; /* Adjust size as needed */
   height: 500px;
-  background: url('https://res.cloudinary.com/do3vxz4gw/image/upload/v1751687784/public_assets_images/public_assets_images_logo.svg') no-repeat center center;
+  background: var(--platform-logo-url) no-repeat center center;
   background-size: contain;
-  opacity: 0.2; /* Adjust opacity as needed */
+  /* Kept low because the current logo is an opaque JPEG with a solid blue
+     gradient background — at higher opacity it prints as a filled block behind
+     the invoice text rather than a watermark. Raise this if the logo is ever
+     replaced with a transparent PNG/SVG. */
+  opacity: 0.08;
   transform: translate(-50%, -50%) rotate(-25deg); /* Adjust rotation as needed */
   pointer-events: none;
   z-index: 0;

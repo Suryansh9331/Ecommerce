@@ -69,8 +69,8 @@ const CreatorCategories: React.FC = () => {
     <div className="max-w-5xl mx-auto space-y-5">
       <div className="flex items-start justify-between gap-4 flex-wrap">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-[#FFF5F0] flex items-center justify-center">
-            <FolderOpen className="w-5 h-5 text-[#FF4D00]" />
+          <div className="w-10 h-10 rounded-2xl bg-primary-50 flex items-center justify-center">
+            <FolderOpen className="w-5 h-5 text-primary-600" />
           </div>
           <div>
             <h1 className="text-[24px] font-extrabold text-gray-900 leading-tight">Targeting</h1>
@@ -81,14 +81,14 @@ const CreatorCategories: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-2">
-          <StatusChip label={`${completeness}% complete`} tone={completeness >= 100 ? 'success' : completeness >= 67 ? 'info' : 'warning'} dotClassName={completeness >= 100 ? 'bg-emerald-400' : completeness >= 67 ? 'bg-blue-400' : 'bg-orange-400'} />
-          {dirty ? <StatusChip label="Unsaved changes" tone="warning" dotClassName="bg-orange-400" /> : <StatusChip label="Saved" tone="success" dotClassName="bg-emerald-400" />}
+          <StatusChip label={`${completeness}% complete`} tone={completeness >= 100 ? 'success' : completeness >= 67 ? 'info' : 'warning'} dotClassName={completeness >= 100 ? 'bg-emerald-400' : completeness >= 67 ? 'bg-blue-400' : 'bg-primary-400'} />
+          {dirty ? <StatusChip label="Unsaved changes" tone="warning" dotClassName="bg-primary-400" /> : <StatusChip label="Saved" tone="success" dotClassName="bg-emerald-400" />}
           <button
             type="button"
             onClick={onSave}
             disabled={!dirty || !isValid}
             className={`px-4 py-2.5 rounded-2xl text-[12px] font-extrabold transition-colors ${
-              dirty && isValid ? 'bg-[#FF4D00] text-white hover:bg-[#e64500]' : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+              dirty && isValid ? 'bg-primary-600 text-white hover:bg-primary-700' : 'bg-gray-100 text-gray-400 cursor-not-allowed'
             }`}
           >
             Save
@@ -147,7 +147,7 @@ const CreatorCategories: React.FC = () => {
                   type="button"
                   onClick={() => setDraft((d) => ({ ...d, secondaryNiches: toggle(d.secondaryNiches, n, limits.secondaryMax) }))}
                   className={`px-3 py-1.5 rounded-full text-[12px] font-bold border transition-colors ${
-                    on ? 'bg-[#FF4D00] text-white border-[#FF4D00]' : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50'
+                    on ? 'bg-primary-600 text-white border-primary-600' : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50'
                   }`}
                 >
                   {n}
@@ -197,7 +197,7 @@ const CreatorCategories: React.FC = () => {
               <input
                 value={draft.audience.country}
                 onChange={(e) => setDraft((d) => ({ ...d, audience: { ...d.audience, country: e.target.value } }))}
-                className="w-full rounded-2xl border border-gray-200 px-4 py-3 text-[13px] outline-none focus:ring-2 focus:ring-[#FF4D00]/20 focus:border-[#FF4D00]"
+                className="w-full rounded-2xl border border-gray-200 px-4 py-3 text-[13px] outline-none focus:ring-2 focus:ring-primary-600/20 focus:border-primary-600"
                 placeholder="India"
               />
             </div>
@@ -206,7 +206,7 @@ const CreatorCategories: React.FC = () => {
               <input
                 value={draft.audience.state ?? ''}
                 onChange={(e) => setDraft((d) => ({ ...d, audience: { ...d.audience, state: e.target.value } }))}
-                className="w-full rounded-2xl border border-gray-200 px-4 py-3 text-[13px] outline-none focus:ring-2 focus:ring-[#FF4D00]/20 focus:border-[#FF4D00]"
+                className="w-full rounded-2xl border border-gray-200 px-4 py-3 text-[13px] outline-none focus:ring-2 focus:ring-primary-600/20 focus:border-primary-600"
                 placeholder="Maharashtra"
               />
             </div>
@@ -215,7 +215,7 @@ const CreatorCategories: React.FC = () => {
               <input
                 value={draft.audience.city ?? ''}
                 onChange={(e) => setDraft((d) => ({ ...d, audience: { ...d.audience, city: e.target.value } }))}
-                className="w-full rounded-2xl border border-gray-200 px-4 py-3 text-[13px] outline-none focus:ring-2 focus:ring-[#FF4D00]/20 focus:border-[#FF4D00]"
+                className="w-full rounded-2xl border border-gray-200 px-4 py-3 text-[13px] outline-none focus:ring-2 focus:ring-primary-600/20 focus:border-primary-600"
                 placeholder="Mumbai"
               />
             </div>
@@ -273,7 +273,7 @@ const CreatorCategories: React.FC = () => {
                         return { ...d, dealPrefs: { ...d.dealPrefs, budgets: next } };
                       })}
                       className={`px-3 py-1.5 rounded-full text-[12px] font-bold border transition-colors ${
-                        on ? 'bg-[#FF4D00] text-white border-[#FF4D00]' : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50'
+                        on ? 'bg-primary-600 text-white border-primary-600' : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50'
                       }`}
                     >
                       {b}

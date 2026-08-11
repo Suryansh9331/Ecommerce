@@ -714,7 +714,7 @@ const EditProduct: React.FC = () => {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center p-8">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-600"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
       </div>
     );
   }
@@ -725,7 +725,7 @@ const EditProduct: React.FC = () => {
         <p className="text-red-700">{error}</p>
         <button
           onClick={fetchProduct}
-          className="mt-2 text-sm text-orange-600 hover:text-orange-700 font-medium"
+          className="mt-2 text-sm text-primary-600 hover:text-primary-700 font-medium"
         >
           Try again
         </button>
@@ -738,7 +738,7 @@ const EditProduct: React.FC = () => {
       <div className="mb-6">
         <button
           onClick={() => navigate('/business/catalog/products')}
-          className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-orange-50 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+          className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
         >
           <ArrowLeftIcon className="h-4 w-4 mr-2" />
           Back to Products
@@ -760,7 +760,7 @@ const EditProduct: React.FC = () => {
                 name="product_name"
                 value={formData.product_name}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
                 required
               />
             </div>
@@ -775,7 +775,7 @@ const EditProduct: React.FC = () => {
                 name="sku"
                 value={formData.sku}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
                 required
               />
             </div>
@@ -789,7 +789,7 @@ const EditProduct: React.FC = () => {
                 name="category_id"
                 value={formData.category_id}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
                 required
               >
                 <option value="">Select a category</option>
@@ -810,7 +810,7 @@ const EditProduct: React.FC = () => {
                 name="brand_id"
                 value={formData.brand_id}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
                 required
               >
                 <option value="">Select a brand</option>
@@ -834,7 +834,7 @@ const EditProduct: React.FC = () => {
                 onChange={handleChange}
                 step="0.01"
                 min="0"
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
                 required
               />
             </div>
@@ -851,7 +851,7 @@ const EditProduct: React.FC = () => {
                 onChange={handleChange}
                 step="0.01"
                 min="0"
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
                 required
               />
             </div>
@@ -868,7 +868,7 @@ const EditProduct: React.FC = () => {
                 onChange={handleChange}
                 step="0.01"
                 min="0"
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
               />
             </div>
 
@@ -882,7 +882,7 @@ const EditProduct: React.FC = () => {
                 name="special_start"
                 value={formData.special_start}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
               />
             </div>
 
@@ -896,7 +896,7 @@ const EditProduct: React.FC = () => {
                 name="special_end"
                 value={formData.special_end}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
               />
             </div>
 
@@ -932,7 +932,7 @@ const EditProduct: React.FC = () => {
               <div className="flex items-center space-x-2">
                 <label
                   htmlFor="media-upload"
-                  className="inline-flex items-center px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none cursor-pointer"
+                  className="inline-flex items-center px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none cursor-pointer"
                 >
                   <PlusIcon className="h-4 w-4 mr-2" />
                   Add Media
@@ -1064,13 +1064,13 @@ const EditProduct: React.FC = () => {
                   onChange={handleChange}
                   step="0.001"
                   min="0"
-                  className="flex-1 rounded-l-md border-gray-300 focus:border-orange-500 focus:ring-orange-500 sm:text-sm"
+                  className="flex-1 rounded-l-md border-gray-300 focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
                 />
                 <select
                   name="weightUnit"
                   value={formData.weightUnit}
                   onChange={handleChange}
-                  className="rounded-r-md border-l-0 border-gray-300 focus:border-orange-500 focus:ring-orange-500 sm:text-sm"
+                  className="rounded-r-md border-l-0 border-gray-300 focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
                 >
                   {weightUnits.map(unit => (
                     <option key={unit.value} value={unit.value}>
@@ -1095,7 +1095,7 @@ const EditProduct: React.FC = () => {
                     placeholder="Length"
                     step="0.01"
                     min="0"
-                    className="block w-full rounded-md border-gray-300 focus:border-orange-500 focus:ring-orange-500 sm:text-sm"
+                    className="block w-full rounded-md border-gray-300 focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
                   />
                 </div>
                 <div>
@@ -1107,7 +1107,7 @@ const EditProduct: React.FC = () => {
                     placeholder="Width"
                     step="0.01"
                     min="0"
-                    className="block w-full rounded-md border-gray-300 focus:border-orange-500 focus:ring-orange-500 sm:text-sm"
+                    className="block w-full rounded-md border-gray-300 focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
                   />
                 </div>
                 <div>
@@ -1119,7 +1119,7 @@ const EditProduct: React.FC = () => {
                     placeholder="Height"
                     step="0.01"
                     min="0"
-                    className="block w-full rounded-md border-gray-300 focus:border-orange-500 focus:ring-orange-500 sm:text-sm"
+                    className="block w-full rounded-md border-gray-300 focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
                   />
                 </div>
               </div>
@@ -1128,7 +1128,7 @@ const EditProduct: React.FC = () => {
                   name="dimensionUnit"
                   value={formData.dimensionUnit}
                   onChange={handleChange}
-                  className="block w-full rounded-md border-gray-300 focus:border-orange-500 focus:ring-orange-500 sm:text-sm"
+                  className="block w-full rounded-md border-gray-300 focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
                 >
                   {dimensionUnits.map(unit => (
                     <option key={unit.value} value={unit.value}>
@@ -1142,7 +1142,7 @@ const EditProduct: React.FC = () => {
           <div className="mt-4 flex justify-end">
             <button
               onClick={handleUpdateShipping}
-              className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+              className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
             >
               Update Shipping
             </button>
@@ -1164,7 +1164,7 @@ const EditProduct: React.FC = () => {
                 value={stockData?.stock_qty || formData.stock_qty}
                 onChange={handleChange}
                 min="0"
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
               />
             </div>
             <div>
@@ -1178,14 +1178,14 @@ const EditProduct: React.FC = () => {
                 value={stockData?.low_stock_threshold || formData.low_stock_threshold}
                 onChange={handleChange}
                 min="0"
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
               />
             </div>
           </div>
           <div className="mt-4 flex justify-end">
             <button
               onClick={handleUpdateStock}
-              className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+              className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
             >
               Update Stock
             </button>
@@ -1207,7 +1207,7 @@ const EditProduct: React.FC = () => {
                 value={metaData.short_desc}
                 onChange={(e) => handleDescriptionChange('short_desc', e.target.value)}
                 rows={3}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
                 placeholder="Enter a brief description (max 255 characters)"
                 maxLength={255}
               />
@@ -1223,7 +1223,7 @@ const EditProduct: React.FC = () => {
                 value={metaData.full_desc}
                 onChange={(e) => handleDescriptionChange('full_desc', e.target.value)}
                 rows={6}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
                 placeholder="Enter detailed product description"
               />
             </div>
@@ -1238,7 +1238,7 @@ const EditProduct: React.FC = () => {
                 id="meta_title"
                 value={metaData.meta_title}
                 onChange={(e) => setMetaData(prev => ({ ...prev, meta_title: e.target.value }))}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
                 placeholder="Enter meta title (max 100 characters)"
                 maxLength={100}
               />
@@ -1254,7 +1254,7 @@ const EditProduct: React.FC = () => {
                 value={metaData.meta_desc}
                 onChange={(e) => setMetaData(prev => ({ ...prev, meta_desc: e.target.value }))}
                 rows={3}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
                 placeholder="Enter meta description (max 255 characters)"
                 maxLength={255}
               />
@@ -1270,7 +1270,7 @@ const EditProduct: React.FC = () => {
                 id="meta_keywords"
                 value={metaData.meta_keywords}
                 onChange={(e) => setMetaData(prev => ({ ...prev, meta_keywords: e.target.value }))}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
                 placeholder="Enter keywords separated by commas"
               />
               <p className="mt-1 text-sm text-gray-500">
@@ -1281,7 +1281,7 @@ const EditProduct: React.FC = () => {
             <div className="flex justify-end">
               <button
                 onClick={handleUpdateMeta}
-                className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+                className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
               >
                 Update Meta
               </button>
@@ -1311,13 +1311,13 @@ const EditProduct: React.FC = () => {
           <button
             type="button"
             onClick={() => navigate('/business/catalog/products')}
-            className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-orange-50 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+            className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
           >
             Cancel
           </button>
           <button
             type="submit"
-            className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+            className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
           >
             Save Changes
           </button>

@@ -435,7 +435,7 @@ export default function Categories() {
               )}
               {/* Create Subcategory Button */}
               <button
-                className="ml-2 px-2 py-1 text-xs bg-[#FF5733]/10 text-[#FF5733] rounded hover:bg-[#FF5733]/20 transition-colors"
+                className="ml-2 px-2 py-1 text-xs bg-primary-600/10 text-primary-600 rounded hover:bg-primary-600/20 transition-colors"
                 onClick={() => handleOpenDialog(category)}
                 title={`Create subcategory under ${category.name}`}
               >
@@ -486,7 +486,7 @@ export default function Categories() {
       <div className="flex flex-wrap gap-4 justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Categories</h1>
         <button
-          className="bg-[#FF5733] text-white px-4 py-2 rounded flex items-center space-x-2 hover:bg-[#FF4500] transition-colors"
+          className="bg-primary-600 text-white px-4 py-2 rounded flex items-center space-x-2 hover:bg-primary-700 transition-colors"
           onClick={() => handleOpenDialog()}
         >
           <Plus size={18} />
@@ -632,14 +632,14 @@ export default function Categories() {
             <div className="mt-6 flex justify-end space-x-3">
               <button
                 onClick={handleCloseDialog}
-                className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FF5733]"
+                className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-600"
               >
                 Cancel
               </button>
               <button
                 onClick={handleSubmit}
                 disabled={loading}
-                className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#FF5733] hover:bg-[#FF4500] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FF5733] disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-600 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? (
                   <div className="flex items-center">
@@ -671,7 +671,7 @@ export default function Categories() {
             <div className="mt-5 sm:mt-6 sm:flex sm:flex-row-reverse">
               <button
                 type="button"
-                className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-orange-500 text-base font-medium text-white hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
+                className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary-500 text-base font-medium text-white hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
                 onClick={confirmDelete}
               >
                 Delete

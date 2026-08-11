@@ -268,7 +268,7 @@ const DimensionPresets: React.FC = () => {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-600"></div>
       </div>
     );
   }
@@ -285,7 +285,7 @@ const DimensionPresets: React.FC = () => {
         </div>
         <button
           onClick={handleCreate}
-          className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+          className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
         >
           <PlusIcon className="h-5 w-5 mr-2" />
           Create Preset
@@ -305,7 +305,7 @@ const DimensionPresets: React.FC = () => {
           <p className="text-gray-500 mb-4">No dimension presets found</p>
           <button
             onClick={handleCreate}
-            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700"
+            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700"
           >
             <PlusIcon className="h-5 w-5 mr-2" />
             Create Your First Preset
@@ -365,7 +365,7 @@ const DimensionPresets: React.FC = () => {
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <button
                       onClick={() => handleEdit(preset)}
-                      className="text-orange-600 hover:text-orange-900 mr-4"
+                      className="text-primary-600 hover:text-primary-900 mr-4"
                       title="Edit"
                     >
                       <PencilIcon className="h-5 w-5" />
@@ -421,7 +421,7 @@ const DimensionPresets: React.FC = () => {
                         setValidationErrors({ ...validationErrors, name: '' });
                       }
                     }}
-                    className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm ${
+                    className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm ${
                       validationErrors.name ? 'border-red-300' : ''
                     }`}
                     placeholder="e.g., Shoes - Standard Size"
@@ -453,7 +453,7 @@ const DimensionPresets: React.FC = () => {
                         }}
                         step="0.01"
                         min="0.01"
-                        className={`block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm ${
+                        className={`block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm ${
                           validationErrors.length ? 'border-red-300' : ''
                         }`}
                         placeholder="Length"
@@ -478,7 +478,7 @@ const DimensionPresets: React.FC = () => {
                         }}
                         step="0.01"
                         min="0.01"
-                        className={`block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm ${
+                        className={`block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm ${
                           validationErrors.width ? 'border-red-300' : ''
                         }`}
                         placeholder="Width"
@@ -503,7 +503,7 @@ const DimensionPresets: React.FC = () => {
                         }}
                         step="0.01"
                         min="0.01"
-                        className={`block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm ${
+                        className={`block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm ${
                           validationErrors.height ? 'border-red-300' : ''
                         }`}
                         placeholder="Height"
@@ -536,7 +536,7 @@ const DimensionPresets: React.FC = () => {
                         }
                         setDimensionUnit(newUnit);
                       }}
-                      className="block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm"
+                      className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
                     >
                       {dimensionUnits.map(unit => (
                         <option key={unit.value} value={unit.value}>
@@ -565,7 +565,7 @@ const DimensionPresets: React.FC = () => {
                       }}
                       step="0.001"
                       min="0.001"
-                      className={`flex-1 rounded-l-md border-gray-300 focus:border-orange-500 focus:ring-orange-500 sm:text-sm ${
+                      className={`flex-1 rounded-l-md border-gray-300 focus:border-primary-500 focus:ring-primary-500 sm:text-sm ${
                         validationErrors.weight ? 'border-red-300' : ''
                       }`}
                       placeholder="Enter weight"
@@ -584,7 +584,7 @@ const DimensionPresets: React.FC = () => {
                         }
                         setWeightUnit(newUnit);
                       }}
-                      className="rounded-r-md border-l-0 border-gray-300 focus:border-orange-500 focus:ring-orange-500 sm:text-sm"
+                      className="rounded-r-md border-l-0 border-gray-300 focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
                     >
                       {weightUnits.map(unit => (
                         <option key={unit.value} value={unit.value}>
@@ -607,7 +607,7 @@ const DimensionPresets: React.FC = () => {
                     id="shipping_class"
                     value={formData.shipping_class}
                     onChange={(e) => setFormData({ ...formData, shipping_class: e.target.value })}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm"
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
                   >
                     <option value="">Select shipping class (optional)</option>
                     {shippingClasses.map(option => (
@@ -628,7 +628,7 @@ const DimensionPresets: React.FC = () => {
                     value={formData.description}
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                     rows={3}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm"
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
                     placeholder="Optional description or notes"
                   />
                 </div>
@@ -638,14 +638,14 @@ const DimensionPresets: React.FC = () => {
                   <button
                     type="button"
                     onClick={handleCloseModal}
-                    className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+                    className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isSubmitting ? 'Saving...' : editingPreset ? 'Update Preset' : 'Create Preset'}
                   </button>

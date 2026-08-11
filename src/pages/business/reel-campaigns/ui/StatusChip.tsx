@@ -5,7 +5,7 @@ const STATUS_STYLE: Record<CampaignStatus, { bg: string; text: string; dot: stri
   Draft: { bg: 'bg-gray-100', text: 'text-gray-700', dot: 'bg-gray-400' },
   Sent: { bg: 'bg-blue-100', text: 'text-blue-700', dot: 'bg-blue-500' },
   Accepted: { bg: 'bg-indigo-100', text: 'text-indigo-700', dot: 'bg-indigo-500' },
-  Active: { bg: 'bg-orange-100', text: 'text-orange-800', dot: 'bg-orange-500' },
+  Active: { bg: 'bg-primary-100', text: 'text-primary-800', dot: 'bg-primary-500' },
   Submitted: { bg: 'bg-sky-100', text: 'text-sky-800', dot: 'bg-sky-500' },
   Approved: { bg: 'bg-emerald-100', text: 'text-emerald-800', dot: 'bg-emerald-500' },
   Live: { bg: 'bg-emerald-100', text: 'text-emerald-800', dot: 'bg-emerald-500' },

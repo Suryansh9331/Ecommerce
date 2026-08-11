@@ -84,7 +84,7 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
         onClick={onClose}
         className={`group flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium transition-all duration-150 ${
           active
-            ? 'bg-[#FF4D00] text-white shadow-md shadow-[#FF4D00]/25'
+            ? 'bg-primary-600 text-white shadow-md shadow-primary-600/25'
             : 'text-[#8b8fa8] hover:bg-white/6 hover:text-white'
         }`}
       >
@@ -94,7 +94,7 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
         />
         <span className="flex-1 truncate">{item.label}</span>
         {badge != null && badge > 0 && !active && (
-          <span className="min-w-[18px] h-[18px] px-1 rounded-full bg-[#FF4D00] text-white text-[9px] font-bold flex items-center justify-center leading-none">
+          <span className="min-w-[18px] h-[18px] px-1 rounded-full bg-primary-600 text-white text-[9px] font-bold flex items-center justify-center leading-none">
             {badge}
           </span>
         )}
@@ -123,7 +123,7 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
           onClick={onClose}
           className="flex items-center gap-2.5 group"
         >
-          <div className="w-8 h-8 rounded-[10px] bg-gradient-to-br from-[#FF4D00] to-[#ff7840] flex items-center justify-center shadow-lg shadow-[#FF4D00]/30 shrink-0">
+          <div className="w-8 h-8 rounded-[10px] bg-gradient-to-br from-primary-600 to-primary-400 flex items-center justify-center shadow-lg shadow-primary-600/30 shrink-0">
             <Zap className="w-[15px] h-[15px] text-white fill-white" />
           </div>
           <div>
@@ -140,7 +140,7 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
         <div className="p-3.5">
           <div className="flex items-center gap-3">
             <div className="relative shrink-0">
-              <div className="w-11 h-11 rounded-[12px] bg-gradient-to-br from-[#FF4D00] to-[#ff9a6c] flex items-center justify-center text-white font-bold text-base shadow-lg shadow-[#FF4D00]/20">
+              <div className="w-11 h-11 rounded-[12px] bg-gradient-to-br from-primary-600 to-primary-300 flex items-center justify-center text-white font-bold text-base shadow-lg shadow-primary-600/20">
                 {initial}
               </div>
               <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full border-2 border-[#161622] flex items-center justify-center bg-[#0d0d14]">
@@ -294,7 +294,7 @@ const CreatorLayout: React.FC = () => {
             <Menu className="w-5 h-5" />
           </button>
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-md bg-gradient-to-br from-[#FF4D00] to-[#ff7840] flex items-center justify-center">
+            <div className="w-6 h-6 rounded-md bg-gradient-to-br from-primary-600 to-primary-400 flex items-center justify-center">
               <Zap className="w-3.5 h-3.5 text-white fill-white" />
             </div>
             <span className="text-[13px] font-extrabold text-white tracking-wide">AOIN Creator</span>

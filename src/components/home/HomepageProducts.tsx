@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ProductCard from '../product/ProductCard';
-import { useHorizontalScroll } from '../../hooks/useHorizontalScroll';
 import { useTranslation } from 'react-i18next';
 import { useAmazonTranslate } from '../../hooks/useAmazonTranslate';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-const PRODUCTS_PER_PAGE = 4;
+
+
+// How many products each category shows on the home screen (4 rows of 5 on xl).
+// The rest live behind "See All". Capped by whatever /api/homepage/products returns.
+const VISIBLE_COUNT = 30;
 
 interface Category {
   category_id: number;
@@ -67,89 +70,16 @@ interface CategoryState {
   currentPage: number;
 }
 
-// Scrollable product carousel with its own ref (one per category so each section scrolls)
-const ProductCarousel: React.FC<{
-  products: Product[];
-  renderCard: (product: Product) => React.ReactNode;
-  itemsPerView: number;
-  gapPx: number;
-}> = ({ products, renderCard, itemsPerView, gapPx }) => {
-  const {
-    containerRef,
-    isDragging,
-    handleMouseDown,
-    handleMouseUp,
-    handleMouseMove,
-    handleTouchStart,
-    handleTouchMove,
-    handleTouchEnd,
-  } = useHorizontalScroll({
-    snapToItems: true,
-    itemWidth: window.innerWidth < 640 ? (window.innerWidth - 32 - 12) / 2 : window.innerWidth < 768 ? (window.innerWidth - 32) / 2 - 6 : window.innerWidth < 1024 ? (window.innerWidth - 32) / 3 - 8 : window.innerWidth < 1280 ? (window.innerWidth - 32) / 4 - 9 : (window.innerWidth - 32) / 5 - 10,
-    gap: 12,
-  });
-
-  return (
-    <div
-      ref={containerRef}
-      className="flex overflow-x-auto gap-3 sm:gap-7 pb-4 scrollbar-hide scroll-smooth snap-x min-w-0"
-      onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp}
-      onMouseLeave={handleMouseUp}
-      onMouseMove={handleMouseMove}
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
-      style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
-    >
-      {products.map((product) => (
-        <div
-          key={product.product_id}
-          className="flex-none snap-start min-w-0"
-          style={{ width: `calc(${100 / itemsPerView}% - ${(itemsPerView - 1) * gapPx / itemsPerView}px)` }}
-        >
-          {renderCard(product)}
-        </div>
-      ))}
-    </div>
-  );
-};
-
 const HomepageProducts: React.FC = () => {
   const [categoriesWithProducts, setCategoriesWithProducts] = useState<CategoryWithProducts[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [categoryStates, setCategoryStates] = useState<Record<number, CategoryState>>({});
-  const [itemsPerView, setItemsPerView] = useState(4);
-  const [gapPx, setGapPx] = useState(28);
   const navigate = useNavigate();
   const { i18n } = useTranslation();
   const { translateBatch } = useAmazonTranslate();
   const [translatedCategories, setTranslatedCategories] = useState<Record<number, string>>({});
   const hasFetched = useRef(false);
-
-  // Update items per view and gap based on screen size (mobile: 2 cards, smaller gap)
-  useEffect(() => {
-    const updateItemsPerView = () => {
-      const width = window.innerWidth;
-      setGapPx(width < 640 ? 12 : 28); // gap-3 on mobile, gap-7 on sm+
-      if (width < 640) {
-        setItemsPerView(2);
-      } else if (width < 768) {
-        setItemsPerView(2);
-      } else if (width < 1024) {
-        setItemsPerView(3);
-      } else if (width < 1280) {
-        setItemsPerView(4);
-      } else {
-        setItemsPerView(5);
-      }
-    };
-
-    updateItemsPerView();
-    window.addEventListener('resize', updateItemsPerView);
-    return () => window.removeEventListener('resize', updateItemsPerView);
-  }, []);
 
   useEffect(() => {
     const fetchHomepageProducts = async () => {
@@ -340,8 +270,8 @@ const HomepageProducts: React.FC = () => {
                 <button
                   className={`whitespace-nowrap ${
                     categoryStates[categoryData.category.category_id]?.activeCategory === 'All'
-                      ? 'text-[#F2631F] border-b-2 border-[#F2631F]'
-                      : 'text-gray-600 hover:text-[#F2631F]'
+                      ? 'text-primary-600 border-b-2 border-primary-600'
+                      : 'text-gray-600 hover:text-primary-600'
                   } pb-1`}
                   onClick={() => handleCategoryChange(categoryData.category.category_id, 'All')}
                 >
@@ -352,8 +282,8 @@ const HomepageProducts: React.FC = () => {
                     key={subcategory.category.category_id}
                     className={`whitespace-nowrap ${
                       categoryStates[categoryData.category.category_id]?.activeCategory === subcategory.category.name
-                        ? 'text-[#F2631F] border-b-2 border-[#F2631F]'
-                        : 'text-gray-600 hover:text-[#F2631F]'
+                        ? 'text-primary-600 border-b-2 border-primary-600'
+                        : 'text-gray-600 hover:text-primary-600'
                     } pb-1`}
                     onClick={() => handleCategoryChange(categoryData.category.category_id, subcategory.category.name)}
                   >
@@ -362,15 +292,28 @@ const HomepageProducts: React.FC = () => {
                 ))}
               </div>
 
-              {/* Products carousel - all products, horizontally scrollable */}
-              <div className="relative min-w-0">
-                <ProductCarousel
-                  products={getActiveCategoryProducts(categoryData)}
-                  renderCard={renderProductCard}
-                  itemsPerView={itemsPerView}
-                  gapPx={gapPx}
-                />
+              {/* Products grid — 5 per row on xl, so VISIBLE_COUNT fills exactly two rows */}
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-6">
+                {getActiveCategoryProducts(categoryData)
+                  .slice(0, VISIBLE_COUNT)
+                  .map((product) => (
+                    <div key={product.product_id} className="min-w-0">
+                      {renderProductCard(product)}
+                    </div>
+                  ))}
               </div>
+
+              {/* See All — only when the category has more than the grid shows */}
+              {getActiveCategoryProducts(categoryData).length > VISIBLE_COUNT && (
+                <div className="flex justify-center pt-2">
+                  <Link
+                    to={`/all-products?category=${categoryData.category.category_id}`}
+                    className="inline-flex items-center rounded-lg border border-primary-600 px-8 py-2.5 text-sm font-semibold text-primary-600 transition-colors hover:bg-primary-600 hover:text-white"
+                  >
+                    See All
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         </section>

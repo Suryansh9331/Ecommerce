@@ -125,7 +125,7 @@ const BusinessLogin: React.FC = () => {
   
           {showResend && !isSubmitting && (
             <div
-              className="mb-4 text-sm text-[#F2631F] cursor-pointer hover:underline text-center"
+              className="mb-4 text-sm text-primary-600 cursor-pointer hover:underline text-center"
               onClick={handleResend}
             >
               Didn't get a verification email? Resend link.
@@ -143,7 +143,7 @@ const BusinessLogin: React.FC = () => {
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 required
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F2631F] focus:border-transparent"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent"
                 placeholder="Enter your business email"
               />
             </div>
@@ -162,7 +162,7 @@ const BusinessLogin: React.FC = () => {
                   value={password}
                   onChange={e => setPassword(e.target.value)}
                   required
-                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F2631F] focus:border-transparent pr-10"
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent pr-10"
                   placeholder="Enter your password"
                 />
                 <button
@@ -172,7 +172,7 @@ const BusinessLogin: React.FC = () => {
                 >
                   {showPassword ? <EyeOff className="h-4 w-4 text-gray-400" /> : <Eye className="h-4 w-4 text-gray-400" />}
                 </button>
-                <Link to="/request-password-reset" className="text-sm text-[#F2631F] hover:text-orange-400">
+                <Link to="/request-password-reset" className="text-sm text-primary-600 hover:text-primary-400">
                   Forgot your password?
                 </Link>
               </div>
@@ -182,7 +182,7 @@ const BusinessLogin: React.FC = () => {
               <input
                 id="remember"
                 type="checkbox"
-                className="h-4 w-4 text-[#F2631F] focus:ring-[#F2631F] border-gray-300 rounded"
+                className="h-4 w-4 text-primary-600 focus:ring-primary-600 border-gray-300 rounded"
               />
               <label htmlFor="remember" className="ml-2 block text-sm text-gray-700">
                 Remember me
@@ -192,7 +192,7 @@ const BusinessLogin: React.FC = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-[#F2631F] text-white py-2.5 px-4 rounded-md font-medium hover:bg-orange-600 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+              className="w-full bg-primary-600 text-white py-2.5 px-4 rounded-md font-medium hover:bg-primary-600 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
             >
               {isSubmitting ? (
                 <span className="flex items-center justify-center">
@@ -212,13 +212,13 @@ const BusinessLogin: React.FC = () => {
         <div className="px-8 py-5 bg-gray-50 border-t border-gray-200 text-center text-sm text-gray-600">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-center">
             <span>Don't have a business account?</span>
-            <Link to="/register-business" className="font-medium text-[#F2631F] hover:text-orange-400 sm:ml-1">
+            <Link to="/register-business" className="font-medium text-primary-600 hover:text-primary-400 sm:ml-1">
               Register
             </Link>
           </div>
           <div className="mt-2 flex flex-col sm:flex-row sm:items-center sm:justify-center">
             <span>Need a personal account?</span>
-            <Link to="/sign-in" className="font-medium text-[#F2631F] hover:text-orange-400 sm:ml-1">
+            <Link to="/sign-in" className="font-medium text-primary-600 hover:text-primary-400 sm:ml-1">
               Sign in as customer
             </Link>
           </div>

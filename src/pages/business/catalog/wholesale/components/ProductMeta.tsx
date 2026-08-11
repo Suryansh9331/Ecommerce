@@ -352,7 +352,7 @@ const ProductMeta: React.FC<ProductMetaProps> = ({
       <div className="bg-gray-50 p-4 rounded-md">
         <h4 className="text-sm font-medium text-gray-700 mb-2">SEO Preview</h4>
         <div className="space-y-2">
-          <div className="text-orange-600 text-sm truncate">{metaTitle || 'Your meta title will appear here'}</div>
+          <div className="text-primary-600 text-sm truncate">{metaTitle || 'Your meta title will appear here'}</div>
           <div className="text-gray-600 text-xs line-clamp-2">{metaDescription || 'Your meta description will appear here'}</div>
         </div>
       </div>

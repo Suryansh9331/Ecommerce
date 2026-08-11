@@ -109,7 +109,7 @@ const GSTRuleManagement: React.FC = () => {
     <div className="p-4 md:p-4 bg-gray-50 min-h-screen">
       <header className="mb-6">
         {/* Responsive text size for the header */}
-        <h1 className="text-2xl sm:text-3xl font-bold text-orange-600">
+        <h1 className="text-2xl sm:text-3xl font-bold text-primary-600">
           GST Rule Management
         </h1>
         <p className="text-sm sm:text-base text-gray-600">
@@ -127,7 +127,7 @@ const GSTRuleManagement: React.FC = () => {
       <div className="mb-6 flex justify-end">
         <button
           onClick={() => handleOpenForm()}
-          className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-3 sm:px-4 rounded-lg shadow-md transition duration-150 ease-in-out flex items-center text-sm sm:text-base"
+          className="bg-primary-500 hover:bg-primary-600 text-white font-semibold py-2 px-3 sm:px-4 rounded-lg shadow-md transition duration-150 ease-in-out flex items-center text-sm sm:text-base"
         >
           <PlusCircleIcon className="h-5 w-5 mr-1 sm:mr-2" />
           Add New Rule

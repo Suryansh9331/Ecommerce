@@ -12,11 +12,11 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 // Update the COLORS constant
 const CHART_COLORS = {
-  primary: '#FF5733',
+  primary: '#1800AC',
   secondary: '#2DD4BF',
   tertiary: '#A855F7',
   quaternary: '#3B82F6',
-  background: '#FFF5E6'
+  background: '#F2F0FF'
 };
 
 interface TrendData {
@@ -229,20 +229,20 @@ export default function SalesReport() {
     <div className="bg-white min-h-screen p-6">
       <div className="max-w-full mx-auto">
         {/* Header with updated styling */}
-        <div className="bg-white rounded-lg shadow-lg mb-8 p-6" style={{background: 'linear-gradient(135deg, #FF5733 0%, #FF8C33 100%)'}}>
+        <div className="bg-white rounded-lg shadow-lg mb-8 p-6" style={{background: 'linear-gradient(135deg, #1800AC 0%, #3B1EEB 100%)'}}>
           <div className="flex flex-wrap gap-4 justify-between items-center">
             <h1 className="text-3xl font-bold text-white">Sales Performance Report</h1>
             <div className="flex space-x-4">
               <button 
                 onClick={refreshData}
-                className="flex items-center gap-2 bg-white text-[#FF5733] px-4 py-2 rounded-lg font-medium hover:bg-white/80 transition-all duration-300 group border border-[#FF5733]"
+                className="flex items-center gap-2 bg-white text-primary-600 px-4 py-2 rounded-lg font-medium hover:bg-white/80 transition-all duration-300 group border border-primary-600"
               >
                 <RefreshCw className={`w-5 h-5 ${isLoading ? 'animate-spin' : 'group-hover:rotate-180 transition-transform duration-500'}`} />
                 Refresh Data
               </button>
               <button 
                 onClick={() => setIsExportModalOpen(true)}
-                className="flex items-center gap-2 bg-[#FF5733] text-white px-4 py-2 rounded-lg font-medium hover:bg-[#FF4500] transition-all duration-300 border border-[#FF5733]"
+                className="flex items-center gap-2 bg-primary-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-primary-700 transition-all duration-300 border border-primary-600"
               >
                 <Download className="w-5 h-5" />
                 Export Report
@@ -268,30 +268,30 @@ export default function SalesReport() {
 
         {/* Summary Cards with enhanced styling */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white p-6 rounded-lg shadow-lg border-l-4" style={{borderLeftColor: '#FF5733'}}>
+          <div className="bg-white p-6 rounded-lg shadow-lg border-l-4" style={{borderLeftColor: '#1800AC'}}>
             <h3 className="text-gray-500 text-sm font-medium mb-1">Total Revenue</h3>
             <div className="flex items-end">
-              <p className="text-2xl font-bold" style={{color: '#FF5733'}}>{formatCurrency(totalRevenue)}</p>
+              <p className="text-2xl font-bold" style={{color: '#1800AC'}}>{formatCurrency(totalRevenue)}</p>
             </div>
           </div>
-          <div className="bg-white p-6 rounded-lg shadow-lg border-l-4" style={{borderLeftColor: '#FF5733'}}>
+          <div className="bg-white p-6 rounded-lg shadow-lg border-l-4" style={{borderLeftColor: '#1800AC'}}>
             <h3 className="text-gray-500 text-sm font-medium mb-1">Total Sales</h3>
             <div className="flex items-end">
-              <p className="text-2xl font-bold" style={{color: '#FF5733'}}>{totalSales.toLocaleString()}</p>
+              <p className="text-2xl font-bold" style={{color: '#1800AC'}}>{totalSales.toLocaleString()}</p>
               <p className="text-sm text-gray-500 ml-2 mb-1">units</p>
             </div>
           </div>
-          <div className="bg-white p-6 rounded-lg shadow-lg border-l-4" style={{borderLeftColor: '#FF5733'}}>
+          <div className="bg-white p-6 rounded-lg shadow-lg border-l-4" style={{borderLeftColor: '#1800AC'}}>
             <h3 className="text-gray-500 text-sm font-medium mb-1">Average Order Value</h3>
             <div className="flex items-end">
-              <p className="text-2xl font-bold" style={{color: '#FF5733'}}>{formatCurrency(averageOrderValue)}</p>
+              <p className="text-2xl font-bold" style={{color: '#1800AC'}}>{formatCurrency(averageOrderValue)}</p>
             </div>
           </div>
         </div>
 
         {/* Revenue and Sales Trend Chart */}
         <div className="bg-white p-6 rounded-lg shadow-lg mb-8">
-          <h2 className="text-lg font-medium mb-4" style={{color: '#FF5733'}}>Revenue & Sales Trend</h2>
+          <h2 className="text-lg font-medium mb-4" style={{color: '#1800AC'}}>Revenue & Sales Trend</h2>
           <div className="overflow-x-auto">
             <div className="h-72 min-w-[600px]">
               <ResponsiveContainer width="100%" height="100%">
@@ -315,7 +315,7 @@ export default function SalesReport() {
 
         {/* Category Distribution */}
         <div className="bg-white p-6 rounded-lg shadow-lg mb-8">
-            <h2 className="text-lg font-medium mb-4" style={{color: '#FF5733'}}>Revenue by Category</h2>
+            <h2 className="text-lg font-medium mb-4" style={{color: '#1800AC'}}>Revenue by Category</h2>
             <div className="h-80" style={{ 
               WebkitTapHighlightColor: 'transparent',
               WebkitTouchCallout: 'none',
@@ -380,10 +380,10 @@ export default function SalesReport() {
 
         {/* Merchant Performance Table */}
         <div className="bg-white p-6 rounded-lg shadow-lg">
-          <h2 className="text-lg font-medium mb-4" style={{color: '#FF5733'}}>Merchant Performance</h2>
+          <h2 className="text-lg font-medium mb-4" style={{color: '#1800AC'}}>Merchant Performance</h2>
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
-              <thead style={{backgroundColor: '#FF5733'}}>
+              <thead style={{backgroundColor: '#1800AC'}}>
                 <tr>
                   <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                     Merchant
@@ -447,7 +447,7 @@ export default function SalesReport() {
           </div>
           {isLoading && (
             <div className="flex justify-center items-center py-4">
-              <div className="animate-spin rounded-full h-6 w-6 border-b-2" style={{borderColor: '#FF5733'}}></div>
+              <div className="animate-spin rounded-full h-6 w-6 border-b-2" style={{borderColor: '#1800AC'}}></div>
               <span className="ml-2 text-gray-500">Loading data...</span>
             </div>
           )}

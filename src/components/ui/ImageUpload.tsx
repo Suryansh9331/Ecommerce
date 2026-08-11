@@ -124,8 +124,8 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
         className={`
           relative border-2 border-dashed rounded-lg cursor-pointer transition-all duration-200
           ${isDragging 
-            ? 'border-orange-500 bg-orange-50' 
-            : 'border-gray-300 hover:border-orange-400 hover:bg-gray-50'
+            ? 'border-primary-500 bg-primary-50' 
+            : 'border-gray-300 hover:border-primary-400 hover:bg-gray-50'
           }
           ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
           ${preview ? 'border-solid border-gray-200' : ''}
@@ -185,7 +185,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
             </p>
             <button
               type="button"
-              className="mt-2 px-4 py-2 text-sm font-medium text-orange-600 bg-orange-50 border border-orange-200 rounded-lg hover:bg-orange-100 transition-colors"
+              className="mt-2 px-4 py-2 text-sm font-medium text-primary-600 bg-primary-50 border border-primary-200 rounded-lg hover:bg-primary-100 transition-colors"
             >
               Browse Files
             </button>

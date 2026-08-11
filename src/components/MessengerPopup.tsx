@@ -123,7 +123,7 @@ const { toasts, warning } = useToast();
       {/* Messenger Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center text-white shadow-lg hover:bg-orange-600 transition-colors"
+        className="w-12 h-12 bg-primary-500 rounded-full flex items-center justify-center text-white shadow-lg hover:bg-primary-600 transition-colors"
       >
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
@@ -133,7 +133,7 @@ const { toasts, warning } = useToast();
       {/* Popup Dialog */}
       {isOpen && (
         <div className="absolute bottom-16 right-0 w-[92vw] sm:w-96 bg-white rounded-lg shadow-xl max-h-[70vh] sm:max-h-[500px] flex flex-col">
-          <div className="bg-orange-500 p-4 rounded-t-lg">
+          <div className="bg-primary-500 p-4 rounded-t-lg">
             <div className="flex justify-between items-center">
               <h3 className="text-white text-lg font-semibold">AOIN Chat Assistant</h3>
               <button
@@ -160,25 +160,25 @@ const { toasts, warning } = useToast();
                   placeholder="Name *"
                   value={userInfo.name}
                   onChange={(e) => setUserInfo(prev => ({ ...prev, name: e.target.value }))}
-                  className="w-full p-2 border-b border-gray-300 focus:outline-none focus:border-orange-500"
+                  className="w-full p-2 border-b border-gray-300 focus:outline-none focus:border-primary-500"
                 />
                 <input
                   type="tel"
                   placeholder="Phone number"
                   value={userInfo.phone}
                   onChange={(e) => setUserInfo(prev => ({ ...prev, phone: e.target.value }))}
-                  className="w-full p-2 border-b border-gray-300 focus:outline-none focus:border-orange-500"
+                  className="w-full p-2 border-b border-gray-300 focus:outline-none focus:border-primary-500"
                 />
                 <input
                   type="email"
                   placeholder="Email *"
                   value={userInfo.email}
                   onChange={(e) => setUserInfo(prev => ({ ...prev, email: e.target.value }))}
-                  className="w-full p-2 border-b border-gray-300 focus:outline-none focus:border-orange-500"
+                  className="w-full p-2 border-b border-gray-300 focus:outline-none focus:border-primary-500"
                 />
                 <button
                   onClick={handleUserInfoSubmit}
-                  className="w-full py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors"
+                  className="w-full py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
                 >
                   Start Chat
                 </button>
@@ -198,7 +198,7 @@ const { toasts, warning } = useToast();
                       <div
                         className={`max-w-[80%] p-3 rounded-lg ${
                           message.sender === 'user'
-                            ? 'bg-orange-500 text-white'
+                            ? 'bg-primary-500 text-white'
                             : 'bg-gray-100 text-gray-800'
                         }`}
                       >
@@ -228,12 +228,12 @@ const { toasts, warning } = useToast();
                       onChange={(e) => setInputMessage(e.target.value)}
                       onKeyPress={handleKeyPress}
                       placeholder="Type your message..."
-                      className="flex-1 p-2 border rounded-lg focus:outline-none focus:border-orange-500"
+                      className="flex-1 p-2 border rounded-lg focus:outline-none focus:border-primary-500"
                     />
                     <button
                       onClick={() => sendMessage(inputMessage)}
                       disabled={isLoading || !inputMessage.trim()}
-                      className="p-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="p-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       <Send className="h-5 w-5" />
                     </button>

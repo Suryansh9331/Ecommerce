@@ -112,7 +112,7 @@ const GSTRuleTable: React.FC<GSTRuleTableProps> = ({
                 <div className="flex items-center space-x-2">
                   <button
                     onClick={() => onEdit(rule)}
-                    className="text-orange-600 hover:text-orange-800 transition-colors p-1"
+                    className="text-primary-600 hover:text-primary-800 transition-colors p-1"
                     title="Edit Rule"
                   >
                     <PencilSquareIcon className="h-5 w-5" />

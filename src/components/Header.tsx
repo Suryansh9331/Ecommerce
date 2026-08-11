@@ -22,13 +22,13 @@ const Header = () => {
           
           {/* Navigation Links */}
           <nav className="hidden md:flex space-x-6">
-            <Link to="/all-products" className="text-gray-600 hover:text-orange-500 transition-colors">
+            <Link to="/all-products" className="text-gray-600 hover:text-primary-500 transition-colors">
               Products
             </Link>
-            <Link to="/new-product" className="text-gray-600 hover:text-orange-500 transition-colors">
+            <Link to="/new-product" className="text-gray-600 hover:text-primary-500 transition-colors">
               New Products
             </Link>
-            <Link to="/promotion" className="text-gray-600 hover:text-orange-500 transition-colors">
+            <Link to="/promotion" className="text-gray-600 hover:text-primary-500 transition-colors">
               Promotion
             </Link>
           </nav>
@@ -38,7 +38,7 @@ const Header = () => {
           {/* Other header items */}
           <button
             onClick={() => setIsLogoutPopupOpen(true)}
-            className="text-sm text-gray-600 hover:text-orange-500 transition-colors"
+            className="text-sm text-gray-600 hover:text-primary-500 transition-colors"
           >
             Logout
           </button>

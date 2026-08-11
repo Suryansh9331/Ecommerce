@@ -88,7 +88,7 @@ const TopSellingCarousel: React.FC = () => {
     return (
       <div className="h-full flex flex-col justify-between rounded-lg shadow-sm overflow-hidden border border-gray-100">
         <div className="flex items-center justify-center h-64">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#FF5733]"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
         </div>
       </div>
     );
@@ -118,7 +118,7 @@ const TopSellingCarousel: React.FC = () => {
                 href={item.shareable_link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block bg-[#F2631F] text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-[#E25818] transition-colors shadow-md mb-3"
+                className="inline-block bg-primary-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-primary-700 transition-colors shadow-md mb-3"
               >
                 {item.type === 'promo' ? 'View Promo Products' :
                  item.type === 'new' ? 'View New Products' :
@@ -130,7 +130,7 @@ const TopSellingCarousel: React.FC = () => {
                   <div
                     key={dotIdx}
                     className={`w-1.5 h-1.5 mx-0.5 rounded-full transition-all duration-300 ${
-                      current === dotIdx ? 'bg-[#F2631F]' : 'bg-[#F2631F]/40 hover:bg-[#F2631F]/60'
+                      current === dotIdx ? 'bg-primary-600' : 'bg-primary-600/40 hover:bg-primary-600/60'
                     }`}
                     onClick={() => !sliding && setCurrent(dotIdx)}
                     role="button"

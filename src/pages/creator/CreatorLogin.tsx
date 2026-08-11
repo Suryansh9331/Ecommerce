@@ -154,7 +154,7 @@ const CreatorLogin: React.FC = () => {
                 type="tel"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#F2631F] focus:border-transparent"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent"
                 placeholder="9876543210 or +919876543210"
               />
             </div>
@@ -162,7 +162,7 @@ const CreatorLogin: React.FC = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-[#FF4D00] text-white py-2.5 rounded-lg font-medium hover:bg-[#e64500] disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-[#F2631F] focus:ring-offset-2"
+              className="w-full bg-primary-600 text-white py-2.5 rounded-lg font-medium hover:bg-primary-700 disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2"
             >
               {isSubmitting ? 'Sending…' : 'Send OTP'}
             </button>
@@ -177,7 +177,7 @@ const CreatorLogin: React.FC = () => {
                 autoComplete="one-time-code"
                 value={otp}
                 onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-center text-lg tracking-widest focus:outline-none focus:ring-2 focus:ring-[#F2631F] focus:border-transparent"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-center text-lg tracking-widest focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent"
                 placeholder="123456"
                 maxLength={6}
               />
@@ -187,7 +187,7 @@ const CreatorLogin: React.FC = () => {
                 type="button"
                 onClick={handleResendOtp}
                 disabled={resendCooldown > 0}
-                className="text-[#F2631F] hover:underline disabled:opacity-50 disabled:no-underline"
+                className="text-primary-600 hover:underline disabled:opacity-50 disabled:no-underline"
               >
                 {resendCooldown > 0 ? `Resend in ${resendCooldown}s` : 'Resend OTP'}
               </button>
@@ -203,7 +203,7 @@ const CreatorLogin: React.FC = () => {
             <button
               type="submit"
               disabled={isSubmitting || otp.replace(/\D/g, '').length !== 6}
-              className="w-full bg-[#FF4D00] text-white py-2.5 rounded-lg font-medium hover:bg-[#e64500] disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-[#F2631F] focus:ring-offset-2"
+              className="w-full bg-primary-600 text-white py-2.5 rounded-lg font-medium hover:bg-primary-700 disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2"
             >
               {isSubmitting ? 'Verifying…' : 'Log in'}
             </button>
@@ -212,7 +212,7 @@ const CreatorLogin: React.FC = () => {
 
         <p className="mt-6 text-center text-sm text-gray-500">
           New creator?{' '}
-          <Link to="/creator/signup" className="text-[#F2631F] hover:underline">
+          <Link to="/creator/signup" className="text-primary-600 hover:underline">
             Sign up
           </Link>
         </p>

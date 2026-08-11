@@ -28,7 +28,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
 
   const confirmButtonBaseClasses =
     "w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 sm:text-sm disabled:opacity-50";
-  const confirmButtonColorClasses = "bg-orange-500 hover:bg-orange-600 focus:ring-orange-500";
+  const confirmButtonColorClasses = "bg-primary-500 hover:bg-primary-600 focus:ring-primary-500";
 
   return (
     <Modal isOpen={isOpen} onClose={onCancel} title={title} size="sm">
@@ -48,7 +48,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
           <button
             type="button"
             disabled={isLoading}
-            className="w-1/2 inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 sm:text-sm disabled:opacity-50"
+            className="w-1/2 inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 sm:text-sm disabled:opacity-50"
             onClick={onCancel}
           >
             {cancelText}

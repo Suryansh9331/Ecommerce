@@ -304,7 +304,7 @@ const Products: React.FC = () => {
   };
 
   // --- RENDER LOGIC ---
-  if (isLoading) return (<div className="flex items-center justify-center p-8"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-600"></div></div>);
+  if (isLoading) return (<div className="flex items-center justify-center p-8"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div></div>);
   if (error) return (<div className="p-4 bg-red-50 border border-red-200 rounded-lg"><p className="text-red-700">{error}</p><button onClick={fetchAllData} className="mt-2 text-sm text-red-600 hover:text-red-700 font-medium">Try again</button></div>);
 
   return (
@@ -313,7 +313,7 @@ const Products: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <h1 className="text-2xl font-semibold text-gray-900">Products</h1>
         <div className="flex flex-wrap items-start justify-start gap-4">
-          <Link to="/business/catalog/product/new" className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"><PlusIcon className="h-4 w-4 mr-2" />Add Product</Link>
+          <Link to="/business/catalog/product/new" className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"><PlusIcon className="h-4 w-4 mr-2" />Add Product</Link>
         </div>
       </div>
 
@@ -321,22 +321,22 @@ const Products: React.FC = () => {
       <div className="bg-white shadow-sm rounded-lg border border-gray-200">
         <div className="p-4">
           <div className="flex flex-col lg:flex-row lg:items-center gap-4">
-            <div className="relative flex-grow"><input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="block w-full pl-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="Search products by name or SKU..." /></div>
+            <div className="relative flex-grow"><input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="block w-full pl-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 sm:text-sm" placeholder="Search products by name or SKU..." /></div>
             <div className="flex flex-col gap-4 sm:flex-row space-x-2">
-              <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)} className="block pl-3 pr-10 py-2 text-base border border-gray-300 rounded-md focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
+              <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)} className="block pl-3 pr-10 py-2 text-base border border-gray-300 rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm">
                 <option value="All Categories">All Categories</option>
                 {categories.map(cat => (<option key={cat.category_id} value={cat.name}>{cat.name}</option>))}
               </select>
-              <select value={selectedStatus} onChange={(e) => setSelectedStatus(e.target.value)} className="block pl-3 pr-10 py-2 text-base border border-gray-300 rounded-md focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
+              <select value={selectedStatus} onChange={(e) => setSelectedStatus(e.target.value)} className="block pl-3 pr-10 py-2 text-base border border-gray-300 rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm">
                 <option value="All">All Status</option><option value="Active">Active</option><option value="Inactive">Inactive</option>
               </select>
             </div>
-            <button onClick={() => setShowFilters(!showFilters)} className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-orange-50 focus:outline-none"><FunnelIcon className="h-4 w-4 mr-2" />{showFilters ? 'Hide Filters' : 'Show Filters'}</button>
+            <button onClick={() => setShowFilters(!showFilters)} className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-primary-50 focus:outline-none"><FunnelIcon className="h-4 w-4 mr-2" />{showFilters ? 'Hide Filters' : 'Show Filters'}</button>
           </div>
           {showFilters && (
             <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <div><label htmlFor="price-min" className="block text-sm font-medium text-gray-700 mb-1">Price Range</label><div className="flex space-x-2"><input type="number" id="price-min" placeholder="Min" value={minPrice} onChange={(e) => setMinPrice(e.target.value)} className="block w-full pl-3 pr-3 py-2 text-base border border-gray-300 rounded-md focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm" /><input type="number" id="price-max" placeholder="Max" value={maxPrice} onChange={(e) => setMaxPrice(e.target.value)} className="block w-full pl-3 pr-3 py-2 text-base border border-gray-300 rounded-md focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm" /></div></div>
-              <div className="sm:col-span-2 lg:col-span-4 flex justify-end"><button onClick={clearFilters} className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-orange-50 focus:outline-none mr-2">Reset</button><button onClick={() => setShowFilters(false)} className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none">Apply Filters</button></div>
+              <div><label htmlFor="price-min" className="block text-sm font-medium text-gray-700 mb-1">Price Range</label><div className="flex space-x-2"><input type="number" id="price-min" placeholder="Min" value={minPrice} onChange={(e) => setMinPrice(e.target.value)} className="block w-full pl-3 pr-3 py-2 text-base border border-gray-300 rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm" /><input type="number" id="price-max" placeholder="Max" value={maxPrice} onChange={(e) => setMaxPrice(e.target.value)} className="block w-full pl-3 pr-3 py-2 text-base border border-gray-300 rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm" /></div></div>
+              <div className="sm:col-span-2 lg:col-span-4 flex justify-end"><button onClick={clearFilters} className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-primary-50 focus:outline-none mr-2">Reset</button><button onClick={() => setShowFilters(false)} className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none">Apply Filters</button></div>
             </div>
           )}
         </div>
@@ -348,7 +348,7 @@ const Products: React.FC = () => {
             <thead className="bg-gray-50">
               <tr>
                 <th scope="col" className="px-2 py-1 text-left font-medium text-gray-500 uppercase tracking-wider w-8">
-                  <input type="checkbox" className="rounded border-gray-300 text-orange-600 focus:ring-orange-500 h-3 w-3" checked={selectedItems.length === sortedProducts.length && sortedProducts.length > 0} onChange={toggleSelectAll} />
+                  <input type="checkbox" className="rounded border-gray-300 text-primary-600 focus:ring-primary-500 h-3 w-3" checked={selectedItems.length === sortedProducts.length && sortedProducts.length > 0} onChange={toggleSelectAll} />
                 </th>
                 <th scope="col" className="px-2 py-1 text-left font-medium text-gray-500 uppercase tracking-wider">
                   <div className="flex items-center cursor-pointer" onClick={() => requestSort('product_name')}>Name / SKU{getSortIndicator('product_name')}</div>
@@ -370,9 +370,9 @@ const Products: React.FC = () => {
               {sortedProducts.map((product) => (
                 <React.Fragment key={product.product_id}>
                   {/* Parent Product Row */}
-                  <tr className="hover:bg-orange-50 transition-colors">
+                  <tr className="hover:bg-primary-50 transition-colors">
                     <td className="px-2 py-1 whitespace-nowrap w-8">
-                      <input type="checkbox" className="rounded border-gray-300 text-orange-600 focus:ring-orange-500 h-3 w-3" checked={selectedItems.includes(product.product_id)} onChange={() => toggleSelectItem(product.product_id)} />
+                      <input type="checkbox" className="rounded border-gray-300 text-primary-600 focus:ring-primary-500 h-3 w-3" checked={selectedItems.includes(product.product_id)} onChange={() => toggleSelectItem(product.product_id)} />
                     </td>
                     <td className="px-2 py-1 whitespace-normal max-w-xs">
   <div className="flex items-center">
@@ -407,16 +407,16 @@ const Products: React.FC = () => {
                     </td>
                     <td className="px-2 py-1 whitespace-nowrap font-medium pl-4 sm:pl-10 min-w-[80px]">
                       <div className="flex flex-col space-y-1 sm:flex-row sm:space-y-0 sm:space-x-2 mr-2">
-                        <Link to={`/business/catalog/product/${product.product_id}/edit`} className="text-orange-600 hover:text-orange-700"><PencilIcon className="h-4 w-4" /></Link>
-                        <button onClick={() => handleDeleteClick(product.product_id, product.product_name)} className="text-orange-600 hover:text-orange-900"><TrashIcon className="h-4 w-4" /></button>
+                        <Link to={`/business/catalog/product/${product.product_id}/edit`} className="text-primary-600 hover:text-primary-700"><PencilIcon className="h-4 w-4" /></Link>
+                        <button onClick={() => handleDeleteClick(product.product_id, product.product_name)} className="text-primary-600 hover:text-primary-900"><TrashIcon className="h-4 w-4" /></button>
                       </div>
                     </td>
                   </tr>
 
                   {/* Variants Rows */}
                   {product.variants?.map((variant) => (
-                    <tr key={variant.product_id} className="bg-gray-50 hover:bg-orange-50 transition-colors">
-                      <td className="px-2 py-1 whitespace-nowrap w-8"><input type="checkbox" className="rounded border-gray-300 text-orange-600 focus:ring-orange-500 h-3 w-3" checked={selectedItems.includes(variant.product_id)} onChange={() => toggleSelectItem(variant.product_id)} /></td>
+                    <tr key={variant.product_id} className="bg-gray-50 hover:bg-primary-50 transition-colors">
+                      <td className="px-2 py-1 whitespace-nowrap w-8"><input type="checkbox" className="rounded border-gray-300 text-primary-600 focus:ring-primary-500 h-3 w-3" checked={selectedItems.includes(variant.product_id)} onChange={() => toggleSelectItem(variant.product_id)} /></td>
                       <td className="px-2 py-1 whitespace-normal max-w-xs">
                         <div className="flex items-center pl-6">
                           <div className="ml-2"><div className="text-gray-900 break-words">{(variant as any).attributes?.map((attr: any, index: number) => (<span key={index} className="inline-block bg-gray-200 rounded-full px-2 py-1 text-xs font-semibold text-gray-700 mr-1">{attr.name}: {attr.value}</span>))}</div><div className="text-gray-500 break-words">SKU - {variant.sku}</div></div></div></td>
@@ -429,8 +429,8 @@ const Products: React.FC = () => {
                       </td>
                       <td className="px-2 py-1 whitespace-nowrap font-medium pl-4 sm:pl-10 min-w-[80px]">
                         <div className="flex flex-col space-y-1 sm:flex-row sm:space-y-0 sm:space-x-2 mr-2">
-                          <Link to={`/business/catalog/product/${variant.product_id}/edit`} className="text-orange-600 hover:text-orange-700"><PencilIcon className="h-4 w-4" /></Link>
-                          <button onClick={() => handleDeleteClick(variant.product_id, variant.product_name)} className="text-orange-600 hover:text-orange-900"><TrashIcon className="h-4 w-4" /></button>
+                          <Link to={`/business/catalog/product/${variant.product_id}/edit`} className="text-primary-600 hover:text-primary-700"><PencilIcon className="h-4 w-4" /></Link>
+                          <button onClick={() => handleDeleteClick(variant.product_id, variant.product_name)} className="text-primary-600 hover:text-primary-900"><TrashIcon className="h-4 w-4" /></button>
                         </div>
                       </td>
                     </tr>
@@ -452,7 +452,7 @@ const Products: React.FC = () => {
       <div className="mt-4 flex justify-end">
         <button
           onClick={handleConfirmDelete}
-          className="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-xl mr-2"
+          className="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-xl mr-2"
         >
           Delete
         </button>

@@ -98,7 +98,7 @@ const RecentlyViewedProducts: React.FC<RecentlyViewedProductsProps> = ({ product
           };
           
           let tagContent = null;
-          let tagColor = "bg-[#F2631F]";
+          let tagColor = "bg-primary-600";
           
           if (product.id === '4' || product.id === '5') {
             tagContent = "New";
@@ -107,7 +107,7 @@ const RecentlyViewedProducts: React.FC<RecentlyViewedProductsProps> = ({ product
           }
           
           return (
-            <div key={product.id} className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer flex flex-col max-w-[280px] w-full mx-auto border border-orange-100 hover:border-orange-300">
+            <div key={product.id} className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer flex flex-col max-w-[280px] w-full mx-auto border border-primary-100 hover:border-primary-300">
               <div className="relative h-[130px] w-full">
                 {/* Product badges */}
                 {tagContent && (
@@ -119,7 +119,7 @@ const RecentlyViewedProducts: React.FC<RecentlyViewedProductsProps> = ({ product
                 )}
                 
                 {/* Wishlist button */}
-                <button className="absolute top-2 right-2 p-1.5 z-10 text-gray-400 hover:text-[#F2631F] hover:bg-white hover:shadow-md rounded-full transition-all duration-300">
+                <button className="absolute top-2 right-2 p-1.5 z-10 text-gray-400 hover:text-primary-600 hover:bg-white hover:shadow-md rounded-full transition-all duration-300">
                   <Heart className="w-4 h-4" />
                 </button>
                 
@@ -156,7 +156,7 @@ const RecentlyViewedProducts: React.FC<RecentlyViewedProductsProps> = ({ product
                     <div className="w-4 h-4 rounded-full bg-yellow-200 ring-1 ring-gray-200"></div>
                   </div>
                   
-                  <button className="w-1/2 bg-[#F2631F] text-white py-1.5 rounded-md hover:bg-black duration-300 transition-colors flex items-center justify-center gap-1.5 text-sm">
+                  <button className="w-1/2 bg-primary-600 text-white py-1.5 rounded-md hover:bg-black duration-300 transition-colors flex items-center justify-center gap-1.5 text-sm">
                     <ShoppingCart className="w-4 h-4" />
                     Add to Cart
                   </button>

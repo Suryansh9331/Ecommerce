@@ -80,7 +80,7 @@ const BrandSelection: React.FC<BrandSelectionProps> = ({
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           placeholder="Search brands..."
-          className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+          className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
         />
       </div>
 
@@ -88,7 +88,7 @@ const BrandSelection: React.FC<BrandSelectionProps> = ({
       <div className="border rounded-b-lg overflow-hidden shadow-sm">
         {isLoading ? (
           <div className="flex items-center justify-center p-6">
-            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-orange-600"></div>
+            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary-600"></div>
           </div>
         ) : error ? (
           <div className="p-4 bg-red-50 border border-red-200 rounded-lg mx-4 my-2">
@@ -110,7 +110,7 @@ const BrandSelection: React.FC<BrandSelectionProps> = ({
               <div
                 key={brand.brand_id}
                 className={`flex items-center px-4 py-3 hover:bg-gray-100 cursor-pointer ${
-                  selectedBrandId === brand.brand_id ? 'bg-orange-100 text-orange-800 font-medium' : 'text-gray-900'
+                  selectedBrandId === brand.brand_id ? 'bg-primary-100 text-primary-800 font-medium' : 'text-gray-900'
                 }`}
                 onClick={() => onBrandSelect(brand.brand_id)}
               >
@@ -123,7 +123,7 @@ const BrandSelection: React.FC<BrandSelectionProps> = ({
                 )}
                 <div className="flex-grow">
                   <div className="text-sm">{brand.name}</div>
-                  <div className={`text-xs ${selectedBrandId === brand.brand_id ? 'text-orange-600' : 'text-gray-500'}`}>{brand.slug}</div>
+                  <div className={`text-xs ${selectedBrandId === brand.brand_id ? 'text-primary-600' : 'text-gray-500'}`}>{brand.slug}</div>
                 </div>
               </div>
             ))}

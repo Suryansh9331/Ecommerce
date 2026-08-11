@@ -90,7 +90,7 @@ const CreatorPayouts: React.FC = () => {
           {ready ? (
             <StatusChip label="Payouts ready" tone="success" dotClassName="bg-emerald-400" />
           ) : (
-            <StatusChip label="Setup required" tone="warning" dotClassName="bg-orange-400" />
+            <StatusChip label="Setup required" tone="warning" dotClassName="bg-primary-400" />
           )}
           <Link
             to="/creator/earnings"
@@ -161,7 +161,7 @@ const CreatorPayouts: React.FC = () => {
             onClick={completeSetup}
             disabled={!bankValid || !kycValid}
             className={`px-4 py-2.5 rounded-2xl text-[12px] font-extrabold transition-colors ${
-              bankValid && kycValid ? 'bg-[#FF4D00] text-white hover:bg-[#e64500]' : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+              bankValid && kycValid ? 'bg-primary-600 text-white hover:bg-primary-700' : 'bg-gray-100 text-gray-400 cursor-not-allowed'
             }`}
           >
             Mark setup complete
@@ -179,7 +179,7 @@ const CreatorPayouts: React.FC = () => {
               <input
                 value={bank.beneficiaryName}
                 onChange={(e) => setBank((b) => ({ ...b, beneficiaryName: e.target.value }))}
-                className="w-full rounded-2xl border border-gray-200 px-4 py-3 text-[13px] outline-none focus:ring-2 focus:ring-[#FF4D00]/20 focus:border-[#FF4D00]"
+                className="w-full rounded-2xl border border-gray-200 px-4 py-3 text-[13px] outline-none focus:ring-2 focus:ring-primary-600/20 focus:border-primary-600"
                 placeholder="As per bank account"
               />
               {bankErrors.beneficiaryName && <p className="text-[11px] text-red-600 font-semibold mt-1">{bankErrors.beneficiaryName}</p>}
@@ -191,7 +191,7 @@ const CreatorPayouts: React.FC = () => {
                 <input
                   value={bank.accountNumber}
                   onChange={(e) => setBank((b) => ({ ...b, accountNumber: e.target.value.replace(/\s/g, '') }))}
-                  className="w-full rounded-2xl border border-gray-200 px-4 py-3 text-[13px] outline-none focus:ring-2 focus:ring-[#FF4D00]/20 focus:border-[#FF4D00]"
+                  className="w-full rounded-2xl border border-gray-200 px-4 py-3 text-[13px] outline-none focus:ring-2 focus:ring-primary-600/20 focus:border-primary-600"
                   inputMode="numeric"
                   placeholder="XXXXXXXXXXXX"
                 />
@@ -202,7 +202,7 @@ const CreatorPayouts: React.FC = () => {
                 <input
                   value={bank.confirmAccountNumber}
                   onChange={(e) => setBank((b) => ({ ...b, confirmAccountNumber: e.target.value.replace(/\s/g, '') }))}
-                  className="w-full rounded-2xl border border-gray-200 px-4 py-3 text-[13px] outline-none focus:ring-2 focus:ring-[#FF4D00]/20 focus:border-[#FF4D00]"
+                  className="w-full rounded-2xl border border-gray-200 px-4 py-3 text-[13px] outline-none focus:ring-2 focus:ring-primary-600/20 focus:border-primary-600"
                   inputMode="numeric"
                   placeholder="Re-enter"
                 />
@@ -215,7 +215,7 @@ const CreatorPayouts: React.FC = () => {
               <input
                 value={bank.ifsc}
                 onChange={(e) => setBank((b) => ({ ...b, ifsc: e.target.value.toUpperCase().replace(/\s/g, '') }))}
-                className="w-full rounded-2xl border border-gray-200 px-4 py-3 text-[13px] outline-none focus:ring-2 focus:ring-[#FF4D00]/20 focus:border-[#FF4D00]"
+                className="w-full rounded-2xl border border-gray-200 px-4 py-3 text-[13px] outline-none focus:ring-2 focus:ring-primary-600/20 focus:border-primary-600"
                 placeholder="HDFC0001234"
               />
               {bankErrors.ifsc && <p className="text-[11px] text-red-600 font-semibold mt-1">{bankErrors.ifsc}</p>}
@@ -246,7 +246,7 @@ const CreatorPayouts: React.FC = () => {
                 <input
                   value={kyc.pan}
                   onChange={(e) => setKyc((k) => ({ ...k, pan: e.target.value.toUpperCase().replace(/\s/g, '') }))}
-                  className="w-full rounded-2xl border border-gray-200 px-4 py-3 text-[13px] outline-none focus:ring-2 focus:ring-[#FF4D00]/20 focus:border-[#FF4D00]"
+                  className="w-full rounded-2xl border border-gray-200 px-4 py-3 text-[13px] outline-none focus:ring-2 focus:ring-primary-600/20 focus:border-primary-600"
                   placeholder="ABCDE1234F"
                 />
                 {kycErrors.pan && <p className="text-[11px] text-red-600 font-semibold mt-1">{kycErrors.pan}</p>}
@@ -256,7 +256,7 @@ const CreatorPayouts: React.FC = () => {
                 <input
                   value={kyc.aadhaarLast4}
                   onChange={(e) => setKyc((k) => ({ ...k, aadhaarLast4: e.target.value.replace(/\D/g, '').slice(0, 4) }))}
-                  className="w-full rounded-2xl border border-gray-200 px-4 py-3 text-[13px] outline-none focus:ring-2 focus:ring-[#FF4D00]/20 focus:border-[#FF4D00]"
+                  className="w-full rounded-2xl border border-gray-200 px-4 py-3 text-[13px] outline-none focus:ring-2 focus:ring-primary-600/20 focus:border-primary-600"
                   inputMode="numeric"
                   placeholder="1234"
                 />
@@ -316,7 +316,7 @@ const CreatorPayouts: React.FC = () => {
               <input
                 value={note}
                 onChange={(e) => setNote(e.target.value)}
-                className="w-full rounded-2xl border border-gray-200 px-4 py-3 text-[13px] outline-none focus:ring-2 focus:ring-[#FF4D00]/20 focus:border-[#FF4D00]"
+                className="w-full rounded-2xl border border-gray-200 px-4 py-3 text-[13px] outline-none focus:ring-2 focus:ring-primary-600/20 focus:border-primary-600"
                 placeholder="Any details for verification team (optional)"
               />
               {noteErr && <p className="text-[11px] text-red-600 font-semibold mt-1">{noteErr}</p>}

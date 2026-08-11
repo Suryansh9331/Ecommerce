@@ -158,7 +158,7 @@ const ShopGSTRuleForm: React.FC<ShopGSTRuleFormProps> = ({
               type="button"
               onClick={onCancel}
               disabled={isSubmitting}
-              className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+              className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
             >
               Cancel
             </button>
@@ -207,7 +207,7 @@ const ShopGSTRuleForm: React.FC<ShopGSTRuleFormProps> = ({
               onChange={handleInputChange}
               disabled={isSubmitting}
               placeholder="Enter a descriptive name for this GST rule"
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-500 dark:focus:ring-orange-400 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
               required
             />
           </div>
@@ -248,7 +248,7 @@ const ShopGSTRuleForm: React.FC<ShopGSTRuleFormProps> = ({
                 max="100"
                 step="0.01"
                 placeholder="0.00"
-                className="w-full px-3 py-2 pr-8 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-500 dark:focus:ring-orange-400 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+                className="w-full px-3 py-2 pr-8 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
                 required
               />
               <span className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 dark:text-gray-400 text-sm">
@@ -268,7 +268,7 @@ const ShopGSTRuleForm: React.FC<ShopGSTRuleFormProps> = ({
               value={formData.price_condition_type}
               onChange={handleInputChange}
               disabled={isSubmitting}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-500 dark:focus:ring-orange-400 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
               required
             >
               {PRICE_CONDITION_OPTIONS.map((option) => (
@@ -299,7 +299,7 @@ const ShopGSTRuleForm: React.FC<ShopGSTRuleFormProps> = ({
                   min="0"
                   step="0.01"
                   placeholder="0.00"
-                  className="w-full pl-8 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-500 dark:focus:ring-orange-400 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+                  className="w-full pl-8 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
                   required
                 />
               </div>
@@ -318,7 +318,7 @@ const ShopGSTRuleForm: React.FC<ShopGSTRuleFormProps> = ({
               value={formData.start_date ? new Date(formData.start_date).toISOString().slice(0, 10) : ""}
               onChange={handleInputChange}
               disabled={isSubmitting}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-500 dark:focus:ring-orange-400 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
             />
             <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
               If not specified, rule will be effective immediately
@@ -336,7 +336,7 @@ const ShopGSTRuleForm: React.FC<ShopGSTRuleFormProps> = ({
               value={formData.end_date ? new Date(formData.end_date).toISOString().slice(0, 10) : ""}
               onChange={handleInputChange}
               disabled={isSubmitting}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-500 dark:focus:ring-orange-400 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
             />
             <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
               If not specified, rule will continue until edited or deleted
@@ -353,7 +353,7 @@ const ShopGSTRuleForm: React.FC<ShopGSTRuleFormProps> = ({
             checked={formData.is_active}
             onChange={handleInputChange}
             disabled={isSubmitting}
-            className="h-4 w-4 text-orange-600 border-gray-300 rounded focus:ring-orange-500 dark:focus:ring-orange-400 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="h-4 w-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500 dark:focus:ring-primary-400 disabled:opacity-50 disabled:cursor-not-allowed"
           />
           <label htmlFor="is_active" className="ml-2 block text-sm text-gray-700 dark:text-gray-300">
             Active (rule will be applied to orders)
@@ -365,7 +365,7 @@ const ShopGSTRuleForm: React.FC<ShopGSTRuleFormProps> = ({
           <button
             type="submit"
             disabled={isSubmitting}
-            className="px-6 py-2 bg-orange-600 dark:bg-orange-500 text-white text-sm font-medium rounded-md hover:bg-orange-700 dark:hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 dark:focus:ring-orange-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 flex items-center space-x-2"
+            className="px-6 py-2 bg-primary-600 dark:bg-primary-500 text-white text-sm font-medium rounded-md hover:bg-primary-700 dark:hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 dark:focus:ring-primary-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 flex items-center space-x-2"
           >
             {isSubmitting && (
               <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>

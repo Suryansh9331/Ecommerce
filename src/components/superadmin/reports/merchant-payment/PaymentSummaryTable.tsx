@@ -46,7 +46,7 @@ const PaymentSummaryTable: React.FC<PaymentSummaryTableProps> = ({ data, onViewO
       case 'active':
         return 'bg-green-100 text-green-800';
       case 'pending':
-        return 'bg-orange-100 text-orange-800';
+        return 'bg-primary-100 text-primary-800';
       case 'completed':
         return 'bg-blue-100 text-blue-800';
       case 'processing':
@@ -60,7 +60,7 @@ const PaymentSummaryTable: React.FC<PaymentSummaryTableProps> = ({ data, onViewO
 
   // Mobile card view for merchant data
   const MerchantCard = ({ merchant }: { merchant: PaymentSummary }) => (
-    <div className="bg-white rounded-xl shadow-sm border border-orange-100 p-4 mb-4">
+    <div className="bg-white rounded-xl shadow-sm border border-primary-100 p-4 mb-4">
       <div className="flex justify-between items-start mb-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
@@ -69,11 +69,11 @@ const PaymentSummaryTable: React.FC<PaymentSummaryTableProps> = ({ data, onViewO
               {merchant.status}
             </span>
           </div>
-          <p className="text-sm text-orange-500">ID: {merchant.storeId}</p>
+          <p className="text-sm text-primary-500">ID: {merchant.storeId}</p>
         </div>
         <button
           onClick={() => toggleRow(merchant.id)}
-          className="text-orange-500 hover:text-orange-700 transition-colors p-2"
+          className="text-primary-500 hover:text-primary-700 transition-colors p-2"
         >
           {expandedRows.includes(merchant.id) ? <FaChevronUp /> : <FaChevronDown />}
         </button>
@@ -99,16 +99,16 @@ const PaymentSummaryTable: React.FC<PaymentSummaryTableProps> = ({ data, onViewO
       </div>
 
       {expandedRows.includes(merchant.id) && (
-        <div className="mt-4 border-t border-orange-100 pt-4">
+        <div className="mt-4 border-t border-primary-100 pt-4">
           <h4 className="text-sm font-medium text-gray-900 mb-3">Order Details</h4>
           <div className="space-y-4">
             {merchant.orders.map((order) => (
-              <div key={order.orderId} className="bg-orange-50/30 rounded-lg p-4">
+              <div key={order.orderId} className="bg-primary-50/30 rounded-lg p-4">
                 <div className="flex justify-between items-start mb-2">
                   <span className="text-sm font-medium">{order.orderId}</span>
                   <button
                     onClick={() => onViewOrder(order.orderId)}
-                    className="text-orange-500 hover:text-orange-700"
+                    className="text-primary-500 hover:text-primary-700"
                   >
                     <FaEye />
                   </button>
@@ -132,7 +132,7 @@ const PaymentSummaryTable: React.FC<PaymentSummaryTableProps> = ({ data, onViewO
                     <span className={`inline-block px-2 py-1 text-xs font-semibold rounded-full ${
                       order.paymentStatus === 'transferred' 
                         ? 'bg-green-100 text-green-800' 
-                        : 'bg-orange-100 text-orange-800'
+                        : 'bg-primary-100 text-primary-800'
                     }`}>
                       {order.paymentStatus.charAt(0).toUpperCase() + order.paymentStatus.slice(1)}
                     </span>
@@ -156,37 +156,37 @@ const PaymentSummaryTable: React.FC<PaymentSummaryTableProps> = ({ data, onViewO
       </div>
 
       {/* Desktop View */}
-      <div className="hidden lg:block bg-white rounded-xl shadow-sm overflow-hidden border border-orange-100">
+      <div className="hidden lg:block bg-white rounded-xl shadow-sm overflow-hidden border border-primary-100">
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-orange-200">
-            <thead className="bg-orange-50 sticky top-0">
+          <table className="min-w-full divide-y divide-primary-200">
+            <thead className="bg-primary-50 sticky top-0">
               <tr>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-orange-700 uppercase tracking-wider"></th>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-orange-700 uppercase tracking-wider">Merchant</th>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-orange-700 uppercase tracking-wider">Status</th>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-orange-700 uppercase tracking-wider">Total Orders</th>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-orange-700 uppercase tracking-wider">Orders Delivered</th>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-orange-700 uppercase tracking-wider">Eligible for Payment</th>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-orange-700 uppercase tracking-wider">Amount Transferred</th>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-orange-700 uppercase tracking-wider">Pending Amount</th>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-orange-700 uppercase tracking-wider">Last Payment</th>
+                <th className="px-6 py-4 text-left text-xs font-semibold text-primary-700 uppercase tracking-wider"></th>
+                <th className="px-6 py-4 text-left text-xs font-semibold text-primary-700 uppercase tracking-wider">Merchant</th>
+                <th className="px-6 py-4 text-left text-xs font-semibold text-primary-700 uppercase tracking-wider">Status</th>
+                <th className="px-6 py-4 text-left text-xs font-semibold text-primary-700 uppercase tracking-wider">Total Orders</th>
+                <th className="px-6 py-4 text-left text-xs font-semibold text-primary-700 uppercase tracking-wider">Orders Delivered</th>
+                <th className="px-6 py-4 text-left text-xs font-semibold text-primary-700 uppercase tracking-wider">Eligible for Payment</th>
+                <th className="px-6 py-4 text-left text-xs font-semibold text-primary-700 uppercase tracking-wider">Amount Transferred</th>
+                <th className="px-6 py-4 text-left text-xs font-semibold text-primary-700 uppercase tracking-wider">Pending Amount</th>
+                <th className="px-6 py-4 text-left text-xs font-semibold text-primary-700 uppercase tracking-wider">Last Payment</th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-orange-100">
+            <tbody className="bg-white divide-y divide-primary-100">
               {data.map((merchant) => (
                 <React.Fragment key={merchant.id}>
-                  <tr className="hover:bg-orange-50/50 transition-colors duration-150">
+                  <tr className="hover:bg-primary-50/50 transition-colors duration-150">
                     <td className="px-6 py-4">
                       <button
                         onClick={() => toggleRow(merchant.id)}
-                        className="text-orange-500 hover:text-orange-700 transition-colors"
+                        className="text-primary-500 hover:text-primary-700 transition-colors"
                       >
                         {expandedRows.includes(merchant.id) ? <FaChevronUp /> : <FaChevronDown />}
                       </button>
                     </td>
                     <td className="px-6 py-4">
                       <div className="text-sm font-medium text-gray-900">{merchant.merchantName}</div>
-                      <div className="text-sm text-orange-500">ID: {merchant.storeId}</div>
+                      <div className="text-sm text-primary-500">ID: {merchant.storeId}</div>
                     </td>
                     <td className="px-6 py-4">
                       <span className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusStyle(merchant.status)}`}>
@@ -202,24 +202,24 @@ const PaymentSummaryTable: React.FC<PaymentSummaryTableProps> = ({ data, onViewO
                   </tr>
                   {expandedRows.includes(merchant.id) && (
                     <tr>
-                      <td colSpan={9} className="px-6 py-4 bg-orange-50/30">
+                      <td colSpan={9} className="px-6 py-4 bg-primary-50/30">
                         <div className="overflow-x-auto">
-                          <table className="min-w-full divide-y divide-orange-200">
+                          <table className="min-w-full divide-y divide-primary-200">
                             <thead>
                               <tr>
-                                <th className="px-6 py-3 text-left text-xs font-semibold text-orange-700 uppercase tracking-wider">Order ID</th>
-                                <th className="px-6 py-3 text-left text-xs font-semibold text-orange-700 uppercase tracking-wider">Product</th>
-                                <th className="px-6 py-3 text-left text-xs font-semibold text-orange-700 uppercase tracking-wider">Delivery Date</th>
-                                <th className="px-6 py-3 text-left text-xs font-semibold text-orange-700 uppercase tracking-wider">Order Amount</th>
-                                <th className="px-6 py-3 text-left text-xs font-semibold text-orange-700 uppercase tracking-wider">Commission</th>
-                                <th className="px-6 py-3 text-left text-xs font-semibold text-orange-700 uppercase tracking-wider">Net Amount</th>
-                                <th className="px-6 py-3 text-left text-xs font-semibold text-orange-700 uppercase tracking-wider">Status</th>
-                                <th className="px-6 py-3 text-left text-xs font-semibold text-orange-700 uppercase tracking-wider">Action</th>
+                                <th className="px-6 py-3 text-left text-xs font-semibold text-primary-700 uppercase tracking-wider">Order ID</th>
+                                <th className="px-6 py-3 text-left text-xs font-semibold text-primary-700 uppercase tracking-wider">Product</th>
+                                <th className="px-6 py-3 text-left text-xs font-semibold text-primary-700 uppercase tracking-wider">Delivery Date</th>
+                                <th className="px-6 py-3 text-left text-xs font-semibold text-primary-700 uppercase tracking-wider">Order Amount</th>
+                                <th className="px-6 py-3 text-left text-xs font-semibold text-primary-700 uppercase tracking-wider">Commission</th>
+                                <th className="px-6 py-3 text-left text-xs font-semibold text-primary-700 uppercase tracking-wider">Net Amount</th>
+                                <th className="px-6 py-3 text-left text-xs font-semibold text-primary-700 uppercase tracking-wider">Status</th>
+                                <th className="px-6 py-3 text-left text-xs font-semibold text-primary-700 uppercase tracking-wider">Action</th>
                               </tr>
                             </thead>
-                            <tbody className="divide-y divide-orange-100">
+                            <tbody className="divide-y divide-primary-100">
                               {merchant.orders.map((order) => (
-                                <tr key={order.orderId} className="hover:bg-orange-50/50 transition-colors duration-150">
+                                <tr key={order.orderId} className="hover:bg-primary-50/50 transition-colors duration-150">
                                   <td className="px-6 py-4 text-sm text-gray-900">{order.orderId}</td>
                                   <td className="px-6 py-4 text-sm text-gray-900">{order.productName}</td>
                                   <td className="px-6 py-4 text-sm text-gray-600">{order.deliveryDate}</td>
@@ -230,7 +230,7 @@ const PaymentSummaryTable: React.FC<PaymentSummaryTableProps> = ({ data, onViewO
                                     <span className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
                                       order.paymentStatus === 'transferred' 
                                         ? 'bg-green-100 text-green-800' 
-                                        : 'bg-orange-100 text-orange-800'
+                                        : 'bg-primary-100 text-primary-800'
                                     }`}>
                                       {order.paymentStatus.charAt(0).toUpperCase() + order.paymentStatus.slice(1)}
                                     </span>
@@ -238,7 +238,7 @@ const PaymentSummaryTable: React.FC<PaymentSummaryTableProps> = ({ data, onViewO
                                   <td className="px-6 py-4">
                                     <button
                                       onClick={() => onViewOrder(order.orderId)}
-                                      className="text-orange-500 hover:text-orange-700 transition-colors"
+                                      className="text-primary-500 hover:text-primary-700 transition-colors"
                                     >
                                       <FaEye />
                                     </button>

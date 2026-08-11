@@ -22,7 +22,7 @@ const WishList: React.FC = () => {
     return (
       <div className="container mx-auto px-4 py-12 flex items-center justify-center min-h-[60vh]">
         <div className="flex flex-col items-center gap-4">
-          <Loader2 className="w-10 h-10 animate-spin text-orange-500" />
+          <Loader2 className="w-10 h-10 animate-spin text-primary-500" />
           <p className="text-gray-500">{t('wishlist.loading')}</p>
         </div>
       </div>
@@ -33,8 +33,8 @@ const WishList: React.FC = () => {
     return (
       <div className="container mx-auto px-4 py-12">
         <div className="flex flex-col items-center justify-center min-h-[60vh] text-center bg-white rounded-lg shadow-sm p-8 max-w-2xl mx-auto">
-          <div className="bg-orange-50 p-4 rounded-full mb-6">
-            <Heart className="w-16 h-16 text-orange-500" />
+          <div className="bg-primary-50 p-4 rounded-full mb-6">
+            <Heart className="w-16 h-16 text-primary-500" />
           </div>
           <h2 className="text-2xl font-semibold mb-3">{t('wishlist.empty')}</h2>
           <p className="text-gray-500 mb-8 max-w-md">
@@ -42,7 +42,7 @@ const WishList: React.FC = () => {
           </p>
           <button
             onClick={() => navigate('/all-products')}
-            className="bg-orange-500 text-white px-8 py-3 rounded-md hover:bg-orange-600 transition-all duration-300 flex items-center gap-2 group"
+            className="bg-primary-500 text-white px-8 py-3 rounded-md hover:bg-primary-600 transition-all duration-300 flex items-center gap-2 group"
           >
             <ShoppingBag className="w-5 h-5" />
             {t('wishlist.browseProducts')}
@@ -63,7 +63,7 @@ const WishList: React.FC = () => {
           </div>
           <button
             onClick={() => navigate('/all-products')}
-            className="text-orange-500 hover:text-orange-600 flex items-center gap-2 transition-colors"
+            className="text-primary-500 hover:text-primary-600 flex items-center gap-2 transition-colors"
           >
             {t('wishlist.continueShopping')}
             <ArrowRight className="w-4 h-4" />

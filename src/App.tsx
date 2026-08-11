@@ -689,8 +689,8 @@ const App: React.FC = () => {
               position="bottom-center"
               toastOptions={{
                 style: {
-                  background: "#FFEDD5",        // Tailwind orange-100 (soft warm background)
-                  color: "#EA580C",             // Tailwind orange-600 (professional tone)
+                  background: "#E5E1FE",        // Tailwind orange-100 (soft warm background)
+                  color: "#1800AC",             // Tailwind orange-600 (professional tone)
                   padding: "12px 20px",
                   borderRadius: "0.5rem",       // rounded-lg for softer edges
                   boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // soft neutral shadow
@@ -698,7 +698,7 @@ const App: React.FC = () => {
                   fontSize: "0.875rem",         // text-sm
                   minWidth: "260px",
                   textAlign: "center",
-                  border: "1px solid #FDBA74",  // subtle border using orange-300
+                  border: "1px solid #A497F7",  // subtle border using orange-300
                 },
                 success: {
                   duration: 3000,

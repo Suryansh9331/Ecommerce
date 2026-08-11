@@ -354,7 +354,7 @@ export default function FraudDetection() {
                           <td className="px-6 py-4 whitespace-nowrap">
                             <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
                               ${alert.severity === 'critical' ? 'bg-red-100 text-red-800' : 
-                                alert.severity === 'high' ? 'bg-orange-100 text-orange-800' :
+                                alert.severity === 'high' ? 'bg-primary-100 text-primary-800' :
                                 alert.severity === 'medium' ? 'bg-yellow-100 text-yellow-800' :
                                 'bg-blue-100 text-blue-800'}`
                             }>
@@ -516,7 +516,7 @@ export default function FraudDetection() {
                 <div className="flex items-center mb-4">
                   <AlertTriangle className={`mr-2 h-5 w-5 ${
                     selectedAlert.severity === 'critical' ? 'text-red-600' : 
-                    selectedAlert.severity === 'high' ? 'text-orange-600' :
+                    selectedAlert.severity === 'high' ? 'text-primary-600' :
                     selectedAlert.severity === 'medium' ? 'text-yellow-600' :
                     'text-blue-600'
                   }`} />

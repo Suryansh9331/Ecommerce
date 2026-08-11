@@ -143,7 +143,7 @@ const PhoneOtpAuth: React.FC<PhoneOtpAuthProps> = ({ mode, onSuccess }) => {
   };
 
   const inputClass =
-    'w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#F2631F] focus:border-transparent';
+    'w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent';
 
   return (
     <div className="space-y-4">
@@ -173,7 +173,7 @@ const PhoneOtpAuth: React.FC<PhoneOtpAuthProps> = ({ mode, onSuccess }) => {
                 onChange={handlePhoneChange}
                 onKeyDown={handlePhoneKeyDown}
                 maxLength={LOCAL_NUMBER_LENGTH + 1} // +1 for the space separator
-                className="w-full px-4 py-2 border border-gray-300 rounded-r-md focus:outline-none focus:ring-2 focus:ring-[#F2631F] focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-r-md focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent"
                 placeholder="98765 43210"
                 aria-invalid={localNumber.length > 0 && !isValidPhone}
               />
@@ -188,7 +188,7 @@ const PhoneOtpAuth: React.FC<PhoneOtpAuthProps> = ({ mode, onSuccess }) => {
             type="button"
             onClick={sendOtp}
             disabled={isSubmitting || !isValidPhone}
-            className="w-full bg-[#F2631F] hover:bg-orange-600 text-white py-2 px-6 rounded-md font-medium transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+            className="w-full bg-primary-600 hover:bg-primary-600 text-white py-2 px-6 rounded-md font-medium transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
           >
             {isSubmitting ? 'Sending...' : 'Send OTP'}
           </button>
@@ -249,7 +249,7 @@ const PhoneOtpAuth: React.FC<PhoneOtpAuthProps> = ({ mode, onSuccess }) => {
           <button
             type="submit"
             disabled={isSubmitting || otp.length !== 6}
-            className="w-full bg-[#F2631F] hover:bg-orange-600 text-white py-2 px-6 rounded-md font-medium transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+            className="w-full bg-primary-600 hover:bg-primary-600 text-white py-2 px-6 rounded-md font-medium transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
           >
             {isSubmitting ? 'Verifying...' : mode === 'signup' ? 'Verify & Create Account' : 'Verify & Sign In'}
           </button>
@@ -269,7 +269,7 @@ const PhoneOtpAuth: React.FC<PhoneOtpAuthProps> = ({ mode, onSuccess }) => {
               type="button"
               onClick={sendOtp}
               disabled={isSubmitting || resendIn > 0}
-              className="text-[#F2631F] hover:text-orange-600 font-medium disabled:text-gray-400 disabled:cursor-not-allowed"
+              className="text-primary-600 hover:text-primary-600 font-medium disabled:text-gray-400 disabled:cursor-not-allowed"
             >
               {resendIn > 0 ? `Resend in ${resendIn}s` : 'Resend OTP'}
             </button>

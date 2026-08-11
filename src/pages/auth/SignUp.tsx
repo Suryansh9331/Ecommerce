@@ -166,7 +166,7 @@ const SignUp: React.FC = () => {
               type="button"
               onClick={() => { setAuthMethod('email'); setApiError(''); }}
               className={`flex-1 py-2 text-sm font-medium rounded-md transition-colors ${
-                authMethod === 'email' ? 'bg-white text-[#F2631F] shadow-sm' : 'text-gray-500'
+                authMethod === 'email' ? 'bg-white text-primary-600 shadow-sm' : 'text-gray-500'
               }`}
             >
               Email
@@ -175,7 +175,7 @@ const SignUp: React.FC = () => {
               type="button"
               onClick={() => { setAuthMethod('phone'); setApiError(''); }}
               className={`flex-1 py-2 text-sm font-medium rounded-md transition-colors ${
-                authMethod === 'phone' ? 'bg-white text-[#F2631F] shadow-sm' : 'text-gray-500'
+                authMethod === 'phone' ? 'bg-white text-primary-600 shadow-sm' : 'text-gray-500'
               }`}
             >
               Phone
@@ -208,7 +208,7 @@ const SignUp: React.FC = () => {
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
                     required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#F2631F] focus:border-transparent"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent"
                     placeholder="Type your first name"
                   />
                 </div>
@@ -220,7 +220,7 @@ const SignUp: React.FC = () => {
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
                     required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#F2631F] focus:border-transparent"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent"
                     placeholder="Type your last name"
                   />
                 </div>
@@ -232,7 +232,7 @@ const SignUp: React.FC = () => {
                   checked={agreeToTerms}
                   onChange={(e) => setAgreeToTerms(e.target.checked)}
                   required
-                  className="h-4 w-4 text-[#F2631F] focus:ring-[#F2631F] border-gray-300 rounded"
+                  className="h-4 w-4 text-primary-600 focus:ring-primary-600 border-gray-300 rounded"
                 />
                 <label htmlFor="terms" className="ml-2 block text-xs text-gray-700">
                   I agree to the Terms and Conditions and Privacy Policy
@@ -275,7 +275,7 @@ const SignUp: React.FC = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#F2631F] focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent"
                 placeholder="Type your email"
               />
             </div>
@@ -288,7 +288,7 @@ const SignUp: React.FC = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#F2631F] focus:border-transparent pr-10"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent pr-10"
                   placeholder="Type your password"
                 />
                 <button
@@ -309,7 +309,7 @@ const SignUp: React.FC = () => {
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   required
-                  className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#F2631F] focus:border-transparent pr-10 ${passwordError ? 'border-red-300' : 'border-gray-300'}`}
+                  className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent pr-10 ${passwordError ? 'border-red-300' : 'border-gray-300'}`}
                   placeholder="Type your password"
                 />
                 <button
@@ -331,7 +331,7 @@ const SignUp: React.FC = () => {
                 checked={agreeToTerms}
                 onChange={(e) => setAgreeToTerms(e.target.checked)}
                 required
-                className="h-4 w-4 text-[#F2631F] focus:ring-[#F2631F] border-gray-300 rounded"
+                className="h-4 w-4 text-primary-600 focus:ring-primary-600 border-gray-300 rounded"
               />
               <label htmlFor="terms2" className="ml-2 block text-xs text-gray-700">
                 I agree to the Terms and Conditions and Privacy Policy
@@ -340,7 +340,7 @@ const SignUp: React.FC = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-[#F2631F] text-white py-2 px-4 rounded-md font-medium hover:bg-orange-600 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+              className="w-full bg-primary-600 text-white py-2 px-4 rounded-md font-medium hover:bg-primary-600 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
             >
               {isSubmitting ? 'Creating account...' : 'Create An Account'}
             </button>

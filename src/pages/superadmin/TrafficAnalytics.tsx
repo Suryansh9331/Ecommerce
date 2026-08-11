@@ -106,11 +106,11 @@ interface AnalyticsResponse {
 }
 
 const CHART_COLORS = {
-  primary: '#FF5733',
+  primary: '#1800AC',
   secondary: '#2DD4BF',
   tertiary: '#A855F7',
   quaternary: '#3B82F6',
-  background: '#FFF5E6'
+  background: '#F2F0FF'
 };
 
 const CustomTooltip = ({ active, payload, label }: any) => {
@@ -416,7 +416,7 @@ const TrafficAnalytics: React.FC = () => {
               type="date"
               value={tempStartDate}
               onChange={(e) => setTempStartDate(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
             />
           </div>
           <div>
@@ -425,13 +425,13 @@ const TrafficAnalytics: React.FC = () => {
               type="date"
               value={tempEndDate}
               onChange={(e) => setTempEndDate(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
             />
           </div>
           <div className="flex gap-2">
             <button
               onClick={handleApply}
-              className="flex-1 bg-orange-500 text-white px-4 py-2 rounded-md hover:bg-orange-600 transition-colors"
+              className="flex-1 bg-primary-500 text-white px-4 py-2 rounded-md hover:bg-primary-600 transition-colors"
             >
               Apply
             </button>
@@ -568,7 +568,7 @@ const TrafficAnalytics: React.FC = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <Loader2 className="h-8 w-8 text-orange-600 animate-spin" />
+        <Loader2 className="h-8 w-8 text-primary-600 animate-spin" />
       </div>
     );
   }
@@ -583,7 +583,7 @@ const TrafficAnalytics: React.FC = () => {
         <p className="text-gray-600 mb-6">{error}</p>
         <button
           onClick={fetchAnalyticsData}
-          className="px-6 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition-colors"
+          className="px-6 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700 transition-colors"
         >
           Try Again
         </button>
@@ -595,7 +595,7 @@ const TrafficAnalytics: React.FC = () => {
     <div className="bg-white p-6 rounded-lg shadow-md">
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
         <div className="flex items-center gap-3">
-          <div className="bg-orange-500 p-3 rounded-lg shadow-lg">
+          <div className="bg-primary-500 p-3 rounded-lg shadow-lg">
             <TrendingUp className="text-white w-6 h-6" />
           </div>
           <h2 className="text-2xl font-bold text-gray-900">Traffic Analytics</h2>
@@ -623,14 +623,14 @@ const TrafficAnalytics: React.FC = () => {
           
           <button
             onClick={handleRefresh}
-            className="bg-orange-500 text-white px-4 py-2 rounded-md hover:bg-orange-600 flex items-center justify-center gap-2"
+            className="bg-primary-500 text-white px-4 py-2 rounded-md hover:bg-primary-600 flex items-center justify-center gap-2"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
             Refresh
           </button>
           <button
             onClick={() => setIsExportModalOpen(true)}
-            className="bg-orange-500 text-white px-4 py-2 rounded-md hover:bg-orange-600 flex items-center justify-center gap-2"
+            className="bg-primary-500 text-white px-4 py-2 rounded-md hover:bg-primary-600 flex items-center justify-center gap-2"
           >
             <Download className="w-4 h-4" />
             Export Report
@@ -672,8 +672,8 @@ const TrafficAnalytics: React.FC = () => {
             timeFilter === 'daily' ? 'Peak Traffic Day' :
             'Peak Traffic Month'
           }</h3>
-          <div className="bg-orange-100 p-2 rounded-full">
-            <Clock className="w-5 h-5 text-orange-600" />
+          <div className="bg-primary-100 p-2 rounded-full">
+            <Clock className="w-5 h-5 text-primary-600" />
           </div>
         </div>
         <p className="text-2xl font-bold text-gray-900 mb-2">{

@@ -243,7 +243,7 @@ const Review: React.FC = () => {
           <p className="text-gray-600 mb-6">We couldn't find the order you're looking for.</p>
           <button 
             onClick={() => navigate('/orders')}
-            className="px-6 py-2 bg-[#FF4D00] text-white rounded-lg hover:bg-[#FF4D00]/90 transition-colors"
+            className="px-6 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-600/90 transition-colors"
           >
             View All Orders
           </button>
@@ -319,7 +319,7 @@ const Review: React.FC = () => {
                   size={32}
                   className={`${
                     star <= (hoveredRating || rating)
-                      ? 'fill-[#FF4D00] text-[#FF4D00]'
+                      ? 'fill-primary-600 text-primary-600'
                       : 'text-gray-300'
                   } transition-colors`}
                 />
@@ -336,7 +336,7 @@ const Review: React.FC = () => {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Sum up your experience in a few words"
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF4D00]/20 focus:border-[#FF4D00]"
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600/20 focus:border-primary-600"
           />
         </div>
 
@@ -348,7 +348,7 @@ const Review: React.FC = () => {
             onChange={(e) => setReviewText(e.target.value)}
             placeholder="Share your experience with this product..."
             rows={4}
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF4D00]/20 focus:border-[#FF4D00]"
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600/20 focus:border-primary-600"
           />
         </div>
 
@@ -372,7 +372,7 @@ const Review: React.FC = () => {
               </div>
             ))}
             {images.length < 5 && (
-              <label className="w-24 h-24 flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-[#FF4D00] transition-colors">
+              <label className="w-24 h-24 flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-primary-600 transition-colors">
                 <Upload size={24} className="text-gray-400" />
                 <span className="text-xs text-gray-500 mt-1">Add Photo</span>
                 <input
@@ -392,7 +392,7 @@ const Review: React.FC = () => {
         <button
           onClick={handleSubmit}
           disabled={!rating || !reviewText.trim() || !title.trim() || loading}
-          className="w-full py-3 bg-[#FF4D00] text-white rounded-lg hover:bg-[#FF4D00]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-600/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {loading ? 'Submitting...' : 'Submit Review'}
         </button>

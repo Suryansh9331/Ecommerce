@@ -128,7 +128,7 @@ const CategoryDropdown: React.FC<CategoryDropdownProps> = ({ isOpen, closeDropdo
   if (loading) {
     return (
       <div className={`${isMobile ? 'px-2' : 'container mx-auto px-4 sm:px-6 md:px-4 lg:px-4 xl:px-4 max-w-full md:max-w-[98%] mid:max-w-[92%] xl:max-w-[1200px] -mt-0.5 z-40'}`}>
-        <div className={`${isMobile ? 'bg-white rounded-lg shadow-md' : 'bg-[#fdf6ee] border border-[#e8e8e8] shadow-lg rounded-b-lg w-full max-w-xl'}`}>
+        <div className={`${isMobile ? 'bg-white rounded-lg shadow-md' : 'bg-primary-50 border border-[#e8e8e8] shadow-lg rounded-b-lg w-full max-w-xl'}`}>
           <div className="p-4">Loading categories...</div>
         </div>
       </div>
@@ -138,7 +138,7 @@ const CategoryDropdown: React.FC<CategoryDropdownProps> = ({ isOpen, closeDropdo
   if (error) {
     return (
       <div className={`${isMobile ? 'px-2' : 'container mx-auto px-4 sm:px-6 md:px-4 lg:px-4 xl:px-4 max-w-full md:max-w-[98%] mid:max-w-[92%] xl:max-w-[1200px] -mt-0.5 z-40 flex justify-start'}`}>
-        <div className={`${isMobile ? 'bg-white rounded-lg shadow-md' : 'bg-[#fdf6ee] border border-[#e8e8e8] shadow-lg rounded-b-lg w-full max-w-5xl'}`}>
+        <div className={`${isMobile ? 'bg-white rounded-lg shadow-md' : 'bg-primary-50 border border-[#e8e8e8] shadow-lg rounded-b-lg w-full max-w-5xl'}`}>
           <div className="p-4 text-red-500">Error loading categories: {error}</div>
         </div>
       </div>
@@ -160,7 +160,7 @@ const CategoryDropdown: React.FC<CategoryDropdownProps> = ({ isOpen, closeDropdo
               navigate('/all-products');
             }}
             className={`flex items-center justify-between w-full px-4 py-3 text-sm border-b transition-colors duration-200 ${
-              selectedCategory === '' ? 'bg-[#F2631F] text-white' : 'text-gray-700 hover:bg-gray-50'
+              selectedCategory === '' ? 'bg-primary-600 text-white' : 'text-gray-700 hover:bg-gray-50'
             }`}
           >
             <span> </span>
@@ -178,7 +178,7 @@ const CategoryDropdown: React.FC<CategoryDropdownProps> = ({ isOpen, closeDropdo
                   }
                 }}
                 className={`flex items-center justify-between w-full px-4 py-3 text-sm border-b hover:bg-gray-50 transition-colors duration-200 ${
-                  selectedCategory === String(category.category_id) ? 'bg-[#F2631F] text-white' : 'text-gray-700'
+                  selectedCategory === String(category.category_id) ? 'bg-primary-600 text-white' : 'text-gray-700'
                 }`}
               >
                 <span>{getCategoryName(category)}</span>
@@ -197,7 +197,7 @@ const CategoryDropdown: React.FC<CategoryDropdownProps> = ({ isOpen, closeDropdo
                       key={child.category_id}
                       onClick={() => handleCategoryClick(child)}
                       className={`flex items-center justify-between w-full px-8 py-3 text-sm border-b last:border-b-0 transition-colors duration-200 ${
-                        selectedCategory === String(child.category_id) ? 'bg-[#F2631F] text-white' : 'text-gray-700 hover:bg-gray-100'
+                        selectedCategory === String(child.category_id) ? 'bg-primary-600 text-white' : 'text-gray-700 hover:bg-gray-100'
                       }`}
                     >
                       <span>{getCategoryName(child)}</span>
@@ -218,18 +218,18 @@ const CategoryDropdown: React.FC<CategoryDropdownProps> = ({ isOpen, closeDropdo
   // Desktop View (existing code)
   return (
     <div className="container mx-auto px-2 sm:px-4 md:px-4 lg:px-4 xl:px-4 max-w-full md:max-w-[98%] mid:max-w-[92%] xl:max-w-[1200px] -mt-0.5 z-40 flex justify-center">
-      <div className="bg-[#fdf6ee] border border-[#e8e8e8] shadow-lg rounded-b-lg w-full max-w-full md:max-w-[1360px]">
+      <div className="bg-primary-50 border border-[#e8e8e8] shadow-lg rounded-b-lg w-full max-w-full md:max-w-[1360px]">
         <div className="flex flex-col md:flex-row">
           {/* Left sidebar categories */}
-          <div className="w-full md:w-64 border-b md:border-b-0 md:border-r border-[#e8e8e8] bg-[#fdf6ee]">
+          <div className="w-full md:w-64 border-b md:border-b-0 md:border-r border-[#e8e8e8] bg-primary-50">
             <button 
               onClick={() => {
                 if (closeDropdown) closeDropdown();
                 setSelectedCategory('');
                 navigate('/all-products');
               }}
-              className={`flex items-center justify-between px-3 md:px-5 py-2 md:py-3 hover:bg-[#f6eadd] text-gray-800 text-sm md:text-base w-full text-left ${
-                selectedCategory === '' ? 'bg-[#f47521] text-white' : ''
+              className={`flex items-center justify-between px-3 md:px-5 py-2 md:py-3 hover:bg-primary-100 text-gray-800 text-sm md:text-base w-full text-left ${
+                selectedCategory === '' ? 'bg-primary-600 text-white' : ''
               }`}
             >
               <span>All Products</span>
@@ -246,8 +246,8 @@ const CategoryDropdown: React.FC<CategoryDropdownProps> = ({ isOpen, closeDropdo
                       handleCategoryClick(category);
                     }
                   }}
-                  className={`flex items-center justify-between px-3 md:px-5 py-2 md:py-3 hover:bg-[#f6eadd] text-gray-800 text-sm md:text-base w-full text-left ${
-                    expandedSidebarCategory === String(category.category_id) ? 'bg-[#f47521] text-white' : ''
+                  className={`flex items-center justify-between px-3 md:px-5 py-2 md:py-3 hover:bg-primary-100 text-gray-800 text-sm md:text-base w-full text-left ${
+                    expandedSidebarCategory === String(category.category_id) ? 'bg-primary-600 text-white' : ''
                   }`}
                 >
                   <span>{getCategoryName(category)}</span>
@@ -259,8 +259,8 @@ const CategoryDropdown: React.FC<CategoryDropdownProps> = ({ isOpen, closeDropdo
                       <button
                         key={child.category_id}
                         onClick={() => handleCategoryClick(child)}
-                        className={`flex items-center justify-between px-3 md:px-5 py-2 md:py-3 hover:bg-[#f6eadd] text-gray-800 text-sm md:text-base w-full text-left ${
-                          selectedCategory === String(child.category_id) ? 'bg-[#f47521] text-white' : ''
+                        className={`flex items-center justify-between px-3 md:px-5 py-2 md:py-3 hover:bg-primary-100 text-gray-800 text-sm md:text-base w-full text-left ${
+                          selectedCategory === String(child.category_id) ? 'bg-primary-600 text-white' : ''
                         }`}
                       >
                         <span>{getCategoryName(child)}</span>
@@ -277,7 +277,7 @@ const CategoryDropdown: React.FC<CategoryDropdownProps> = ({ isOpen, closeDropdo
           
           
           {/* Right content area - Show subcategories of selected category */}
-          <div className="flex-1 p-4 md:p-6 bg-[#fdf6ee]">
+          <div className="flex-1 p-4 md:p-6 bg-primary-50">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-x-10">
               {categories.map(category => (
                 category.children && category.children.length > 0 && (
@@ -290,8 +290,8 @@ const CategoryDropdown: React.FC<CategoryDropdownProps> = ({ isOpen, closeDropdo
                         <li key={child.category_id}>
                           <button 
                             onClick={() => handleCategoryClick(child)}
-                            className={`text-gray-600 hover:text-[#f47521] text-xs md:text-sm text-left w-full ${
-                              selectedCategory === String(child.category_id) ? 'text-[#f47521] font-medium' : ''
+                            className={`text-gray-600 hover:text-primary-600 text-xs md:text-sm text-left w-full ${
+                              selectedCategory === String(child.category_id) ? 'text-primary-600 font-medium' : ''
                             }`}
                           >
                             {getCategoryName(child)}
@@ -311,7 +311,7 @@ const CategoryDropdown: React.FC<CategoryDropdownProps> = ({ isOpen, closeDropdo
                           setSelectedCategory('');
                           navigate('/all-products');
                         }}
-                        className="bg-[#f47521] text-white py-2 md:py-3 px-3 md:px-4 inline-block w-full text-center text-sm md:text-base rounded-md hover:bg-[#e06a1d] transition-colors"
+                        className="bg-primary-600 text-white py-2 md:py-3 px-3 md:px-4 inline-block w-full text-center text-sm md:text-base rounded-md hover:bg-primary-700 transition-colors"
                       >
                         All Categories
                       </button>

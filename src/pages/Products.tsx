@@ -222,18 +222,18 @@ const Products: React.FC = () => {
     let spanClass = 'text-sm font-normal';
     
     if (level === 0) {
-      btnClass += ' bg-transparent text-black hover:bg-orange-50 rounded-none font-medium';
+      btnClass += ' bg-transparent text-black hover:bg-primary-50 rounded-none font-medium';
     } else if (hasSubcategories) {
       if (isSelected) {
-        btnClass += ' bg-white border border-[#F2631F] text-black rounded-md shadow-sm';
+        btnClass += ' bg-white border border-primary-600 text-black rounded-md shadow-sm';
       } else {
-        btnClass += ' bg-transparent text-black hover:bg-orange-50 rounded-md';
+        btnClass += ' bg-transparent text-black hover:bg-primary-50 rounded-md';
       }
     } else {
       if (isSelected) {
-        btnClass += ' bg-[#F2631F] text-white rounded-md shadow';
+        btnClass += ' bg-primary-600 text-white rounded-md shadow';
       } else {
-        btnClass += ' bg-transparent text-black hover:bg-orange-50 rounded-md';
+        btnClass += ' bg-transparent text-black hover:bg-primary-50 rounded-md';
       }
     }
 
@@ -257,9 +257,9 @@ const Products: React.FC = () => {
           {hasSubcategories && (
             <span className="flex items-center ml-auto">
               {isExpanded ? (
-                <ChevronUp size={16} className="text-[#F2631F]" />
+                <ChevronUp size={16} className="text-primary-600" />
               ) : (
-                <ChevronDown size={16} className="text-[#F2631F]" />
+                <ChevronDown size={16} className="text-primary-600" />
               )}
             </span>
           )}
@@ -632,8 +632,8 @@ const Products: React.FC = () => {
                         onClick={() => toggleBrand(String(brand.brand_id || brand.id))}
                         className={`px-3 py-1.5 rounded-full border text-xs font-normal transition-colors focus:outline-none ${
                           isSelected
-                            ? 'bg-[#F2631F] text-white border-[#F2631F] shadow'
-                            : 'bg-gray-100 border-gray-200 text-black hover:border-[#F2631F] hover:text-[#F2631F]'
+                            ? 'bg-primary-600 text-white border-primary-600 shadow'
+                            : 'bg-gray-100 border-gray-200 text-black hover:border-primary-600 hover:text-primary-600'
                         }`}
                       >
                         {brand.name || brand.brand_name}
@@ -660,7 +660,7 @@ const Products: React.FC = () => {
                           const value = parseInt(e.target.value) || 0;
                           setPriceRange([value, Math.max(value, priceRange[1])]);
                         }}
-                        className="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-[#F2631F]"
+                        className="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary-600"
                         placeholder="0"
                       />
                     </div>
@@ -679,7 +679,7 @@ const Products: React.FC = () => {
                           setPriceRange([priceRange[0], Math.max(priceRange[0], value)]);
                           }
                         }}
-                        className="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-[#F2631F]"
+                        className="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary-600"
                         placeholder="1000000"
                       />
                     </div>
@@ -692,7 +692,7 @@ const Products: React.FC = () => {
                   <div className="relative pt-1">
                     <div className="w-full h-1 bg-gray-200 rounded-lg">
                       <div
-                        className="absolute h-1 bg-[#F2631F] rounded-lg"
+                        className="absolute h-1 bg-primary-600 rounded-lg"
                         style={{ width: `${(priceRange[1] / 1000000) * 100}%` }}
                       ></div>
                     </div>
@@ -727,8 +727,8 @@ const Products: React.FC = () => {
                         onClick={() => toggleDiscount(discount.value)}
                         className={`px-3 py-1.5 rounded-full border text-xs font-normal transition-colors focus:outline-none ${
                           isSelected
-                            ? 'bg-[#F2631F] text-white border-[#F2631F] shadow'
-                            : 'bg-gray-100 border-gray-200 text-black hover:border-[#F2631F] hover:text-[#F2631F]'
+                            ? 'bg-primary-600 text-white border-primary-600 shadow'
+                            : 'bg-gray-100 border-gray-200 text-black hover:border-primary-600 hover:text-primary-600'
                         }`}
                       >
                         {discount.label}
@@ -781,7 +781,7 @@ const Products: React.FC = () => {
               {/* Reset Filters Button */}
               <button
                 onClick={resetFilters}
-                className="w-full px-4 py-2 text-sm font-normal text-[#F2631F] border border-[#F2631F] rounded hover:bg-orange-50 transition-colors font-worksans"
+                className="w-full px-4 py-2 text-sm font-normal text-primary-600 border border-primary-600 rounded hover:bg-primary-50 transition-colors font-worksans"
               >
                 Reset Filters
               </button>
@@ -797,7 +797,7 @@ const Products: React.FC = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search products..."
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F2631F] focus:border-transparent font-worksans"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent font-worksans"
               />
             </div>
 
@@ -805,11 +805,11 @@ const Products: React.FC = () => {
             <div className="hidden lg:flex justify-end mb-6">
               <div className="relative" ref={desktopSortRef}>
                 <button
-                  className="flex items-center gap-2 px-4 py-2 border rounded-lg bg-white hover:border-[#F2631F] transition-colors"
+                  className="flex items-center gap-2 px-4 py-2 border rounded-lg bg-white hover:border-primary-600 transition-colors"
                   onClick={() => setIsDesktopSortOpen(!isDesktopSortOpen)}
                 >
                   <span>Sort By: </span>
-                  <span className="text-[#F2631F]">
+                  <span className="text-primary-600">
                     {sortOptions.find(opt => opt.value === selectedSort)?.label}
                   </span>
                   <ChevronDown size={16} />
@@ -822,10 +822,10 @@ const Products: React.FC = () => {
                         key={option.value}
                         onClick={() => handleSort(option.value)}
                         className={`flex items-center w-full px-4 py-2 text-left hover:bg-gray-50 ${
-                          selectedSort === option.value ? 'bg-orange-50 text-[#F2631F]' : ''
+                          selectedSort === option.value ? 'bg-primary-50 text-primary-600' : ''
                         }`}
                       >
-                        {selectedSort === option.value && <Check size={16} className="mr-2 text-[#F2631F]" />}
+                        {selectedSort === option.value && <Check size={16} className="mr-2 text-primary-600" />}
                         <span>{option.label}</span>
                       </button>
                     ))}
@@ -861,7 +861,7 @@ const Products: React.FC = () => {
                 <button 
                   onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                   disabled={currentPage === 1}
-                  className="w-10 h-10 flex items-center justify-center border border-gray-300 rounded-lg disabled:opacity-50 hover:border-[#F2631F] transition-colors"
+                  className="w-10 h-10 flex items-center justify-center border border-gray-300 rounded-lg disabled:opacity-50 hover:border-primary-600 transition-colors"
                 >
                   <ChevronLeft className="h-6 w-6" />
                 </button>
@@ -885,8 +885,8 @@ const Products: React.FC = () => {
                         onClick={() => setCurrentPage(1)}
                         className={`w-10 h-10 flex items-center justify-center border rounded-lg transition-colors ${
                           currentPage === 1 
-                            ? 'bg-[#F2631F] text-white border-[#F2631F]' 
-                            : 'border-gray-300 hover:border-[#F2631F]'
+                            ? 'bg-primary-600 text-white border-primary-600' 
+                            : 'border-gray-300 hover:border-primary-600'
                         }`}
                       >
                         1
@@ -904,8 +904,8 @@ const Products: React.FC = () => {
                         onClick={() => setCurrentPage(i)}
                         className={`w-10 h-10 flex items-center justify-center border rounded-lg transition-colors ${
                           currentPage === i 
-                            ? 'bg-[#F2631F] text-white border-[#F2631F]' 
-                            : 'border-gray-300 hover:border-[#F2631F]'
+                            ? 'bg-primary-600 text-white border-primary-600' 
+                            : 'border-gray-300 hover:border-primary-600'
                         }`}
                       >
                         {i}
@@ -923,8 +923,8 @@ const Products: React.FC = () => {
                         onClick={() => setCurrentPage(totalPages)}
                         className={`w-10 h-10 flex items-center justify-center border rounded-lg transition-colors ${
                           currentPage === totalPages 
-                            ? 'bg-[#F2631F] text-white border-[#F2631F]' 
-                            : 'border-gray-300 hover:border-[#F2631F]'
+                            ? 'bg-primary-600 text-white border-primary-600' 
+                            : 'border-gray-300 hover:border-primary-600'
                         }`}
                       >
                         {totalPages}
@@ -937,7 +937,7 @@ const Products: React.FC = () => {
                 <button 
                   onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                   disabled={currentPage === totalPages}
-                  className="w-10 h-10 flex items-center justify-center border border-gray-300 rounded-lg disabled:opacity-50 hover:border-[#F2631F] transition-colors"
+                  className="w-10 h-10 flex items-center justify-center border border-gray-300 rounded-lg disabled:opacity-50 hover:border-primary-600 transition-colors"
                 >
                   <ChevronRight className="h-6 w-6" />
                 </button>
@@ -1024,8 +1024,8 @@ const Products: React.FC = () => {
                         onClick={() => toggleBrand(String(brand.brand_id || brand.id))}
                         className={`px-3 py-1.5 rounded-full border text-xs font-normal transition-colors focus:outline-none ${
                           isSelected
-                            ? 'bg-[#F2631F] text-white border-[#F2631F] shadow'
-                            : 'bg-gray-100 border-gray-200 text-black hover:border-[#F2631F] hover:text-[#F2631F]'
+                            ? 'bg-primary-600 text-white border-primary-600 shadow'
+                            : 'bg-gray-100 border-gray-200 text-black hover:border-primary-600 hover:text-primary-600'
                         }`}
                       >
                         {brand.name || brand.brand_name}
@@ -1052,7 +1052,7 @@ const Products: React.FC = () => {
                           const value = parseInt(e.target.value) || 0;
                           setPriceRange([value, Math.max(value, priceRange[1])]);
                         }}
-                        className="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-[#F2631F]"
+                        className="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary-600"
                         placeholder="0"
                       />
                     </div>
@@ -1071,7 +1071,7 @@ const Products: React.FC = () => {
                           setPriceRange([priceRange[0], Math.max(priceRange[0], value)]);
                           }
                         }}
-                        className="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-[#F2631F]"
+                        className="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary-600"
                         placeholder="1000000"
                       />
                     </div>
@@ -1085,7 +1085,7 @@ const Products: React.FC = () => {
                   <div className="relative pt-1">
                     <div className="w-full h-1 bg-gray-200 rounded-lg">
                       <div
-                        className="absolute h-1 bg-[#F2631F] rounded-lg"
+                        className="absolute h-1 bg-primary-600 rounded-lg"
                         style={{ width: `${(priceRange[1] / 1000000) * 100}%` }}
                       ></div>
                     </div>
@@ -1120,8 +1120,8 @@ const Products: React.FC = () => {
                         onClick={() => toggleDiscount(discount.value)}
                         className={`px-3 py-1.5 rounded-full border text-xs font-normal transition-colors focus:outline-none ${
                           isSelected
-                            ? 'bg-[#F2631F] text-white border-[#F2631F] shadow'
-                            : 'bg-gray-100 border-gray-200 text-black hover:border-[#F2631F] hover:text-[#F2631F]'
+                            ? 'bg-primary-600 text-white border-primary-600 shadow'
+                            : 'bg-gray-100 border-gray-200 text-black hover:border-primary-600 hover:text-primary-600'
                         }`}
                       >
                         {discount.label}
@@ -1177,13 +1177,13 @@ const Products: React.FC = () => {
               <div className="flex gap-2">
                 <button
                   onClick={resetFilters}
-                  className="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:border-[#F2631F] transition-colors font-worksans"
+                  className="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:border-primary-600 transition-colors font-worksans"
                 >
                   Reset
                 </button>
                 <button
                   onClick={() => setIsFilterOpen(false)}
-                  className="flex-1 px-4 py-2 bg-[#F2631F] text-white rounded-lg hover:bg-[#e55a1a] transition-colors font-worksans"
+                  className="flex-1 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors font-worksans"
                 >
                   Apply Filters
                 </button>
@@ -1211,7 +1211,7 @@ const Products: React.FC = () => {
                     onClick={() => handleSort(option.value)}
                     className={`w-full text-left px-4 py-3 rounded-lg transition-colors ${
                       selectedSort === option.value
-                        ? 'bg-orange-50 text-[#F2631F]'
+                        ? 'bg-primary-50 text-primary-600'
                         : 'hover:bg-gray-50'
                     }`}
                   >

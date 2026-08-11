@@ -87,7 +87,7 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({ orderId, open, on
         <h2 className="text-lg font-bold mb-4">Order Details</h2>
         {loading ? (
           <div className="flex justify-center items-center h-32">
-            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-orange-500"></div>
+            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary-500"></div>
           </div>
         ) : error ? (
           <div className="text-red-500 mb-4">{error}</div>
@@ -155,7 +155,7 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({ orderId, open, on
           </>
         ) : null}
         <button
-          className="mt-4 px-4 py-2 bg-orange-500 text-white rounded w-full sm:w-auto"
+          className="mt-4 px-4 py-2 bg-primary-500 text-white rounded w-full sm:w-auto"
           onClick={onClose}
         >
           Close

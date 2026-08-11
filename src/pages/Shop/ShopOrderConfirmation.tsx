@@ -61,13 +61,13 @@ const ShopOrderConfirmation: React.FC<Props> = ({ shopId, shopName }) => {
             </button>
             <button
               onClick={continueShopping}
-              className="w-full sm:w-auto px-5 py-2.5 border border-orange-200 rounded-lg text-sm font-medium text-orange-600 bg-orange-50 hover:bg-orange-100 transition-colors"
+              className="w-full sm:w-auto px-5 py-2.5 border border-primary-200 rounded-lg text-sm font-medium text-primary-600 bg-primary-50 hover:bg-primary-100 transition-colors"
             >
               Continue Shopping
             </button>
             <button
               onClick={viewOrders}
-              className="w-full sm:w-auto px-5 py-2.5 rounded-lg text-sm font-medium text-white bg-orange-500 hover:bg-orange-600 transition-colors"
+              className="w-full sm:w-auto px-5 py-2.5 rounded-lg text-sm font-medium text-white bg-primary-500 hover:bg-primary-600 transition-colors"
             >
               View Orders
             </button>

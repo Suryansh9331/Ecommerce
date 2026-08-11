@@ -82,12 +82,12 @@ const StatusBadge: React.FC<{ status: string }> = ({ status }) => {
       textColor = "text-sky-800";
       break;
     case "PROCESSING":
-      bgColor = "bg-[#FF4D00]/10"; // Light orange background
-      textColor = "text-[#FF4D00]";
+      bgColor = "bg-primary-600/10"; // Light orange background
+      textColor = "text-primary-600";
       break;
     case "PENDING_PAYMENT":
-      bgColor = "bg-[#FF4D00]/10";
-      textColor = "text-[#FF4D00]";
+      bgColor = "bg-primary-600/10";
+      textColor = "text-primary-600";
       break;
     case "CANCELLED":
       bgColor = "bg-rose-100";
@@ -106,8 +106,8 @@ const StatusBadge: React.FC<{ status: string }> = ({ status }) => {
       textColor = "text-purple-800";
       break;
     case "PENDING":
-      bgColor = "bg-orange-100";
-      textColor = "text-orange-800";
+      bgColor = "bg-primary-100";
+      textColor = "text-primary-800";
       break;
     default:
       bgColor = "bg-gray-100";
@@ -624,7 +624,7 @@ const OrderDetail: React.FC = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64 px-4">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-500"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-500"></div>
       </div>
     );
   }
@@ -634,7 +634,7 @@ const OrderDetail: React.FC = () => {
         <p className="text-red-500 mb-4 break-words">{error}</p>
         <button
           onClick={() => window.location.reload()}
-          className="bg-orange-500 text-white px-4 py-2 rounded-md hover:bg-orange-600 transition-colors"
+          className="bg-primary-500 text-white px-4 py-2 rounded-md hover:bg-primary-600 transition-colors"
         >
           Try Again
         </button>
@@ -914,7 +914,7 @@ const OrderDetail: React.FC = () => {
           <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
             <Link
               to="/business/orders"
-              className="inline-flex items-center text-[#FF4D00] hover:text-white hover:bg-[#FF4D00] transition-colors px-3 py-1.5 rounded-md font-medium shadow-sm w-fit"
+              className="inline-flex items-center text-primary-600 hover:text-white hover:bg-primary-600 transition-colors px-3 py-1.5 rounded-md font-medium shadow-sm w-fit"
               style={{ fontWeight: 500 }}
             >
               <ArrowLeftIcon className="h-5 w-5 mr-2" /> Back to Orders
@@ -926,7 +926,7 @@ const OrderDetail: React.FC = () => {
           <div className="flex space-x-2">
             <button
               onClick={handlePrint}
-              className="inline-flex items-center px-3 sm:px-4 py-2 rounded-md shadow-sm text-sm font-medium bg-[#FF4D00] text-white hover:bg-orange-600 transition-colors border border-[#FF4D00]"
+              className="inline-flex items-center px-3 sm:px-4 py-2 rounded-md shadow-sm text-sm font-medium bg-primary-600 text-white hover:bg-primary-600 transition-colors border border-primary-600"
               style={{ fontWeight: 500 }}
             >
               <PrinterIcon className="h-4 w-4 mr-2" /> 
@@ -1019,7 +1019,7 @@ const OrderDetail: React.FC = () => {
                   {order.status_history.map((history, index) => (
                     <div key={index} className="flex items-start space-x-3">
                       <div className="flex-shrink-0 pt-1.5">
-                        <div className="w-2.5 h-2.5 bg-orange-500 rounded-full"></div>
+                        <div className="w-2.5 h-2.5 bg-primary-500 rounded-full"></div>
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-medium text-gray-900">

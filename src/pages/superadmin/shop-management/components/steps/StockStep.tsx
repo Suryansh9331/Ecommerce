@@ -56,8 +56,8 @@ const StockStep: React.FC<StockStepProps> = ({ data, onChange }) => {
       {/* Header */}
       <div className="text-center">
         <div className="flex justify-center mb-4">
-          <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center">
-            <Package2 className="text-orange-500" size={32} />
+          <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center">
+            <Package2 className="text-primary-500" size={32} />
           </div>
         </div>
         <h3 className="text-xl font-semibold text-gray-900">Stock Management</h3>
@@ -77,7 +77,7 @@ const StockStep: React.FC<StockStepProps> = ({ data, onChange }) => {
             step="1"
             value={data.stock_qty || ''}
             onChange={(e) => handleInputChange('stock_qty', parseInt(e.target.value) || 0)}
-            className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
+            className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent ${
               errors.stock_qty ? 'border-red-500' : 'border-gray-300'
             }`}
             placeholder="Enter initial stock quantity"
@@ -97,7 +97,7 @@ const StockStep: React.FC<StockStepProps> = ({ data, onChange }) => {
             step="1"
             value={data.low_stock_threshold || ''}
             onChange={(e) => handleInputChange('low_stock_threshold', parseInt(e.target.value) || 0)}
-            className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
+            className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent ${
               errors.low_stock_threshold ? 'border-red-500' : 'border-gray-300'
             }`}
             placeholder="Enter low stock threshold"
@@ -157,7 +157,7 @@ const StockStep: React.FC<StockStepProps> = ({ data, onChange }) => {
                   stock_qty: preset.stock,
                   low_stock_threshold: preset.threshold
                 })}
-                className="p-3 border border-gray-300 rounded-lg hover:border-orange-500 hover:bg-orange-50 transition-colors"
+                className="p-3 border border-gray-300 rounded-lg hover:border-primary-500 hover:bg-primary-50 transition-colors"
               >
                 <div className="text-sm font-medium text-gray-900">{preset.label}</div>
                 <div className="text-xs text-gray-600 mt-1">

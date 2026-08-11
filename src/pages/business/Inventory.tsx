@@ -143,7 +143,7 @@ const UpdateStockModal: React.FC<UpdateStockModalProps> = ({ isOpen, onClose, pr
                 min="0"
                 value={stockQty}
                 onChange={(e) => setStockQty(parseInt(e.target.value))}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
               />
             </div>
             <div className="mb-4">
@@ -156,21 +156,21 @@ const UpdateStockModal: React.FC<UpdateStockModalProps> = ({ isOpen, onClose, pr
                 min="0"
                 value={lowStockThreshold}
                 onChange={(e) => setLowStockThreshold(parseInt(e.target.value))}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
               />
             </div>
             <div className="flex justify-end space-x-3">
               <button
                 type="button"
                 onClick={onClose}
-                className="inline-flex justify-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+                className="inline-flex justify-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-orange-600 border border-transparent rounded-md hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+                className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-primary-600 border border-transparent rounded-md hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
               >
                 {isSubmitting ? 'Updating...' : 'Update'}
               </button>
@@ -209,7 +209,7 @@ const MobileProductCard: React.FC<{
           <p className="text-xs text-gray-500">SKU: {product.sku}</p>
         </div>
         <button 
-          className="text-orange-600 hover:text-orange-900 flex-shrink-0"
+          className="text-primary-600 hover:text-primary-900 flex-shrink-0"
           onClick={() => onEditClick(product)}
         >
           <PencilIcon className="h-4 w-4" />
@@ -683,7 +683,7 @@ const Inventory: React.FC = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-500"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-500"></div>
       </div>
     );
   }
@@ -692,7 +692,7 @@ const Inventory: React.FC = () => {
     return (
       <div className="text-center py-8">
         <p className="text-red-500 mb-4">{error}</p>
-        <button onClick={fetchProducts} className="bg-orange-500 text-white px-4 py-2 rounded-md">
+        <button onClick={fetchProducts} className="bg-primary-500 text-white px-4 py-2 rounded-md">
           Try Again
         </button>
       </div>
@@ -709,14 +709,14 @@ const Inventory: React.FC = () => {
         <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
           <button
             onClick={handleExportClick}
-            className="flex items-center justify-center px-3 sm:px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-orange-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+            className="flex items-center justify-center px-3 sm:px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
           >
             <PrinterIcon className="h-4 w-4 mr-2" />
             <span className="hidden sm:inline">Export</span>
             <span className="sm:hidden">Export</span>
           </button>
           <Link to="/business/catalog/product/new">
-            <button className="inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">
+            <button className="inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
               <PlusIcon className="h-4 w-4 mr-2" />
               <span className="hidden sm:inline">Add Product</span>
               <span className="sm:hidden">Add</span>
@@ -727,9 +727,9 @@ const Inventory: React.FC = () => {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-        <div className="bg-white rounded-lg shadow p-4 sm:p-5 flex items-center hover:border-orange-300 transition-colors">
-          <div className="rounded-full bg-orange-100 p-2 sm:p-3 mr-3 sm:mr-4">
-            <DocumentTextIcon className="h-5 w-5 sm:h-6 sm:w-6 text-orange-600" />
+        <div className="bg-white rounded-lg shadow p-4 sm:p-5 flex items-center hover:border-primary-300 transition-colors">
+          <div className="rounded-full bg-primary-100 p-2 sm:p-3 mr-3 sm:mr-4">
+            <DocumentTextIcon className="h-5 w-5 sm:h-6 sm:w-6 text-primary-600" />
           </div>
           <div>
             <p className="text-xs sm:text-sm text-gray-500">Total Products</p>
@@ -739,9 +739,9 @@ const Inventory: React.FC = () => {
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow p-4 sm:p-5 flex items-center hover:border-orange-300 transition-colors">
-          <div className="rounded-full bg-orange-100 p-2 sm:p-3 mr-3 sm:mr-4">
-            <ExclamationCircleIcon className="h-5 w-5 sm:h-6 sm:w-6 text-orange-600" />
+        <div className="bg-white rounded-lg shadow p-4 sm:p-5 flex items-center hover:border-primary-300 transition-colors">
+          <div className="rounded-full bg-primary-100 p-2 sm:p-3 mr-3 sm:mr-4">
+            <ExclamationCircleIcon className="h-5 w-5 sm:h-6 sm:w-6 text-primary-600" />
           </div>
           <div>
             <p className="text-xs sm:text-sm text-gray-500">Low Stock Alerts</p>
@@ -751,9 +751,9 @@ const Inventory: React.FC = () => {
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow p-4 sm:p-5 flex items-center hover:border-orange-300 transition-colors">
-          <div className="rounded-full bg-orange-100 p-2 sm:p-3 mr-3 sm:mr-4">
-            <DocumentTextIcon className="h-5 w-5 sm:h-6 sm:w-6 text-orange-600" />
+        <div className="bg-white rounded-lg shadow p-4 sm:p-5 flex items-center hover:border-primary-300 transition-colors">
+          <div className="rounded-full bg-primary-100 p-2 sm:p-3 mr-3 sm:mr-4">
+            <DocumentTextIcon className="h-5 w-5 sm:h-6 sm:w-6 text-primary-600" />
           </div>
           <div>
             <p className="text-xs sm:text-sm text-gray-500">
@@ -765,9 +765,9 @@ const Inventory: React.FC = () => {
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow p-4 sm:p-5 flex items-center hover:border-orange-300 transition-colors">
-          <div className="rounded-full bg-orange-100 p-2 sm:p-3 mr-3 sm:mr-4">
-            <CurrencyDollarIcon className="h-5 w-5 sm:h-6 sm:w-6 text-orange-600" />
+        <div className="bg-white rounded-lg shadow p-4 sm:p-5 flex items-center hover:border-primary-300 transition-colors">
+          <div className="rounded-full bg-primary-100 p-2 sm:p-3 mr-3 sm:mr-4">
+            <CurrencyDollarIcon className="h-5 w-5 sm:h-6 sm:w-6 text-primary-600" />
           </div>
           <div>
             <p className="text-xs sm:text-sm text-gray-500">Total Stock</p>
@@ -787,7 +787,7 @@ const Inventory: React.FC = () => {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search by product name or SKU..."
-              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 text-sm pl-10"
+              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 text-sm pl-10"
             />
 
             {searchTerm && (
@@ -815,7 +815,7 @@ const Inventory: React.FC = () => {
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 text-sm"
+            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 text-sm"
           >
             <option value="All">All Categories</option>
             {categories.map((category) => (
@@ -828,7 +828,7 @@ const Inventory: React.FC = () => {
           <select
             value={selectedBrand}
             onChange={(e) => setSelectedBrand(e.target.value)}
-            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 text-sm"
+            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 text-sm"
           >
             <option value="All">All Brands</option>
             {brands.map((brand) => (
@@ -841,7 +841,7 @@ const Inventory: React.FC = () => {
           <select
             value={selectedStockStatus}
             onChange={(e) => setSelectedStockStatus(e.target.value)}
-            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 text-sm"
+            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 text-sm"
           >
             <option value="All">All Stock Status</option>
             {STOCK_STATUS_OPTIONS.map((status) => (
@@ -901,7 +901,7 @@ const Inventory: React.FC = () => {
                   ].map((header) => (
                     <th
                       key={header}
-                      className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:text-orange-600"
+                      className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:text-primary-600"
                       onClick={() =>
                         requestSort(header.toLowerCase().replace(" ", "_"))
                       }
@@ -918,7 +918,7 @@ const Inventory: React.FC = () => {
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {sortedProducts.map((product) => (
-                  <tr key={product.id} className="hover:bg-orange-50">
+                  <tr key={product.id} className="hover:bg-primary-50">
                     <td className="px-4 py-4 whitespace-nowrap">
                       <div className="w-8 h-8 rounded-md bg-gray-200 flex items-center justify-center">
                         <img
@@ -960,7 +960,7 @@ const Inventory: React.FC = () => {
                     <td className="px-4 py-4 whitespace-nowrap text-gray-500">
                       <div className="flex space-x-2">
                         <button
-                          className="text-orange-600 hover:text-orange-900"
+                          className="text-primary-600 hover:text-primary-900"
                           onClick={() => handleEditClick(product)}
                         >
                           <PencilIcon className="h-5 w-5" />

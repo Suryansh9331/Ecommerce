@@ -17,9 +17,9 @@ const FAQItem: React.FC<{
       >
         <span className="text-gray-900 font-medium text-lg">{question}</span>
         {isOpen ? (
-          <ChevronUp className="h-5 w-5 text-[#FF4D00]" />
+          <ChevronUp className="h-5 w-5 text-primary-600" />
         ) : (
-          <ChevronDown className="h-5 w-5 text-[#FF4D00]" />
+          <ChevronDown className="h-5 w-5 text-primary-600" />
         )}
       </button>
       {isOpen && (
@@ -64,7 +64,7 @@ const FAQ: React.FC = () => {
         <div className="max-w-3xl mx-auto">
           {/* FAQ Header */}
           <div className="text-center mb-12">
-            <h1 className="text-4xl font-medium text-[#FF4D00] mb-4">{t('faq.title')}</h1>
+            <h1 className="text-4xl font-medium text-primary-600 mb-4">{t('faq.title')}</h1>
             <p className="text-gray-600">{t('faq.subtitle')}</p>
           </div>
 
@@ -85,7 +85,7 @@ const FAQ: React.FC = () => {
           <div className="mt-12 text-center">
             <p className="text-gray-600">
               {t('faq.contact')}{' '}
-              <a href="mailto:infoaoinstore@gmail.com" className="text-[#FF4D00] hover:text-[#FF4D00]/90">
+              <a href="mailto:infoaoinstore@gmail.com" className="text-primary-600 hover:text-primary-600/90">
                 infoaoinstore@gmail.com
               </a>
             </p>

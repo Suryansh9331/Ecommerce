@@ -288,11 +288,11 @@ const ProductMeta: React.FC<ProductMetaProps> = ({
       />
 
       {/* AI Assistant Banner */}
-      <div className="bg-gradient-to-r from-orange-50 to-amber-50 border-2 border-orange-200 rounded-xl p-5 shadow-sm">
+      <div className="bg-gradient-to-r from-primary-50 to-amber-50 border-2 border-primary-200 rounded-xl p-5 shadow-sm">
         <div className="flex items-start justify-between">
           <div className="flex items-start space-x-4">
             <div className="flex-shrink-0">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-r from-orange-500 to-orange-600">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-r from-primary-500 to-primary-600">
                 <SparklesIcon className="h-7 w-7 text-white" />
               </div>
             </div>
@@ -311,7 +311,7 @@ const ProductMeta: React.FC<ProductMetaProps> = ({
           </div>
           <button
             onClick={() => setIsAIAssistantOpen(true)}
-            className="flex-shrink-0 ml-4 inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-orange-500 to-orange-600 text-white text-sm font-semibold rounded-lg hover:from-orange-600 hover:to-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 shadow-md hover:shadow-lg transition-all"
+            className="flex-shrink-0 ml-4 inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-primary-500 to-primary-600 text-white text-sm font-semibold rounded-lg hover:from-primary-600 hover:to-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 shadow-md hover:shadow-lg transition-all"
           >
             <SparklesIcon className="h-5 w-5 mr-2" />
             Generate with AI
@@ -421,7 +421,7 @@ const ProductMeta: React.FC<ProductMetaProps> = ({
       <div className="bg-gray-50 p-4 rounded-md">
         <h4 className="text-sm font-medium text-gray-700 mb-2">SEO Preview</h4>
         <div className="space-y-2">
-          <div className="text-orange-600 text-sm truncate">{metaTitle || 'Your meta title will appear here'}</div>
+          <div className="text-primary-600 text-sm truncate">{metaTitle || 'Your meta title will appear here'}</div>
           <div className="text-gray-600 text-xs line-clamp-2">{metaDescription || 'Your meta description will appear here'}</div>
         </div>
       </div>

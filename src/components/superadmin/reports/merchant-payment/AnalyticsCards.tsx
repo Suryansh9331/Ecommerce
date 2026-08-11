@@ -30,9 +30,9 @@ const AnalyticsCards: React.FC<AnalyticsCardProps> = ({
       title: 'Total Merchants',
       value: totalMerchants,
       subValue: `${merchantsWithPendingPayments} with pending payments`,
-      icon: <FaUsers className="text-orange-500" />,
-      bgColor: 'bg-gradient-to-br from-orange-50 to-orange-100',
-      textColor: 'text-orange-700'
+      icon: <FaUsers className="text-primary-500" />,
+      bgColor: 'bg-gradient-to-br from-primary-50 to-primary-100',
+      textColor: 'text-primary-700'
     },
     {
       title: 'Total Transferred',

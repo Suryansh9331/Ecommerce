@@ -266,7 +266,7 @@ const CreatorSignup: React.FC = () => {
         <div className="flex items-center justify-center gap-2 mb-8">
           <span
             className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-              step >= 1 ? 'bg-[#FF4D00] text-white' : 'bg-gray-200 text-gray-500'
+              step >= 1 ? 'bg-primary-600 text-white' : 'bg-gray-200 text-gray-500'
             }`}
           >
             1
@@ -274,7 +274,7 @@ const CreatorSignup: React.FC = () => {
           <span className="h-0.5 w-8 bg-gray-300" />
           <span
             className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-              step >= 2 ? 'bg-[#FF4D00] text-white' : 'bg-gray-200 text-gray-500'
+              step >= 2 ? 'bg-primary-600 text-white' : 'bg-gray-200 text-gray-500'
             }`}
           >
             2
@@ -282,7 +282,7 @@ const CreatorSignup: React.FC = () => {
           <span className="h-0.5 w-8 bg-gray-300" />
           <span
             className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-              step >= 3 ? 'bg-[#FF4D00] text-white' : 'bg-gray-200 text-gray-500'
+              step >= 3 ? 'bg-primary-600 text-white' : 'bg-gray-200 text-gray-500'
             }`}
           >
             3
@@ -305,7 +305,7 @@ const CreatorSignup: React.FC = () => {
                 type="text"
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#F2631F] focus:border-transparent"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent"
                 placeholder="Jane"
                 maxLength={100}
                 required
@@ -317,7 +317,7 @@ const CreatorSignup: React.FC = () => {
                 type="text"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#F2631F] focus:border-transparent"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent"
                 placeholder="Creator"
                 maxLength={100}
                 required
@@ -329,7 +329,7 @@ const CreatorSignup: React.FC = () => {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#F2631F] focus:border-transparent"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent"
                 placeholder="jane@example.com"
                 required
               />
@@ -340,7 +340,7 @@ const CreatorSignup: React.FC = () => {
                 type="tel"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#F2631F] focus:border-transparent"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent"
                 placeholder="9876543210 or +919876543210"
               />
             </div>
@@ -352,7 +352,7 @@ const CreatorSignup: React.FC = () => {
             <button
               type="submit"
               disabled={isSubmitting1}
-              className="w-full bg-[#FF4D00] text-white py-2.5 rounded-lg font-medium hover:bg-[#e64500] disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-[#F2631F] focus:ring-offset-2"
+              className="w-full bg-primary-600 text-white py-2.5 rounded-lg font-medium hover:bg-primary-700 disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2"
             >
               {isSubmitting1 ? 'Sending…' : 'Send OTP'}
             </button>
@@ -369,7 +369,7 @@ const CreatorSignup: React.FC = () => {
                 autoComplete="one-time-code"
                 value={otp}
                 onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-center text-lg tracking-widest focus:outline-none focus:ring-2 focus:ring-[#F2631F] focus:border-transparent"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-center text-lg tracking-widest focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent"
                 placeholder="123456"
                 maxLength={6}
               />
@@ -379,7 +379,7 @@ const CreatorSignup: React.FC = () => {
                 type="button"
                 onClick={handleResendOtp}
                 disabled={resendCooldown > 0}
-                className="text-[#F2631F] hover:underline disabled:opacity-50 disabled:no-underline"
+                className="text-primary-600 hover:underline disabled:opacity-50 disabled:no-underline"
               >
                 {resendCooldown > 0 ? `Resend in ${resendCooldown}s` : 'Resend OTP'}
               </button>
@@ -392,7 +392,7 @@ const CreatorSignup: React.FC = () => {
             <button
               type="submit"
               disabled={isSubmitting2 || otp.replace(/\D/g, '').length !== 6}
-              className="w-full bg-[#FF4D00] text-white py-2.5 rounded-lg font-medium hover:bg-[#e64500] disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-[#F2631F] focus:ring-offset-2"
+              className="w-full bg-primary-600 text-white py-2.5 rounded-lg font-medium hover:bg-primary-700 disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2"
             >
               {isSubmitting2 ? 'Verifying…' : 'Verify & continue'}
             </button>
@@ -404,7 +404,7 @@ const CreatorSignup: React.FC = () => {
             {categoriesLoading ? (
               <div className="py-12 space-y-4">
                 <div className="flex justify-center">
-                  <div className="w-10 h-10 border-2 border-[#FF4D00] border-t-transparent rounded-full animate-spin" />
+                  <div className="w-10 h-10 border-2 border-primary-600 border-t-transparent rounded-full animate-spin" />
                 </div>
                 <p className="text-center text-gray-500 text-sm">Loading your categories…</p>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -420,7 +420,7 @@ const CreatorSignup: React.FC = () => {
             ) : (
               <>
                 <div className="text-center space-y-1">
-                  <div className="inline-flex items-center gap-1.5 text-[#FF4D00] text-sm font-medium mb-2">
+                  <div className="inline-flex items-center gap-1.5 text-primary-600 text-sm font-medium mb-2">
                     <Sparkles className="w-4 h-4" />
                     <span>Almost there</span>
                   </div>
@@ -435,12 +435,12 @@ const CreatorSignup: React.FC = () => {
                 <div className="rounded-xl bg-gray-50 border border-gray-100 p-3">
                   <div className="flex items-center justify-between gap-2 mb-2">
                     <span className="text-sm font-medium text-gray-700 flex items-center gap-1.5">
-                      <LayoutGrid className="w-4 h-4 text-[#FF4D00]" />
+                      <LayoutGrid className="w-4 h-4 text-primary-600" />
                       Categories
                     </span>
                     <span
                       className={`text-sm font-semibold tabular-nums ${
-                        selectedCategoryIds.length >= 5 ? 'text-[#FF4D00]' : 'text-gray-500'
+                        selectedCategoryIds.length >= 5 ? 'text-primary-600' : 'text-gray-500'
                       }`}
                     >
                       {selectedCategoryIds.length}/5
@@ -448,7 +448,7 @@ const CreatorSignup: React.FC = () => {
                   </div>
                   <div className="h-1.5 rounded-full bg-gray-200 overflow-hidden">
                     <div
-                      className="h-full rounded-full bg-[#FF4D00] transition-all duration-300 ease-out"
+                      className="h-full rounded-full bg-primary-600 transition-all duration-300 ease-out"
                       style={{ width: `${(selectedCategoryIds.length / 5) * 100}%` }}
                     />
                   </div>
@@ -464,12 +464,12 @@ const CreatorSignup: React.FC = () => {
                         onClick={() => toggleCategory(cat.category_id)}
                         className={`relative flex flex-col items-center justify-center gap-1.5 p-3 rounded-xl border-2 text-left transition-all duration-200 ease-out min-h-[72px] ${
                           isSelected
-                            ? 'border-[#FF4D00] bg-[#FFF5F0] shadow-sm'
+                            ? 'border-primary-600 bg-primary-50 shadow-sm'
                             : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'
                         }`}
                       >
                         {isSelected && (
-                          <span className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-[#FF4D00] flex items-center justify-center">
+                          <span className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-primary-600 flex items-center justify-center">
                             <Check className="w-3 h-3 text-white" strokeWidth={2.5} />
                           </span>
                         )}
@@ -498,7 +498,7 @@ const CreatorSignup: React.FC = () => {
 
                 <div className="space-y-2">
                   <span className="text-sm font-medium text-gray-700 flex items-center gap-1.5">
-                    <Calendar className="w-4 h-4 text-[#FF4D00]" />
+                    <Calendar className="w-4 h-4 text-primary-600" />
                     Availability
                   </span>
                   <div className="grid grid-cols-2 gap-2">
@@ -507,12 +507,12 @@ const CreatorSignup: React.FC = () => {
                       onClick={() => setAvailability('available')}
                       className={`flex items-center justify-center gap-2 py-3 px-4 rounded-xl border-2 transition-all duration-200 ${
                         availability === 'available'
-                          ? 'border-[#FF4D00] bg-[#FFF5F0] text-gray-900'
+                          ? 'border-primary-600 bg-primary-50 text-gray-900'
                           : 'border-gray-200 bg-white text-gray-600 hover:border-gray-300'
                       }`}
                     >
                       <Check
-                        className={`w-4 h-4 ${availability === 'available' ? 'text-[#FF4D00]' : 'text-gray-300'}`}
+                        className={`w-4 h-4 ${availability === 'available' ? 'text-primary-600' : 'text-gray-300'}`}
                         strokeWidth={2}
                       />
                       <span className="text-sm font-medium">Available</span>
@@ -522,12 +522,12 @@ const CreatorSignup: React.FC = () => {
                       onClick={() => setAvailability('busy')}
                       className={`flex items-center justify-center gap-2 py-3 px-4 rounded-xl border-2 transition-all duration-200 ${
                         availability === 'busy'
-                          ? 'border-[#FF4D00] bg-[#FFF5F0] text-gray-900'
+                          ? 'border-primary-600 bg-primary-50 text-gray-900'
                           : 'border-gray-200 bg-white text-gray-600 hover:border-gray-300'
                       }`}
                     >
                       <Clock
-                        className={`w-4 h-4 ${availability === 'busy' ? 'text-[#FF4D00]' : 'text-gray-300'}`}
+                        className={`w-4 h-4 ${availability === 'busy' ? 'text-primary-600' : 'text-gray-300'}`}
                         strokeWidth={2}
                       />
                       <span className="text-sm font-medium">Busy</span>
@@ -551,7 +551,7 @@ const CreatorSignup: React.FC = () => {
                   <button
                     type="submit"
                     disabled={isSubmitting3 || selectedCategoryIds.length < 5}
-                    className="w-full bg-[#FF4D00] text-white py-3 rounded-xl font-semibold hover:bg-[#e64500] disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-[#F2631F] focus:ring-offset-2 transition-colors"
+                    className="w-full bg-primary-600 text-white py-3 rounded-xl font-semibold hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 transition-colors"
                   >
                     {isSubmitting3 ? (
                       <span className="inline-flex items-center gap-2">
@@ -570,7 +570,7 @@ const CreatorSignup: React.FC = () => {
 
         <p className="mt-6 text-center text-sm text-gray-500">
           Already have an account?{' '}
-          <Link to="/creator/login" className="text-[#F2631F] hover:underline">
+          <Link to="/creator/login" className="text-primary-600 hover:underline">
             Log in
           </Link>
         </p>

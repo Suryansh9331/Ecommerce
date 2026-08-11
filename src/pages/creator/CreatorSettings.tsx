@@ -5,8 +5,8 @@ const CreatorSettings: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto">
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-10 h-10 rounded-xl bg-[#FFF5F0] flex items-center justify-center">
-          <Settings className="w-5 h-5 text-[#FF4D00]" />
+        <div className="w-10 h-10 rounded-xl bg-primary-50 flex items-center justify-center">
+          <Settings className="w-5 h-5 text-primary-600" />
         </div>
         <div>
           <h1 className="text-xl font-bold text-gray-900">Settings</h1>

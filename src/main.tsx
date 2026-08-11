@@ -3,6 +3,14 @@ import { ChakraProvider } from '@chakra-ui/react';
 import App from './App.tsx';
 import './index.css';
 import './i18n';
+import { PLATFORM_LOGO_URL } from './config';
+
+// Feed the logo to CSS (the printed-invoice watermark) so src/config.ts stays
+// the single place the platform logo is defined.
+document.documentElement.style.setProperty(
+  '--platform-logo-url',
+  `url("${PLATFORM_LOGO_URL}")`
+);
 
 // #region agent log
 const _t0 = performance.now();

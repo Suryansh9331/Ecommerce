@@ -497,7 +497,7 @@ const Attribute: React.FC = () => {
                     <td className="px-6 py-4">{category.slug}</td>
                     <td className="px-6 py-4 text-right">
                         <button 
-                            className="p-1 text-[#FF5733] hover:text-[#FF4500] rounded mr-2"
+                            className="p-1 text-primary-600 hover:text-primary-700 rounded mr-2"
                             onClick={() => handleCategorySelect(category.category_id)}
                             title="Link Attribute"
                         >
@@ -559,13 +559,13 @@ const Attribute: React.FC = () => {
             <div className="bg-white rounded-lg shadow-md p-6">
                 <div className="flex border-b mb-6">
                     <button
-                        className={`px-4 py-2 mr-4 ${activeTab === 'custom' ? 'border-b-2 border-[#FF5733] text-[#FF5733]' : 'text-gray-600'}`}
+                        className={`px-4 py-2 mr-4 ${activeTab === 'custom' ? 'border-b-2 border-primary-600 text-primary-600' : 'text-gray-600'}`}
                         onClick={() => setActiveTab('custom')}
                     >
                         Custom Attributes
                     </button>
                     <button
-                        className={`px-4 py-2 ${activeTab === 'category' ? 'border-b-2 border-[#FF5733] text-[#FF5733]' : 'text-gray-600'}`}
+                        className={`px-4 py-2 ${activeTab === 'category' ? 'border-b-2 border-primary-600 text-primary-600' : 'text-gray-600'}`}
                         onClick={() => setActiveTab('category')}
                     >
                         Category-Specific Attributes
@@ -582,11 +582,11 @@ const Attribute: React.FC = () => {
                                     placeholder="Search attributes..."
                                     value={searchQuery}
                                     onChange={e => setSearchQuery(e.target.value)}
-                                    className="border border-gray-300 rounded-md px-3 py-2 w-full xl:min-w-96 focus:ring-[#FF5733] focus:border-[#FF5733]"
+                                    className="border border-gray-300 rounded-md px-3 py-2 w-full xl:min-w-96 focus:ring-primary-600 focus:border-primary-600"
                                 />
                             </div>
                             <button
-                                className="bg-[#FF5733] text-white px-4 py-2 rounded flex items-center hover:bg-[#FF4500] transition-colors"
+                                className="bg-primary-600 text-white px-4 py-2 rounded flex items-center hover:bg-primary-700 transition-colors"
                                 onClick={() => setShowAddCustomAttribute(true)}
                             >
                                 <PlusCircle className="w-4 h-4 mr-1" />
@@ -616,7 +616,7 @@ const Attribute: React.FC = () => {
                                             </div>
                                             <div className="flex space-x-2">
                                                 <button 
-                                                    className="text-[#FF5733] hover:text-[#FF4500] p-2"
+                                                    className="text-primary-600 hover:text-primary-700 p-2"
                                                     onClick={() => {
                                                         setSelectedAttribute(attr.attribute_id);
                                                         setShowAddValueModal(true);
@@ -645,7 +645,7 @@ const Attribute: React.FC = () => {
                                             <div className="flex justify-between items-center mb-2">
                                                 <h4 className="font-medium">Values</h4>
                                                 <button
-                                                    className="text-[#FF5733] text-sm hover:text-[#FF4500]"
+                                                    className="text-primary-600 text-sm hover:text-primary-700"
                                                     onClick={() => {
                                                         setSelectedAttribute(attr.attribute_id);
                                                         setShowAddValueModal(true);
@@ -757,7 +757,7 @@ const Attribute: React.FC = () => {
                                                                 <p className="font-medium">{linkedAttr.attribute_details?.name}</p>
                                                                 <p className="text-xs text-gray-500">{linkedAttr.attribute_details?.code}</p>
                                                                 {linkedAttr.required_flag && (
-                                                                    <span className="text-xs text-[#FF5733] font-medium">Required</span>
+                                                                    <span className="text-xs text-primary-600 font-medium">Required</span>
                                                                 )}
                                                             </div>
                                                             <button
@@ -775,7 +775,7 @@ const Attribute: React.FC = () => {
                                         <div className="mb-4">
                                             <label className="block text-sm font-medium mb-2">Select Attribute</label>
                                             <select
-                                                className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#FF5733] focus:border-[#FF5733] [&>option]:bg-white [&>option]:text-gray-900 [&>option:checked]:bg-[#FF5733] [&>option:checked]:text-white"
+                                                className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-primary-600 [&>option]:bg-white [&>option]:text-gray-900 [&>option:checked]:bg-primary-600 [&>option:checked]:text-white"
                                                 value={selectedAttribute || ''}
                                                 onChange={(e) => {
                                                     const attrId = parseInt(e.target.value);
@@ -802,7 +802,7 @@ const Attribute: React.FC = () => {
                                                     type="checkbox"
                                                     checked={requiredFlag}
                                                     onChange={(e) => setRequiredFlag(e.target.checked)}
-                                                    className="rounded border-gray-300 text-[#FF5733] focus:ring-[#FF5733]"
+                                                    className="rounded border-gray-300 text-primary-600 focus:ring-primary-600"
                                                 />
                                                 <span className="text-sm font-medium">Mark as Required</span>
                                             </label>
@@ -810,7 +810,7 @@ const Attribute: React.FC = () => {
 
                                         <div className="flex justify-end">
                                             <button
-                                                className="bg-[#FF5733] text-white px-4 py-2 rounded hover:bg-[#FF4500] disabled:opacity-50 disabled:cursor-not-allowed"
+                                                className="bg-primary-600 text-white px-4 py-2 rounded hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed"
                                                 onClick={handleLinkAttributeToCategory}
                                                 disabled={!selectedAttribute || !selectedCategory}
                                             >
@@ -929,7 +929,7 @@ const Attribute: React.FC = () => {
                                 </button>
                                 <button
                                     type="submit"
-                                    className="bg-[#FF5733] text-white px-4 py-2 rounded hover:bg-[#FF4500] transition-colors"
+                                    className="bg-primary-600 text-white px-4 py-2 rounded hover:bg-primary-700 transition-colors"
                                 >
                                     Add Attribute
                                 </button>
@@ -1003,7 +1003,7 @@ const Attribute: React.FC = () => {
                                 </button>
                                 <button
                                     type="submit"
-                                    className="bg-[#FF5733] text-white px-4 py-2 rounded hover:bg-[#FF4500] transition-colors"
+                                    className="bg-primary-600 text-white px-4 py-2 rounded hover:bg-primary-700 transition-colors"
                                 >
                                     Add Value
                                 </button>
@@ -1046,7 +1046,7 @@ const Attribute: React.FC = () => {
                                 Cancel
                             </button>
                             <button
-                                className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition-colors"
+                                className="bg-primary-500 text-white px-4 py-2 rounded hover:bg-primary-600 transition-colors"
                                 onClick={() => {
                                     if (showDeleteModal.type === 'attribute' && showDeleteModal.id) {
                                         handleDeleteAttribute(showDeleteModal.id);

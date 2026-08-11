@@ -115,8 +115,8 @@ const StatusBadge: React.FC<{ status: string }> = ({ status }) => {
       textColor = 'text-amber-800';
       break;
     case 'PENDING_PAYMENT':
-      bgColor = 'bg-orange-100';
-      textColor = 'text-orange-800';
+      bgColor = 'bg-primary-100';
+      textColor = 'text-primary-800';
       break;
     case 'CANCELLED':
       bgColor = 'bg-rose-100';
@@ -135,8 +135,8 @@ const StatusBadge: React.FC<{ status: string }> = ({ status }) => {
       textColor = 'text-purple-800';
       break;
     case 'PENDING':
-      bgColor = 'bg-orange-100';
-      textColor = 'text-orange-800';
+      bgColor = 'bg-primary-100';
+      textColor = 'text-primary-800';
       break;
     default:
       bgColor = 'bg-gray-100';
@@ -159,7 +159,7 @@ const MobileOrderCard: React.FC<{ order: Order; tAddr1?: string }> = ({ order, t
         <p className="text-xs text-gray-500">{new Date(order.order_date).toLocaleDateString()}</p>
       </div>
       <div className="flex space-x-2">
-        <Link to={`/business/orders/${order.order_id}`} className="text-orange-600 hover:text-orange-900">
+        <Link to={`/business/orders/${order.order_id}`} className="text-primary-600 hover:text-primary-900">
           <EyeIcon className="h-4 w-4" />
         </Link>
       </div>
@@ -409,7 +409,7 @@ const Orders: React.FC = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-500"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-500"></div>
       </div>
     );
   }
@@ -418,7 +418,7 @@ const Orders: React.FC = () => {
     return (
       <div className="text-center py-8">
         <p className="text-red-500 mb-4">{error}</p>
-        <button onClick={fetchOrders} className="bg-orange-500 text-white px-4 py-2 rounded-md">
+        <button onClick={fetchOrders} className="bg-primary-500 text-white px-4 py-2 rounded-md">
           Try Again
         </button>
       </div>
@@ -441,13 +441,13 @@ const Orders: React.FC = () => {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search orders..."
-              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 text-sm"
+              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 text-sm"
             />
           </div>
           <select
             value={selectedStatus}
             onChange={(e) => setSelectedStatus(e.target.value)}
-            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 text-sm"
+            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 text-sm"
           >
             <option value="All">All Status</option>
             {STATUS_OPTIONS.map((status) => (
@@ -459,7 +459,7 @@ const Orders: React.FC = () => {
           <select
             value={selectedPayment}
             onChange={(e) => setSelectedPayment(e.target.value)}
-            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 text-sm"
+            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 text-sm"
           >
             <option value="All">All Payment Status</option>
             {PAYMENT_OPTIONS.map((status) => (
@@ -470,7 +470,7 @@ const Orders: React.FC = () => {
           </select>
           <button 
             onClick={() => setShowFilters(!showFilters)}
-            className="inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-orange-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+            className="inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
           >
             <FunnelIcon className="h-4 w-4 mr-2" />
             <span className="hidden sm:inline">More Filters</span>
@@ -491,14 +491,14 @@ const Orders: React.FC = () => {
                   id="date-start"
                   value={dateRange.start}
                   onChange={(e) => setDateRange({ ...dateRange, start: e.target.value })}
-                  className="block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 text-sm"
+                  className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 text-sm"
                 />
                 <input
                   type="date"
                   id="date-end"
                   value={dateRange.end}
                   onChange={(e) => setDateRange({ ...dateRange, end: e.target.value })}
-                  className="block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 text-sm"
+                  className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 text-sm"
                 />
               </div>
             </div>
@@ -537,7 +537,7 @@ const Orders: React.FC = () => {
                   {['Order ID', 'Date', 'Customer', 'Items', 'Total', 'Status', 'Payment', 'Actions'].map((header) => (
                     <th
                       key={header}
-                      className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:text-orange-600"
+                      className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:text-primary-600"
                       style={{ padding: cellPadding }}
                       onClick={() => requestSort(header.toLowerCase().replace(' ', '_'))}
                     >
@@ -551,7 +551,7 @@ const Orders: React.FC = () => {
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {sortedOrders.map((order) => (
-                  <tr key={order.order_id} className="hover:bg-orange-50">
+                  <tr key={order.order_id} className="hover:bg-primary-50">
                     <td className="text-sm font-medium text-gray-900" style={{ padding: cellPadding }}>{order.order_id}</td>
                     <td className="text-sm text-gray-500" style={{ padding: cellPadding }}>{new Date(order.order_date).toLocaleDateString()}</td>
                     <td className="whitespace-normal text-sm text-gray-900 max-w-xs" style={{ padding: cellPadding }}>
@@ -564,7 +564,7 @@ const Orders: React.FC = () => {
                     <td style={{ padding: cellPadding }}><StatusBadge status={order.payment_status} /></td>
                     <td className="text-sm text-gray-500" style={{ padding: cellPadding }}>
                       <div className="flex space-x-2">
-                         <Link to={`/business/orders/${order.order_id}`} className="text-orange-600 hover:text-orange-900">
+                         <Link to={`/business/orders/${order.order_id}`} className="text-primary-600 hover:text-primary-900">
                           <EyeIcon className="h-5 w-5" />
                         </Link>
                       </div>
@@ -579,20 +579,20 @@ const Orders: React.FC = () => {
         {/* Floating Zoom Controls - Only show on desktop */}
         <div className="hidden lg:block fixed z-50 bottom-20 right-4 flex flex-col space-y-3">
           <button
-            className="w-12 h-12 flex items-center justify-center rounded-full bg-white shadow-lg border border-gray-200 hover:bg-orange-100 transition"
+            className="w-12 h-12 flex items-center justify-center rounded-full bg-white shadow-lg border border-gray-200 hover:bg-primary-100 transition"
             onClick={() => setZoom(z => Math.min(2, z + 0.1))}
             title="Zoom In"
             type="button"
           >
-            <MagnifyingGlassPlusIcon className="w-7 h-7 text-orange-600" />
+            <MagnifyingGlassPlusIcon className="w-7 h-7 text-primary-600" />
           </button>
           <button
-            className="w-12 h-12 flex items-center justify-center rounded-full bg-white shadow-lg border border-gray-200 hover:bg-orange-100 transition"
+            className="w-12 h-12 flex items-center justify-center rounded-full bg-white shadow-lg border border-gray-200 hover:bg-primary-100 transition"
             onClick={() => setZoom(z => Math.max(0.5, z - 0.1))}
             title="Zoom Out"
             type="button"
           >
-            <MagnifyingGlassMinusIcon className="w-7 h-7 text-orange-600" />
+            <MagnifyingGlassMinusIcon className="w-7 h-7 text-primary-600" />
           </button>
         </div>
 

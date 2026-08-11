@@ -18,9 +18,9 @@ const LogoutConfirmationPopup: React.FC<LogoutConfirmationPopupProps> = ({
       <div className="bg-white rounded-lg p-6 max-w-sm w-full mx-4 shadow-xl">
         <div className="text-center">
           {/* Warning Icon */}
-          <div className="mx-auto w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mb-4">
+          <div className="mx-auto w-14 h-14 bg-primary-100 rounded-full flex items-center justify-center mb-4">
             <svg
-              className="w-7 h-7 text-orange-500"
+              className="w-7 h-7 text-primary-500"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -52,7 +52,7 @@ const LogoutConfirmationPopup: React.FC<LogoutConfirmationPopupProps> = ({
             </button>
             <button
               onClick={onConfirm}
-              className="px-6 py-2.5 rounded-lg text-sm font-medium text-white bg-orange-500 hover:bg-orange-600 transition-colors"
+              className="px-6 py-2.5 rounded-lg text-sm font-medium text-white bg-primary-500 hover:bg-primary-600 transition-colors"
             >
               Logout
             </button>

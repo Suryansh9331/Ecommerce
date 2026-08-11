@@ -86,12 +86,12 @@ const SubmissionsPage: React.FC = () => {
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Search by campaign code, product, creator…"
-            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 text-sm"
+            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 text-sm"
           />
           <select
             value={status}
             onChange={(e) => setStatus(e.target.value as any)}
-            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 text-sm"
+            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 text-sm"
           >
             <option value="all">All statuses</option>
             <option value="pending_review">Pending review</option>
@@ -120,7 +120,7 @@ const SubmissionsPage: React.FC = () => {
                   key={s.id}
                   type="button"
                   onClick={() => openSubmission(s.id)}
-                  className="w-full text-left p-4 hover:bg-orange-50 transition-colors"
+                  className="w-full text-left p-4 hover:bg-primary-50 transition-colors"
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-14 h-14 rounded-md bg-gray-100 overflow-hidden shrink-0">
@@ -167,7 +167,7 @@ const SubmissionsPage: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setConfirmApprove(true)}
-                className="flex-1 px-4 py-2 rounded-md bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700 disabled:opacity-50"
+                className="flex-1 px-4 py-2 rounded-md bg-primary-600 text-white text-sm font-semibold hover:bg-primary-700 disabled:opacity-50"
                 disabled={selected.status === 'approved'}
               >
                 Approve
@@ -186,7 +186,7 @@ const SubmissionsPage: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => navigate(`/business/reel-campaigns/campaigns?campaignId=${selectedCampaign.id}`)}
-                  className="text-sm font-semibold text-orange-700 hover:underline"
+                  className="text-sm font-semibold text-primary-700 hover:underline"
                 >
                   View campaign
                 </button>
@@ -222,7 +222,7 @@ const SubmissionsPage: React.FC = () => {
                 value={feedback}
                 onChange={(e) => setFeedback(e.target.value)}
                 rows={4}
-                className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 text-sm"
+                className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 text-sm"
                 placeholder="Tell the creator what to fix (lighting, CTA, product framing, etc.)"
               />
               {confirmRevision && !feedback.trim() && (

@@ -574,7 +574,7 @@ const BrandCreation: React.FC = () => {
                 </div>
                 <button
                     onClick={() => setShowAddBrandForm(true)}
-                    className="bg-[#FF5733] text-white px-4 py-2 rounded hover:bg-[#FF4500] transition-colors text-sm sm:text-base whitespace-nowrap"
+                    className="bg-primary-600 text-white px-4 py-2 rounded hover:bg-primary-700 transition-colors text-sm sm:text-base whitespace-nowrap"
                 >
                     Add New Brand
                 </button>
@@ -608,7 +608,7 @@ const BrandCreation: React.FC = () => {
                                     <div className="flex flex-col sm:flex-row gap-2 sm:space-x-2">
                                         <button
                                             onClick={() => handleApproveRequest(request.request_id)}
-                                            className="px-3 py-2 sm:py-1 bg-[#FF5733] text-white rounded hover:bg-[#FF4500] transition-colors text-sm whitespace-nowrap"
+                                            className="px-3 py-2 sm:py-1 bg-primary-600 text-white rounded hover:bg-primary-700 transition-colors text-sm whitespace-nowrap"
                                         >
                                             Approve
                                         </button>
@@ -631,7 +631,7 @@ const BrandCreation: React.FC = () => {
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-4">
                         <h2 className="text-lg font-semibold">Brands</h2>
                         <button
-                            className="flex items-center text-[#FF5733] hover:text-[#FF4500] text-sm sm:text-base"
+                            className="flex items-center text-primary-600 hover:text-primary-700 text-sm sm:text-base"
                             onClick={() => setShowAddBrandForm(!showAddBrandForm)}
                         >
                             <PlusCircle className="w-4 h-4 mr-1" />
@@ -699,7 +699,7 @@ const BrandCreation: React.FC = () => {
                                             className={`
                                                 border-2 border-dashed rounded-md p-4 text-center cursor-pointer transition-colors
                                                 ${isDragActive 
-                                                    ? 'border-[#FF5733] bg-[#FF5733]/10' 
+                                                    ? 'border-primary-600 bg-primary-600/10' 
                                                     : 'border-gray-300 hover:bg-gray-50 hover:border-gray-400'
                                                 }
                                                 ${uploadingImage ? 'opacity-50 cursor-not-allowed' : ''}
@@ -708,13 +708,13 @@ const BrandCreation: React.FC = () => {
                                             <input {...getInputProps()} />
                                             {uploadingImage ? (
                                                 <div className="flex flex-col items-center">
-                                                    <div className="w-8 h-8 border-4 border-[#FF5733] border-t-transparent rounded-full animate-spin mb-2"></div>
+                                                    <div className="w-8 h-8 border-4 border-primary-600 border-t-transparent rounded-full animate-spin mb-2"></div>
                                                     <p className="text-sm text-gray-500">Uploading...</p>
                                                 </div>
                                             ) : (
                                                 <>
-                                                    <Upload className={`w-6 h-6 mx-auto ${isDragActive ? 'text-[#FF5733]' : 'text-gray-400'}`} />
-                                                    <p className={`text-sm mt-1 ${isDragActive ? 'text-[#FF5733] font-medium' : 'text-gray-500'}`}>
+                                                    <Upload className={`w-6 h-6 mx-auto ${isDragActive ? 'text-primary-600' : 'text-gray-400'}`} />
+                                                    <p className={`text-sm mt-1 ${isDragActive ? 'text-primary-600 font-medium' : 'text-gray-500'}`}>
                                                         {isDragActive ? 'Drop the image here' : 'Click to upload or drag and drop'}
                                                     </p>
                                                     <p className="text-xs text-gray-400">PNG, JPG, JPEG, GIF, SVG, WEBP (Max 5MB)</p>
@@ -756,7 +756,7 @@ const BrandCreation: React.FC = () => {
                                     </button>
                                     <button
                                         type="submit"
-                                        className="bg-[#FF5733] text-white px-4 py-2 rounded hover:bg-[#FF4500] transition-colors"
+                                        className="bg-primary-600 text-white px-4 py-2 rounded hover:bg-primary-700 transition-colors"
                                     >
                                         Create Brand
                                     </button>
@@ -797,7 +797,7 @@ const BrandCreation: React.FC = () => {
                                 <div className="flex space-x-2 self-end sm:self-auto">
                                     <button 
                                         onClick={() => startEdit(brand)}
-                                        className="text-[#FF5733] hover:text-[#FF4500] text-xs sm:text-sm flex items-center px-2 py-1 rounded hover:bg-gray-100"
+                                        className="text-primary-600 hover:text-primary-700 text-xs sm:text-sm flex items-center px-2 py-1 rounded hover:bg-gray-100"
                                     >
                                         <Edit2 className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
                                         Edit
@@ -864,7 +864,7 @@ const BrandCreation: React.FC = () => {
                                         className={`
                                             border-2 border-dashed rounded-md p-4 text-center cursor-pointer transition-colors
                                             ${isEditDragActive 
-                                                ? 'border-[#FF5733] bg-[#FF5733]/10' 
+                                                ? 'border-primary-600 bg-primary-600/10' 
                                                 : 'border-gray-300 hover:bg-gray-50 hover:border-gray-400'
                                             }
                                             ${uploadingImage ? 'opacity-50 cursor-not-allowed' : ''}
@@ -873,13 +873,13 @@ const BrandCreation: React.FC = () => {
                                         <input {...getEditInputProps()} />
                                         {uploadingImage ? (
                                             <div className="flex flex-col items-center">
-                                                <div className="w-8 h-8 border-4 border-[#FF5733] border-t-transparent rounded-full animate-spin mb-2"></div>
+                                                <div className="w-8 h-8 border-4 border-primary-600 border-t-transparent rounded-full animate-spin mb-2"></div>
                                                 <p className="text-sm text-gray-500">Uploading...</p>
                                             </div>
                                         ) : (
                                             <>
-                                                <Upload className={`w-6 h-6 mx-auto ${isEditDragActive ? 'text-[#FF5733]' : 'text-gray-400'}`} />
-                                                <p className={`text-sm mt-1 ${isEditDragActive ? 'text-[#FF5733] font-medium' : 'text-gray-500'}`}>
+                                                <Upload className={`w-6 h-6 mx-auto ${isEditDragActive ? 'text-primary-600' : 'text-gray-400'}`} />
+                                                <p className={`text-sm mt-1 ${isEditDragActive ? 'text-primary-600 font-medium' : 'text-gray-500'}`}>
                                                     {isEditDragActive ? 'Drop the image here' : 'Click to upload or drag and drop'}
                                                 </p>
                                                 <p className="text-xs text-gray-400">PNG, JPG, JPEG, GIF, SVG, WEBP (Max 5MB)</p>
@@ -921,7 +921,7 @@ const BrandCreation: React.FC = () => {
                                 </button>
                                 <button
                                     type="submit"
-                                    className="px-4 py-2 bg-[#FF5733] text-white rounded-md hover:bg-[#FF4500]"
+                                    className="px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700"
                                 >
                                     Save Changes
                                 </button>

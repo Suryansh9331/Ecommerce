@@ -1,40 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 import ProductCard from '../product/ProductCard';
-import { useHorizontalScroll } from '../../hooks/useHorizontalScroll';
 import { Product } from '../../types';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
+// How many products the home screen shows (4 rows of 5 on xl). The rest live
+// behind "See All". Capped by whatever /api/products/trendy-deals returns.
+const VISIBLE_COUNT = 20;
+
 const TrendingDeals: React.FC = () => {
   const { t } = useTranslation();
-  const [itemsPerView, setItemsPerView] = useState(4);
-  const [gapPx, setGapPx] = useState(28);
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
-  const {
-    containerRef,
-    isDragging,
-    handleMouseDown,
-    handleMouseUp,
-    handleMouseMove,
-    handleTouchStart,
-    handleTouchMove,
-    handleTouchEnd,
-    scroll
-  } = useHorizontalScroll({
-    snapToItems: true,
-    itemWidth: window.innerWidth < 640 ? (window.innerWidth - 32 - 12) / 2 : // 2 items on mobile (padding + gap-3)
-               window.innerWidth < 768 ? (window.innerWidth - 32) / 2 - 6 : // 2 items on tablet
-               window.innerWidth < 1024 ? (window.innerWidth - 32) / 3 - 8 : // 3 items on laptop
-               window.innerWidth < 1280 ? (window.innerWidth - 32) / 4 - 9 : // 4 items on desktop
-               (window.innerWidth - 32) / 5 - 10, // 5 items on large desktop
-    gap: 12
-  });
 
   // Fetch trending deals
   const fetchTrendingDeals = async () => {
@@ -89,29 +69,6 @@ const TrendingDeals: React.FC = () => {
     fetchTrendingDeals();
   }, []);
 
-  // Update items per view and gap based on screen size (mobile: 2 cards, smaller gap)
-  useEffect(() => {
-    const updateItemsPerView = () => {
-      const width = window.innerWidth;
-      setGapPx(width < 640 ? 12 : 28); // gap-3 on mobile, gap-7 on sm+
-      if (width < 640) {
-        setItemsPerView(2);
-      } else if (width < 768) {
-        setItemsPerView(2);
-      } else if (width < 1024) {
-        setItemsPerView(3);
-      } else if (width < 1280) {
-        setItemsPerView(4);
-      } else {
-        setItemsPerView(5);
-      }
-    };
-
-    updateItemsPerView();
-    window.addEventListener('resize', updateItemsPerView);
-    return () => window.removeEventListener('resize', updateItemsPerView);
-  }, []);
-
   if (loading) {
     return (
       <section className="pb-12">
@@ -132,7 +89,7 @@ const TrendingDeals: React.FC = () => {
             <p className="text-red-500 mb-4">{t('common.error')}: {error}</p>
             <button 
               onClick={fetchTrendingDeals}
-              className="px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600"
+              className="px-4 py-2 bg-primary-500 text-white rounded hover:bg-primary-600"
             >
               {t('common.retry', 'Try Again')}
             </button>
@@ -147,62 +104,37 @@ const TrendingDeals: React.FC = () => {
       <div className="container mx-auto px-4 xl:px-14">
 
         <div className="flex flex-col space-y-6">
-          {/* Header with navigation */}
+          {/* Header */}
           <div className="flex flex-row justify-between items-center w-full space-y-0 mb-4 md:mb-0">
             <h6 className="text-xl font-medium font-worksans">{t('home.sections.trendingTitle')}</h6>
-            {/* Navigation */}
-            <div className="flex items-center space-x-4">
-              <Link to="/trendy-deals" className="text-orange-500 text-sm font-medium">
+            <Link to="/trendy-deals" className="text-primary-600 text-sm font-medium hover:underline">
+              {t('home.seeAll')}
+            </Link>
+          </div>
+
+          {/* Products grid — 5 per row on xl, so VISIBLE_COUNT fills exactly two rows */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-6">
+            {products.slice(0, VISIBLE_COUNT).map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                isNew={product.isNew ?? false}
+                isBuiltIn={product.isBuiltIn ?? false}
+              />
+            ))}
+          </div>
+
+          {/* See All — only when there is more than the grid shows */}
+          {products.length > VISIBLE_COUNT && (
+            <div className="flex justify-center pt-2">
+              <Link
+                to="/trendy-deals"
+                className="inline-flex items-center rounded-lg border border-primary-600 px-8 py-2.5 text-sm font-semibold text-primary-600 transition-colors hover:bg-primary-600 hover:text-white"
+              >
                 {t('home.seeAll')}
               </Link>
-              <div className="flex items-center space-x-2 sm:space-x-3">
-                <button
-                  onClick={() => scroll('left')}
-                  className="focus:outline-none"
-                  aria-label="Scroll Left"
-                >
-                  <ChevronLeft size={20} className="text-gray-500 hover:text-black duration-300" />
-                </button>
-                <button
-                  onClick={() => scroll('right')}
-                  className="focus:outline-none"
-                  aria-label="Scroll Right"
-                >
-                  <ChevronRight size={20} className="text-gray-500 hover:text-black duration-300" />
-                </button>
-              </div>
             </div>
-          </div>
-          
-          {/* Products carousel */}
-          <div className="relative">
-            <div
-              ref={containerRef}
-              className="flex overflow-x-auto gap-3 sm:gap-7 pb-4 scrollbar-hide scroll-smooth snap-x"
-              onMouseDown={handleMouseDown}
-              onMouseUp={handleMouseUp}
-              onMouseLeave={handleMouseUp}
-              onMouseMove={handleMouseMove}
-              onTouchStart={handleTouchStart}
-              onTouchMove={handleTouchMove}
-              onTouchEnd={handleTouchEnd}
-              style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
-            >
-              {products.map((product) => (
-                <div 
-                  key={product.id} 
-                  className="flex-none snap-start"
-                  style={{ width: `calc(${100 / itemsPerView}% - ${(itemsPerView - 1) * gapPx / itemsPerView}px)` }}
-                >
-                  <ProductCard 
-                    product={product}
-                    isNew={product.isNew ?? false}
-                    isBuiltIn={product.isBuiltIn ?? false}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
+          )}
         </div>
       </div>
     </section>

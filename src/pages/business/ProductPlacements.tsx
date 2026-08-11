@@ -817,18 +817,18 @@ const ProductPlacements: React.FC = () => {
 
       <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Manage Featured & Promoted Products</h1>
 
-      <div className="bg-white p-6 rounded-lg shadow-md border border-orange-200">
+      <div className="bg-white p-6 rounded-lg shadow-md border border-primary-200">
         <h2 className="text-xl font-semibold text-gray-700 mb-1">Add Product to Placement</h2>
         
         {subscriptionStatus?.is_subscribed && (
-          <div className="mt-4 p-3 bg-orange-50 text-orange-700 border border-orange-200 rounded-md text-sm">
+          <div className="mt-4 p-3 bg-primary-50 text-primary-700 border border-primary-200 rounded-md text-sm">
             <div className="flex items-center justify-between">
-              <span className="text-orange-600">
+              <span className="text-primary-600">
                 Current Plan: {subscriptionStatus.plan?.name}
               </span>
               <a 
                 href="/business/subscription" 
-                className="inline-flex items-center px-3 py-1 bg-orange-100 text-orange-700 rounded-md hover:bg-orange-200 transition-colors"
+                className="inline-flex items-center px-3 py-1 bg-primary-100 text-primary-700 rounded-md hover:bg-primary-200 transition-colors"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
                   <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
@@ -840,14 +840,14 @@ const ProductPlacements: React.FC = () => {
         )}
 
         {!canPlacePremium && (
-          <div className="mt-4 p-3 bg-orange-50 text-orange-700 border border-orange-200 rounded-md text-sm">
+          <div className="mt-4 p-3 bg-primary-50 text-primary-700 border border-primary-200 rounded-md text-sm">
             <p>
-              <OutlineStarIcon className="h-5 w-5 inline-block mr-2 text-orange-500" />
+              <OutlineStarIcon className="h-5 w-5 inline-block mr-2 text-primary-500" />
               {subscriptionStatus?.is_subscribed 
                 ? "Your current subscription plan doesn't include premium placements."
                 : "You need an active subscription to use premium placements."}
               {' '}
-              <a href="/business/subscription" className="font-medium underline hover:text-orange-800">
+              <a href="/business/subscription" className="font-medium underline hover:text-primary-800">
                 {subscriptionStatus?.is_subscribed ? 'Upgrade your plan' : 'Subscribe now'}
               </a>
             </p>
@@ -1079,7 +1079,7 @@ const ProductPlacements: React.FC = () => {
             <p className="text-xs text-gray-500 mt-1">Lower numbers appear first. Default is 0.</p>
           </div>
 
-          <div className="text-sm text-gray-600 p-3 bg-orange-50 rounded-md border border-orange-100">
+          <div className="text-sm text-gray-600 p-3 bg-primary-50 rounded-md border border-primary-100">
             <p>Monthly slots for <span className="font-medium">{selectedPlacementTypeToAdd.toLowerCase()}</span>: <span className="font-semibold">{currentSlotsInfo.used} / {currentSlotsInfo.planLimit}</span></p>
             <p>Currently active: <span className="font-semibold">{currentSlotsInfo.currentActive}</span></p>
             <p className={`font-semibold ${currentSlotsInfo.remaining > 0 ? 'text-green-600' : 'text-red-600'}`}>
@@ -1114,7 +1114,7 @@ const ProductPlacements: React.FC = () => {
         </form>
       </div>
 
-      <div className="bg-white p-6 rounded-lg shadow-md border border-orange-200">
+      <div className="bg-white p-6 rounded-lg shadow-md border border-primary-200">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
           <h2 className="text-xl font-semibold text-gray-700 mb-2 sm:mb-0">Your Current Placements</h2>
           <div className="w-full sm:w-auto relative">
@@ -1146,23 +1146,23 @@ const ProductPlacements: React.FC = () => {
         ) : (
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-orange-50">
+              <thead className="bg-primary-50">
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-orange-700 uppercase tracking-wider">Product</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-orange-700 uppercase tracking-wider">Type</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-orange-700 uppercase tracking-wider">Price</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-orange-700 uppercase tracking-wider">Sort Order</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-orange-700 uppercase tracking-wider">Added</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-orange-700 uppercase tracking-wider">Promotion Period</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-orange-700 uppercase tracking-wider">Actions</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-primary-700 uppercase tracking-wider">Product</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-primary-700 uppercase tracking-wider">Type</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-primary-700 uppercase tracking-wider">Price</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-primary-700 uppercase tracking-wider">Sort Order</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-primary-700 uppercase tracking-wider">Added</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-primary-700 uppercase tracking-wider">Promotion Period</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-primary-700 uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {filteredPlacements.map(placement => (
-                  <tr key={placement.placement_id} className="hover:bg-orange-50/50">
+                  <tr key={placement.placement_id} className="hover:bg-primary-50/50">
                     <td className="px-4 py-4 whitespace-nowrap">
                       <div className="flex items-center">
-                        <div className="flex-shrink-0 h-10 w-10 mr-3 rounded-md bg-orange-100 flex items-center justify-center text-orange-500">
+                        <div className="flex-shrink-0 h-10 w-10 mr-3 rounded-md bg-primary-100 flex items-center justify-center text-primary-500">
                             <SolidStarIcon className="h-5 w-5" />
                         </div>
                         <div className="text-sm font-medium text-gray-900">{tProductNames[placement.product_details?.product_name || ''] || placement.product_details?.product_name || 'N/A'}</div>

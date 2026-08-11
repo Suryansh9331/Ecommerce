@@ -315,7 +315,7 @@ const UserSupportPage: React.FC = () => {
     switch (status) {
       case 'open': return 'bg-blue-100 text-blue-700';
       case 'in_progress': return 'bg-purple-100 text-purple-700';
-      case 'awaiting_customer_reply': return 'bg-orange-100 text-orange-700';
+      case 'awaiting_customer_reply': return 'bg-primary-100 text-primary-700';
       case 'awaiting_merchant_reply': return 'bg-yellow-100 text-yellow-700';
       case 'resolved': return 'bg-green-100 text-green-700';
       case 'closed': return 'bg-gray-100 text-gray-600';
@@ -348,11 +348,11 @@ const UserSupportPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#FFF7F1] py-6 px-2 sm:px-4 md:px-8 font-worksans">
+    <div className="min-h-screen bg-primary-50 py-6 px-2 sm:px-4 md:px-8 font-worksans">
       <div className="max-w-full sm:max-w-2xl md:max-w-4xl lg:max-w-5xl xl:max-w-7xl mx-auto">
         <div className="bg-white border-b border-gray-100 px-6 py-4 flex items-center justify-between shadow rounded-t-xl">
           <div className="flex items-center gap-3">
-            <MessageSquare className="h-6 w-6 text-orange-500" />
+            <MessageSquare className="h-6 w-6 text-primary-500" />
             <div>
               <h1 className="text-lg font-semibold text-gray-900">Support Center</h1>
               <p className="text-xs text-gray-500">Chat with our support team</p>
@@ -363,7 +363,7 @@ const UserSupportPage: React.FC = () => {
               setShowNewTicketForm(true);
               setSelectedTicket(null);
             }}
-            className="inline-flex items-center px-3 py-1.5 bg-orange-500 text-white rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors shadow-sm"
+            className="inline-flex items-center px-3 py-1.5 bg-primary-500 text-white rounded-lg text-sm font-medium hover:bg-primary-600 transition-colors shadow-sm"
           >
             <Plus className="h-4 w-4 mr-1.5" />
             New Ticket
@@ -379,14 +379,14 @@ const UserSupportPage: React.FC = () => {
                 placeholder="Search conversations..."
                 value={searchQuery}
                 onChange={e => { setSearchQuery(e.target.value); setCurrentPage(1); }}
-                className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               />
             </div>
             <div className="relative w-full sm:w-64 lg:w-64">
               <select
                 value={filterStatus}
                 onChange={e => { setFilterStatus(e.target.value as typeof filterStatus); setCurrentPage(1); }}
-                className="w-full py-2 pl-3 pr-10 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent appearance-none bg-gray-50 text-sm"
+                className="w-full py-2 pl-3 pr-10 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent appearance-none bg-gray-50 text-sm"
               >
                 <option value="all">All Status</option>
                 <option value="open">Open</option>
@@ -417,7 +417,7 @@ const UserSupportPage: React.FC = () => {
                     onClick={() => setFilterStatus(tab.key as typeof filterStatus)}
                     className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${
                       filterStatus === tab.key
-                        ? 'bg-orange-100 text-orange-700'
+                        ? 'bg-primary-100 text-primary-700'
                         : 'text-gray-600 hover:bg-gray-100'
                     }`}
                   >
@@ -440,7 +440,7 @@ const UserSupportPage: React.FC = () => {
                     key={ticket.ticket_uid}
                     onClick={() => setSelectedTicket(ticket)}
                     className={`p-4 border-b border-gray-100 cursor-pointer rounded-xl transition-all ${
-                      selectedTicket?.ticket_uid === ticket.ticket_uid ? 'bg-orange-100 border-l-4 border-[#F2631F] shadow' : 'hover:bg-orange-50'
+                      selectedTicket?.ticket_uid === ticket.ticket_uid ? 'bg-primary-100 border-l-4 border-primary-600 shadow' : 'hover:bg-primary-50'
                     }`}
                   >
                     <div className="flex items-start justify-between mb-2">
@@ -511,7 +511,7 @@ const UserSupportPage: React.FC = () => {
                 </div>
 
                 {/* Messages Area */}
-                <div className="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar" style={{ background: '#FFF7F1' }}>
+                <div className="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar" style={{ background: '#F2F0FF' }}>
                   {isLoadingMessages ? (
                     <div className="h-full flex items-center justify-center">
                       <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-accent-500"></div>
@@ -547,14 +547,14 @@ const UserSupportPage: React.FC = () => {
                             msg.is_admin_reply
                               ? 'bg-white border-gray-200 text-gray-800'
                               : isOwn
-                              ? 'bg-[#F2631F] text-white border-[#F2631F]'
-                              : 'bg-orange-50 text-gray-800 border-orange-100'
+                              ? 'bg-primary-600 text-white border-primary-600'
+                              : 'bg-primary-50 text-gray-800 border-primary-100'
                           }`}>
                             <p className="whitespace-pre-wrap text-sm leading-relaxed">{msg.message_text}</p>
                             {msg.attachment_url && (
                               <a href={msg.attachment_url} target="_blank" rel="noopener noreferrer"
                                  className={`mt-2 inline-flex items-center text-xs ${
-                                   msg.is_admin_reply ? 'text-orange-600 hover:text-orange-700' : isOwn ? 'text-white/90 hover:text-white' : 'text-gray-600 hover:text-gray-800'
+                                   msg.is_admin_reply ? 'text-primary-600 hover:text-primary-700' : isOwn ? 'text-white/90 hover:text-white' : 'text-gray-600 hover:text-gray-800'
                                  }`}>
                                 <Paperclip size={12} className="mr-1" /> View Attachment
                               </a>
@@ -595,7 +595,7 @@ const UserSupportPage: React.FC = () => {
                           onChange={(e) => setNewMessage(e.target.value)}
                           placeholder="Type a message..."
                           rows={1}
-                          className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-2xl resize-none overflow-hidden bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-sm transition-colors"
+                          className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-2xl resize-none overflow-hidden bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm transition-colors"
                           disabled={isSendingMessage}
                           style={{ 
                             minHeight: '2.75rem',
@@ -624,7 +624,7 @@ const UserSupportPage: React.FC = () => {
                       <button
                         type="submit"
                         disabled={(!newMessage.trim() && !newMessageAttachment) || isSendingMessage}
-                        className="w-11 h-11 bg-orange-500 hover:bg-orange-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-white rounded-full flex items-center justify-center transition-colors shadow-lg"
+                        className="w-11 h-11 bg-primary-500 hover:bg-primary-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-white rounded-full flex items-center justify-center transition-colors shadow-lg"
                       >
                         {isSendingMessage ? (
                           <div className="animate-spin rounded-full h-4 w-4 border-white border-t-transparent border-2" />
@@ -636,19 +636,19 @@ const UserSupportPage: React.FC = () => {
                   </div>
                 ) : (
                   <div className="bg-white border-t border-gray-100 p-4 text-center rounded-b-xl">
-                    <div className="bg-[#FFE7DB] rounded-lg p-4">
+                    <div className="bg-primary-100 rounded-lg p-4">
                       {selectedTicket.status === 'resolved' ? (
                         <div>
                           <p className="text-sm text-gray-700 mb-4">This ticket has been resolved. You can close it if the issue is fixed.</p>
                           <button
                             onClick={handleCloseTicketByUser}
-                            className="px-6 py-2 bg-[#F2631F] hover:bg-[#d44f12] text-white font-medium rounded-lg transition-colors"
+                            className="px-6 py-2 bg-primary-600 hover:bg-primary-800 text-white font-medium rounded-lg transition-colors"
                           >
                             Close Ticket
                           </button>
                         </div>
                       ) : (
-                        <div className="flex flex-col items-center text-[#F2631F]">
+                        <div className="flex flex-col items-center text-primary-600">
                           <CheckCircle className="h-8 w-8 mb-2" />
                           <p className="text-sm">This conversation is closed</p>
                         </div>
@@ -660,8 +660,8 @@ const UserSupportPage: React.FC = () => {
             ) : (
               <div className="flex-1 flex items-center justify-center p-4 sm:p-8">
                 <div className="text-center max-w-md">
-                  <div className="w-24 h-24 bg-[#FFE7DB] rounded-full flex items-center justify-center mx-auto mb-6 shadow">
-                    <MessageSquare className="h-12 w-12 text-[#F2631F]" />
+                  <div className="w-24 h-24 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-6 shadow">
+                    <MessageSquare className="h-12 w-12 text-primary-600" />
                   </div>
                   <h3 className="text-2xl font-bold text-black mb-2">Welcome to Support Center</h3>
                   <p className="text-gray-500">Select a conversation from the left to view your support tickets and chat with our team.</p>
@@ -695,7 +695,7 @@ const UserSupportPage: React.FC = () => {
                       type="text" id="title" name="title"
                       value={newTicketData.title}
                       onChange={handleNewTicketInputChange}
-                      className="block w-full border border-gray-300 rounded-md shadow-sm py-1 sm:py-1.5 px-2 sm:px-3 focus:ring-orange-500 focus:border-orange-500 text-xs sm:text-sm"
+                      className="block w-full border border-gray-300 rounded-md shadow-sm py-1 sm:py-1.5 px-2 sm:px-3 focus:ring-primary-500 focus:border-primary-500 text-xs sm:text-sm"
                       required
                     />
                   </div>
@@ -708,7 +708,7 @@ const UserSupportPage: React.FC = () => {
                       value={newTicketData.description}
                       onChange={handleNewTicketInputChange}
                       rows={2}
-                      className="block w-full border border-gray-300 rounded-md shadow-sm py-1 sm:py-1.5 px-2 sm:px-3 focus:ring-orange-500 focus:border-orange-500 text-xs sm:text-sm resize-none"
+                      className="block w-full border border-gray-300 rounded-md shadow-sm py-1 sm:py-1.5 px-2 sm:px-3 focus:ring-primary-500 focus:border-primary-500 text-xs sm:text-sm resize-none"
                       required
                     />
                   </div>
@@ -721,7 +721,7 @@ const UserSupportPage: React.FC = () => {
                         id="priority" name="priority"
                         value={newTicketData.priority}
                         onChange={handleNewTicketInputChange}
-                        className="block w-full border border-gray-300 rounded-md shadow-sm py-1 sm:py-1.5 px-2 sm:px-3 focus:ring-orange-500 focus:border-orange-500 text-xs sm:text-sm"
+                        className="block w-full border border-gray-300 rounded-md shadow-sm py-1 sm:py-1.5 px-2 sm:px-3 focus:ring-primary-500 focus:border-primary-500 text-xs sm:text-sm"
                       >
                         <option value="low">Low</option>
                         <option value="medium">Medium</option>
@@ -734,7 +734,7 @@ const UserSupportPage: React.FC = () => {
                         type="text" id="related_order_id" name="related_order_id"
                         value={newTicketData.related_order_id || ''}
                         onChange={handleNewTicketInputChange}
-                        className="block w-full border border-gray-300 rounded-md shadow-sm py-1 sm:py-1.5 px-2 sm:px-3 focus:ring-orange-500 focus:border-orange-500 text-xs sm:text-sm"
+                        className="block w-full border border-gray-300 rounded-md shadow-sm py-1 sm:py-1.5 px-2 sm:px-3 focus:ring-primary-500 focus:border-primary-500 text-xs sm:text-sm"
                         placeholder="ORD12345"
                       />
                     </div>
@@ -749,7 +749,7 @@ const UserSupportPage: React.FC = () => {
                       type="text" id="related_product_id" name="related_product_id"
                       value={newTicketData.related_product_id || ''}
                       onChange={handleNewTicketInputChange}
-                      className="block w-full border border-gray-300 rounded-md shadow-sm py-1 sm:py-1.5 px-2 sm:px-3 focus:ring-orange-500 focus:border-orange-500 text-xs sm:text-sm"
+                      className="block w-full border border-gray-300 rounded-md shadow-sm py-1 sm:py-1.5 px-2 sm:px-3 focus:ring-primary-500 focus:border-primary-500 text-xs sm:text-sm"
                       placeholder="PROD67890"
                     />
                   </div>
@@ -786,7 +786,7 @@ const UserSupportPage: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setShowNewTicketForm(false)}
-                  className="w-full sm:w-auto px-2 sm:px-3 py-1 sm:py-1.5 border border-gray-300 rounded-md text-xs sm:text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+                  className="w-full sm:w-auto px-2 sm:px-3 py-1 sm:py-1.5 border border-gray-300 rounded-md text-xs sm:text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
                 >
                   Cancel
                 </button>
@@ -794,7 +794,7 @@ const UserSupportPage: React.FC = () => {
                   type="submit"
                   onClick={handleCreateTicket}
                   disabled={isCreatingTicket}
-                  className="w-full sm:w-auto px-2 sm:px-3 py-1 sm:py-1.5 bg-orange-500 text-white rounded-md text-xs sm:text-sm font-medium hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50"
+                  className="w-full sm:w-auto px-2 sm:px-3 py-1 sm:py-1.5 bg-primary-500 text-white rounded-md text-xs sm:text-sm font-medium hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50"
                 >
                   {isCreatingTicket ? 'Creating...' : 'Create Ticket'}
                 </button>

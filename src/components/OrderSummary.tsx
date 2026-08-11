@@ -318,7 +318,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
               <input
                 type="text"
                 placeholder="Enter promo code"
-                className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 value={promoCodeInput}
                 onChange={(e) => setPromoCodeInput(e.target.value)}
                 disabled={promoLoading}
@@ -326,7 +326,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
               <button
                 onClick={() => onApplyPromo(promoCodeInput)}
                 disabled={promoLoading || !promoCodeInput.trim()}
-                className="px-4 py-2 bg-orange-500 text-white rounded-md text-sm hover:bg-orange-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+                className="px-4 py-2 bg-primary-500 text-white rounded-md text-sm hover:bg-primary-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
               >
                 {promoLoading ? "Applying..." : "Apply"}
               </button>
@@ -372,7 +372,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
           {shippingLoading ? (
             <div className="flex items-center gap-2">
               <span className="text-gray-500">Calculating...</span>
-              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-orange-500"></div>
+              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary-500"></div>
             </div>
           ) : shippingCost > 0 ? (
             <div className="text-right">
@@ -381,7 +381,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
                 {onRefreshShipping && (
                   <button
                     onClick={onRefreshShipping}
-                    className="text-orange-500 hover:text-orange-600 text-xs"
+                    className="text-primary-500 hover:text-primary-600 text-xs"
                     title="Refresh shipping cost"
                   >
                     ↻

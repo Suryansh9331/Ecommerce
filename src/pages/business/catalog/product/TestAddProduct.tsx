@@ -14,7 +14,7 @@ const TestAddProduct: React.FC = () => {
       <p className="mb-4">This is a test page to verify routing is working correctly.</p>
       <button
         onClick={handleBack}
-        className="px-4 py-2 bg-orange-600 text-white rounded hover:bg-orange-700"
+        className="px-4 py-2 bg-primary-600 text-white rounded hover:bg-primary-700"
       >
         Back to Products
       </button>

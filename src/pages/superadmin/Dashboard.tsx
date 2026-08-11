@@ -576,7 +576,7 @@ const Dashboard = () => {
             <select 
               value={timeRange}
               onChange={(e) => setTimeRange(e.target.value)}
-              className="w-full sm:w-fit bg-white border border-gray-300 rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+              className="w-full sm:w-fit bg-white border border-gray-300 rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
             >
               <option value="1month">Last Month</option>
               <option value="3months">Last 3 Months</option>
@@ -586,7 +586,7 @@ const Dashboard = () => {
             
             <button 
               onClick={refreshData}
-              className="w-full sm:w-fit bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors flex items-center gap-2"
+              className="w-full sm:w-fit bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600 transition-colors flex items-center gap-2"
             >
               <Activity className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
               Refresh
@@ -694,8 +694,8 @@ const Dashboard = () => {
                 type="monotone" 
                 dataKey="revenue" 
                 stackId="1" 
-                stroke="#FF6B35" 
-                fill="#FF6B35" 
+                stroke="#3B1EEB" 
+                fill="#3B1EEB" 
                 fillOpacity={0.8} 
               />
               <Area 
@@ -751,10 +751,10 @@ const Dashboard = () => {
                 <Line 
                   type="monotone" 
                   dataKey="users" 
-                  stroke="#FF6B35" 
+                  stroke="#3B1EEB" 
                   strokeWidth={3} 
-                  dot={{ fill: '#FF6B35', strokeWidth: 0, r: 6 }} 
-                  activeDot={{ r: 8, fill: '#FF6B35' }}
+                  dot={{ fill: '#3B1EEB', strokeWidth: 0, r: 6 }} 
+                  activeDot={{ r: 8, fill: '#3B1EEB' }}
                   name="users"
                 />
                 <Line 
@@ -773,7 +773,7 @@ const Dashboard = () => {
           {/* Legend */}
           <div className="flex justify-center mt-4 space-x-6">
             <div className="flex items-center">
-              <div className="w-4 h-4 bg-orange-500 rounded-full mr-2"></div>
+              <div className="w-4 h-4 bg-primary-500 rounded-full mr-2"></div>
               <span className="text-sm text-gray-600">Users</span>
             </div>
             <div className="flex items-center">

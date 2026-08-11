@@ -286,7 +286,7 @@ const PromoProducts: React.FC = () => {
             <h2 className="text-2xl font-bold font-worksans">{t('home.sections.promoTitle')}</h2>
           </div>
           <div className="flex justify-center items-center h-64 font-worksans">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
           </div>
         </div>
       </section>
@@ -301,7 +301,7 @@ const PromoProducts: React.FC = () => {
             <p className="text-red-500 mb-4">{t('common.error')}: {error}</p>
             <button
               onClick={fetchPromoProducts}
-              className="px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600"
+              className="px-4 py-2 bg-primary-500 text-white rounded hover:bg-primary-600"
             >
               {t('common.retry', 'Try Again')}
             </button>
@@ -318,7 +318,7 @@ const PromoProducts: React.FC = () => {
         <div className="flex justify-between items-center mb-6">
       <h2 className="text-xl font-medium font-worksans">{t('home.sections.promoTitle')}</h2>
           <div className="flex items-center">
-            <Link to="/promo-products" className="text-orange-500 text-sm font-medium mr-3 sm:mr-10 font-worksans">
+            <Link to="/promo-products" className="text-primary-500 text-sm font-medium mr-3 sm:mr-10 font-worksans">
         {t('home.seeAll')}
             </Link>
             <div className="flex items-center space-x-1 sm:space-x-3">
@@ -375,10 +375,10 @@ const PromoProducts: React.FC = () => {
                       }
                     }}
                   >
-                    <div className="bg-white rounded-lg overflow-hidden border border-orange-100 shadow-sm transition-all duration-300 flex flex-col md:flex-row relative h-full">
+                    <div className="bg-white rounded-lg overflow-hidden border border-primary-100 shadow-sm transition-all duration-300 flex flex-col md:flex-row relative h-full">
                       {/* Discount Badge */}
                       <div className="absolute top-2 left-2 z-10">
-                        <span className="bg-[#F2631F] text-white text-xs py-[3px] px-3 rounded-[4px]">
+                        <span className="bg-primary-600 text-white text-xs py-[3px] px-3 rounded-[4px]">
                           - {discount}%
                         </span>
                       </div>
@@ -395,8 +395,8 @@ const PromoProducts: React.FC = () => {
                         {/* Wishlist Button */}
                         <button
                           className={`absolute top-2 right-2 z-10 p-1.5 rounded-full transition-all duration-300 ${isInWishlist(product.product_id)
-                            ? 'text-[#F2631F] bg-white shadow-md'
-                            : 'text-gray-400 hover:text-[#F2631F] hover:bg-white hover:shadow-md'
+                            ? 'text-primary-600 bg-white shadow-md'
+                            : 'text-gray-400 hover:text-primary-600 hover:bg-white hover:shadow-md'
                             }`}
                           onClick={(e) => handleWishlist(e, product)}
                           disabled={wishlistLoading}
@@ -451,7 +451,7 @@ const PromoProducts: React.FC = () => {
 
                         {/* Add to Cart Button */}
                         <button
-                          className="w-full font-worksans hover:bg-black duration-300 font-medium text-sm bg-[#F2631F] text-white py-2 px-[94.5px] rounded-lg transition flex items-center justify-center gap-1.5"
+                          className="w-full font-worksans hover:bg-black duration-300 font-medium text-sm bg-primary-600 text-white py-2 px-[94.5px] rounded-lg transition flex items-center justify-center gap-1.5"
                           onClick={(e) => handleAddToCart(e, product)}
                           disabled={product.stock?.stock_qty === 0 || user?.role === 'merchant' || user?.role === 'admin'}
                         >

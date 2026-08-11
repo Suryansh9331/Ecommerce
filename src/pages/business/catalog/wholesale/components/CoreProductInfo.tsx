@@ -14,7 +14,7 @@ import { extractApiError, describeError } from '../../../../../utils/apiError';
 
 // Add className constants
 const labelClassName = "block text-sm font-medium text-gray-700";
-const inputClassName = (hasError: boolean = false) => `mt-1 block w-full rounded-md ${hasError ? 'border-red-300' : 'border-gray-300'} shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm`;
+const inputClassName = (hasError: boolean = false) => `mt-1 block w-full rounded-md ${hasError ? 'border-red-300' : 'border-gray-300'} shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm`;
 const errorTextClassName = "mt-1 text-sm text-red-600";
 const sectionTitleClassName = "text-lg font-medium text-gray-900 mb-4";
 
@@ -396,7 +396,7 @@ const CoreProductInfo: React.FC<CoreProductInfoProps> = ({
               onClick={() => {
                 // Reset approval status to pending when resubmitting
               }}
-              className="text-sm text-orange-600 hover:text-orange-700 font-medium"
+              className="text-sm text-primary-600 hover:text-primary-700 font-medium"
             >
               Resubmit for Approval
             </button>
@@ -480,9 +480,9 @@ const CoreProductInfo: React.FC<CoreProductInfoProps> = ({
 
         {/* Discount Display */}
         {(parseFloat(costPrice) > 0 && parseFloat(sellingPrice) > 0) && (
-          <div className="bg-orange-50 p-4 rounded-md border border-orange-200">
+          <div className="bg-primary-50 p-4 rounded-md border border-primary-200">
             <div className="flex items-center justify-between">
-              <span className="text-sm font-medium text-orange-700">
+              <span className="text-sm font-medium text-primary-700">
                 Calculated {discount >= 0 ? 'Discount' : 'Markup'}
               </span>
               <span
@@ -502,7 +502,7 @@ const CoreProductInfo: React.FC<CoreProductInfoProps> = ({
               </span>
             </div>
             {discount !== 0 && (
-              <p className="mt-1 text-sm text-orange-600">
+              <p className="mt-1 text-sm text-primary-600">
                 Based on cost price of ${parseFloat(costPrice).toFixed(2)} and selling
                 price of ${parseFloat(sellingPrice).toFixed(2)}.
               </p>
@@ -520,7 +520,7 @@ const CoreProductInfo: React.FC<CoreProductInfoProps> = ({
           <button
             type="submit"
             disabled={isSubmitting || !categoryId || !brandId}
-            className="px-6 py-2.5 text-sm font-medium text-white bg-orange-600 border border-transparent rounded-md hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-6 py-2.5 text-sm font-medium text-white bg-primary-600 border border-transparent rounded-md hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isSubmitting ? 'Saving...' : approval_status === 'rejected' ? 'Resubmit Product' : 'Save Product'}
           </button>
@@ -587,7 +587,7 @@ const CoreProductInfo: React.FC<CoreProductInfoProps> = ({
                     value={stockSet}
                     onChange={(e) => onInfoChange('stockSet', e.target.value)}
                     min="1"
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm"
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
                     placeholder="Enter stock set"
                   />
                   {errors?.stockSet && (
@@ -605,7 +605,7 @@ const CoreProductInfo: React.FC<CoreProductInfoProps> = ({
                     value={lowStockThreshold}
                     onChange={(e) => onInfoChange('lowStockThreshold', e.target.value)}
                     min="0"
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm"
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
                     placeholder="Enter low stock threshold"
                   />
                   {errors?.lowStockThreshold && (
@@ -623,7 +623,7 @@ const CoreProductInfo: React.FC<CoreProductInfoProps> = ({
                     value={stockQty}
                     onChange={(e) => onInfoChange('stockQty', e.target.value)}
                     min="0"
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm"
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
                     placeholder="Enter stock quantity"
                   />
                   {errors?.stockQty && (

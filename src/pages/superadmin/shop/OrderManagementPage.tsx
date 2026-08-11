@@ -48,7 +48,7 @@ const statusBadge = (status: string) => {
     case 'DELIVERED': color = 'bg-emerald-100 text-emerald-800'; break;
     case 'SHIPPED': color = 'bg-sky-100 text-sky-800'; break;
     case 'PROCESSING': color = 'bg-amber-100 text-amber-800'; break;
-    case 'PENDING_PAYMENT': color = 'bg-orange-100 text-orange-800'; break;
+    case 'PENDING_PAYMENT': color = 'bg-primary-100 text-primary-800'; break;
     case 'CANCELLED':
     case 'CANCELLED_BY_CUSTOMER':
     case 'CANCELLED_BY_MERCHANT':
@@ -56,7 +56,7 @@ const statusBadge = (status: string) => {
     case 'SUCCESSFUL': color = 'bg-emerald-100 text-emerald-800'; break;
     case 'FAILED': color = 'bg-rose-100 text-rose-800'; break;
     case 'REFUNDED': color = 'bg-purple-100 text-purple-800'; break;
-    case 'PENDING': color = 'bg-orange-100 text-orange-800'; break;
+    case 'PENDING': color = 'bg-primary-100 text-primary-800'; break;
     default: color = 'bg-gray-100 text-gray-800';
   }
   return (
@@ -127,7 +127,7 @@ const OrderManagementPage: React.FC = () => {
   if (!order) {
     return (
       <div className="p-8 text-center">
-        <button onClick={() => navigate(-1)} className="mb-4 flex items-center text-orange-600 hover:underline"><ArrowLeftIcon className="h-5 w-5 mr-1" />Back</button>
+        <button onClick={() => navigate(-1)} className="mb-4 flex items-center text-primary-600 hover:underline"><ArrowLeftIcon className="h-5 w-5 mr-1" />Back</button>
         <h2 className="text-xl font-semibold text-gray-800 mb-2">Order Not Found</h2>
         <p className="text-gray-500">No order found for ID: {orderId}</p>
       </div>
@@ -140,9 +140,9 @@ const OrderManagementPage: React.FC = () => {
       <div className="max-w-8xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
-          <button onClick={() => navigate(-1)} className="flex items-center text-orange-600 hover:underline"><ArrowLeftIcon className="h-5 w-5 mr-1" />Back to Orders</button>
+          <button onClick={() => navigate(-1)} className="flex items-center text-primary-600 hover:underline"><ArrowLeftIcon className="h-5 w-5 mr-1" />Back to Orders</button>
           <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">Order <span className="font-mono">#{order.order_id}</span></h1>
-          <button onClick={() => window.print()} className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded flex items-center"><PrinterIcon className="h-5 w-5 mr-2" />Print Invoice</button>
+          <button onClick={() => window.print()} className="bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded flex items-center"><PrinterIcon className="h-5 w-5 mr-2" />Print Invoice</button>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -160,7 +160,7 @@ const OrderManagementPage: React.FC = () => {
             {/* Order Items */}
             <div className="bg-white rounded-lg border border-gray-200 p-5">
               <div className="flex items-center gap-2 font-semibold text-gray-800 mb-2">
-                <LockClosedIcon className="h-5 w-5 text-orange-500" />
+                <LockClosedIcon className="h-5 w-5 text-primary-500" />
         Order Items ({(order.items || []).length})
               </div>
               <div className="divide-y divide-gray-100">
@@ -184,7 +184,7 @@ const OrderManagementPage: React.FC = () => {
               <div className="space-y-2">
                 {(order.status_history || []).map((h: any, idx: number) => (
                   <div key={idx} className="flex items-start gap-2">
-                    <span className="mt-1 w-2 h-2 rounded-full bg-orange-500 inline-block"></span>
+                    <span className="mt-1 w-2 h-2 rounded-full bg-primary-500 inline-block"></span>
                     <div>
                       <div className="font-medium text-gray-700 text-sm">{h.status.replace('_', ' ').toLowerCase()}</div>
                       <div className="text-xs text-gray-500">{new Date(h.date).toLocaleString()}</div>
@@ -209,7 +209,7 @@ const OrderManagementPage: React.FC = () => {
             </div>
             {/* Customer Information */}
             <div className="bg-white rounded-lg border border-gray-200 p-5">
-              <div className="flex items-center gap-2 font-semibold text-gray-800 mb-2"><UserIcon className="h-5 w-5 text-orange-500" /> Customer Information</div>
+              <div className="flex items-center gap-2 font-semibold text-gray-800 mb-2"><UserIcon className="h-5 w-5 text-primary-500" /> Customer Information</div>
               <div className="text-sm">
                 <div className="font-medium">Shipping Address</div>
                 <div>{order.shipping_address_details?.address_line1 || '-'}</div>
@@ -218,7 +218,7 @@ const OrderManagementPage: React.FC = () => {
             </div>
             {/* Payment Information */}
             <div className="bg-white rounded-lg border border-gray-200 p-5">
-              <div className="flex items-center gap-2 font-semibold text-gray-800 mb-2"><CreditCardIcon className="h-5 w-5 text-orange-500" /> Payment Information</div>
+              <div className="flex items-center gap-2 font-semibold text-gray-800 mb-2"><CreditCardIcon className="h-5 w-5 text-primary-500" /> Payment Information</div>
               <div className="text-sm">
                 <div className="font-medium">Payment Method</div>
                 <div>{(order.payment_method || '').toString().replace('_', ' ')}</div>

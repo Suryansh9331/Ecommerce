@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 
 const images = [
-  "https://res.cloudinary.com/do3vxz4gw/image/upload/v1751544913/svg_assets/rightcrousel_Image3.svg",
-  "https://res.cloudinary.com/do3vxz4gw/image/upload/v1751544854/svg_assets/rightcrousel_Image2.svg",
-  "https://res.cloudinary.com/do3vxz4gw/image/upload/v1751544854/svg_assets/rightcrousel_Image3.svg"
+  "https://res.cloudinary.com/dggzjpqdi/image/upload/v1786433938/ChatGPT_Image_Aug_11_2026_01_07_26_PM_1_m21tnf.png",
+  "https://res.cloudinary.com/dggzjpqdi/image/upload/v1786434065/ChatGPT_Image_Aug_11_2026_01_09_37_PM_dk7u2y.png",
+"https://res.cloudinary.com/dggzjpqdi/image/upload/v1786434265/ChatGPT_Image_Aug_11_2026_01_13_26_PM_angc5a.png"
 ];
 
 const CAROUSEL_HEIGHT = 564; // px, adjust as needed for your SVG size + margin

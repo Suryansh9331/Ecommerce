@@ -7,29 +7,29 @@ const Services: React.FC = () => {
 
   const services = [
     {
-      icon: <Truck className="w-10 h-10 md:w-12 md:h-12 text-white md:text-[#F2631F]" />,
+      icon: <Truck className="w-10 h-10 md:w-12 md:h-12 text-white md:text-primary-600" />,
       title: t('services.freeShipping.title'),
       description: t('services.freeShipping.description')
     },
     {
-      icon: <Wallet className="w-10 h-10 md:w-12 md:h-12 text-white md:text-[#F2631F]" />,
+      icon: <Wallet className="w-10 h-10 md:w-12 md:h-12 text-white md:text-primary-600" />,
       title: t('services.cashBack.title'),
       description: t('services.cashBack.description')
     },
     {
-      icon: <Headphones className="w-10 h-10 md:w-12 md:h-12 text-white md:text-[#F2631F]" />,
+      icon: <Headphones className="w-10 h-10 md:w-12 md:h-12 text-white md:text-primary-600" />,
       title: t('services.support.title'),
       description: t('services.support.description')
     },
     {
-      icon: <Award className="w-10 h-10 md:w-12 md:h-12 text-white md:text-[#F2631F]" />,
+      icon: <Award className="w-10 h-10 md:w-12 md:h-12 text-white md:text-primary-600" />,
       title: t('services.highQuality.title', { defaultValue: 'High Quality' }),
       description: t('services.highQuality.description', { defaultValue: 'Curated products you can trust' })
     }
   ];
   return (
     <div>
-      <section className="pb-8 md:pb-8 bg-[#F2631F] md:bg-transparent py-6 md:py-0">
+      <section className="pb-8 md:pb-8 bg-primary-600 md:bg-transparent py-6 md:py-0">
         <div className="container mx-auto px-4 xl:px-14">
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-0 md:gap-4">
             {services.map((service, index) => {

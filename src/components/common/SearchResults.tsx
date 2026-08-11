@@ -109,7 +109,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({
     return (
       <div className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg p-4">
         <div className="flex items-center justify-center">
-          <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-[#F2631F]"></div>
+          <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-primary-600"></div>
         </div>
       </div>
     );

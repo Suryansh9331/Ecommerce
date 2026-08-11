@@ -150,7 +150,7 @@ const VariantEditForm: React.FC<VariantEditFormProps> = ({
               ...prev,
               attributes: { ...prev.attributes, [attribute.name]: e.target.value }
             }))}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white"
           >
             <option value="">Select {attribute.name}</option>
             {attribute.values?.map((val) => (
@@ -184,7 +184,7 @@ const VariantEditForm: React.FC<VariantEditFormProps> = ({
                       attributes: { ...prev.attributes, [attribute.name]: newValues.join(',') }
                     }));
                   }}
-                  className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded"
+                  className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
                 />
                 <span className="ml-2 text-sm text-gray-700">{attrValue.value}</span>
               </label>
@@ -201,7 +201,7 @@ const VariantEditForm: React.FC<VariantEditFormProps> = ({
               ...prev,
               attributes: { ...prev.attributes, [attribute.name]: parseFloat(e.target.value) || 0 }
             }))}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             placeholder={`Enter ${attribute.name}`}
           />
         );
@@ -218,7 +218,7 @@ const VariantEditForm: React.FC<VariantEditFormProps> = ({
                   ...prev,
                   attributes: { ...prev.attributes, [attribute.name]: true }
                 }))}
-                className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300"
+                className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300"
               />
               <span className="ml-2 text-sm text-gray-700">Yes</span>
             </label>
@@ -231,7 +231,7 @@ const VariantEditForm: React.FC<VariantEditFormProps> = ({
                   ...prev,
                   attributes: { ...prev.attributes, [attribute.name]: false }
                 }))}
-                className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300"
+                className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300"
               />
               <span className="ml-2 text-sm text-gray-700">No</span>
             </label>
@@ -247,7 +247,7 @@ const VariantEditForm: React.FC<VariantEditFormProps> = ({
               ...prev,
               attributes: { ...prev.attributes, [attribute.name]: e.target.value }
             }))}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             placeholder={`Enter ${attribute.name}`}
           />
         );
@@ -314,7 +314,7 @@ const VariantEditForm: React.FC<VariantEditFormProps> = ({
                       step="0.01"
                       value={formData.selling_price}
                       onChange={(e) => setFormData(prev => ({ ...prev, selling_price: parseFloat(e.target.value) || 0 }))}
-                      className="w-full pl-8 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                      className="w-full pl-8 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                       required
                     />
                   </div>
@@ -331,7 +331,7 @@ const VariantEditForm: React.FC<VariantEditFormProps> = ({
                       step="0.01"
                       value={formData.cost_price}
                       onChange={(e) => setFormData(prev => ({ ...prev, cost_price: parseFloat(e.target.value) || 0 }))}
-                      className="w-full pl-8 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                      className="w-full pl-8 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                     />
                   </div>
                 </div>
@@ -343,7 +343,7 @@ const VariantEditForm: React.FC<VariantEditFormProps> = ({
                   <select
                     value={formData.is_active ? 'active' : 'inactive'}
                     onChange={(e) => setFormData(prev => ({ ...prev, is_active: e.target.value === 'active' }))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white"
                   >
                     <option value="active">Active</option>
                     <option value="inactive">Inactive</option>
@@ -368,7 +368,7 @@ const VariantEditForm: React.FC<VariantEditFormProps> = ({
                     type="number"
                     value={formData.stock_qty}
                     onChange={(e) => setFormData(prev => ({ ...prev, stock_qty: parseInt(e.target.value) || 0 }))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                     min="0"
                   />
                 </div>
@@ -381,7 +381,7 @@ const VariantEditForm: React.FC<VariantEditFormProps> = ({
                     type="number"
                     value={formData.low_stock_threshold}
                     onChange={(e) => setFormData(prev => ({ ...prev, low_stock_threshold: parseInt(e.target.value) || 0 }))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                     min="0"
                   />
                 </div>

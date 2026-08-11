@@ -31,7 +31,7 @@ const CustomersReport = () => {
       <div className="flex flex-wrap gap-4 justify-between items-center">
         <h1 className="text-2xl font-semibold text-black">Customers Report</h1>
         <div className="flex items-center gap-2">
-          <button className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-700 hover:border-[#FF4D00] transition-colors">
+          <button className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-700 hover:border-primary-600 transition-colors">
             <Calendar className="w-4 h-4" />
             <span>{dateRange.start}</span>
             <span>to</span>
@@ -74,8 +74,8 @@ const CustomersReport = () => {
               <Line 
                 type="monotone" 
                 dataKey="customers" 
-                stroke="#FF4D00" 
-                fill="#FF4D00"
+                stroke="#1800AC" 
+                fill="#1800AC"
                 name="Total Customers"
               />
             </LineChart>
@@ -94,8 +94,8 @@ const CustomersReport = () => {
               <YAxis />
               <Tooltip />
               <Legend />
-              <Bar dataKey="current" name="Current Period" fill="#FF4D00" />
-              <Bar dataKey="previous" name="Previous Period" fill="#FFE5D9" />
+              <Bar dataKey="current" name="Current Period" fill="#1800AC" />
+              <Bar dataKey="previous" name="Previous Period" fill="#E5E1FE" />
             </BarChart>
           </ResponsiveContainer>
         </div>

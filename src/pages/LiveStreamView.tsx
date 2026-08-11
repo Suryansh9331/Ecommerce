@@ -91,7 +91,7 @@ const LiveStreamView: React.FC = () => {
       <div className="flex justify-center items-center min-h-screen">
         <div className="relative">
           <div className="animate-spin rounded-full h-16 w-16 border-4 border-gray-200"></div>
-          <div className="animate-spin rounded-full h-16 w-16 border-4 border-[#FF4D00] border-t-transparent absolute top-0 left-0"></div>
+          <div className="animate-spin rounded-full h-16 w-16 border-4 border-primary-600 border-t-transparent absolute top-0 left-0"></div>
         </div>
       </div>
     );
@@ -165,7 +165,7 @@ const LiveStreamView: React.FC = () => {
               {/* Merchant Info */}
               {stream.merchant && (
                 <div className="flex items-center gap-4 mt-6 p-4 bg-gray-50 rounded-xl">
-                  <div className="w-12 h-12 bg-gradient-to-br from-[#FF4D00] to-[#F2631F] rounded-full flex items-center justify-center">
+                  <div className="w-12 h-12 bg-gradient-to-br from-primary-600 to-primary-600 rounded-full flex items-center justify-center">
                     <User className="w-6 h-6 text-white" />
                   </div>
                   <div>
@@ -212,7 +212,7 @@ const LiveStreamView: React.FC = () => {
                 </div>
               )}
 
-              <button className="w-full bg-gradient-to-r from-[#FF4D00] to-[#F2631F] text-white font-semibold py-3 px-4 rounded-xl flex items-center justify-center gap-2 hover:from-[#e63d00] hover:to-[#d54d1a] transition-all duration-300">
+              <button className="w-full bg-gradient-to-r from-primary-600 to-primary-600 text-white font-semibold py-3 px-4 rounded-xl flex items-center justify-center gap-2 hover:from-primary-700 hover:to-primary-800 transition-all duration-300">
                 <ShoppingBag className="w-5 h-5" />
                 Add to Cart
               </button>

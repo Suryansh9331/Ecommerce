@@ -271,7 +271,7 @@ const Shop = () => {
       {/* Innovation Window Section with Enhanced Professional Design */}
       <div className="relative py-6 px-4 sm:py-8 md:py-12 lg:py-12 sm:px-6 lg:px-8 overflow-hidden" 
            style={{ 
-             background: 'linear-gradient(135deg, #F2631F 0%, #FF6B35 25%, #F2631F 50%, #FF6B35 75%, #F2631F 100%)',
+             background: 'linear-gradient(135deg, #1800AC 0%, #3B1EEB 25%, #1800AC 50%, #3B1EEB 75%, #1800AC 100%)',
              backgroundSize: '400% 400%'
            }}>
         
@@ -361,7 +361,7 @@ const Shop = () => {
                background: `
                  radial-gradient(circle at 20% 80%, rgba(251,191,36,0.1) 0%, transparent 50%),
                  radial-gradient(circle at 80% 20%, rgba(255,255,255,0.1) 0%, transparent 50%),
-                 linear-gradient(135deg, rgba(242,99,31,0.95) 0%, rgba(255,107,53,0.95) 100%)
+                 linear-gradient(135deg, rgba(24, 0, 172,0.95) 0%, rgba(255,107,53,0.95) 100%)
                `
              }}>
           
@@ -434,12 +434,12 @@ const Shop = () => {
               <div className="relative group">
                 <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-white/10 rounded-2xl blur-lg animate-pulse"></div>
                 <div className="flex flex-col sm:flex-row items-center bg-white/95 rounded-2xl shadow-2xl px-6 sm:px-8 py-4 sm:py-5 space-y-3 sm:space-y-0 sm:space-x-8 border-2 border-white/30 backdrop-blur-lg relative z-10 transform hover:scale-105 transition-all duration-300">
-                  <div className="absolute inset-0 bg-gradient-to-r from-orange-500/10 via-transparent to-orange-500/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-primary-500/10 via-transparent to-primary-500/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
                   
                   <div className="flex items-center space-x-3 relative z-10">
                     <div className="relative">
-                      <span className="w-4 h-4 rounded-full bg-orange-500 inline-block animate-pulse"></span>
-                      <div className="absolute inset-0 w-4 h-4 rounded-full bg-orange-500/30 animate-ping"></div>
+                      <span className="w-4 h-4 rounded-full bg-primary-500 inline-block animate-pulse"></span>
+                      <div className="absolute inset-0 w-4 h-4 rounded-full bg-primary-500/30 animate-ping"></div>
                     </div>
                     <span className="text-gray-700 font-semibold text-sm sm:text-base">{t('home.sections.currentTime')}</span>
                     <div className="flex items-center gap-2">

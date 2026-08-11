@@ -65,7 +65,7 @@ const VerificationPending: React.FC = () => {
     <div className="bg-gray-50 flex flex-col justify-center sm:px-6 lg:px-8 py-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="flex justify-center">
-          <ClockIcon className="h-24 w-24 text-orange-500" />
+          <ClockIcon className="h-24 w-24 text-primary-500" />
         </div>
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
           Verification Pending
@@ -109,7 +109,7 @@ const VerificationPending: React.FC = () => {
                 type="button"
                 onClick={handleResend}
                 disabled={isResending || !emailForVerification}
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-500 hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isResending ? 'Resending...' : 'Resend Verification Email'}
               </button>
@@ -118,7 +118,7 @@ const VerificationPending: React.FC = () => {
             <div className="flex items-center justify-between space-x-3">
               <button
                 onClick={() => navigate('/')}
-                className="flex items-center justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+                className="flex items-center justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
               >
                 <ArrowLeftIcon className="h-4 w-4 mr-2" />
                 Return Home
@@ -126,7 +126,7 @@ const VerificationPending: React.FC = () => {
               
               <Link
                 to="/business/login"
-                className="flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+                className="flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-500 hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
               >
                 Go to Login
               </Link>

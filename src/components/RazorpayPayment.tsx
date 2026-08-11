@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { RAZORPAY_KEY_ID, RAZORPAY_CURRENCY } from '../config';
+import { RAZORPAY_KEY_ID, RAZORPAY_CURRENCY, PAYMENT_LOGO_URL } from '../config';
 
 // Extend Window interface to include Razorpay
 declare global {
@@ -34,7 +34,7 @@ const RazorpayPayment: React.FC<RazorpayPaymentProps> = ({
   onClose,
   description = "Test Transaction",
   businessName = "Aoin Store",
-  businessLogo = "https://aoinstore.com/logo.png",
+  businessLogo = PAYMENT_LOGO_URL,
   currency,
 }) => {
   useEffect(() => {
@@ -79,7 +79,7 @@ const RazorpayPayment: React.FC<RazorpayPaymentProps> = ({
           business_name: businessName,
         },
         theme: {
-          color: '#f97316', // Orange color matching your theme
+          color: '#1800AC', // Orange color matching your theme
         },
         handler: function (response: any) {
           // console.log('Razorpay payment success:', response);

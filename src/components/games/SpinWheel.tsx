@@ -40,8 +40,8 @@ const SpinWheel: React.FC<SpinWheelProps> = ({ onWin, onBack }) => {
 
   // For animation only
   const colors = [
-    '#F2631F', '#FF8A4C', '#FF6B35', '#E55A2B',
-    '#FF9F7A', '#FF7A4C', '#FF6B35', '#F2631F'
+    '#1800AC', '#7561EF', '#3B1EEB', '#14008F',
+    '#A497F7', '#7561EF', '#3B1EEB', '#1800AC'
   ];
 
   useEffect(() => {
@@ -141,32 +141,32 @@ const SpinWheel: React.FC<SpinWheelProps> = ({ onWin, onBack }) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center font-['Work_Sans'] bg-gradient-to-br from-orange-50 via-white to-orange-100 relative overflow-hidden py-12">
+    <div className="min-h-screen flex items-center justify-center font-['Work_Sans'] bg-gradient-to-br from-primary-50 via-white to-primary-100 relative overflow-hidden py-12">
       {/* Floating confetti background (optional, simple SVGs for now) */}
       <svg className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-10 z-0" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="10%" cy="20%" r="30" fill="#F2631F" />
-        <circle cx="80%" cy="10%" r="20" fill="#FF8A4C" />
-        <circle cx="50%" cy="80%" r="25" fill="#FF6B35" />
-        <circle cx="90%" cy="60%" r="15" fill="#E55A2B" />
+        <circle cx="10%" cy="20%" r="30" fill="#1800AC" />
+        <circle cx="80%" cy="10%" r="20" fill="#7561EF" />
+        <circle cx="50%" cy="80%" r="25" fill="#3B1EEB" />
+        <circle cx="90%" cy="60%" r="15" fill="#14008F" />
       </svg>
-      <div className="bg-white/70 backdrop-blur-lg rounded-3xl p-8 shadow-2xl max-w-md w-full mx-4 border border-orange-100 z-10 relative">
+      <div className="bg-white/70 backdrop-blur-lg rounded-3xl p-8 shadow-2xl max-w-md w-full mx-4 border border-primary-100 z-10 relative">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <button
             onClick={onBack}
-            className="flex items-center gap-2 text-gray-600 hover:text-orange-600 transition-colors font-['Work_Sans']"
+            className="flex items-center gap-2 text-gray-600 hover:text-primary-600 transition-colors font-['Work_Sans']"
           >
             <ArrowLeft className="w-5 h-5" />
             <span className="hidden sm:inline">Back to Games</span>
           </button>
-          <h1 className="text-3xl font-extrabold text-orange-700 font-['Work_Sans'] tracking-tight drop-shadow-sm">Spin & Win</h1>
+          <h1 className="text-3xl font-extrabold text-primary-700 font-['Work_Sans'] tracking-tight drop-shadow-sm">Spin & Win</h1>
         </div>
 
         {/* Wheel Container */}
         <div className="relative mb-8 flex justify-center">
           <div className="relative w-72 h-72 sm:w-80 sm:h-80 mx-auto flex items-center justify-center">
             {/* Glowing Wheel Border */}
-            <div className="absolute w-full h-full rounded-full bg-gradient-to-br from-orange-200 via-orange-100 to-white blur-lg opacity-70 animate-pulse z-0"></div>
+            <div className="absolute w-full h-full rounded-full bg-gradient-to-br from-primary-200 via-primary-100 to-white blur-lg opacity-70 animate-pulse z-0"></div>
             {/* SVG Wheel */}
             <svg
               width="100%"
@@ -227,13 +227,13 @@ const SpinWheel: React.FC<SpinWheelProps> = ({ onWin, onBack }) => {
 
             {/* Stylish Center Pointer */}
             <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/4 z-20">
-              <div className="w-0 h-0 border-l-[18px] border-r-[18px] border-b-[36px] border-l-transparent border-r-transparent border-b-[#F2631F] drop-shadow-lg animate-bounce"></div>
-              <div className="w-4 h-4 bg-white rounded-full border-2 border-orange-400 absolute left-1/2 -translate-x-1/2 -top-2"></div>
+              <div className="w-0 h-0 border-l-[18px] border-r-[18px] border-b-[36px] border-l-transparent border-r-transparent border-b-primary-600 drop-shadow-lg animate-bounce"></div>
+              <div className="w-4 h-4 bg-white rounded-full border-2 border-primary-400 absolute left-1/2 -translate-x-1/2 -top-2"></div>
             </div>
 
             {/* Center Circle */}
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-white rounded-full border-4 border-orange-200 flex items-center justify-center z-20 shadow-md">
-              <div className="w-8 h-8 bg-[#F2631F] rounded-full shadow-inner"></div>
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-white rounded-full border-4 border-primary-200 flex items-center justify-center z-20 shadow-md">
+              <div className="w-8 h-8 bg-primary-600 rounded-full shadow-inner"></div>
             </div>
 
             {canPlay === false && (
@@ -254,7 +254,7 @@ const SpinWheel: React.FC<SpinWheelProps> = ({ onWin, onBack }) => {
               className={`w-full py-4 px-8 rounded-2xl text-white font-bold text-lg transition-all duration-300 font-['Work_Sans'] shadow-lg ${
                 isSpinning || canPlay === false
                   ? 'bg-gray-400 cursor-not-allowed'
-                  : 'bg-gradient-to-r from-[#F2631F] to-orange-600 hover:from-[#F2631F] hover:to-orange-700 transform hover:scale-105'
+                  : 'bg-gradient-to-r from-primary-600 to-primary-600 hover:from-primary-600 hover:to-primary-700 transform hover:scale-105'
               }`}
             >
               {canPlay === false ? 'Locked' : isSpinning ? 'Spinning...' : 'SPIN THE WHEEL!'}
@@ -263,30 +263,30 @@ const SpinWheel: React.FC<SpinWheelProps> = ({ onWin, onBack }) => {
             <>
               {/* Overlay for professional win message */}
               <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
-                <div className="relative bg-gradient-to-br from-white via-orange-50 to-orange-100 rounded-3xl shadow-2xl p-8 max-w-sm w-full border-4 border-orange-200 animate-fadeIn">
+                <div className="relative bg-gradient-to-br from-white via-primary-50 to-primary-100 rounded-3xl shadow-2xl p-8 max-w-sm w-full border-4 border-primary-200 animate-fadeIn">
                   <div className="flex flex-col items-center">
                     <span className="text-5xl mb-2 animate-bounce">{wonPrize ? '🎊' : '😔'}</span>
-                    <h2 className="text-2xl font-bold text-orange-700 mb-2 font-['Work_Sans']">
+                    <h2 className="text-2xl font-bold text-primary-700 mb-2 font-['Work_Sans']">
                       {wonPrize ? 'Congratulations!' : 'Better Luck Next Time!'}
                     </h2>
                     <p className="text-gray-700 mb-4 font-['Work_Sans']">
                       {wonPrize ? "You've won:" : error || 'You did not win a promocode this time.'}
                     </p>
                     {wonPrize && (
-                      <div className="bg-white rounded-xl shadow p-4 mb-4 w-full text-center border border-orange-200">
-                        <div className="text-3xl font-extrabold text-orange-600 mb-1 font-['Work_Sans']">{wonPrize.discount}% OFF</div>
-                        <div className="text-lg font-semibold text-gray-800 mb-1 font-['Work_Sans']">Code: <span className="bg-orange-100 px-2 py-1 rounded font-mono text-orange-700">{wonPrize.code}</span></div>
+                      <div className="bg-white rounded-xl shadow p-4 mb-4 w-full text-center border border-primary-200">
+                        <div className="text-3xl font-extrabold text-primary-600 mb-1 font-['Work_Sans']">{wonPrize.discount}% OFF</div>
+                        <div className="text-lg font-semibold text-gray-800 mb-1 font-['Work_Sans']">Code: <span className="bg-primary-100 px-2 py-1 rounded font-mono text-primary-700">{wonPrize.code}</span></div>
                         <div className="text-sm text-gray-600 mb-2 font-['Work_Sans']">{wonPrize.description}</div>
                         <button
                           onClick={handleCopy}
-                          className="mt-2 px-4 py-2 bg-gradient-to-r from-orange-400 to-orange-600 text-white rounded-lg font-semibold shadow hover:from-orange-500 hover:to-orange-700 transition-all font-['Work_Sans']"
+                          className="mt-2 px-4 py-2 bg-gradient-to-r from-primary-400 to-primary-600 text-white rounded-lg font-semibold shadow hover:from-primary-500 hover:to-primary-700 transition-all font-['Work_Sans']"
                         >
                           {copySuccess ? 'Copied!' : 'Copy Code'}
                         </button>
                       </div>
                     )}
                     {!wonPrize && (
-                      <div className="bg-white rounded-xl shadow p-4 mb-4 w-full text-center border border-orange-200">
+                      <div className="bg-white rounded-xl shadow p-4 mb-4 w-full text-center border border-primary-200">
                         <div className="text-2xl font-bold text-gray-700 mb-2">No Promo Code Won</div>
                         <div className="text-sm text-gray-600 mb-2">Try again tomorrow for another chance!</div>
                       </div>
@@ -313,15 +313,15 @@ const SpinWheel: React.FC<SpinWheelProps> = ({ onWin, onBack }) => {
         </div>
 
         {/* Instructions */}
-        <div className="mt-8 p-4 bg-white/60 rounded-xl font-['Work_Sans'] shadow border border-orange-100">
-          <h3 className="font-semibold text-orange-700 mb-2 font-['Work_Sans'] flex items-center gap-2">
+        <div className="mt-8 p-4 bg-white/60 rounded-xl font-['Work_Sans'] shadow border border-primary-100">
+          <h3 className="font-semibold text-primary-700 mb-2 font-['Work_Sans'] flex items-center gap-2">
             <span className="inline-block text-xl">📝</span> How to Play:
           </h3>
           <ul className="text-sm text-gray-700 space-y-2 font-['Work_Sans']">
-            <li className="flex items-center gap-2"><span className="text-orange-500">🎯</span> Click <span className="font-bold">SPIN THE WHEEL</span> to start</li>
-            <li className="flex items-center gap-2"><span className="text-orange-500">⏳</span> Wait for the wheel to stop spinning</li>
-            <li className="flex items-center gap-2"><span className="text-orange-500">📍</span> The pointer will show your prize</li>
-            <li className="flex items-center gap-2"><span className="text-orange-500">🏆</span> Win discounts up to <span className="font-bold">20% off!</span></li>
+            <li className="flex items-center gap-2"><span className="text-primary-500">🎯</span> Click <span className="font-bold">SPIN THE WHEEL</span> to start</li>
+            <li className="flex items-center gap-2"><span className="text-primary-500">⏳</span> Wait for the wheel to stop spinning</li>
+            <li className="flex items-center gap-2"><span className="text-primary-500">📍</span> The pointer will show your prize</li>
+            <li className="flex items-center gap-2"><span className="text-primary-500">🏆</span> Win discounts up to <span className="font-bold">20% off!</span></li>
           </ul>
         </div>
       </div>

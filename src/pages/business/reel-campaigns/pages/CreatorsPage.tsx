@@ -68,12 +68,12 @@ const CreatorsPage: React.FC = () => {
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Search creators…"
-            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 text-sm"
+            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 text-sm"
           />
           <select
             value={availability}
             onChange={(e) => setAvailability(e.target.value as any)}
-            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 text-sm"
+            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 text-sm"
           >
             <option value="all">All availability</option>
             <option value="available">Available</option>
@@ -110,7 +110,7 @@ const CreatorsPage: React.FC = () => {
             </div>
             <div className="mt-3 flex flex-wrap gap-1.5">
               {c.categories.slice(0, 4).map((t) => (
-                <span key={t} className="text-[11px] font-semibold px-2 py-1 rounded-full bg-orange-50 text-orange-700">
+                <span key={t} className="text-[11px] font-semibold px-2 py-1 rounded-full bg-primary-50 text-primary-700">
                   {t}
                 </span>
               ))}
@@ -129,7 +129,7 @@ const CreatorsPage: React.FC = () => {
             <button
               type="button"
               onClick={() => startCreateCampaignWithCreator(selected)}
-              className="w-full px-4 py-2 rounded-md bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700"
+              className="w-full px-4 py-2 rounded-md bg-primary-600 text-white text-sm font-semibold hover:bg-primary-700"
             >
               Create campaign with this creator
             </button>

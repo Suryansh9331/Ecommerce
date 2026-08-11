@@ -23,7 +23,7 @@ function useToast() {
 const TOAST_STYLES: Record<string, string> = {
   success: 'bg-green-50 border-green-200 text-green-800',
   error:   'bg-red-50 border-red-200 text-red-800',
-  info:    'bg-orange-50 border-orange-200 text-orange-800',
+  info:    'bg-primary-50 border-primary-200 text-primary-800',
 };
 
 // ─── Config ─────────────────────────────────────────────────────────────────
@@ -141,12 +141,12 @@ const NewsletterSubscribers: React.FC = () => {
               <title>Newsletter Subscribers</title>
               <style>
                 body  { font-family: sans-serif; padding: 2rem; color: #1a1a1a; }
-                h1    { font-size: 1.25rem; margin-bottom: 1rem; color: #c2410c; }
+                h1    { font-size: 1.25rem; margin-bottom: 1rem; color: #120273; }
                 table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
-                th    { background: #fff7ed; color: #c2410c; text-align: left;
-                        padding: 8px 12px; border-bottom: 2px solid #fed7aa; }
+                th    { background: #F2F0FF; color: #120273; text-align: left;
+                        padding: 8px 12px; border-bottom: 2px solid #C8C0FC; }
                 td    { padding: 8px 12px; border-bottom: 1px solid #f3f4f6; }
-                tr:nth-child(even) td { background: #fff7ed; }
+                tr:nth-child(even) td { background: #F2F0FF; }
                 @media print { body { padding: 0; } }
               </style>
             </head>
@@ -177,7 +177,7 @@ const NewsletterSubscribers: React.FC = () => {
   };
 
   return (
-    <div className="p-8 min-h-screen bg-gradient-to-br from-white to-orange-50">
+    <div className="p-8 min-h-screen bg-gradient-to-br from-white to-primary-50">
 
       {/* ── Toast notification ── */}
       {toast && (
@@ -189,12 +189,12 @@ const NewsletterSubscribers: React.FC = () => {
       )}
 
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 gap-4">
-        <h1 className="text-3xl font-bold text-orange-700 drop-shadow-sm">
+        <h1 className="text-3xl font-bold text-primary-700 drop-shadow-sm">
           Newsletter Subscribers
         </h1>
         <button
           onClick={() => setIsExportModalOpen(true)}
-          className="flex items-center gap-2 bg-orange-500 text-white px-4 py-2 rounded-md shadow hover:bg-orange-600 transition"
+          className="flex items-center gap-2 bg-primary-500 text-white px-4 py-2 rounded-md shadow hover:bg-primary-600 transition"
         >
           <Download className="w-5 h-5" />
           Export
@@ -203,17 +203,17 @@ const NewsletterSubscribers: React.FC = () => {
 
       <div className="bg-white rounded-xl shadow-lg p-6 max-w-full mx-auto">
         {loading ? (
-          <div className="text-orange-600 font-medium">Loading...</div>
+          <div className="text-primary-600 font-medium">Loading...</div>
         ) : error ? (
           <div className="text-red-500">{error}</div>
         ) : (
           <div className="overflow-x-auto">
             <table className="min-w-full border-separate border-spacing-y-2">
               <thead>
-                <tr className="bg-orange-100">
-                  <th className="px-6 py-3 text-left text-sm font-bold text-orange-700 rounded-tl-xl">ID</th>
-                  <th className="px-6 py-3 text-left text-sm font-bold text-orange-700">Email</th>
-                  <th className="px-6 py-3 text-left text-sm font-bold text-orange-700 rounded-tr-xl">Subscribed At</th>
+                <tr className="bg-primary-100">
+                  <th className="px-6 py-3 text-left text-sm font-bold text-primary-700 rounded-tl-xl">ID</th>
+                  <th className="px-6 py-3 text-left text-sm font-bold text-primary-700">Email</th>
+                  <th className="px-6 py-3 text-left text-sm font-bold text-primary-700 rounded-tr-xl">Subscribed At</th>
                 </tr>
               </thead>
               <tbody>
@@ -228,8 +228,8 @@ const NewsletterSubscribers: React.FC = () => {
                     <tr
                       key={sub.id}
                       className={`transition-colors duration-150 ${
-                        idx % 2 === 0 ? 'bg-orange-50' : 'bg-white'
-                      } hover:bg-orange-200/60`}
+                        idx % 2 === 0 ? 'bg-primary-50' : 'bg-white'
+                      } hover:bg-primary-200/60`}
                     >
                       <td className="px-6 py-4 text-gray-800 font-medium rounded-l-lg">{sub.id}</td>
                       <td className="px-6 py-4 text-gray-700">{sub.email}</td>

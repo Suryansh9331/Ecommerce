@@ -62,7 +62,7 @@ const ShippingStep: React.FC<ShippingStepProps> = ({ data, onChange }) => {
     
     if (volume <= 0.01 && weight <= 0.5) return { category: 'Small Package', color: 'text-green-600' };
     if (volume <= 0.05 && weight <= 2) return { category: 'Medium Package', color: 'text-yellow-600' };
-    if (volume <= 0.1 && weight <= 5) return { category: 'Large Package', color: 'text-orange-600' };
+    if (volume <= 0.1 && weight <= 5) return { category: 'Large Package', color: 'text-primary-600' };
     return { category: 'Oversized Package', color: 'text-red-600' };
   };
 
@@ -71,8 +71,8 @@ const ShippingStep: React.FC<ShippingStepProps> = ({ data, onChange }) => {
       {/* Header */}
       <div className="text-center">
         <div className="flex justify-center mb-4">
-          <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center">
-            <Package className="text-orange-500" size={32} />
+          <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center">
+            <Package className="text-primary-500" size={32} />
           </div>
         </div>
         <h3 className="text-xl font-semibold text-gray-900">Shipping Information</h3>
@@ -99,7 +99,7 @@ const ShippingStep: React.FC<ShippingStepProps> = ({ data, onChange }) => {
                 min="0"
                 value={data.length_cm || ''}
                 onChange={(e) => handleInputChange('length_cm', parseFloat(e.target.value) || 0)}
-                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
+                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent ${
                   errors.length_cm ? 'border-red-500' : 'border-gray-300'
                 }`}
                 placeholder="0.0"
@@ -117,7 +117,7 @@ const ShippingStep: React.FC<ShippingStepProps> = ({ data, onChange }) => {
                 min="0"
                 value={data.width_cm || ''}
                 onChange={(e) => handleInputChange('width_cm', parseFloat(e.target.value) || 0)}
-                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
+                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent ${
                   errors.width_cm ? 'border-red-500' : 'border-gray-300'
                 }`}
                 placeholder="0.0"
@@ -135,7 +135,7 @@ const ShippingStep: React.FC<ShippingStepProps> = ({ data, onChange }) => {
                 min="0"
                 value={data.height_cm || ''}
                 onChange={(e) => handleInputChange('height_cm', parseFloat(e.target.value) || 0)}
-                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
+                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent ${
                   errors.height_cm ? 'border-red-500' : 'border-gray-300'
                 }`}
                 placeholder="0.0"
@@ -163,7 +163,7 @@ const ShippingStep: React.FC<ShippingStepProps> = ({ data, onChange }) => {
                 min="0"
                 value={data.weight_kg || ''}
                 onChange={(e) => handleInputChange('weight_kg', parseFloat(e.target.value) || 0)}
-                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
+                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent ${
                   errors.weight_kg ? 'border-red-500' : 'border-gray-300'
                 }`}
                 placeholder="0.00"
@@ -186,7 +186,7 @@ const ShippingStep: React.FC<ShippingStepProps> = ({ data, onChange }) => {
                 key={shippingClass.value}
                 className={`flex items-center p-3 border rounded-lg cursor-pointer transition-colors ${
                   data.shipping_class === shippingClass.value
-                    ? 'border-orange-500 bg-orange-50'
+                    ? 'border-primary-500 bg-primary-50'
                     : 'border-gray-300 hover:border-gray-400'
                 }`}
               >
@@ -196,7 +196,7 @@ const ShippingStep: React.FC<ShippingStepProps> = ({ data, onChange }) => {
                   value={shippingClass.value}
                   checked={data.shipping_class === shippingClass.value}
                   onChange={(e) => handleInputChange('shipping_class', e.target.value)}
-                  className="w-4 h-4 text-orange-600 focus:ring-orange-500 border-gray-300"
+                  className="w-4 h-4 text-primary-600 focus:ring-primary-500 border-gray-300"
                 />
                 <div className="ml-3 flex-1">
                   <div className="font-medium text-gray-900">{shippingClass.label}</div>

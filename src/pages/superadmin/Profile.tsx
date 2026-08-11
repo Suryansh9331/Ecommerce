@@ -265,7 +265,7 @@ const SuperAdminProfile: React.FC = () => {
   if (loading && !profile) {
     return (
       <div className="min-h-[80vh] flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-500"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-500"></div>
       </div>
     );
   }
@@ -279,14 +279,14 @@ const SuperAdminProfile: React.FC = () => {
           <div className="flex gap-3">
             <button
               onClick={() => setIsEditing(!isEditing)}
-              className="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors flex items-center gap-2"
+              className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors flex items-center gap-2"
             >
               <Settings className="w-4 h-4" />
               {isEditing ? 'Cancel' : 'Edit Profile'}
             </button>
             <button
               onClick={handleLogout}
-              className="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors flex items-center gap-2"
+              className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors flex items-center gap-2"
             >
               <LogOut className="w-4 h-4" />
               Logout
@@ -320,7 +320,7 @@ const SuperAdminProfile: React.FC = () => {
                     name="first_name"
                     value={formData.first_name}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                   />
                 </div>
                 <div>
@@ -330,7 +330,7 @@ const SuperAdminProfile: React.FC = () => {
                     name="last_name"
                     value={formData.last_name}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                   />
                 </div>
                 <div>
@@ -341,7 +341,7 @@ const SuperAdminProfile: React.FC = () => {
                       name="email"
                       value={formData.email}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                     />
                     <div className="absolute inset-y-0 right-0 flex items-center pr-3">
                       {profile?.is_email_verified ? (
@@ -353,7 +353,7 @@ const SuperAdminProfile: React.FC = () => {
                         <button
                           type="button"
                           onClick={() => setShowEmailVerification(true)}
-                          className="text-orange-500 hover:text-orange-600 text-sm font-medium"
+                          className="text-primary-500 hover:text-primary-600 text-sm font-medium"
                         >
                           Verify
                         </button>
@@ -368,7 +368,7 @@ const SuperAdminProfile: React.FC = () => {
                     name="phone"
                     value={formData.phone}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                   />
                 </div>
                 <div className="flex justify-end gap-3">
@@ -382,7 +382,7 @@ const SuperAdminProfile: React.FC = () => {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors disabled:opacity-50"
+                    className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors disabled:opacity-50"
                   >
                     {loading ? 'Saving...' : 'Save Changes'}
                   </button>
@@ -427,7 +427,7 @@ const SuperAdminProfile: React.FC = () => {
                     name="currentPassword"
                     value={passwordFormData.currentPassword}
                     onChange={handlePasswordInputChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                     required
                   />
                   <button
@@ -450,7 +450,7 @@ const SuperAdminProfile: React.FC = () => {
                     name="newPassword"
                     value={passwordFormData.newPassword}
                     onChange={handlePasswordInputChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                     required
                   />
                   <button
@@ -473,7 +473,7 @@ const SuperAdminProfile: React.FC = () => {
                     name="confirmPassword"
                     value={passwordFormData.confirmPassword}
                     onChange={handlePasswordInputChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                     required
                   />
                   <button
@@ -490,7 +490,7 @@ const SuperAdminProfile: React.FC = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors disabled:opacity-50"
+                  className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors disabled:opacity-50"
                 >
                   {loading ? 'Changing...' : 'Change Password'}
                 </button>

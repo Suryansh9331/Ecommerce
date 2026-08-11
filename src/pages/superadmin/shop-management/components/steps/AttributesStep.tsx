@@ -89,7 +89,7 @@ const AttributesStep: React.FC<AttributesStepProps> = ({
           <select
             value={value as string}
             onChange={(e) => handleAttributeChange(attribute.attribute_id, e.target.value)}
-            className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
+            className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent ${
               hasError ? 'border-red-500' : 'border-gray-300'
             }`}
           >
@@ -122,7 +122,7 @@ const AttributesStep: React.FC<AttributesStepProps> = ({
                     
                     handleAttributeChange(attribute.attribute_id, newValues.join(','));
                   }}
-                  className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded"
+                  className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
                 />
                 <span className="ml-2 text-sm text-gray-700">{attrValue.value}</span>
               </label>
@@ -136,7 +136,7 @@ const AttributesStep: React.FC<AttributesStepProps> = ({
             type="number"
             value={value as number || ''}
             onChange={(e) => handleAttributeChange(attribute.attribute_id, parseFloat(e.target.value) || 0)}
-            className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
+            className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent ${
               hasError ? 'border-red-500' : 'border-gray-300'
             }`}
             placeholder={`Enter ${attribute.name}`}
@@ -152,7 +152,7 @@ const AttributesStep: React.FC<AttributesStepProps> = ({
                 name={`attribute_${attribute.attribute_id}`}
                 checked={value === true || value === 'true'}
                 onChange={() => handleAttributeChange(attribute.attribute_id, true)}
-                className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300"
+                className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300"
               />
               <span className="ml-2 text-sm text-gray-700">Yes</span>
             </label>
@@ -162,7 +162,7 @@ const AttributesStep: React.FC<AttributesStepProps> = ({
                 name={`attribute_${attribute.attribute_id}`}
                 checked={value === false || value === 'false' || value === ''}
                 onChange={() => handleAttributeChange(attribute.attribute_id, false)}
-                className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300"
+                className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300"
               />
               <span className="ml-2 text-sm text-gray-700">No</span>
             </label>
@@ -175,7 +175,7 @@ const AttributesStep: React.FC<AttributesStepProps> = ({
             type="text"
             value={value as string || ''}
             onChange={(e) => handleAttributeChange(attribute.attribute_id, e.target.value)}
-            className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent ${
+            className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent ${
               hasError ? 'border-red-500' : 'border-gray-300'
             }`}
             placeholder={`Enter ${attribute.name}`}
@@ -187,7 +187,7 @@ const AttributesStep: React.FC<AttributesStepProps> = ({
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
       </div>
     );
   }
@@ -197,8 +197,8 @@ const AttributesStep: React.FC<AttributesStepProps> = ({
       {/* Header */}
       <div className="text-center">
         <div className="flex justify-center mb-4">
-          <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center">
-            <Settings className="text-orange-500" size={32} />
+          <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center">
+            <Settings className="text-primary-500" size={32} />
           </div>
         </div>
         <h3 className="text-xl font-semibold text-gray-900">Product Attributes</h3>

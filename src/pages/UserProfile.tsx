@@ -70,8 +70,8 @@ const AVATAR_OPTIONS: AvatarOption[] = [
       <svg width="64" height="64" viewBox="0 0 64 64" className="animate-pulse">
         <defs>
           <radialGradient id="grad1" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#ffb347" />
-            <stop offset="100%" stopColor="#ff5e62" />
+            <stop offset="0%" stopColor="#FDB022" />
+            <stop offset="100%" stopColor="#DC6803" />
           </radialGradient>
         </defs>
         <ellipse cx="32" cy="32" rx="28" ry="28" fill="url(#grad1)" />
@@ -107,7 +107,7 @@ const AVATAR_OPTIONS: AvatarOption[] = [
       >
         <polygon
           points="32,8 39,26 58,26 42,38 48,56 32,45 16,56 22,38 6,26 25,26"
-          fill="#facc15"
+          fill="#FDB022"
         />
       </svg>
     ),
@@ -840,7 +840,7 @@ const UserProfile: React.FC = () => {
               <button
                 onClick={handleTriggerFileInput}
                 disabled={isUploading}
-                className="flex-1 flex items-center justify-center gap-2 px-4 py-2 sm:py-3 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 transition-colors disabled:opacity-50"
+                className="flex-1 flex items-center justify-center gap-2 px-4 py-2 sm:py-3 bg-primary-500 text-white font-semibold rounded-lg hover:bg-primary-600 transition-colors disabled:opacity-50"
               >
                 {isUploading ? (
                   <Loader2 className="animate-spin" />
@@ -891,7 +891,7 @@ const UserProfile: React.FC = () => {
             <div className="relative">
               <button
                 onClick={() => setIsImageModalOpen(true)}
-                className="w-24 h-24 rounded-full flex items-center justify-center bg-gray-100 border-4 border-orange-200 shadow-md text-gray-400 text-5xl hover:bg-gray-200 cursor-pointer"
+                className="w-24 h-24 rounded-full flex items-center justify-center bg-gray-100 border-4 border-primary-200 shadow-md text-gray-400 text-5xl hover:bg-gray-200 cursor-pointer"
                 title={
                   userInfo.profile_img
                     ? "View or Update Photo"
@@ -900,7 +900,7 @@ const UserProfile: React.FC = () => {
                 disabled={isUploading}
               >
                 {isUploading ? (
-                  <Loader2 className="w-8 h-8 text-orange-500 animate-spin" />
+                  <Loader2 className="w-8 h-8 text-primary-500 animate-spin" />
                 ) : userInfo.profile_img ? (
                   <img
                     src={userInfo.profile_img}
@@ -953,7 +953,7 @@ const UserProfile: React.FC = () => {
                   Full Name
                 </label>
                 <input
-                  className={`mt-1 block w-full border rounded-md px-3 py-2 shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm ${
+                  className={`mt-1 block w-full border rounded-md px-3 py-2 shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm ${
                     !isEditing
                       ? "bg-gray-100 text-gray-500 cursor-not-allowed"
                       : "border-gray-300"
@@ -986,7 +986,7 @@ const UserProfile: React.FC = () => {
                 </label>
                 <input
                   type="tel"
-                  className={`mt-1 block w-full border rounded-md px-3 py-2 shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm ${
+                  className={`mt-1 block w-full border rounded-md px-3 py-2 shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm ${
                     !isEditing
                       ? "bg-gray-100 text-gray-500 cursor-not-allowed"
                       : "border-gray-300"
@@ -1047,7 +1047,7 @@ const UserProfile: React.FC = () => {
               <button
                 onClick={handleSaveChanges}
                 disabled={isSavingProfile}
-                className="flex items-center justify-center gap-2 px-6 py-2 bg-orange-500 text-white rounded-md font-medium hover:bg-orange-600 transition-colors disabled:opacity-70"
+                className="flex items-center justify-center gap-2 px-6 py-2 bg-primary-500 text-white rounded-md font-medium hover:bg-primary-600 transition-colors disabled:opacity-70"
               >
                 {isSavingProfile ? (
                   <Loader2 className="animate-spin" size={20} />
@@ -1067,7 +1067,7 @@ const UserProfile: React.FC = () => {
           ) : (
             <button
               onClick={handleEditClick}
-              className="bg-orange-500 text-white px-6 py-2 rounded-md font-medium mb-8 ml-6 hover:bg-orange-600 transition-colors flex items-center gap-2"
+              className="bg-primary-500 text-white px-6 py-2 rounded-md font-medium mb-8 ml-6 hover:bg-primary-600 transition-colors flex items-center gap-2"
             >
               <Edit3 size={18} />
               Edit Profile
@@ -1079,14 +1079,14 @@ const UserProfile: React.FC = () => {
             <h2 className="text-lg font-semibold mb-2">Saved Addresses</h2>
             {loadingAddresses ? (
               <div className="flex justify-center py-4">
-                <Loader2 className="animate-spin h-8 w-8 text-orange-500" />
+                <Loader2 className="animate-spin h-8 w-8 text-primary-500" />
               </div>
             ) : addressesError ? (
               <div className="text-red-500 text-center py-4">
                 <p>{addressesError}</p>
                 <button
                   onClick={fetchUserAddresses}
-                  className="mt-2 px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600"
+                  className="mt-2 px-4 py-2 bg-primary-500 text-white rounded hover:bg-primary-600"
                 >
                   Try Again
                 </button>
@@ -1102,18 +1102,18 @@ const UserProfile: React.FC = () => {
                   >
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
-                        <span className="text-sm font-medium capitalize text-orange-600">
+                        <span className="text-sm font-medium capitalize text-primary-600">
                           {address.address_type}
                         </span>
                         {address.is_default_shipping &&
                           address.address_type === "shipping" && (
-                            <span className="text-xs bg-orange-100 text-orange-800 px-2 py-0.5 rounded-full">
+                            <span className="text-xs bg-primary-100 text-primary-800 px-2 py-0.5 rounded-full">
                               Default Shipping
                             </span>
                           )}
                         {address.is_default_billing &&
                           address.address_type === "billing" && (
-                            <span className="text-xs bg-orange-100 text-orange-800 px-2 py-0.5 rounded-full">
+                            <span className="text-xs bg-primary-100 text-primary-800 px-2 py-0.5 rounded-full">
                               Default Billing
                             </span>
                           )}
@@ -1135,7 +1135,7 @@ const UserProfile: React.FC = () => {
                                   "shipping"
                                 )
                               }
-                              className="text-xs text-orange-500 hover:text-orange-600"
+                              className="text-xs text-primary-500 hover:text-primary-600"
                             >
                               Set as default shipping
                             </button>
@@ -1149,7 +1149,7 @@ const UserProfile: React.FC = () => {
                                   "billing"
                                 )
                               }
-                              className="text-xs text-orange-500 hover:text-orange-600"
+                              className="text-xs text-primary-500 hover:text-primary-600"
                             >
                               Set as default billing
                             </button>
@@ -1168,7 +1168,7 @@ const UserProfile: React.FC = () => {
                           setAddressToDelete(address);
                           setDeleteModalOpen(true);
                         }}
-                        className="bg-orange-500 text-white px-3 py-1 rounded-md text-sm font-medium"
+                        className="bg-primary-500 text-white px-3 py-1 rounded-md text-sm font-medium"
                       >
                         Delete
                       </button>
@@ -1179,7 +1179,7 @@ const UserProfile: React.FC = () => {
             )}
             <button
               onClick={() => setShowAddressModal(true)}
-              className="bg-orange-500 text-white px-4 py-2 rounded-md font-medium flex items-center mt-2"
+              className="bg-primary-500 text-white px-4 py-2 rounded-md font-medium flex items-center mt-2"
             >
               <span className="mr-1">+</span> Add New Address
             </button>
@@ -1213,7 +1213,7 @@ const UserProfile: React.FC = () => {
                         <textarea
                           required
                           rows={2}
-                          className="block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-orange-500 focus:border-orange-500 transition"
+                          className="block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-primary-500 focus:border-primary-500 transition"
                           value={newAddress.address_line1}
                           onChange={(e) =>
                             setNewAddress((prev) => ({
@@ -1230,7 +1230,7 @@ const UserProfile: React.FC = () => {
                         </label>
                         <input
                           type="text"
-                          className="block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-orange-500 focus:border-orange-500 transition"
+                          className="block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-primary-500 focus:border-primary-500 transition"
                           value={newAddress.address_line2 || ""}
                           onChange={(e) =>
                             setNewAddress((prev) => ({
@@ -1248,7 +1248,7 @@ const UserProfile: React.FC = () => {
                         <input
                           type="tel"
                           required
-                          className="block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-orange-500 focus:border-orange-500 transition"
+                          className="block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-primary-500 focus:border-primary-500 transition"
                           value={newAddress.contact_phone}
                           onChange={(e) =>
                             setNewAddress((prev) => ({
@@ -1265,7 +1265,7 @@ const UserProfile: React.FC = () => {
                         <input
                           type="text"
                           required
-                          className="block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-orange-500 focus:border-orange-500 transition"
+                          className="block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-primary-500 focus:border-primary-500 transition"
                           value={newAddress.city}
                           onChange={(e) =>
                             setNewAddress((prev) => ({
@@ -1282,7 +1282,7 @@ const UserProfile: React.FC = () => {
                         <input
                           type="text"
                           required
-                          className="block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-orange-500 focus:border-orange-500 transition"
+                          className="block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-primary-500 focus:border-primary-500 transition"
                           value={newAddress.state_province}
                           onChange={(e) =>
                             setNewAddress((prev) => ({
@@ -1298,7 +1298,7 @@ const UserProfile: React.FC = () => {
                         </label>
                         <select
                           required
-                          className="block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-orange-500 focus:border-orange-500 transition"
+                          className="block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-primary-500 focus:border-primary-500 transition"
                           value={newAddress.country_code}
                           onChange={(e) =>
                             setNewAddress((prev) => ({
@@ -1319,7 +1319,7 @@ const UserProfile: React.FC = () => {
                         <input
                           type="text"
                           required
-                          className="block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-orange-500 focus:border-orange-500 transition"
+                          className="block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-primary-500 focus:border-primary-500 transition"
                           value={newAddress.postal_code}
                           onChange={(e) =>
                             setNewAddress((prev) => ({
@@ -1335,7 +1335,7 @@ const UserProfile: React.FC = () => {
                         </label>
                         <input
                           type="text"
-                          className="block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-orange-500 focus:border-orange-500 transition"
+                          className="block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-primary-500 focus:border-primary-500 transition"
                           value={newAddress.landmark}
                           onChange={(e) =>
                             setNewAddress((prev) => ({
@@ -1357,7 +1357,7 @@ const UserProfile: React.FC = () => {
                       </button>
                       <button
                         type="submit"
-                        className="px-4 py-2 bg-orange-500 text-white rounded-lg font-semibold hover:bg-orange-600 transition w-full md:w-auto"
+                        className="px-4 py-2 bg-primary-500 text-white rounded-lg font-semibold hover:bg-primary-600 transition w-full md:w-auto"
                       >
                         Save Address
                       </button>
@@ -1371,14 +1371,14 @@ const UserProfile: React.FC = () => {
             <h2 className="text-lg font-semibold mb-2">Payment Methods</h2>
             {loadingPayments ? (
               <div className="flex justify-center py-4">
-                <Loader2 className="animate-spin h-8 w-8 text-orange-500" />
+                <Loader2 className="animate-spin h-8 w-8 text-primary-500" />
               </div>
             ) : paymentsError ? (
               <div className="text-red-500 text-center py-4">
                 <p>{paymentsError}</p>
                 <button
                   onClick={fetchPaymentMethods}
-                  className="mt-2 px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600"
+                  className="mt-2 px-4 py-2 bg-primary-500 text-white rounded hover:bg-primary-600"
                 >
                   Try Again
                 </button>
@@ -1403,7 +1403,7 @@ const UserProfile: React.FC = () => {
                           ending in {method.last_four_digits}
                         </span>
                         {method.is_default && (
-                          <span className="text-xs bg-orange-100 text-orange-800 px-2 py-0.5 rounded-full">
+                          <span className="text-xs bg-primary-100 text-primary-800 px-2 py-0.5 rounded-full">
                             Default
                           </span>
                         )}
@@ -1425,7 +1425,7 @@ const UserProfile: React.FC = () => {
                           onClick={() =>
                             handleSetDefaultPaymentMethod(method.card_id)
                           }
-                          className="text-xs text-orange-500 hover:text-orange-600"
+                          className="text-xs text-primary-500 hover:text-primary-600"
                         >
                           Set as default
                         </button>
@@ -1455,7 +1455,7 @@ const UserProfile: React.FC = () => {
                         onClick={() =>
                           handleDeletePaymentMethod(method.card_id)
                         }
-                        className="bg-orange-500 text-white px-3 py-1 rounded-md text-sm font-medium hover:bg-orange-600" // Changed to red for delete
+                        className="bg-primary-500 text-white px-3 py-1 rounded-md text-sm font-medium hover:bg-primary-600" // Changed to red for delete
                       >
                         Delete
                       </button>
@@ -1479,7 +1479,7 @@ const UserProfile: React.FC = () => {
                 });
                 setShowPaymentModal(true);
               }}
-              className="bg-orange-500 text-white px-4 py-2 rounded-md font-medium flex items-center mt-2"
+              className="bg-primary-500 text-white px-4 py-2 rounded-md font-medium flex items-center mt-2"
             >
               <span className="mr-1">+</span> Add New Card
             </button>
@@ -1523,7 +1523,7 @@ const UserProfile: React.FC = () => {
                           Card Type
                         </label>
                         <select
-                          className="block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-orange-500 focus:border-orange-500 transition"
+                          className="block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-primary-500 focus:border-primary-500 transition"
                           value={newPaymentCardDetails.card_type}
                           onChange={(e) =>
                             setNewPaymentCardDetails((prev) => ({
@@ -1545,7 +1545,7 @@ const UserProfile: React.FC = () => {
                           type="text"
                           required
                           maxLength={19}
-                          className="block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-orange-500 focus:border-orange-500 transition"
+                          className="block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-primary-500 focus:border-primary-500 transition"
                           value={newPaymentCardDetails.card_number}
                           onChange={(e) =>
                             setNewPaymentCardDetails((prev) => ({
@@ -1563,7 +1563,7 @@ const UserProfile: React.FC = () => {
                         <input
                           type="text"
                           required
-                          className="block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-orange-500 focus:border-orange-500 transition"
+                          className="block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-primary-500 focus:border-primary-500 transition"
                           value={newPaymentCardDetails.card_holder_name}
                           onChange={(e) =>
                             setNewPaymentCardDetails((prev) => ({
@@ -1584,7 +1584,7 @@ const UserProfile: React.FC = () => {
                             required
                             maxLength={2}
                             pattern="^(0[1-9]|1[0-2])$"
-                            className="block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-orange-500 focus:border-orange-500 transition"
+                            className="block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-primary-500 focus:border-primary-500 transition"
                             value={newPaymentCardDetails.expiry_month}
                             onChange={(e) =>
                               setNewPaymentCardDetails((prev) => ({
@@ -1604,7 +1604,7 @@ const UserProfile: React.FC = () => {
                             required
                             maxLength={4}
                             pattern="^\d{4}$"
-                            className="block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-orange-500 focus:border-orange-500 transition"
+                            className="block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-primary-500 focus:border-primary-500 transition"
                             value={newPaymentCardDetails.expiry_year}
                             onChange={(e) =>
                               setNewPaymentCardDetails((prev) => ({
@@ -1625,7 +1625,7 @@ const UserProfile: React.FC = () => {
                           required
                           maxLength={4}
                           pattern="^\d{3,4}$"
-                          className="block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-orange-500 focus:border-orange-500 transition"
+                          className="block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-primary-500 focus:border-primary-500 transition"
                           value={newPaymentCardDetails.cvv}
                           onChange={(e) =>
                             setNewPaymentCardDetails((prev) => ({
@@ -1640,7 +1640,7 @@ const UserProfile: React.FC = () => {
                         <input
                           type="checkbox"
                           id="default-payment"
-                          className="h-4 w-4 text-orange-500 focus:ring-orange-500 border-gray-300 rounded"
+                          className="h-4 w-4 text-primary-500 focus:ring-primary-500 border-gray-300 rounded"
                           checked={newPaymentCardDetails.is_default}
                           onChange={(e) =>
                             setNewPaymentCardDetails((prev) => ({
@@ -1680,7 +1680,7 @@ const UserProfile: React.FC = () => {
                       </button>
                       <button
                         type="submit"
-                        className="px-4 py-2 bg-orange-500 text-white rounded-lg font-semibold hover:bg-orange-600 transition w-full md:w-auto"
+                        className="px-4 py-2 bg-primary-500 text-white rounded-lg font-semibold hover:bg-primary-600 transition w-full md:w-auto"
                       >
                         {editingPaymentMethod
                           ? "Update Payment Method"
@@ -1749,7 +1749,7 @@ const UserProfile: React.FC = () => {
                   <div className="relative mt-1">
                     <input
                       type={showCurrentPassword ? "text" : "password"}
-                      className="block w-full border border-gray-300 rounded-md px-3 py-2 pr-10 shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                      className="block w-full border border-gray-300 rounded-md px-3 py-2 pr-10 shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
                       placeholder="Current Password"
                       value={currentPassword}
                       onChange={(e) => setCurrentPassword(e.target.value)}
@@ -1775,7 +1775,7 @@ const UserProfile: React.FC = () => {
                   <div className="relative mt-1">
                     <input
                       type={showNewPassword ? "text" : "password"}
-                      className="block w-full border border-gray-300 rounded-md px-3 py-2 pr-10 shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                      className="block w-full border border-gray-300 rounded-md px-3 py-2 pr-10 shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
                       placeholder="8+ characters"
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
@@ -1801,7 +1801,7 @@ const UserProfile: React.FC = () => {
                   <div className="relative mt-1">
                     <input
                       type={showConfirmPassword ? "text" : "password"}
-                      className="block w-full border border-gray-300 rounded-md px-3 py-2 pr-10 shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                      className="block w-full border border-gray-300 rounded-md px-3 py-2 pr-10 shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
                       placeholder="Confirm New Password"
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
@@ -1823,7 +1823,7 @@ const UserProfile: React.FC = () => {
                 <button
                   type="submit"
                   disabled={isChangingPassword}
-                  className="w-full flex items-center justify-center gap-2 px-6 py-2 bg-orange-500 text-white rounded-md font-medium hover:bg-orange-600 transition-colors disabled:opacity-70"
+                  className="w-full flex items-center justify-center gap-2 px-6 py-2 bg-primary-500 text-white rounded-md font-medium hover:bg-primary-600 transition-colors disabled:opacity-70"
                 >
                   {isChangingPassword ? (
                     <Loader2 className="animate-spin" size={20} />
@@ -1894,7 +1894,7 @@ const UserProfile: React.FC = () => {
                   <textarea
                     required
                     rows={2}
-                    className="block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-orange-500 focus:border-orange-500 transition"
+                    className="block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-primary-500 focus:border-primary-500 transition"
                     value={editingAddress.address_line1}
                     onChange={(e) => {
                       setEditingAddress((prev) =>
@@ -1910,7 +1910,7 @@ const UserProfile: React.FC = () => {
                   </label>
                   <input
                     type="text"
-                    className="block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-orange-500 focus:border-orange-500 transition"
+                    className="block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-primary-500 focus:border-primary-500 transition"
                     value={editingAddress.address_line2 || ""}
                     onChange={(e) =>
                       setEditingAddress((prev) =>
@@ -1927,7 +1927,7 @@ const UserProfile: React.FC = () => {
                   <input
                     type="tel"
                     required
-                    className="block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-orange-500 focus:border-orange-500 transition"
+                    className="block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-primary-500 focus:border-primary-500 transition"
                     value={editingAddress.contact_phone}
                     onChange={(e) =>
                       setEditingAddress((prev) =>
@@ -1943,7 +1943,7 @@ const UserProfile: React.FC = () => {
                   <input
                     type="text"
                     required
-                    className="block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-orange-500 focus:border-orange-500 transition"
+                    className="block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-primary-500 focus:border-primary-500 transition"
                     value={editingAddress.city}
                     onChange={(e) =>
                       setEditingAddress((prev) =>
@@ -1959,7 +1959,7 @@ const UserProfile: React.FC = () => {
                   <input
                     type="text"
                     required
-                    className="block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-orange-500 focus:border-orange-500 transition"
+                    className="block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-primary-500 focus:border-primary-500 transition"
                     value={editingAddress.state_province}
                     onChange={(e) =>
                       setEditingAddress((prev) =>
@@ -1976,7 +1976,7 @@ const UserProfile: React.FC = () => {
                   </label>
                   <select
                     required
-                    className="block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-orange-500 focus:border-orange-500 transition"
+                    className="block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-primary-500 focus:border-primary-500 transition"
                     value={editingAddress.country_code}
                     onChange={(e) =>
                       setEditingAddress((prev) =>
@@ -1996,7 +1996,7 @@ const UserProfile: React.FC = () => {
                   <input
                     type="text"
                     required
-                    className="block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-orange-500 focus:border-orange-500 transition"
+                    className="block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-primary-500 focus:border-primary-500 transition"
                     value={editingAddress.postal_code}
                     onChange={(e) =>
                       setEditingAddress((prev) =>
@@ -2011,7 +2011,7 @@ const UserProfile: React.FC = () => {
                   </label>
                   <input
                     type="text"
-                    className="block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-orange-500 focus:border-orange-500 transition"
+                    className="block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-primary-500 focus:border-primary-500 transition"
                     value={editingAddress.landmark || ""}
                     onChange={(e) =>
                       setEditingAddress((prev) =>
@@ -2029,7 +2029,7 @@ const UserProfile: React.FC = () => {
                     <label className="inline-flex items-center">
                       <input
                         type="radio"
-                        className="form-radio text-orange-500"
+                        className="form-radio text-primary-500"
                         checked={editingAddress.address_type === "shipping"}
                         onChange={() =>
                           setEditingAddress((prev) =>
@@ -2048,7 +2048,7 @@ const UserProfile: React.FC = () => {
                     <label className="inline-flex items-center">
                       <input
                         type="radio"
-                        className="form-radio text-orange-500"
+                        className="form-radio text-primary-500"
                         checked={editingAddress.address_type === "billing"}
                         onChange={() =>
                           setEditingAddress((prev) =>
@@ -2071,7 +2071,7 @@ const UserProfile: React.FC = () => {
                     <label className="inline-flex items-center">
                       <input
                         type="checkbox"
-                        className="form-checkbox text-orange-500"
+                        className="form-checkbox text-primary-500"
                         checked={editingAddress.is_default_shipping}
                         onChange={(e) => {
                           if (e.target.checked) {
@@ -2103,7 +2103,7 @@ const UserProfile: React.FC = () => {
                     <label className="inline-flex items-center">
                       <input
                         type="checkbox"
-                        className="form-checkbox text-orange-500"
+                        className="form-checkbox text-primary-500"
                         checked={editingAddress.is_default_billing}
                         onChange={(e) => {
                           if (e.target.checked) {
@@ -2144,7 +2144,7 @@ const UserProfile: React.FC = () => {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-orange-500 text-white rounded-lg font-semibold hover:bg-orange-600 transition w-full md:w-auto"
+                  className="px-4 py-2 bg-primary-500 text-white rounded-lg font-semibold hover:bg-primary-600 transition w-full md:w-auto"
                 >
                   Save Changes
                 </button>
@@ -2171,8 +2171,8 @@ const UserProfile: React.FC = () => {
         confirmText="Delete"
         cancelText="Cancel"
         icon={
-          <span className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-orange-100 mb-2">
-            <Trash2 className="w-8 h-8 text-orange-500" />
+          <span className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-primary-100 mb-2">
+            <Trash2 className="w-8 h-8 text-primary-500" />
           </span>
         }
       />

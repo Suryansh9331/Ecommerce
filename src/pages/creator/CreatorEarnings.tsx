@@ -24,7 +24,7 @@ function fmtDate(d: Date) {
 function chip(status: RowStatus) {
   if (status === 'paid') return <StatusChip label="Paid" tone="success" dotClassName="bg-emerald-400" />;
   if (status === 'available') return <StatusChip label="Available" tone="info" dotClassName="bg-blue-400" />;
-  return <StatusChip label="Pending" tone="warning" dotClassName="bg-orange-400" />;
+  return <StatusChip label="Pending" tone="warning" dotClassName="bg-primary-400" />;
 }
 
 const CreatorEarnings: React.FC = () => {
@@ -52,8 +52,8 @@ const CreatorEarnings: React.FC = () => {
     <div className="max-w-5xl mx-auto space-y-5">
       <div className="flex items-start justify-between gap-4 flex-wrap">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-[#FFF5F0] flex items-center justify-center">
-            <Wallet className="w-5 h-5 text-[#FF4D00]" />
+          <div className="w-10 h-10 rounded-2xl bg-primary-50 flex items-center justify-center">
+            <Wallet className="w-5 h-5 text-primary-600" />
           </div>
           <div>
             <h1 className="text-[24px] font-extrabold text-gray-900 leading-tight">Earnings</h1>
@@ -64,7 +64,7 @@ const CreatorEarnings: React.FC = () => {
           {payoutReady ? (
             <StatusChip label="Payouts ready" tone="success" dotClassName="bg-emerald-400" />
           ) : (
-            <StatusChip label="Complete payout setup" tone="warning" dotClassName="bg-orange-400" />
+            <StatusChip label="Complete payout setup" tone="warning" dotClassName="bg-primary-400" />
           )}
           <Link
             to="/creator/payouts"
@@ -85,7 +85,7 @@ const CreatorEarnings: React.FC = () => {
           <div key={c.k} className="rounded-3xl bg-white border border-gray-100/80 shadow-sm p-5">
             <div className="flex items-center justify-between">
               <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest">{c.k}</p>
-              <span>{c.tone === 'info' ? <Banknote className="w-4 h-4 text-blue-500" /> : c.tone === 'warning' ? <Banknote className="w-4 h-4 text-orange-500" /> : <Banknote className="w-4 h-4 text-emerald-600" />}</span>
+              <span>{c.tone === 'info' ? <Banknote className="w-4 h-4 text-blue-500" /> : c.tone === 'warning' ? <Banknote className="w-4 h-4 text-primary-500" /> : <Banknote className="w-4 h-4 text-emerald-600" />}</span>
             </div>
             <p className="text-[28px] font-extrabold text-gray-900 tabular-nums mt-3">₹{c.v.toLocaleString('en-IN')}</p>
             <p className="text-[12px] text-gray-500 mt-1">{c.sub}</p>
@@ -100,7 +100,7 @@ const CreatorEarnings: React.FC = () => {
             <p className="text-[14px] font-extrabold text-gray-900">Campaign earnings</p>
             <p className="text-[11px] text-gray-400 mt-0.5">Click a row for breakdown</p>
           </div>
-          <Link to="/creator/deals?tab=completed" className="text-[12px] font-bold text-[#FF4D00] hover:underline">
+          <Link to="/creator/deals?tab=completed" className="text-[12px] font-bold text-primary-600 hover:underline">
             Completed deals <ChevronRight className="w-4 h-4 inline-block" />
           </Link>
         </div>

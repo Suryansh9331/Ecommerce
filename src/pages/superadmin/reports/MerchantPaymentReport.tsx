@@ -479,7 +479,7 @@ const MerchantPaymentReport: React.FC = () => {
       <div className="p-4 sm:p-6 lg:p-8 max-w-[1600px] mx-auto">
         <div className="flex items-center justify-center h-64">
           <div className="text-center">
-            <div className="w-8 h-8 border-4 border-orange-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <div className="w-8 h-8 border-4 border-primary-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
             <p className="text-gray-600">Loading merchant payment data...</p>
           </div>
         </div>
@@ -490,7 +490,7 @@ const MerchantPaymentReport: React.FC = () => {
   return (
     <div className="p-4 sm:p-6 lg:p-8 max-w-[1600px] mx-auto">
       <div className="mb-6 sm:mb-8">
-        <h1 className="text-2xl sm:text-3xl font-bold text-orange-600 mb-2 sm:mb-3">
+        <h1 className="text-2xl sm:text-3xl font-bold text-primary-600 mb-2 sm:mb-3">
           Merchant Payment Report
         </h1>
         <p className="text-sm sm:text-base text-gray-600">
@@ -520,7 +520,7 @@ const MerchantPaymentReport: React.FC = () => {
           <button
             onClick={() => setIsModalOpen(true)}
             disabled={eligiblePayments.merchantCount === 0}
-            className="w-full sm:w-auto px-4 sm:px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl hover:from-orange-600 hover:to-orange-700 transition-colors shadow-lg hover:shadow-xl flex items-center justify-center gap-2 font-medium text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full sm:w-auto px-4 sm:px-6 py-3 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-xl hover:from-primary-600 hover:to-primary-700 transition-colors shadow-lg hover:shadow-xl flex items-center justify-center gap-2 font-medium text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <FaMoneyBillWave className="text-xl" />
             <span>Transfer Eligible Payments</span>

@@ -477,7 +477,7 @@ const Settings: React.FC = () => {
   if (isLoading) {
     return (
       <div className="min-h-screen flex justify-center items-center bg-gray-50">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#FF4D00]"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-600"></div>
       </div>
     );
   }
@@ -501,7 +501,7 @@ const Settings: React.FC = () => {
                 onClick={() => setActiveTab('account')}
                 className={`${
                   activeTab === 'account'
-                    ? 'border-[#FF4D00] text-[#FF4D00]'
+                    ? 'border-primary-600 text-primary-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`}
               >
@@ -511,7 +511,7 @@ const Settings: React.FC = () => {
                 onClick={() => setActiveTab('profile')}
                 className={`${
                   activeTab === 'profile'
-                    ? 'border-[#FF4D00] text-[#FF4D00]'
+                    ? 'border-primary-600 text-primary-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`}
               >
@@ -538,7 +538,7 @@ const Settings: React.FC = () => {
                         name="email"
                         value={accountData.email}
                         onChange={handleAccountChange}
-                        className="block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 focus:outline-none focus:ring-[#FF4D00] focus:border-[#FF4D00]"
+                        className="block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 focus:outline-none focus:ring-primary-600 focus:border-primary-600"
                       />
                     </div>
 
@@ -550,7 +550,7 @@ const Settings: React.FC = () => {
                         name="phone"
                         value={accountData.phone}
                         onChange={handleAccountChange}
-                        className="block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 focus:outline-none focus:ring-[#FF4D00] focus:border-[#FF4D00]"
+                        className="block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 focus:outline-none focus:ring-primary-600 focus:border-primary-600"
                       />
                     </div>
 
@@ -558,7 +558,7 @@ const Settings: React.FC = () => {
                       <button
                         type="submit"
                         disabled={isSaving}
-                        className="w-full sm:w-auto inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#FF4D00] hover:bg-[#FF6B00] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FF4D00] disabled:opacity-50"
+                        className="w-full sm:w-auto inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-600 disabled:opacity-50"
                       >
                         {isSaving ? 'Saving...' : 'Save Account Details'}
                       </button>
@@ -580,7 +580,7 @@ const Settings: React.FC = () => {
                           name="account_name"
                           value={bankAccountData.account_name}
                           onChange={handleBankAccountChange}
-                          className="block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 focus:outline-none focus:ring-[#FF4D00] focus:border-[#FF4D00]"
+                          className="block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 focus:outline-none focus:ring-primary-600 focus:border-primary-600"
                         />
                       </div>
                       <div>
@@ -590,7 +590,7 @@ const Settings: React.FC = () => {
                           name="account_number"
                           value={bankAccountData.account_number}
                           onChange={handleBankAccountChange}
-                          className="block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 focus:outline-none focus:ring-[#FF4D00] focus:border-[#FF4D00]"
+                          className="block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 focus:outline-none focus:ring-primary-600 focus:border-primary-600"
                         />
                       </div>
                     </div>
@@ -603,7 +603,7 @@ const Settings: React.FC = () => {
                           name="ifsc_code"
                           value={bankAccountData.ifsc_code}
                           onChange={handleBankAccountChange}
-                          className="block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 focus:outline-none focus:ring-[#FF4D00] focus:border-[#FF4D00]"
+                          className="block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 focus:outline-none focus:ring-primary-600 focus:border-primary-600"
                         />
                       </div>
                       <div>
@@ -613,7 +613,7 @@ const Settings: React.FC = () => {
                           name="bank_name"
                           value={bankAccountData.bank_name}
                           onChange={handleBankAccountChange}
-                          className="block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 focus:outline-none focus:ring-[#FF4D00] focus:border-[#FF4D00]"
+                          className="block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 focus:outline-none focus:ring-primary-600 focus:border-primary-600"
                         />
                       </div>
                     </div>
@@ -625,7 +625,7 @@ const Settings: React.FC = () => {
                         name="branch_name"
                         value={bankAccountData.branch_name}
                         onChange={handleBankAccountChange}
-                        className="block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 focus:outline-none focus:ring-[#FF4D00] focus:border-[#FF4D00]"
+                        className="block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 focus:outline-none focus:ring-primary-600 focus:border-primary-600"
                       />
                     </div>
 
@@ -633,7 +633,7 @@ const Settings: React.FC = () => {
                       <button
                         type="submit"
                         disabled={isSaving}
-                        className="w-full sm:w-auto inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#FF4D00] hover:bg-[#FF6B00] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FF4D00] disabled:opacity-50"
+                        className="w-full sm:w-auto inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-600 disabled:opacity-50"
                       >
                         {isSaving ? 'Saving...' : 'Save Bank Details'}
                       </button>
@@ -655,7 +655,7 @@ const Settings: React.FC = () => {
                           name="current_password"
                           value={passwordData.current_password}
                           onChange={handlePasswordChange}
-                          className="block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 pr-10 focus:outline-none focus:ring-[#FF4D00] focus:border-[#FF4D00]"
+                          className="block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 pr-10 focus:outline-none focus:ring-primary-600 focus:border-primary-600"
                         />
                         <button
                           type="button"
@@ -675,7 +675,7 @@ const Settings: React.FC = () => {
                           name="new_password"
                           value={passwordData.new_password}
                           onChange={handlePasswordChange}
-                          className="block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 pr-10 focus:outline-none focus:ring-[#FF4D00] focus:border-[#FF4D00]"
+                          className="block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 pr-10 focus:outline-none focus:ring-primary-600 focus:border-primary-600"
                         />
                         <button
                           type="button"
@@ -695,7 +695,7 @@ const Settings: React.FC = () => {
                           name="confirm_password"
                           value={passwordData.confirm_password}
                           onChange={handlePasswordChange}
-                          className="block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 pr-10 focus:outline-none focus:ring-[#FF4D00] focus:border-[#FF4D00]"
+                          className="block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 pr-10 focus:outline-none focus:ring-primary-600 focus:border-primary-600"
                         />
                         <button
                           type="button"
@@ -711,7 +711,7 @@ const Settings: React.FC = () => {
                       <button
                         type="submit"
                         disabled={isChangingPassword}
-                        className="w-full sm:w-auto inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#FF4D00] hover:bg-[#FF6B00] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FF4D00] disabled:opacity-50"
+                        className="w-full sm:w-auto inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-600 disabled:opacity-50"
                       >
                         {isChangingPassword ? 'Changing Password...' : 'Change Password'}
                       </button>
@@ -728,7 +728,7 @@ const Settings: React.FC = () => {
                     hours to cancel. After that, your login will be disabled, your products and reels will no longer
                     appear on AOIN, and your storefront will be hidden. Some records may be retained where the law
                     requires (for example tax and orders). See our{' '}
-                    <a href="/privacy-policy" className="text-[#FF4D00] underline" target="_blank" rel="noopener noreferrer">
+                    <a href="/privacy-policy" className="text-primary-600 underline" target="_blank" rel="noopener noreferrer">
                       privacy policy
                     </a>
                     .
@@ -835,7 +835,7 @@ const Settings: React.FC = () => {
                         name="first_name"
                         value={profileData.first_name}
                         onChange={handleProfileChange}
-                        className="block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 focus:outline-none focus:ring-[#FF4D00] focus:border-[#FF4D00]"
+                        className="block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 focus:outline-none focus:ring-primary-600 focus:border-primary-600"
                       />
                     </div>
                     <div>
@@ -845,7 +845,7 @@ const Settings: React.FC = () => {
                         name="last_name"
                         value={profileData.last_name}
                         onChange={handleProfileChange}
-                        className="block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 focus:outline-none focus:ring-[#FF4D00] focus:border-[#FF4D00]"
+                        className="block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 focus:outline-none focus:ring-primary-600 focus:border-primary-600"
                       />
                     </div>
                   </div>
@@ -857,7 +857,7 @@ const Settings: React.FC = () => {
                       name="business_name"
                       value={profileData.business_name}
                       onChange={handleProfileChange}
-                      className="block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 focus:outline-none focus:ring-[#FF4D00] focus:border-[#FF4D00]"
+                      className="block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 focus:outline-none focus:ring-primary-600 focus:border-primary-600"
                     />
                   </div>
 
@@ -865,7 +865,7 @@ const Settings: React.FC = () => {
                     <button
                       type="submit"
                       disabled={isSaving}
-                      className="w-full sm:w-auto inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#FF4D00] hover:bg-[#FF6B00] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FF4D00] disabled:opacity-50"
+                      className="w-full sm:w-auto inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-600 disabled:opacity-50"
                     >
                       {isSaving ? 'Saving...' : 'Save Profile'}
                     </button>

@@ -231,8 +231,8 @@ const MediaStep: React.FC<MediaStepProps> = ({ data, onChange }) => {
       {/* Header */}
       <div className="text-center">
         <div className="flex justify-center mb-4">
-          <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center">
-            <ImageIcon className="text-orange-500" size={32} />
+          <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center">
+            <ImageIcon className="text-primary-500" size={32} />
           </div>
         </div>
         <h3 className="text-xl font-semibold text-gray-900">Product Media</h3>
@@ -276,8 +276,8 @@ const MediaStep: React.FC<MediaStepProps> = ({ data, onChange }) => {
         <div
           className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
             dragOver
-              ? 'border-orange-500 bg-orange-50'
-              : 'border-gray-300 hover:border-orange-400'
+              ? 'border-primary-500 bg-primary-50'
+              : 'border-gray-300 hover:border-primary-400'
           }`}
           onDrop={handleDrop}
           onDragOver={(e) => {
@@ -304,7 +304,7 @@ const MediaStep: React.FC<MediaStepProps> = ({ data, onChange }) => {
           />
           <label
             htmlFor="file-upload"
-            className="inline-flex items-center px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg cursor-pointer"
+            className="inline-flex items-center px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white rounded-lg cursor-pointer"
           >
             <Upload size={16} className="mr-2" />
             Browse Files
@@ -343,12 +343,12 @@ const MediaStep: React.FC<MediaStepProps> = ({ data, onChange }) => {
                   {/* Upload Progress Overlay */}
                   {item.isUploading && (
                     <div className="absolute inset-0 bg-black bg-opacity-75 flex flex-col items-center justify-center">
-                      <div className="w-8 h-8 border-4 border-orange-500 border-t-transparent rounded-full animate-spin mb-2"></div>
+                      <div className="w-8 h-8 border-4 border-primary-500 border-t-transparent rounded-full animate-spin mb-2"></div>
                       <span className="text-white text-sm">Uploading...</span>
                       {uploadProgress.find(p => p.fileName === item.file?.name)?.progress && (
                         <div className="w-20 h-2 bg-gray-300 rounded-full mt-2 overflow-hidden">
                           <div 
-                            className="h-full bg-orange-500 transition-all duration-300"
+                            className="h-full bg-primary-500 transition-all duration-300"
                             style={{ 
                               width: `${uploadProgress.find(p => p.fileName === item.file?.name)?.progress || 0}%` 
                             }}
@@ -361,7 +361,7 @@ const MediaStep: React.FC<MediaStepProps> = ({ data, onChange }) => {
                 
                 {/* Primary Image Badge */}
                 {item.is_primary && (
-                  <div className="absolute top-2 left-2 bg-orange-500 text-white text-xs px-2 py-1 rounded">
+                  <div className="absolute top-2 left-2 bg-primary-500 text-white text-xs px-2 py-1 rounded">
                     Primary
                   </div>
                 )}
@@ -406,7 +406,7 @@ const MediaStep: React.FC<MediaStepProps> = ({ data, onChange }) => {
                     <p>{(item.file.size / 1024 / 1024).toFixed(1)} MB</p>
                   )}
                   {item.isUploading && (
-                    <p className="text-orange-500">Uploading...</p>
+                    <p className="text-primary-500">Uploading...</p>
                   )}
                 </div>
               </div>

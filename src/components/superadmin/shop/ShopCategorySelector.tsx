@@ -89,7 +89,7 @@ const ShopCategorySelector: React.FC<ShopCategorySelectorProps> = ({
         <div className="relative">
           <div className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 flex items-center justify-center min-h-[42px]">
             <div className="flex items-center space-x-2">
-              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-orange-600"></div>
+              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary-600"></div>
               <span className="text-sm text-gray-600 dark:text-gray-400">Loading categories...</span>
             </div>
           </div>
@@ -140,7 +140,7 @@ const ShopCategorySelector: React.FC<ShopCategorySelectorProps> = ({
           className={`w-full px-3 py-2 border rounded-md transition-colors duration-200 ${
             disabled || categories.length === 0
               ? "bg-gray-50 dark:bg-gray-800 text-gray-500 dark:text-gray-400 border-gray-200 dark:border-gray-700 cursor-not-allowed"
-              : "bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 dark:focus:ring-orange-400 focus:border-transparent"
+              : "bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent"
           }`}
           required
         >

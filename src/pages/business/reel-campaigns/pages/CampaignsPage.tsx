@@ -219,7 +219,7 @@ const CampaignsPage: React.FC = () => {
         <button
           type="button"
           onClick={startCreate}
-          className="px-4 py-2 rounded-md bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700"
+          className="px-4 py-2 rounded-md bg-primary-600 text-white text-sm font-semibold hover:bg-primary-700"
         >
           Create campaign
         </button>
@@ -231,12 +231,12 @@ const CampaignsPage: React.FC = () => {
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Search by code, product, creator…"
-            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 text-sm"
+            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 text-sm"
           />
           <select
             value={status}
             onChange={(e) => setStatus(e.target.value as any)}
-            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 text-sm"
+            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 text-sm"
           >
             <option value="all">All statuses</option>
             {(['Draft', 'Sent', 'Accepted', 'Active', 'Submitted', 'Approved', 'Live', 'Completed', 'Rejected', 'Cancelled', 'Expired'] as const).map(
@@ -262,7 +262,7 @@ const CampaignsPage: React.FC = () => {
             <button
               type="button"
               onClick={startCreate}
-              className="mt-4 px-4 py-2 rounded-md bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700"
+              className="mt-4 px-4 py-2 rounded-md bg-primary-600 text-white text-sm font-semibold hover:bg-primary-700"
             >
               Create campaign
             </button>
@@ -281,8 +281,8 @@ const CampaignsPage: React.FC = () => {
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {filtered.map((c) => (
-                  <tr key={c.id} onClick={() => openCampaignInUrl(c.id)} className="hover:bg-orange-50 cursor-pointer">
-                    <td className="px-4 py-3 text-sm font-semibold text-orange-700 whitespace-nowrap">{c.code}</td>
+                  <tr key={c.id} onClick={() => openCampaignInUrl(c.id)} className="hover:bg-primary-50 cursor-pointer">
+                    <td className="px-4 py-3 text-sm font-semibold text-primary-700 whitespace-nowrap">{c.code}</td>
                     <td className="px-4 py-3 text-sm text-gray-900 min-w-[240px]">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-md bg-gray-100 overflow-hidden shrink-0">
@@ -454,7 +454,7 @@ const CampaignsPage: React.FC = () => {
                           type="button"
                           onClick={() => setSelectedProductId(p.id)}
                           className={`text-left rounded-lg border p-4 transition-colors ${
-                            active ? 'border-orange-500 bg-orange-50' : 'border-gray-200 hover:bg-gray-50'
+                            active ? 'border-primary-500 bg-primary-50' : 'border-gray-200 hover:bg-gray-50'
                           }`}
                         >
                           <p className="text-sm font-semibold text-gray-900">{p.name}</p>
@@ -480,7 +480,7 @@ const CampaignsPage: React.FC = () => {
                           type="button"
                           onClick={() => setSelectedCreatorId(c.id)}
                           className={`text-left rounded-lg border p-4 transition-colors ${
-                            active ? 'border-orange-500 bg-orange-50' : 'border-gray-200 hover:bg-gray-50'
+                            active ? 'border-primary-500 bg-primary-50' : 'border-gray-200 hover:bg-gray-50'
                           }`}
                         >
                           <p className="text-sm font-semibold text-gray-900">{c.name}</p>
@@ -504,7 +504,7 @@ const CampaignsPage: React.FC = () => {
                       <select
                         value={commissionType}
                         onChange={(e) => setCommissionType(e.target.value as CommissionType)}
-                        className="block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 text-sm"
+                        className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 text-sm"
                       >
                         <option value="percent_capped">Percent capped</option>
                         <option value="percent_unlimited">Percent unlimited</option>
@@ -516,7 +516,7 @@ const CampaignsPage: React.FC = () => {
                         type="number"
                         value={commissionPercent}
                         onChange={(e) => setCommissionPercent(Number(e.target.value))}
-                        className="block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 text-sm"
+                        className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 text-sm"
                         min={1}
                         max={100}
                       />
@@ -528,7 +528,7 @@ const CampaignsPage: React.FC = () => {
                           type="number"
                           value={capQuantity}
                           onChange={(e) => setCapQuantity(Number(e.target.value))}
-                          className="block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 text-sm"
+                          className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 text-sm"
                           min={1}
                         />
                       </div>
@@ -539,7 +539,7 @@ const CampaignsPage: React.FC = () => {
                         type="date"
                         value={windowEnd}
                         onChange={(e) => setWindowEnd(e.target.value)}
-                        className="block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 text-sm"
+                        className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 text-sm"
                       />
                     </div>
                   </div>
@@ -558,7 +558,7 @@ const CampaignsPage: React.FC = () => {
                     value={brief}
                     onChange={(e) => setBrief(e.target.value)}
                     rows={6}
-                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 text-sm"
+                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 text-sm"
                     placeholder="What should the creator say/show? CTA? Do/Don't?"
                   />
                   {!canContinueStep4 && (
@@ -609,7 +609,7 @@ const CampaignsPage: React.FC = () => {
                       (createStep === 3 && !canContinueStep3) ||
                       (createStep === 4 && !canContinueStep4)
                     }
-                    className="px-4 py-2 rounded-md bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700 disabled:opacity-50"
+                    className="px-4 py-2 rounded-md bg-primary-600 text-white text-sm font-semibold hover:bg-primary-700 disabled:opacity-50"
                   >
                     Continue
                   </button>
@@ -618,7 +618,7 @@ const CampaignsPage: React.FC = () => {
                     type="button"
                     onClick={() => setConfirmSend(true)}
                     disabled={!canSend || isSendingOffer}
-                    className="px-4 py-2 rounded-md bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700 disabled:opacity-50"
+                    className="px-4 py-2 rounded-md bg-primary-600 text-white text-sm font-semibold hover:bg-primary-700 disabled:opacity-50"
                   >
                     Send offer
                   </button>

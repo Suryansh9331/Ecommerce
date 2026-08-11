@@ -151,7 +151,7 @@ function deadlineLabel(date: Date) {
   if (ms <= 0)    return { text: 'Expired', hot: true, color: 'text-red-500' };
   if (hrs < 24)   return { text: `${hrs}h left`, hot: true, color: 'text-red-500' };
   const days = Math.ceil(hrs / 24);
-  if (days <= 3)  return { text: `${days}d left`, hot: true, color: 'text-orange-500' };
+  if (days <= 3)  return { text: `${days}d left`, hot: true, color: 'text-primary-500' };
   return            { text: `${days} days left`, hot: false, color: 'text-gray-500' };
 }
 
@@ -168,7 +168,7 @@ function timeSince(d?: Date) {
 }
 
 const REEL_STATUS: Record<ReelStatus, { label: string; dot: string; desc: string }> = {
-  upload_pending:    { label: 'Upload Pending',    dot: 'bg-orange-400', desc: 'Your reel hasn\'t been submitted yet.' },
+  upload_pending:    { label: 'Upload Pending',    dot: 'bg-primary-400', desc: 'Your reel hasn\'t been submitted yet.' },
   pending_approval:  { label: 'Under Review',      dot: 'bg-blue-400',   desc: 'Merchant is reviewing your reel.' },
   approved:          { label: 'Reel Approved',     dot: 'bg-emerald-400',desc: 'Your reel is live on the product page.' },
   rejected:          { label: 'Revision Needed',   dot: 'bg-red-400',    desc: 'Merchant requested changes. See feedback.' },
@@ -203,7 +203,7 @@ const DealSheet: React.FC<{
                 <button
                   type="button"
                   onClick={() => { onAccept?.(deal.id); onClose(); }}
-                  className="flex-1 py-3 rounded-2xl bg-[#FF4D00] text-white font-bold text-[14px] hover:bg-[#e64500] transition-colors"
+                  className="flex-1 py-3 rounded-2xl bg-primary-600 text-white font-bold text-[14px] hover:bg-primary-700 transition-colors"
                 >
                   Accept Deal
                 </button>
@@ -219,7 +219,7 @@ const DealSheet: React.FC<{
             {(deal.reelStatus === 'upload_pending' || deal.reelStatus === 'rejected') && (
               <Link
                 to="/creator/upload-reel"
-                className="flex items-center justify-center gap-2 w-full py-3 rounded-2xl bg-[#FF4D00] text-white font-bold text-[14px] hover:bg-[#e64500] transition-colors"
+                className="flex items-center justify-center gap-2 w-full py-3 rounded-2xl bg-primary-600 text-white font-bold text-[14px] hover:bg-primary-700 transition-colors"
               >
                 <Upload className="w-4 h-4" />
                 {deal.reelStatus === 'rejected' ? 'Re-upload Reel' : 'Upload Reel'}
@@ -259,8 +259,8 @@ const DealSheet: React.FC<{
             </div>
 
             {/* Commission breakdown */}
-            <div className="rounded-2xl bg-[#fff8f5] border border-orange-100 p-4">
-              <p className="text-[11px] font-bold text-orange-400 uppercase tracking-widest mb-3">Your Commission</p>
+            <div className="rounded-2xl bg-primary-50 border border-primary-100 p-4">
+              <p className="text-[11px] font-bold text-primary-400 uppercase tracking-widest mb-3">Your Commission</p>
               <div className="flex items-end gap-2">
                 <p className="text-[32px] font-extrabold text-gray-900 leading-none tabular-nums">
                   ₹{earn.toLocaleString('en-IN')}
@@ -280,7 +280,7 @@ const DealSheet: React.FC<{
                     </div>
                     <div className="flex justify-between text-[12px]">
                       <span className="text-gray-500">Max potential</span>
-                      <span className="font-extrabold text-[#FF4D00]">₹{(maxE ?? 0).toLocaleString('en-IN')}</span>
+                      <span className="font-extrabold text-primary-600">₹{(maxE ?? 0).toLocaleString('en-IN')}</span>
                     </div>
                   </>
                 )}
@@ -409,9 +409,9 @@ const OfferCard: React.FC<{
         </div>
 
         {/* Commission highlight */}
-        <div className="rounded-xl bg-[#fff8f5] border border-orange-100 px-3 py-2.5 flex items-center justify-between">
+        <div className="rounded-xl bg-primary-50 border border-primary-100 px-3 py-2.5 flex items-center justify-between">
           <div>
-            <p className="text-[10px] font-semibold text-orange-400 uppercase tracking-wide">You earn</p>
+            <p className="text-[10px] font-semibold text-primary-400 uppercase tracking-wide">You earn</p>
             <p className="text-[20px] font-extrabold text-gray-900 tabular-nums leading-tight">
               ₹{earn.toLocaleString('en-IN')}
               <span className="text-[11px] font-semibold text-gray-400 ml-1">/ sale</span>
@@ -425,7 +425,7 @@ const OfferCard: React.FC<{
               <p className="text-[10px] font-semibold text-emerald-600">Unlimited</p>
             )}
             {maxE != null && (
-              <p className="text-[10px] font-bold text-[#FF4D00]">Max ₹{maxE.toLocaleString('en-IN')}</p>
+              <p className="text-[10px] font-bold text-primary-600">Max ₹{maxE.toLocaleString('en-IN')}</p>
             )}
           </div>
         </div>
@@ -442,7 +442,7 @@ const OfferCard: React.FC<{
         {/* Actions */}
         <div className="flex gap-2 mt-auto pt-1" onClick={(e) => e.stopPropagation()}>
           <button type="button" onClick={onAccept}
-            className="flex-1 py-2.5 rounded-xl bg-[#FF4D00] text-white text-[12px] font-bold hover:bg-[#e64500] transition-colors">
+            className="flex-1 py-2.5 rounded-xl bg-primary-600 text-white text-[12px] font-bold hover:bg-primary-700 transition-colors">
             Accept
           </button>
           <button type="button" onClick={onDecline}
@@ -529,7 +529,7 @@ const ActiveCard: React.FC<{ deal: Deal; onSelect: () => void }> = ({ deal, onSe
         <div onClick={(e) => e.stopPropagation()}>
           {(deal.reelStatus === 'upload_pending' || deal.reelStatus === 'rejected') ? (
             <Link to="/creator/upload-reel"
-              className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-[#FF4D00] text-white text-[12px] font-bold hover:bg-[#e64500] transition-colors">
+              className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-primary-600 text-white text-[12px] font-bold hover:bg-primary-700 transition-colors">
               <Upload className="w-3.5 h-3.5" />
               {deal.reelStatus === 'rejected' ? 'Re-upload Reel' : 'Upload Reel'}
             </Link>
@@ -776,9 +776,9 @@ const CreatorDeals: React.FC = () => {
           { Icon: Wallet,    label: 'Total Earned',        value: `₹${totalEarned.toLocaleString('en-IN')}`, sub: 'all time' },
           { Icon: BarChart2, label: 'Deals Completed',    value: COMPLETED.length,   sub: 'campaigns finished'    },
         ].map(({ Icon, label, value, sub, accent }) => (
-          <div key={label} className={`rounded-2xl p-4 flex items-center gap-3 ${accent ? 'bg-[#FF4D00]' : 'bg-white border border-gray-100/80'}`}>
-            <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${accent ? 'bg-white/20' : 'bg-[#fff3ee]'}`}>
-              <Icon className={`w-4.5 h-4.5 ${accent ? 'text-white' : 'text-[#FF4D00]'}`} />
+          <div key={label} className={`rounded-2xl p-4 flex items-center gap-3 ${accent ? 'bg-primary-600' : 'bg-white border border-gray-100/80'}`}>
+            <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${accent ? 'bg-white/20' : 'bg-primary-50'}`}>
+              <Icon className={`w-4.5 h-4.5 ${accent ? 'text-white' : 'text-primary-600'}`} />
             </div>
             <div className="min-w-0">
               <p className={`text-[20px] font-extrabold leading-none tabular-nums ${accent ? 'text-white' : 'text-gray-900'}`}>{value}</p>
@@ -798,7 +798,7 @@ const CreatorDeals: React.FC = () => {
             onClick={() => setTabInUrl(key)}
             className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl text-[12px] font-bold transition-all ${
               activeTab === key
-                ? 'bg-[#FF4D00] text-white shadow-sm'
+                ? 'bg-primary-600 text-white shadow-sm'
                 : 'text-gray-500 hover:text-gray-800 hover:bg-gray-50'
             }`}
           >

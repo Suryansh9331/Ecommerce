@@ -99,8 +99,8 @@ const Technology: React.FC = () => {
                   key={category}
                   className={`whitespace-nowrap ${
                     activeCategory === category
-                      ? 'text-[#F2631F] border-b-2 border-[#F2631F]'
-                      : 'text-gray-600 hover:text-[#F2631F]'
+                      ? 'text-primary-600 border-b-2 border-primary-600'
+                      : 'text-gray-600 hover:text-primary-600'
                   } pb-1`}
                   onClick={() => {
                     setActiveCategory(category);
@@ -133,12 +133,12 @@ const Technology: React.FC = () => {
                   {/* Product badges */}
                   <div className="absolute top-4 left-4 flex flex-col gap-1.5 z-10">
                     {product.isNew && (
-                      <span className="bg-[#F2631F] text-white text-[10px] px-1.5 py-0.5 rounded">
+                      <span className="bg-primary-600 text-white text-[10px] px-1.5 py-0.5 rounded">
                         New
                       </span>
                     )}
                     {product.featured && (
-                      <span className="bg-[#F2631F] text-white text-[10px] px-1.5 py-0.5 rounded">
+                      <span className="bg-primary-600 text-white text-[10px] px-1.5 py-0.5 rounded">
                         Featured
                       </span>
                     )}
@@ -156,7 +156,7 @@ const Technology: React.FC = () => {
                   
                   {/* Favorite button */}
                   <button
-                    className="absolute top-4 right-4 p-1.5 z-10 text-gray-400 hover:text-[#F2631F] hover:bg-white hover:shadow-md rounded-full transition-all duration-300"
+                    className="absolute top-4 right-4 p-1.5 z-10 text-gray-400 hover:text-primary-600 hover:bg-white hover:shadow-md rounded-full transition-all duration-300"
                     onClick={(e) => handleWishlist(e, product)}
                   >
                     <Heart className="w-4 h-4" />
@@ -180,7 +180,7 @@ const Technology: React.FC = () => {
                       )}
                     </div>
                     <button
-                      className="w-1/2 bg-[#F2631F] text-white py-1.5 rounded-md hover:bg-black duration-300 transition-colors flex items-center justify-center gap-1.5 text-sm"
+                      className="w-1/2 bg-primary-600 text-white py-1.5 rounded-md hover:bg-black duration-300 transition-colors flex items-center justify-center gap-1.5 text-sm"
                       onClick={(e) => {
                         e.stopPropagation();
                         addToCart(product);

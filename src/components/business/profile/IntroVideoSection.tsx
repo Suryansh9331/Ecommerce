@@ -195,7 +195,7 @@ const IntroVideoSection = () => {
     <div className="bg-white rounded-lg shadow">
       <div className="p-6 sm:p-8">
         <div className="flex items-center space-x-2 mb-2">
-          <VideoCameraIcon className="w-6 h-6 text-orange-500" />
+          <VideoCameraIcon className="w-6 h-6 text-primary-500" />
           <h2 className="text-xl font-semibold text-gray-900">Intro Video</h2>
         </div>
         <p className="text-sm text-gray-600 mb-6">
@@ -214,14 +214,14 @@ const IntroVideoSection = () => {
 
         {loading ? (
           <div className="h-32 flex items-center justify-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-orange-500" />
+            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary-500" />
           </div>
         ) : uploading ? (
           <div className="border border-gray-200 rounded-lg p-6">
             <p className="text-sm font-medium text-gray-700 mb-2">Uploading… {progress}%</p>
             <div className="w-full bg-gray-200 rounded-full h-2">
               <div
-                className="bg-orange-500 h-2 rounded-full transition-all"
+                className="bg-primary-500 h-2 rounded-full transition-all"
                 style={{ width: `${progress}%` }}
               />
             </div>
@@ -232,7 +232,7 @@ const IntroVideoSection = () => {
         ) : !video ? (
           <button
             onClick={() => openFilePicker(false)}
-            className="w-full border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-orange-400 hover:bg-orange-50/40 transition-colors"
+            className="w-full border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-primary-400 hover:bg-primary-50/40 transition-colors"
           >
             <ArrowUpTrayIcon className="w-10 h-10 mx-auto text-gray-400" />
             <span className="mt-3 block text-sm font-medium text-gray-900">
@@ -332,7 +332,7 @@ const IntroVideoSection = () => {
                     disabled={!editingMeta || busy}
                     onChange={(e) => setTitle(e.target.value)}
                     placeholder="Meet the maker"
-                    className="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-orange-500 focus:ring-orange-500 disabled:bg-gray-50 disabled:text-gray-500"
+                    className="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-primary-500 focus:ring-primary-500 disabled:bg-gray-50 disabled:text-gray-500"
                   />
                 </div>
                 <div>
@@ -344,7 +344,7 @@ const IntroVideoSection = () => {
                     disabled={!editingMeta || busy}
                     onChange={(e) => setCaption(e.target.value)}
                     placeholder="A 40-second hello from our workshop."
-                    className="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-orange-500 focus:ring-orange-500 disabled:bg-gray-50 disabled:text-gray-500"
+                    className="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-primary-500 focus:ring-primary-500 disabled:bg-gray-50 disabled:text-gray-500"
                   />
                   {editingMeta && (
                     <p className="mt-1 text-right text-xs text-gray-500">
@@ -368,7 +368,7 @@ const IntroVideoSection = () => {
                     <button
                       onClick={handleSaveMeta}
                       disabled={busy}
-                      className="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-orange-500 hover:bg-orange-600 disabled:opacity-50"
+                      className="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary-500 hover:bg-primary-600 disabled:opacity-50"
                     >
                       {busy ? 'Saving…' : 'Save details'}
                     </button>
@@ -376,7 +376,7 @@ const IntroVideoSection = () => {
                 ) : (
                   <button
                     onClick={() => setEditingMeta(true)}
-                    className="px-4 py-2 border border-orange-500 text-sm font-medium rounded-md text-orange-500 hover:bg-orange-50"
+                    className="px-4 py-2 border border-primary-500 text-sm font-medium rounded-md text-primary-500 hover:bg-primary-50"
                   >
                     Edit details
                   </button>

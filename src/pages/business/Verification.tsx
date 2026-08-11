@@ -627,7 +627,7 @@
 //             <select
 //               value={selectedCountry}
 //               onChange={handleCountryChange}
-//               className="block w-full max-w-md rounded-md border border-gray-300 bg-white px-3 py-2 shadow-sm focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+//               className="block w-full max-w-md rounded-md border border-gray-300 bg-white px-3 py-2 shadow-sm focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500"
 //               disabled={isSubmitting}
 //             >
 //               {supportedCountries.map(country => (
@@ -657,7 +657,7 @@
 //                       value={businessDetails.panNumber || ''}
 //                       onChange={handleBusinessDetailsChange}
 //                       className={`block w-full max-w-md rounded-md border px-3 py-2 shadow-sm focus:outline-none ${validationErrors.panNumber ? 'border-red-500 text-red-900 placeholder-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-500'
-//                         : 'border-gray-300 text-gray-900 placeholder-gray-400 focus:border-orange-500 focus:ring-1 focus:ring-orange-500'
+//                         : 'border-gray-300 text-gray-900 placeholder-gray-400 focus:border-primary-500 focus:ring-1 focus:ring-primary-500'
 //                         }`}
 //                       placeholder="e.g., ABCDE1234F"
 //                       disabled={isSubmitting}
@@ -676,7 +676,7 @@
 //                       value={businessDetails.gstin || ''}
 //                       onChange={handleBusinessDetailsChange}
 //                       className={`block w-full max-w-md rounded-md border px-3 py-2 shadow-sm focus:outline-none ${validationErrors.gstin ? 'border-red-500 text-red-900 placeholder-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-500'
-//                         : 'border-gray-300 text-gray-900 placeholder-gray-400 focus:border-orange-500 focus:ring-1 focus:ring-orange-500'
+//                         : 'border-gray-300 text-gray-900 placeholder-gray-400 focus:border-primary-500 focus:ring-1 focus:ring-primary-500'
 //                         }`}
 //                       placeholder="e.g., 22AAAAA0000A1Z5"
 //                       disabled={isSubmitting}
@@ -698,7 +698,7 @@
 //                       value={businessDetails.taxId || ''}
 //                       onChange={handleBusinessDetailsChange}
 //                       className={`block w-full max-w-md rounded-md border px-3 py-2 shadow-sm focus:outline-none ${validationErrors.taxId ? 'border-red-500 text-red-900 placeholder-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-500'
-//                         : 'border-gray-300 text-gray-900 placeholder-gray-400 focus:border-orange-500 focus:ring-1 focus:ring-orange-500'
+//                         : 'border-gray-300 text-gray-900 placeholder-gray-400 focus:border-primary-500 focus:ring-1 focus:ring-primary-500'
 //                         }`}
 //                       placeholder="e.g., XX-XXXXXXX"
 //                       disabled={isSubmitting}
@@ -708,11 +708,11 @@
 //                   </div>
 //                   <div>
 //                     <label htmlFor="vatNumber" className="block mb-2 font-medium text-gray-700">VAT Number</label>
-//                     <input id="vatNumber" type="text" name="vatNumber" value={businessDetails.vatNumber || ''} onChange={handleBusinessDetailsChange} className="block w-full max-w-md rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-400 shadow-sm focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500" disabled={isSubmitting} />
+//                     <input id="vatNumber" type="text" name="vatNumber" value={businessDetails.vatNumber || ''} onChange={handleBusinessDetailsChange} className="block w-full max-w-md rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-400 shadow-sm focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500" disabled={isSubmitting} />
 //                   </div>
 //                   <div>
 //                     <label htmlFor="salesTaxNumber" className="block mb-2 font-medium text-gray-700">Sales Tax Number</label>
-//                     <input id="salesTaxNumber" type="text" name="salesTaxNumber" value={businessDetails.salesTaxNumber || ''} onChange={handleBusinessDetailsChange} className="block w-full max-w-md rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-400 shadow-sm focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500" disabled={isSubmitting} />
+//                     <input id="salesTaxNumber" type="text" name="salesTaxNumber" value={businessDetails.salesTaxNumber || ''} onChange={handleBusinessDetailsChange} className="block w-full max-w-md rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-400 shadow-sm focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500" disabled={isSubmitting} />
 //                   </div>
 //                 </>
 //               )}
@@ -736,7 +736,7 @@
 //                   value={bankDetails.accountNumber || ''}
 //                   onChange={handleBankDetailsChange}
 //                   className={`block w-full max-w-md rounded-md border px-3 py-2 shadow-sm focus:outline-none ${validationErrors.accountNumber ? 'border-red-500 text-red-900 placeholder-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-500'
-//                     : 'border-gray-300 text-gray-900 placeholder-gray-400 focus:border-orange-500 focus:ring-1 focus:ring-orange-500'
+//                     : 'border-gray-300 text-gray-900 placeholder-gray-400 focus:border-primary-500 focus:ring-1 focus:ring-primary-500'
 //                     }`}
 //                   disabled={isSubmitting}
 //                 />
@@ -754,7 +754,7 @@
 //                   value={bankDetails.bankName || ''}
 //                   onChange={handleBankDetailsChange}
 //                   className={`block w-full max-w-md rounded-md border px-3 py-2 shadow-sm focus:outline-none ${validationErrors.bankName ? 'border-red-500 text-red-900 placeholder-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-500'
-//                     : 'border-gray-300 text-gray-900 placeholder-gray-400 focus:border-orange-500 focus:ring-1 focus:ring-orange-500'
+//                     : 'border-gray-300 text-gray-900 placeholder-gray-400 focus:border-primary-500 focus:ring-1 focus:ring-primary-500'
 //                     }`}
 //                   disabled={isSubmitting}
 //                 />
@@ -773,7 +773,7 @@
 //                     value={bankDetails.ifscCode || ''}
 //                     onChange={handleBankDetailsChange}
 //                     className={`block w-full max-w-md rounded-md border px-3 py-2 shadow-sm focus:outline-none ${validationErrors.ifscCode ? 'border-red-500 text-red-900 placeholder-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-500'
-//                       : 'border-gray-300 text-gray-900 placeholder-gray-400 focus:border-orange-500 focus:ring-1 focus:ring-orange-500'
+//                       : 'border-gray-300 text-gray-900 placeholder-gray-400 focus:border-primary-500 focus:ring-1 focus:ring-primary-500'
 //                       }`}
 //                     placeholder="e.g., SBIN0001234"
 //                     disabled={isSubmitting}
@@ -794,7 +794,7 @@
 //                       value={bankDetails.swiftCode || ''}
 //                       onChange={handleBankDetailsChange}
 //                       className={`block w-full max-w-md rounded-md border px-3 py-2 shadow-sm focus:outline-none ${validationErrors.swiftCode ? 'border-red-500 text-red-900 placeholder-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-500'
-//                         : 'border-gray-300 text-gray-900 placeholder-gray-400 focus:border-orange-500 focus:ring-1 focus:ring-orange-500'
+//                         : 'border-gray-300 text-gray-900 placeholder-gray-400 focus:border-primary-500 focus:ring-1 focus:ring-primary-500'
 //                         }`}
 //                       placeholder="e.g., SBINUS33"
 //                       disabled={isSubmitting}
@@ -804,7 +804,7 @@
 //                   </div>
 //                   <div>
 //                     <label htmlFor="routingNumber" className="block mb-2 font-medium text-gray-700">Routing Number</label>
-//                     <input id="routingNumber" type="text" name="routingNumber" value={bankDetails.routingNumber || ''} onChange={handleBankDetailsChange} className={`block w-full max-w-md rounded-md border px-3 py-2 shadow-sm focus:outline-none ${validationErrors.routingNumber ? 'border-red-500 text-red-900 placeholder-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-500' : 'border-gray-300 text-gray-900 placeholder-gray-400 focus:border-orange-500 focus:ring-1 focus:ring-orange-500'}`} placeholder="e.g., 123456789" disabled={isSubmitting} />
+//                     <input id="routingNumber" type="text" name="routingNumber" value={bankDetails.routingNumber || ''} onChange={handleBankDetailsChange} className={`block w-full max-w-md rounded-md border px-3 py-2 shadow-sm focus:outline-none ${validationErrors.routingNumber ? 'border-red-500 text-red-900 placeholder-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-500' : 'border-gray-300 text-gray-900 placeholder-gray-400 focus:border-primary-500 focus:ring-1 focus:ring-primary-500'}`} placeholder="e.g., 123456789" disabled={isSubmitting} />
 //                     <p className="mt-1 text-sm text-gray-500">{getFieldHelperText('routingNumber', selectedCountry)}</p>
 //                     {validationErrors.routingNumber && <p className="mt-1 text-sm text-red-600">{validationErrors.routingNumber}</p>}
 //                   </div>
@@ -829,16 +829,16 @@
 
 //                     {/* Document Type Specific Instructions */}
 //                     {(doc.documentType === 'product_list' || doc.documentType === 'category_list') && (
-//                       <div className="mb-3 p-3 bg-orange-50 rounded-md">
+//                       <div className="mb-3 p-3 bg-primary-50 rounded-md">
 //                         <div className="flex items-start">
-//                           <InformationCircleIcon className="h-5 w-5 text-orange-500 mr-2 flex-shrink-0 mt-0.5" />
+//                           <InformationCircleIcon className="h-5 w-5 text-primary-500 mr-2 flex-shrink-0 mt-0.5" />
 //                           <div>
-//                             <p className="text-sm text-orange-700 font-medium">
+//                             <p className="text-sm text-primary-700 font-medium">
 //                               {doc.documentType === 'product_list'
 //                                 ? 'Please provide a detailed list of products you plan to sell'
 //                                 : 'Please provide a list of product categories you plan to sell in'}
 //                             </p>
-//                             <p className="text-xs text-orange-600 mt-1">
+//                             <p className="text-xs text-primary-600 mt-1">
 //                               Include product names, descriptions, and categories. For categories, specify the main categories and subcategories.
 //                             </p>
 //                           </div>
@@ -847,14 +847,14 @@
 //                     )}
 
 //                     {doc.documentType === 'brand_approval' && (
-//                       <div className="mb-3 p-3 bg-orange-50 rounded-md">
+//                       <div className="mb-3 p-3 bg-primary-50 rounded-md">
 //                         <div className="flex items-start">
-//                           <InformationCircleIcon className="h-5 w-5 text-orange-500 mr-2 flex-shrink-0 mt-0.5" />
+//                           <InformationCircleIcon className="h-5 w-5 text-primary-500 mr-2 flex-shrink-0 mt-0.5" />
 //                           <div>
-//                             <p className="text-sm text-orange-700 font-medium">
+//                             <p className="text-sm text-primary-700 font-medium">
 //                               Brand Authorization Documents
 //                             </p>
-//                             <p className="text-xs text-orange-600 mt-1">
+//                             <p className="text-xs text-primary-600 mt-1">
 //                               Please provide authorization letters, brand agreements, or any official documentation proving your right to sell these brands.
 //                             </p>
 //                           </div>
@@ -877,12 +877,12 @@
 //                           <button
 //                             type="button"
 //                             onClick={() => window.open(doc.fileUrl!, '_blank', 'noopener,noreferrer')}
-//                             className="text-sm text-orange-600 hover:text-orange-700 font-medium py-1 px-2 rounded-md hover:bg-orange-50 transition-colors"
+//                             className="text-sm text-primary-600 hover:text-primary-700 font-medium py-1 px-2 rounded-md hover:bg-primary-50 transition-colors"
 //                             disabled={isSubmitting}
 //                           >
 //                             View
 //                           </button>
-//                           <label className={`mt-2 text-sm font-medium py-1 px-2 rounded-md transition-colors ${isSubmitting ? 'text-gray-400 cursor-not-allowed' : 'text-orange-600 hover:text-orange-700 hover:bg-orange-50 cursor-pointer'}`}>
+//                           <label className={`mt-2 text-sm font-medium py-1 px-2 rounded-md transition-colors ${isSubmitting ? 'text-gray-400 cursor-not-allowed' : 'text-primary-600 hover:text-primary-700 hover:bg-primary-50 cursor-pointer'}`}>
 //                             Update
 //                             <input
 //                               type="file"
@@ -951,8 +951,8 @@
 //               disabled={isSubmitting || (isLoading && !countryConfig)} // Disable if still loading initial config
 //               className={`
 //                 px-8 py-3 rounded-md text-white font-semibold text-lg
-//                 ${isSubmitting || (isLoading && !countryConfig) ? 'bg-gray-400 cursor-not-allowed' : 'bg-orange-600 hover:bg-orange-700'}
-//                 shadow-sm transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500
+//                 ${isSubmitting || (isLoading && !countryConfig) ? 'bg-gray-400 cursor-not-allowed' : 'bg-primary-600 hover:bg-primary-700'}
+//                 shadow-sm transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500
 //               `}
 //             >
 //               {isSubmitting ? (
@@ -1543,7 +1543,7 @@ const Verification: React.FC = () => {
             <select
               value={selectedCountry}
               onChange={handleCountryChange}
-              className="block w-full max-w-md rounded-md border border-gray-300 bg-white px-3 py-2 shadow-sm focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+              className="block w-full max-w-md rounded-md border border-gray-300 bg-white px-3 py-2 shadow-sm focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500"
               disabled={isSubmitting}
             >
               {supportedCountries.map(country => (
@@ -1575,7 +1575,7 @@ const Verification: React.FC = () => {
                   className={`block w-full max-w-md rounded-md border px-3 py-2 shadow-sm focus:outline-none ${
                     validationErrors.panNumber
                       ? 'border-red-500 text-red-900 placeholder-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-500'
-                      : 'border-gray-300 text-gray-900 placeholder-gray-400 focus:border-orange-500 focus:ring-1 focus:ring-orange-500'
+                      : 'border-gray-300 text-gray-900 placeholder-gray-400 focus:border-primary-500 focus:ring-1 focus:ring-primary-500'
                   }`}
                   placeholder="e.g., ABCDE1234F"
                   disabled={isSubmitting}
@@ -1615,7 +1615,7 @@ const Verification: React.FC = () => {
                   className={`block w-full max-w-md rounded-md border px-3 py-2 shadow-sm focus:outline-none ${
                     validationErrors.accountNumber
                       ? 'border-red-500 text-red-900 placeholder-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-500'
-                      : 'border-gray-300 text-gray-900 placeholder-gray-400 focus:border-orange-500 focus:ring-1 focus:ring-orange-500'
+                      : 'border-gray-300 text-gray-900 placeholder-gray-400 focus:border-primary-500 focus:ring-1 focus:ring-primary-500'
                   }`}
                   disabled={isSubmitting}
                 />
@@ -1640,7 +1640,7 @@ const Verification: React.FC = () => {
                   className={`block w-full max-w-md rounded-md border px-3 py-2 shadow-sm focus:outline-none ${
                     validationErrors.bankName
                       ? 'border-red-500 text-red-900 placeholder-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-500'
-                      : 'border-gray-300 text-gray-900 placeholder-gray-400 focus:border-orange-500 focus:ring-1 focus:ring-orange-500'
+                      : 'border-gray-300 text-gray-900 placeholder-gray-400 focus:border-primary-500 focus:ring-1 focus:ring-primary-500'
                   }`}
                   disabled={isSubmitting}
                 />
@@ -1665,7 +1665,7 @@ const Verification: React.FC = () => {
                   className={`block w-full max-w-md rounded-md border px-3 py-2 shadow-sm focus:outline-none ${
                     validationErrors.ifscCode
                       ? 'border-red-500 text-red-900 placeholder-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-500'
-                      : 'border-gray-300 text-gray-900 placeholder-gray-400 focus:border-orange-500 focus:ring-1 focus:ring-orange-500'
+                      : 'border-gray-300 text-gray-900 placeholder-gray-400 focus:border-primary-500 focus:ring-1 focus:ring-primary-500'
                   }`}
                   placeholder="e.g., SBIN0001234"
                   disabled={isSubmitting}
@@ -1724,7 +1724,7 @@ const Verification: React.FC = () => {
                               onClick={() =>
                                 window.open(doc.fileUrl!, '_blank', 'noopener,noreferrer')
                               }
-                              className="text-sm text-orange-600 hover:text-orange-700 font-medium py-1 px-2 rounded-md hover:bg-orange-50 transition-colors"
+                              className="text-sm text-primary-600 hover:text-primary-700 font-medium py-1 px-2 rounded-md hover:bg-primary-50 transition-colors"
                               disabled={isSubmitting}
                             >
                               View
@@ -1733,7 +1733,7 @@ const Verification: React.FC = () => {
                               className={`mt-2 text-sm font-medium py-1 px-2 rounded-md transition-colors ${
                                 isSubmitting
                                   ? 'text-gray-400 cursor-not-allowed'
-                                  : 'text-orange-600 hover:text-orange-700 hover:bg-orange-50 cursor-pointer'
+                                  : 'text-primary-600 hover:text-primary-700 hover:bg-primary-50 cursor-pointer'
                               }`}
                             >
                               Update
@@ -1809,9 +1809,9 @@ const Verification: React.FC = () => {
                 ${
                   isSubmitting || (isLoading && !countryConfig)
                     ? 'bg-gray-400 cursor-not-allowed'
-                    : 'bg-orange-600 hover:bg-orange-700'
+                    : 'bg-primary-600 hover:bg-primary-700'
                 }
-                shadow-sm transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500
+                shadow-sm transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500
               `}
             >
               {isSubmitting ? (

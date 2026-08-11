@@ -137,7 +137,7 @@ const AoinLive: React.FC<AoinLiveProps> = ({ layout = 'row' }) => {
       <div className="py-8">
         <div className="flex justify-between items-center mb-8">
           <div className="flex items-center gap-4">
-            <h2 className="text-3xl font-bold bg-gradient-to-r from-[#FF4D00] to-[#F2631F] bg-clip-text text-transparent">
+            <h2 className="text-3xl font-bold bg-gradient-to-r from-primary-600 to-primary-600 bg-clip-text text-transparent">
               AOIN LIVE
             </h2>
             <div className="flex items-center gap-2 bg-red-50 text-red-600 px-3 py-1 rounded-full text-sm font-medium">
@@ -147,7 +147,7 @@ const AoinLive: React.FC<AoinLiveProps> = ({ layout = 'row' }) => {
           </div>
           <a 
             href="/live-shop/aoin-live" 
-            className="text-sm text-gray-600 hover:text-[#FF4D00] font-medium transition-colors duration-200 flex items-center gap-1"
+            className="text-sm text-gray-600 hover:text-primary-600 font-medium transition-colors duration-200 flex items-center gap-1"
           >
             See All
             <ChevronRight className="w-4 h-4" />
@@ -158,7 +158,7 @@ const AoinLive: React.FC<AoinLiveProps> = ({ layout = 'row' }) => {
           <div className="flex justify-center items-center min-h-[200px]">
             <div className="relative">
               <div className="animate-spin rounded-full h-12 w-12 border-4 border-gray-200"></div>
-              <div className="animate-spin rounded-full h-12 w-12 border-4 border-[#FF4D00] border-t-transparent absolute top-0 left-0"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-4 border-primary-600 border-t-transparent absolute top-0 left-0"></div>
             </div>
           </div>
         ) : error ? (
@@ -207,7 +207,7 @@ const AoinLive: React.FC<AoinLiveProps> = ({ layout = 'row' }) => {
     <div className="bg-gray-50 min-h-screen">
       <div className="max-w-[1440px] mx-auto px-8 py-12">
         <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold bg-gradient-to-r from-[#FF4D00] to-[#F2631F] bg-clip-text text-transparent mb-4">
+          <h1 className="text-5xl font-bold bg-gradient-to-r from-primary-600 to-primary-600 bg-clip-text text-transparent mb-4">
             AOIN LIVE
           </h1>
           <p className="text-gray-600 text-lg max-w-2xl mx-auto">
@@ -235,7 +235,7 @@ const AoinLive: React.FC<AoinLiveProps> = ({ layout = 'row' }) => {
           <div className="flex justify-center items-center min-h-[300px]">
             <div className="relative">
               <div className="animate-spin rounded-full h-16 w-16 border-4 border-gray-200"></div>
-              <div className="animate-spin rounded-full h-16 w-16 border-4 border-[#FF4D00] border-t-transparent absolute top-0 left-0"></div>
+              <div className="animate-spin rounded-full h-16 w-16 border-4 border-primary-600 border-t-transparent absolute top-0 left-0"></div>
             </div>
           </div>
         ) : error ? (
@@ -256,7 +256,7 @@ const AoinLive: React.FC<AoinLiveProps> = ({ layout = 'row' }) => {
             </div>
             
             <div className="flex justify-center">
-              <button className="bg-gradient-to-r from-[#FF4D00] to-[#F2631F] hover:from-[#e63d00] hover:to-[#d1571b] text-white px-12 py-4 rounded-full font-semibold text-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center gap-3">
+              <button className="bg-gradient-to-r from-primary-600 to-primary-600 hover:from-primary-700 hover:to-primary-800 text-white px-12 py-4 rounded-full font-semibold text-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center gap-3">
                 <Play className="w-5 h-5 fill-white" />
                 Load More Streams
               </button>

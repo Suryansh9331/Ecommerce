@@ -120,7 +120,7 @@ function fmtDate(d: Date) {
 }
 
 const STATUS_META: Record<CampaignStatus, { label: string; ring: string; dot: string }> = {
-  upload_pending: { label: 'Upload Pending', ring: 'bg-orange-500/15 text-orange-400 ring-orange-500/30', dot: 'bg-orange-400' },
+  upload_pending: { label: 'Upload Pending', ring: 'bg-primary-500/15 text-primary-400 ring-primary-500/30', dot: 'bg-primary-400' },
   uploaded:       { label: 'Under Review',  ring: 'bg-blue-500/15 text-blue-300 ring-blue-500/30',       dot: 'bg-blue-400'   },
   approved:       { label: 'Approved',      ring: 'bg-emerald-500/15 text-emerald-300 ring-emerald-500/30', dot: 'bg-emerald-400' },
   live:           { label: 'Live 🔴',       ring: 'bg-emerald-500/15 text-emerald-300 ring-emerald-500/30', dot: 'bg-emerald-400' },
@@ -138,7 +138,7 @@ const ACTIVITY_STYLE: Record<ActivityKind, { Icon: React.ElementType; bg: string
   approved: { Icon: CheckCircle2, bg: 'bg-emerald-50', ic: 'text-emerald-600' },
   offer:    { Icon: Mail,         bg: 'bg-blue-50',    ic: 'text-blue-600'    },
   payout:   { Icon: Banknote,     bg: 'bg-emerald-50', ic: 'text-emerald-600' },
-  deadline: { Icon: Clock,        bg: 'bg-orange-50',  ic: 'text-orange-600'  },
+  deadline: { Icon: Clock,        bg: 'bg-primary-50',  ic: 'text-primary-600'  },
 };
 
 // ─── Stat Card ────────────────────────────────────────────────────────────────
@@ -147,9 +147,9 @@ const Stat: React.FC<{
   label: string; value: string | number; sub?: string;
   Icon: React.ElementType; accent?: boolean;
 }> = ({ label, value, sub, Icon, accent }) => (
-  <div className={`rounded-2xl p-4 flex flex-col gap-3 ${accent ? 'bg-[#FF4D00]' : 'bg-white border border-gray-100/80'}`}>
-    <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${accent ? 'bg-white/20' : 'bg-[#fff3ee]'}`}>
-      <Icon className={`w-4 h-4 ${accent ? 'text-white' : 'text-[#FF4D00]'}`} />
+  <div className={`rounded-2xl p-4 flex flex-col gap-3 ${accent ? 'bg-primary-600' : 'bg-white border border-gray-100/80'}`}>
+    <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${accent ? 'bg-white/20' : 'bg-primary-50'}`}>
+      <Icon className={`w-4 h-4 ${accent ? 'text-white' : 'text-primary-600'}`} />
     </div>
     <div>
       <p className={`text-[22px] font-extrabold tabular-nums leading-none ${accent ? 'text-white' : 'text-gray-900'}`}>{value}</p>
@@ -219,7 +219,7 @@ const CampaignCard: React.FC<{ c: Campaign }> = ({ c }) => {
         {isPending || isRejected ? (
           <Link
             to="/creator/upload-reel"
-            className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-[#FF4D00] text-white text-[13px] font-bold hover:bg-[#e64500] transition-colors"
+            className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-primary-600 text-white text-[13px] font-bold hover:bg-primary-700 transition-colors"
           >
             <Upload className="w-3.5 h-3.5" />
             {isRejected ? 'Re-upload Reel' : 'Upload Reel'}
@@ -273,7 +273,7 @@ const OfferCard: React.FC<{ o: Offer; onAccept: (id: number) => void; onDecline:
           <span className="text-[11px] font-semibold text-gray-500">{o.brand}</span>
           <Link
             to={`/creator/deals?tab=offers&dealId=${o.id}`}
-            className="ml-auto text-[10px] font-bold text-[#FF4D00] hover:underline"
+            className="ml-auto text-[10px] font-bold text-primary-600 hover:underline"
           >
             View
           </Link>
@@ -295,7 +295,7 @@ const OfferCard: React.FC<{ o: Offer; onAccept: (id: number) => void; onDecline:
           <button
             type="button"
             onClick={() => onAccept(o.id)}
-            className="flex-1 py-2 rounded-xl bg-[#FF4D00] text-white text-[11px] font-bold hover:bg-[#e64500] transition-colors"
+            className="flex-1 py-2 rounded-xl bg-primary-600 text-white text-[11px] font-bold hover:bg-primary-700 transition-colors"
           >
             Accept
           </button>
@@ -421,7 +421,7 @@ const CreatorDashboard: React.FC = () => {
             <h2 className="text-[15px] font-bold text-gray-900">Next up</h2>
             <p className="text-[11px] text-gray-400 mt-0.5">Quick actions to keep you on track</p>
           </div>
-          <Link to="/creator/deals?tab=offers" className="flex items-center gap-1 text-[12px] font-bold text-[#FF4D00] hover:underline shrink-0">
+          <Link to="/creator/deals?tab=offers" className="flex items-center gap-1 text-[12px] font-bold text-primary-600 hover:underline shrink-0">
             View deals <ChevronRight className="w-3.5 h-3.5" />
           </Link>
         </div>
@@ -438,9 +438,9 @@ const CreatorDashboard: React.FC = () => {
 
           <Link
             to="/creator/upload-reel?campaignId=1"
-            className="rounded-2xl border border-orange-100 bg-[#fff8f5] p-4 hover:shadow-sm transition-shadow"
+            className="rounded-2xl border border-primary-100 bg-primary-50 p-4 hover:shadow-sm transition-shadow"
           >
-            <p className="text-[11px] font-bold text-orange-400 uppercase tracking-widest">Deliverable</p>
+            <p className="text-[11px] font-bold text-primary-400 uppercase tracking-widest">Deliverable</p>
             <p className="text-[14px] font-extrabold text-gray-900 mt-1">Upload your next reel</p>
             <p className="text-[12px] text-gray-500 mt-1">Submit before deadline to avoid missing payout.</p>
           </Link>
@@ -454,7 +454,7 @@ const CreatorDashboard: React.FC = () => {
             <h2 className="text-[15px] font-bold text-gray-900">Active Campaigns</h2>
             <p className="text-[11px] text-gray-400 mt-0.5">Your current brand deals</p>
           </div>
-          <Link to="/creator/deals?tab=active" className="flex items-center gap-1 text-[12px] font-bold text-[#FF4D00] hover:underline">
+          <Link to="/creator/deals?tab=active" className="flex items-center gap-1 text-[12px] font-bold text-primary-600 hover:underline">
             All deals <ChevronRight className="w-3.5 h-3.5" />
           </Link>
         </div>
@@ -469,7 +469,7 @@ const CreatorDashboard: React.FC = () => {
             {/* View all filler card */}
             <Link
               to="/creator/deals?tab=active"
-              className="shrink-0 w-[100px] rounded-2xl border-2 border-dashed border-gray-200 flex flex-col items-center justify-center gap-2 text-gray-400 hover:text-[#FF4D00] hover:border-[#FF4D00]/40 transition-colors snap-start"
+              className="shrink-0 w-[100px] rounded-2xl border-2 border-dashed border-gray-200 flex flex-col items-center justify-center gap-2 text-gray-400 hover:text-primary-600 hover:border-primary-600/40 transition-colors snap-start"
             >
               <ChevronRight className="w-5 h-5" />
               <span className="text-[11px] font-semibold text-center leading-tight px-2">View All</span>
@@ -478,7 +478,7 @@ const CreatorDashboard: React.FC = () => {
         ) : (
           <div className="bg-white border border-gray-100 rounded-2xl p-10 text-center">
             <p className="text-sm text-gray-500 font-medium">No active campaigns.</p>
-            <Link to="/creator/deals?tab=offers" className="mt-2 inline-block text-sm font-bold text-[#FF4D00] hover:underline">
+            <Link to="/creator/deals?tab=offers" className="mt-2 inline-block text-sm font-bold text-primary-600 hover:underline">
               Browse offers →
             </Link>
           </div>
@@ -492,14 +492,14 @@ const CreatorDashboard: React.FC = () => {
             <h2 className="text-[15px] font-bold text-gray-900 flex items-center gap-2">
               Pending Offers
               {offers.length > 0 && (
-                <span className="px-1.5 py-0.5 rounded-full bg-[#FF4D00] text-white text-[9px] font-black leading-none">
+                <span className="px-1.5 py-0.5 rounded-full bg-primary-600 text-white text-[9px] font-black leading-none">
                   {offers.length}
                 </span>
               )}
             </h2>
             <p className="text-[11px] text-gray-400 mt-0.5">Brands waiting for your response</p>
           </div>
-          <Link to="/creator/deals?tab=offers" className="flex items-center gap-1 text-[12px] font-bold text-[#FF4D00] hover:underline">
+          <Link to="/creator/deals?tab=offers" className="flex items-center gap-1 text-[12px] font-bold text-primary-600 hover:underline">
             See all <ChevronRight className="w-3.5 h-3.5" />
           </Link>
         </div>
@@ -529,7 +529,7 @@ const CreatorDashboard: React.FC = () => {
               <h2 className="text-[14px] font-bold text-gray-900">Earnings this month</h2>
               <p className="text-[11px] text-gray-400 mt-0.5">{pendingFmt} pending release</p>
             </div>
-            <Link to="/creator/earnings" className="flex items-center gap-0.5 text-[12px] font-bold text-[#FF4D00] hover:underline">
+            <Link to="/creator/earnings" className="flex items-center gap-0.5 text-[12px] font-bold text-primary-600 hover:underline">
               Details <ChevronRight className="w-3.5 h-3.5" />
             </Link>
           </div>
@@ -539,8 +539,8 @@ const CreatorDashboard: React.FC = () => {
               <AreaChart data={EARNINGS_TREND} margin={{ top: 4, right: 4, left: -28, bottom: 0 }}>
                 <defs>
                   <linearGradient id="eg" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%"   stopColor="#FF4D00" stopOpacity={0.25} />
-                    <stop offset="100%" stopColor="#FF4D00" stopOpacity={0} />
+                    <stop offset="0%"   stopColor="#1800AC" stopOpacity={0.25} />
+                    <stop offset="100%" stopColor="#1800AC" stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <XAxis dataKey="d" tick={{ fontSize: 9, fill: '#9ca3af' }} stroke="transparent" />
@@ -551,9 +551,9 @@ const CreatorDashboard: React.FC = () => {
                 />
                 <Area
                   type="monotone" dataKey="v"
-                  stroke="#FF4D00" strokeWidth={2}
+                  stroke="#1800AC" strokeWidth={2}
                   fill="url(#eg)" dot={false}
-                  activeDot={{ r: 4, fill: '#FF4D00', strokeWidth: 0 }}
+                  activeDot={{ r: 4, fill: '#1800AC', strokeWidth: 0 }}
                 />
               </AreaChart>
             </ResponsiveContainer>

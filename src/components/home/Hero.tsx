@@ -77,7 +77,7 @@ const Hero: React.FC = () => {
       {/* Mobile/Tablet Layout - Below mid screen (1080px); reduced height on mobile */}
       <div className="block mid:hidden">
         <div className="relative w-full flex flex-col">
-          <div className="bg-gradient-to-r from-purple-500 to-orange-400 rounded-lg overflow-hidden relative h-[220px] sm:h-[220px]">
+          <div className="bg-gradient-to-r from-purple-500 to-primary-400 rounded-lg overflow-hidden relative h-[220px] sm:h-[220px]">
             <div className="absolute inset-0 flex flex-col justify-center items-center">
               <div className="w-full h-full relative">
               <img
@@ -88,7 +88,7 @@ const Hero: React.FC = () => {
                 />
                 <button
                   onClick={() => navigate('/all-products')}
-                  className="absolute bottom-3 sm:bottom-6 left-1/2 transform -translate-x-1/2 bg-[#F2631F] text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-[#E25818] transition-colors shadow-md hidden md:block"
+                  className="absolute bottom-3 sm:bottom-6 left-1/2 transform -translate-x-1/2 bg-primary-600 text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-primary-700 transition-colors shadow-md hidden md:block"
                 >
                   Explore
                 </button>
@@ -144,7 +144,7 @@ const Hero: React.FC = () => {
           className="relative"
           style={{ gridArea: 'main' }}
         >
-          <div className="bg-gradient-to-r from-purple-500 to-orange-400 rounded-lg overflow-hidden relative h-[367px]">
+          <div className="bg-gradient-to-r from-purple-500 to-primary-400 rounded-lg overflow-hidden relative h-[367px]">
             <div className="absolute inset-0 flex flex-col justify-center items-center">
               <div className="w-full h-full relative">
                 <img
@@ -155,7 +155,7 @@ const Hero: React.FC = () => {
                 />
                 <button
                   onClick={() => navigate('/all-products')}
-                  className="absolute bottom-8 left-1/2 transform -translate-x-1/2 bg-[#F2631F] text-white px-4 sm:px-4 py-1 rounded font-medium hover:bg-[#E25818] transition-colors text-sm sm:text-base shadow-lg"
+                  className="absolute bottom-8 left-1/2 transform -translate-x-1/2 bg-primary-600 text-white px-4 sm:px-4 py-1 rounded font-medium hover:bg-primary-700 transition-colors text-sm sm:text-base shadow-lg"
                 >
                   Explore
                 </button>
@@ -168,7 +168,7 @@ const Hero: React.FC = () => {
                   key={idx}
                   onClick={() => goToSlide(idx)}
                   className={`h-1.5 sm:h-2 w-3 sm:w-3 rounded-full transition-all ${
-                    currentSlide === idx ? 'bg-[#F2631F]' : 'bg-[#F2631F]/50'
+                    currentSlide === idx ? 'bg-primary-600' : 'bg-primary-600/50'
                   }`}
                 />
               ))}

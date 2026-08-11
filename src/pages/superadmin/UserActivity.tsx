@@ -52,13 +52,13 @@ const fallbackUserSegments = [
 ];
 
 const fallbackUserDistribution = [
-  { type: "Verified Users", count: 120, color: "#FF5733" },
-  { type: "Unverified Users", count: 30, color: "#FF8C33" },
-  { type: "Premium Users", count: 45, color: "#FF4500" },
-  { type: "Basic Users", count: 105, color: "#FFF5E6" },
+  { type: "Verified Users", count: 120, color: "#1800AC" },
+  { type: "Unverified Users", count: 30, color: "#3B1EEB" },
+  { type: "Premium Users", count: 45, color: "#14008F" },
+  { type: "Basic Users", count: 105, color: "#F2F0FF" },
 ];
 
-const COLORS = ['#FF5733', '#FF8C33', '#FF6E00', '#E27A53'];
+const COLORS = ['#1800AC', '#3B1EEB', '#1800AC', '#3B1EEB'];
 
 const UserActivity = () => {
   const [userMetrics, setUserMetrics] = useState(fallbackUserMetrics);
@@ -114,7 +114,7 @@ const UserActivity = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-4">
           <div className="flex items-center gap-3">
-            <div className="bg-orange-500 p-3 rounded-lg shadow-lg">
+            <div className="bg-primary-500 p-3 rounded-lg shadow-lg">
               <Users className="text-white w-6 h-6" />
             </div>
             <h1 className="text-3xl font-bold text-black">User Analytics</h1>
@@ -122,7 +122,7 @@ const UserActivity = () => {
 
           <button
             onClick={refreshData}
-            className="flex items-center gap-2 bg-orange-500/20 text-orange-500 px-4 py-2 rounded-lg font-medium hover:bg-orange-500/30 transition-all duration-300 group"
+            className="flex items-center gap-2 bg-primary-500/20 text-primary-500 px-4 py-2 rounded-lg font-medium hover:bg-primary-500/30 transition-all duration-300 group"
           >
             <RefreshCw className={`w-5 h-5 ${refreshing ? "animate-spin" : "group-hover:rotate-180 transition-transform duration-500"}`} />
             Refresh Data
@@ -185,21 +185,21 @@ const UserActivity = () => {
               <div className="border-b border-gray-200">
                 <div className="flex items-center">
                   <button
-                    className={`flex items-center gap-2 px-6 py-3 font-medium text-sm transition-all ${activeTab === "line" ? "border-b-2 border-orange-500 text-orange-500" : "text-gray-500 hover:text-gray-700"}`}
+                    className={`flex items-center gap-2 px-6 py-3 font-medium text-sm transition-all ${activeTab === "line" ? "border-b-2 border-primary-500 text-primary-500" : "text-gray-500 hover:text-gray-700"}`}
                     onClick={() => setActiveTab("line")}
                   >
                     <LineChartIcon className="w-4 h-4" />
                     Activity Trend
                   </button>
                   <button
-                    className={`flex items-center gap-2 px-6 py-3 font-medium text-sm transition-all ${activeTab === "bar" ? "border-b-2 border-orange-500 text-orange-500" : "text-gray-500 hover:text-gray-700"}`}
+                    className={`flex items-center gap-2 px-6 py-3 font-medium text-sm transition-all ${activeTab === "bar" ? "border-b-2 border-primary-500 text-primary-500" : "text-gray-500 hover:text-gray-700"}`}
                     onClick={() => setActiveTab("bar")}
                   >
                     <BarChart3 className="w-4 h-4" />
                     User Segments
                   </button>
                   <button
-                    className={`flex items-center gap-2 px-6 py-3 font-medium text-sm transition-all ${activeTab === "pie" ? "border-b-2 border-orange-500 text-orange-500" : "text-gray-500 hover:text-gray-700"}`}
+                    className={`flex items-center gap-2 px-6 py-3 font-medium text-sm transition-all ${activeTab === "pie" ? "border-b-2 border-primary-500 text-primary-500" : "text-gray-500 hover:text-gray-700"}`}
                     onClick={() => setActiveTab("pie")}
                   >
                     <PieChartIcon className="w-4 h-4" />
@@ -228,10 +228,10 @@ const UserActivity = () => {
                         <Line
                           type="monotone"
                           dataKey="activeUsers"
-                          stroke="#FF5733"
+                          stroke="#1800AC"
                           strokeWidth={3}
-                          dot={{ stroke: '#FF5733', strokeWidth: 2, r: 4, fill: 'white' }}
-                          activeDot={{ r: 6, stroke: '#FF5733', strokeWidth: 2, fill: '#FF5733' }}
+                          dot={{ stroke: '#1800AC', strokeWidth: 2, r: 4, fill: 'white' }}
+                          activeDot={{ r: 6, stroke: '#1800AC', strokeWidth: 2, fill: '#1800AC' }}
                           name="Active Users"
                         />
                         <Line
@@ -266,7 +266,7 @@ const UserActivity = () => {
                         />
                         <Bar
                           dataKey="count"
-                          fill="#FF5733"
+                          fill="#1800AC"
                           radius={[4, 4, 0, 0]}
                         />
                       </BarChart>

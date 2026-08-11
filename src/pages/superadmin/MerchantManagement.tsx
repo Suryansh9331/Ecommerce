@@ -329,7 +329,7 @@ const MerchantManagement: React.FC = () => {
       ) : (
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-[#FF5733]/10 text-[#FF5733]/90">
+            <thead className="bg-primary-600/10 text-primary-600/90">
               <tr>
                 <th
                   scope="col"
@@ -384,7 +384,7 @@ const MerchantManagement: React.FC = () => {
                     <div className="flex items-center space-x-3">
                       <button
                         onClick={() => viewMerchantDetails(merchant)}
-                        className="px-2.5 py-2 text-sm font-medium text-white bg-orange-500 border  rounded-md hover:bg-orange-600 transition-colors duration-200"
+                        className="px-2.5 py-2 text-sm font-medium text-white bg-primary-500 border  rounded-md hover:bg-primary-600 transition-colors duration-200"
                       >
                         View Details
                       </button>
@@ -395,7 +395,7 @@ const MerchantManagement: React.FC = () => {
                               setSelectedMerchant(merchant);
                               setShowApprovalModal(true);
                             }}
-                            className="bg-[#FF5733] text-white px-3 py-2 rounded hover:bg-[#FF4500] transition-colors"
+                            className="bg-primary-600 text-white px-3 py-2 rounded hover:bg-primary-700 transition-colors"
                           >
                             Approve
                           </button>

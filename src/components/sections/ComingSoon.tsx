@@ -82,7 +82,7 @@ const ComingSoon: React.FC<ComingSoonProps> = ({ layout = 'row' }) => {
         </div>
         <div className="relative px-12">
           <button 
-            className="absolute left-0 top-1/2 -translate-y-1/2 w-8 h-8 bg-[#FF4D00] hover:bg-[#FF4D00]/90 rounded-full flex items-center justify-center shadow-md z-10 transition-colors duration-200"
+            className="absolute left-0 top-1/2 -translate-y-1/2 w-8 h-8 bg-primary-600 hover:bg-primary-600/90 rounded-full flex items-center justify-center shadow-md z-10 transition-colors duration-200"
             aria-label="Previous"
             onClick={() => handleScroll('left')}
           >
@@ -117,7 +117,7 @@ const ComingSoon: React.FC<ComingSoonProps> = ({ layout = 'row' }) => {
           </div>
 
           <button 
-            className="absolute right-0 top-1/2 -translate-y-1/2 w-8 h-8 bg-[#FF4D00] hover:bg-[#FF4D00]/90 rounded-full flex items-center justify-center shadow-md z-10 transition-colors duration-200"
+            className="absolute right-0 top-1/2 -translate-y-1/2 w-8 h-8 bg-primary-600 hover:bg-primary-600/90 rounded-full flex items-center justify-center shadow-md z-10 transition-colors duration-200"
             aria-label="Next"
             onClick={() => handleScroll('right')}
           >
@@ -133,7 +133,7 @@ const ComingSoon: React.FC<ComingSoonProps> = ({ layout = 'row' }) => {
     <div className="bg-white min-h-screen">
       <div className="max-w-[1440px] mx-auto px-16 py-8">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-[36px] font-medium text-[#FF4D00]">Coming Soon</h1>
+          <h1 className="text-[36px] font-medium text-primary-600">Coming Soon</h1>
         </div>
         {loading ? (
           <div className="flex justify-center items-center min-h-[120px]">
@@ -159,7 +159,7 @@ const ComingSoon: React.FC<ComingSoonProps> = ({ layout = 'row' }) => {
           </div>
         )}
         <div className="flex justify-center">
-          <button className="bg-[#FF4D00] hover:bg-[#FF4D00]/90 text-white px-8 py-3 rounded-lg font-medium transition-colors duration-200">
+          <button className="bg-primary-600 hover:bg-primary-600/90 text-white px-8 py-3 rounded-lg font-medium transition-colors duration-200">
             See More
           </button>
         </div>

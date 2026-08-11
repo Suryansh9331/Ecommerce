@@ -876,7 +876,7 @@ const MultiStepProductForm: React.FC<MultiStepProductFormProps> = ({
         {loadingProductData ? (
           <div className="flex items-center justify-center py-12">
             <div className="text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mx-auto mb-4"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500 mx-auto mb-4"></div>
               <p className="text-gray-600">Loading product data for editing...</p>
             </div>
           </div>
@@ -914,7 +914,7 @@ const MultiStepProductForm: React.FC<MultiStepProductFormProps> = ({
                         : isCompleted
                         ? 'bg-green-500 border-green-500 text-white'
                         : isCurrent
-                        ? 'bg-orange-500 border-orange-500 text-white'
+                        ? 'bg-primary-500 border-primary-500 text-white'
                         : 'border-gray-300 text-gray-400'
                     }`}
                     onClick={() => setCurrentStep(step.id)}
@@ -929,7 +929,7 @@ const MultiStepProductForm: React.FC<MultiStepProductFormProps> = ({
                         : isCompleted
                         ? 'text-green-600'
                         : isCurrent
-                        ? 'text-orange-600'
+                        ? 'text-primary-600'
                         : 'text-gray-400'
                     }`}>
                       {step.title}
@@ -978,7 +978,7 @@ const MultiStepProductForm: React.FC<MultiStepProductFormProps> = ({
             <button
               onClick={handleNext}
               disabled={loading}
-              className="flex items-center space-x-2 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg disabled:opacity-50"
+              className="flex items-center space-x-2 px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white rounded-lg disabled:opacity-50"
             >
               {loading ? (
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>

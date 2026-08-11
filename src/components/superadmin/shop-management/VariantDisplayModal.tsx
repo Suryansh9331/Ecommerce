@@ -227,7 +227,7 @@ const VariantDisplayModal: React.FC<VariantDisplayModalProps> = ({
               ...prev,
               attributes: { ...prev.attributes, [attribute.name]: e.target.value }
             }))}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white"
           >
             <option value="">Select {attribute.name}</option>
             {attribute.values?.map((val) => (
@@ -261,7 +261,7 @@ const VariantDisplayModal: React.FC<VariantDisplayModalProps> = ({
                       attributes: { ...prev.attributes, [attribute.name]: newValues.join(',') }
                     }));
                   }}
-                  className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded"
+                  className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
                 />
                 <span className="ml-2 text-sm text-gray-700">{attrValue.value}</span>
               </label>
@@ -278,7 +278,7 @@ const VariantDisplayModal: React.FC<VariantDisplayModalProps> = ({
               ...prev,
               attributes: { ...prev.attributes, [attribute.name]: parseFloat(e.target.value) || 0 }
             }))}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             placeholder={`Enter ${attribute.name}`}
           />
         );
@@ -295,7 +295,7 @@ const VariantDisplayModal: React.FC<VariantDisplayModalProps> = ({
                   ...prev,
                   attributes: { ...prev.attributes, [attribute.name]: true }
                 }))}
-                className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300"
+                className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300"
               />
               <span className="ml-2 text-sm text-gray-700">Yes</span>
             </label>
@@ -308,7 +308,7 @@ const VariantDisplayModal: React.FC<VariantDisplayModalProps> = ({
                   ...prev,
                   attributes: { ...prev.attributes, [attribute.name]: false }
                 }))}
-                className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300"
+                className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300"
               />
               <span className="ml-2 text-sm text-gray-700">No</span>
             </label>
@@ -324,7 +324,7 @@ const VariantDisplayModal: React.FC<VariantDisplayModalProps> = ({
               ...prev,
               attributes: { ...prev.attributes, [attribute.name]: e.target.value }
             }))}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             placeholder={`Enter ${attribute.name}`}
           />
         );
@@ -346,7 +346,7 @@ const VariantDisplayModal: React.FC<VariantDisplayModalProps> = ({
             {!showCreateForm && (
               <button
                 onClick={() => setShowCreateForm(true)}
-                className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2"
+                className="bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2"
               >
                 <Plus size={20} />
                 <span>Add Variant</span>
@@ -364,10 +364,10 @@ const VariantDisplayModal: React.FC<VariantDisplayModalProps> = ({
         {/* Content */}
         <div className="flex-1 overflow-y-auto p-6">
           {showCreateForm && (
-            <div className="bg-gradient-to-br from-orange-50 to-amber-50 border border-orange-200 rounded-lg p-6 mb-6">
+            <div className="bg-gradient-to-br from-primary-50 to-amber-50 border border-primary-200 rounded-lg p-6 mb-6">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold text-gray-900 flex items-center">
-                  <Plus className="mr-2 text-orange-500" size={20} />
+                  <Plus className="mr-2 text-primary-500" size={20} />
                   Create New Variant
                 </h3>
                 <button
@@ -412,7 +412,7 @@ const VariantDisplayModal: React.FC<VariantDisplayModalProps> = ({
                         step="0.01"
                         value={formData.selling_price}
                         onChange={(e) => setFormData(prev => ({ ...prev, selling_price: parseFloat(e.target.value) || 0 }))}
-                        className="w-full pl-8 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        className="w-full pl-8 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                         placeholder="0.00"
                       />
                     </div>
@@ -429,7 +429,7 @@ const VariantDisplayModal: React.FC<VariantDisplayModalProps> = ({
                         step="0.01"
                         value={formData.cost_price}
                         onChange={(e) => setFormData(prev => ({ ...prev, cost_price: parseFloat(e.target.value) || 0 }))}
-                        className="w-full pl-8 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        className="w-full pl-8 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                         placeholder="0.00"
                       />
                     </div>
@@ -443,7 +443,7 @@ const VariantDisplayModal: React.FC<VariantDisplayModalProps> = ({
                       type="number"
                       value={formData.stock_qty}
                       onChange={(e) => setFormData(prev => ({ ...prev, stock_qty: parseInt(e.target.value) || 0 }))}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                       placeholder="0"
                     />
                   </div>
@@ -456,7 +456,7 @@ const VariantDisplayModal: React.FC<VariantDisplayModalProps> = ({
                       type="number"
                       value={formData.low_stock_threshold}
                       onChange={(e) => setFormData(prev => ({ ...prev, low_stock_threshold: parseInt(e.target.value) || 5 }))}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                       placeholder="5"
                     />
                   </div>
@@ -467,7 +467,7 @@ const VariantDisplayModal: React.FC<VariantDisplayModalProps> = ({
                         type="checkbox"
                         checked={formData.is_default}
                         onChange={(e) => setFormData(prev => ({ ...prev, is_default: e.target.checked }))}
-                        className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded"
+                        className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
                       />
                       <span className="ml-2 text-sm text-gray-700">Set as default variant</span>
                     </label>
@@ -524,7 +524,7 @@ const VariantDisplayModal: React.FC<VariantDisplayModalProps> = ({
                 <button
                   onClick={handleCreateVariant}
                   disabled={Object.keys(formData.attributes).length === 0 || !formData.selling_price}
-                  className="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 disabled:from-gray-400 disabled:to-gray-400 text-white px-6 py-2 rounded-lg flex items-center space-x-2 transition-all duration-200 shadow-md hover:shadow-lg"
+                  className="bg-gradient-to-r from-primary-500 to-amber-500 hover:from-primary-600 hover:to-amber-600 disabled:from-gray-400 disabled:to-gray-400 text-white px-6 py-2 rounded-lg flex items-center space-x-2 transition-all duration-200 shadow-md hover:shadow-lg"
                 >
                   <Save size={16} />
                   <span>Create Variant</span>
@@ -536,7 +536,7 @@ const VariantDisplayModal: React.FC<VariantDisplayModalProps> = ({
           {/* Variants List */}
           {loading ? (
             <div className="flex items-center justify-center h-32">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
             </div>
           ) : variants.length === 0 ? (
             <div className="text-center py-12">
@@ -546,7 +546,7 @@ const VariantDisplayModal: React.FC<VariantDisplayModalProps> = ({
               {!showCreateForm && (
                 <button
                   onClick={() => setShowCreateForm(true)}
-                  className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg"
+                  className="bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg"
                 >
                   Create First Variant
                 </button>

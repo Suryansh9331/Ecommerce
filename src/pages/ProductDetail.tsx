@@ -843,7 +843,7 @@
 //                           )
 //                         }
 //                         className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${isSelected
-//                             ? "border-2 border-orange-500 bg-orange-50 text-orange-700 shadow-sm"
+//                             ? "border-2 border-primary-500 bg-primary-50 text-primary-700 shadow-sm"
 //                             : "border-2 border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:bg-gray-50"
 //                           }`}
 //                       >
@@ -885,7 +885,7 @@
 //                           )
 //                         }
 //                         className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${isSelected
-//                             ? "border-2 border-orange-500 bg-orange-50 text-orange-700 shadow-sm"
+//                             ? "border-2 border-primary-500 bg-primary-50 text-primary-700 shadow-sm"
 //                             : "border-2 border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:bg-gray-50"
 //                           }`}
 //                       >
@@ -1044,7 +1044,7 @@
 //           <div className="py-6">
 //             {loadingReviews ? (
 //               <div className="flex justify-center items-center h-32">
-//                 <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-orange-500"></div>
+//                 <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary-500"></div>
 //               </div>
 //             ) : reviews.length > 0 ? (
 //               <div className="space-y-6">
@@ -1494,7 +1494,7 @@
 //                       <div
 //                         key={media.media_id}
 //                         className={`relative min-w-[60px] min-h-[60px] w-16 h-16 xs:w-20 xs:h-20 cursor-pointer border-2 rounded-md overflow-hidden ${selectedImage === media.url
-//                             ? "border-orange-500"
+//                             ? "border-primary-500"
 //                             : "border-transparent"
 //                           }`}
 //                         onClick={() => setSelectedImage(media.url)}
@@ -1594,8 +1594,8 @@
 
 //               {/* Selected Attributes Summary */}
 //               {Object.keys(selectedAttributes).length > 0 && (
-//                 <div className="mb-4 p-3 bg-orange-50 border border-orange-200 rounded-lg">
-//                   <div className="text-sm font-medium text-orange-800 mb-2">
+//                 <div className="mb-4 p-3 bg-primary-50 border border-primary-200 rounded-lg">
+//                   <div className="text-sm font-medium text-primary-800 mb-2">
 //                     Selected Options:
 //                   </div>
 //                   <div className="flex flex-wrap gap-2">
@@ -1626,7 +1626,7 @@
 //                         return displayValues.map((value, index) => (
 //                           <span
 //                             key={`${attributeId}-${index}`}
-//                             className="inline-flex items-center px-3 py-1 bg-orange-100 text-orange-800 text-sm rounded-full font-medium"
+//                             className="inline-flex items-center px-3 py-1 bg-primary-100 text-primary-800 text-sm rounded-full font-medium"
 //                           >
 //                             {attributeName}: {mapSelectedValue(value)}
 //                           </span>
@@ -1761,7 +1761,7 @@
 //                     {/* Favourites Button */}
 //                     <button
 //                       className={`p-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors min-w-[40px] ${isInWishlist(Number(product?.product_id))
-//                         ? "text-[#F2631F]"
+//                         ? "text-primary-600"
 //                         : "text-gray-600 flex items-center justify-center"
 //                       }`}
 //                       onClick={handleWishlist}
@@ -1769,7 +1769,7 @@
 //                       aria-label="Add to Wishlist"
 //                     >
 //                       {wishlistLoading ? (
-//                         <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-[#F2631F] mx-auto"></div>
+//                         <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary-600 mx-auto"></div>
 //                       ) : (
 //                         <Heart
 //                           size={18}
@@ -1787,14 +1787,14 @@
 //                     {/* Buy Now Button */}
 //                     <button
 //                       onClick={handleBuyNow}
-//                       className="bg-orange-500 text-white px-5 py-2 rounded-md hover:bg-orange-600 duration-300 transition-colors font-medium text-sm min-w-[120px] w-full"
+//                       className="bg-primary-500 text-white px-5 py-2 rounded-md hover:bg-primary-600 duration-300 transition-colors font-medium text-sm min-w-[120px] w-full"
 //                     >
 //                       Buy Now
 //                     </button>
 //                     {/* Add to Cart Button */}
 //                     <button
 //                       onClick={handleAddToCart}
-//                       className="bg-orange-500 text-white px-5 py-2 rounded-md hover:bg-orange-600 duration-300 transition-colors font-medium text-sm min-w-[120px] w-full"
+//                       className="bg-primary-500 text-white px-5 py-2 rounded-md hover:bg-primary-600 duration-300 transition-colors font-medium text-sm min-w-[120px] w-full"
 //                     >
 //                       Add To Cart
 //                     </button>
@@ -1826,14 +1826,14 @@
 //                     {/* Buy Now Button */}
 //                     <button
 //                       onClick={handleBuyNow}
-//                       className="bg-orange-500 text-white px-5 py-2 rounded-md hover:bg-orange-600 duration-300 transition-colors font-medium text-sm min-w-[120px]"
+//                       className="bg-primary-500 text-white px-5 py-2 rounded-md hover:bg-primary-600 duration-300 transition-colors font-medium text-sm min-w-[120px]"
 //                     >
 //                       Buy Now
 //                     </button>
 //                     {/* Add to Cart Button */}
 //                     <button
 //                       onClick={handleAddToCart}
-//                       className="bg-orange-500 text-white px-5 py-2 rounded-md hover:bg-orange-600 duration-300 transition-colors font-medium text-sm min-w-[120px]"
+//                       className="bg-primary-500 text-white px-5 py-2 rounded-md hover:bg-primary-600 duration-300 transition-colors font-medium text-sm min-w-[120px]"
 //                     >
 //                       Add To Cart
 //                     </button>
@@ -1908,7 +1908,7 @@
 //                   {/* Favourites Button */}
 //                   <button
 //                     className={`p-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors min-w-[40px] ${isInWishlist(Number(product?.product_id))
-//                       ? "text-[#F2631F]"
+//                       ? "text-primary-600"
 //                       : "text-gray-600 flex items-center justify-center"
 //                     }`}
 //                     onClick={handleWishlist}
@@ -1916,7 +1916,7 @@
 //                     aria-label="Add to Wishlist"
 //                   >
 //                     {wishlistLoading ? (
-//                       <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-[#F2631F] mx-auto"></div>
+//                       <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary-600 mx-auto"></div>
 //                     ) : (
 //                       <Heart
 //                         size={18}
@@ -1944,7 +1944,7 @@
 //               <button
 //                 onClick={() => setActiveTab("product-details")}
 //                 className={`py-2 px-4 font-medium border-b-2 ${activeTab === "product-details"
-//                     ? "border-orange-500 text-orange-500"
+//                     ? "border-primary-500 text-primary-500"
 //                     : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
 //                   } transition-colors`}
 //               >
@@ -1953,7 +1953,7 @@
 //               <button
 //                 onClick={() => setActiveTab("information")}
 //                 className={`py-2 px-4 font-medium border-b-2 ${activeTab === "information"
-//                     ? "border-orange-500 text-orange-500"
+//                     ? "border-primary-500 text-primary-500"
 //                     : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
 //                   } transition-colors`}
 //               >
@@ -1962,7 +1962,7 @@
 //               <button
 //                 onClick={() => setActiveTab("reviews")}
 //                 className={`py-2 px-4 font-medium border-b-2 ${activeTab === "reviews"
-//                     ? "border-orange-500 text-orange-500"
+//                     ? "border-primary-500 text-primary-500"
 //                     : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
 //                   } transition-colors`}
 //               >
@@ -2308,7 +2308,7 @@ const ProductDetail: React.FC = () => {
                 key={i}
                 src={img.url}
                 onClick={() => setIndex(i)}
-                className={`w-20 h-20 object-cover rounded-md cursor-pointer border-2 transition ${i === index ? "border-orange-500" : "border-transparent"
+                className={`w-20 h-20 object-cover rounded-md cursor-pointer border-2 transition ${i === index ? "border-primary-500" : "border-transparent"
                   }`}
               />
             ))}
@@ -2918,7 +2918,7 @@ const ProductDetail: React.FC = () => {
                           )
                         }
                         className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${isSelected
-                          ? "border-2 border-orange-500 bg-orange-50 text-orange-700 shadow-sm"
+                          ? "border-2 border-primary-500 bg-primary-50 text-primary-700 shadow-sm"
                           : "border-2 border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:bg-gray-50"
                           }`}
                       >
@@ -2960,7 +2960,7 @@ const ProductDetail: React.FC = () => {
                           )
                         }
                         className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${isSelected
-                          ? "border-2 border-orange-500 bg-orange-50 text-orange-700 shadow-sm"
+                          ? "border-2 border-primary-500 bg-primary-50 text-primary-700 shadow-sm"
                           : "border-2 border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:bg-gray-50"
                           }`}
                       >
@@ -3119,7 +3119,7 @@ const ProductDetail: React.FC = () => {
           <div className="py-6">
             {loadingReviews ? (
               <div className="flex justify-center items-center h-32">
-                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-orange-500"></div>
+                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary-500"></div>
               </div>
             ) : reviews.length > 0 ? (
               <div className="space-y-6">
@@ -3480,15 +3480,15 @@ const ProductDetail: React.FC = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-14 py-4 sm:py-6 lg:py-8">
         {/* Breadcrumbs */}
         <nav className="flex flex-wrap items-center gap-1 text-xs sm:text-sm mb-4 sm:mb-6 overflow-x-auto whitespace-nowrap scrollbar-hide" aria-label="Breadcrumb">
-          <Link to="/" className="text-gray-500 hover:text-[#F2631F] transition-colors py-1">
+          <Link to="/" className="text-gray-500 hover:text-primary-600 transition-colors py-1">
             Home
           </Link>
           <ChevronRight size={14} className="text-gray-400 shrink-0" aria-hidden />
-          <Link to="/products" className="text-gray-500 hover:text-[#F2631F] transition-colors py-1">
+          <Link to="/products" className="text-gray-500 hover:text-primary-600 transition-colors py-1">
             Products
           </Link>
           <ChevronRight size={14} className="text-gray-400 shrink-0" aria-hidden />
-          <Link to={`/category/${product.category?.category_id}`} className="text-gray-500 hover:text-[#F2631F] transition-colors py-1">
+          <Link to={`/category/${product.category?.category_id}`} className="text-gray-500 hover:text-primary-600 transition-colors py-1">
             {translatedCategory || product.category?.name}
           </Link>
           <ChevronRight size={14} className="text-gray-400 shrink-0" aria-hidden />
@@ -3565,7 +3565,7 @@ const ProductDetail: React.FC = () => {
                     <div
                       key={media.media_id}
                       className={`relative shrink-0 w-14 h-14 sm:w-16 sm:h-16 cursor-pointer border-2 rounded-lg overflow-hidden transition-colors ${selectedImage === media.url
-                        ? "border-[#F2631F] ring-2 ring-[#F2631F]/20"
+                        ? "border-primary-600 ring-2 ring-primary-600/20"
                         : "border-gray-200 hover:border-gray-300"
                         }`}
                       onClick={() => {
@@ -3630,7 +3630,7 @@ const ProductDetail: React.FC = () => {
                       </span>
                     )}
                   {product.is_on_special_offer && (
-                    <span className="bg-[#F2631F] text-white text-xs font-semibold px-2.5 py-1 rounded-full">
+                    <span className="bg-primary-600 text-white text-xs font-semibold px-2.5 py-1 rounded-full">
                       Special Offer
                     </span>
                   )}
@@ -3677,7 +3677,7 @@ const ProductDetail: React.FC = () => {
 
               {/* Selected Attributes Summary */}
               {Object.keys(selectedAttributes).length > 0 && (
-                <div className="mb-4 p-3 sm:p-4 bg-[#F2631F]/5 border border-[#F2631F]/20 rounded-xl">
+                <div className="mb-4 p-3 sm:p-4 bg-primary-600/5 border border-primary-600/20 rounded-xl">
                     <div className="text-sm font-semibold text-gray-800 mb-2">
                       Selected options
                     </div>
@@ -3709,7 +3709,7 @@ const ProductDetail: React.FC = () => {
                         return displayValues.map((value, index) => (
                           <span
                             key={`${attributeId}-${index}`}
-                            className="inline-flex items-center px-3 py-1.5 bg-[#F2631F]/15 text-gray-800 text-sm rounded-lg font-medium"
+                            className="inline-flex items-center px-3 py-1.5 bg-primary-600/15 text-gray-800 text-sm rounded-lg font-medium"
                           >
                             {attributeName}: {mapSelectedValue(value)}
                           </span>
@@ -3846,7 +3846,7 @@ const ProductDetail: React.FC = () => {
                     {/* Favourites Button */}
                     <button
                       className={`p-2.5 min-h-[44px] min-w-[44px] border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors flex items-center justify-center ${isInWishlist(Number(product?.product_id))
-                        ? "text-[#F2631F] border-[#F2631F]/30"
+                        ? "text-primary-600 border-primary-600/30"
                         : "text-gray-600"
                         }`}
                       onClick={handleWishlist}
@@ -3854,7 +3854,7 @@ const ProductDetail: React.FC = () => {
                       aria-label="Add to Wishlist"
                     >
                       {wishlistLoading ? (
-                        <div className="animate-spin rounded-full h-5 w-5 border-2 border-[#F2631F]/30 border-t-[#F2631F]"></div>
+                        <div className="animate-spin rounded-full h-5 w-5 border-2 border-primary-600/30 border-t-primary-600"></div>
                       ) : (
                         <Heart
                           size={20}
@@ -3867,13 +3867,13 @@ const ProductDetail: React.FC = () => {
                   <div className="flex gap-3 w-full mt-1">
                     <button
                       onClick={handleBuyNow}
-                      className="flex-1 min-h-[48px] bg-[#F2631F] text-white px-4 py-3 rounded-xl hover:bg-[#e55a1a] active:scale-[0.98] transition-all font-semibold text-sm"
+                      className="flex-1 min-h-[48px] bg-primary-600 text-white px-4 py-3 rounded-xl hover:bg-primary-700 active:scale-[0.98] transition-all font-semibold text-sm"
                     >
                       Buy Now
                     </button>
                     <button
                       onClick={handleAddToCart}
-                      className="flex-1 min-h-[48px] bg-[#F2631F] text-white px-4 py-3 rounded-xl hover:bg-[#e55a1a] active:scale-[0.98] transition-all font-semibold text-sm"
+                      className="flex-1 min-h-[48px] bg-primary-600 text-white px-4 py-3 rounded-xl hover:bg-primary-700 active:scale-[0.98] transition-all font-semibold text-sm"
                     >
                       Add To Cart
                     </button>
@@ -3904,13 +3904,13 @@ const ProductDetail: React.FC = () => {
                   <div className="flex gap-3">
                     <button
                       onClick={handleBuyNow}
-                      className="min-h-[44px] bg-[#F2631F] text-white px-5 py-2.5 rounded-xl hover:bg-[#e55a1a] transition-colors font-semibold text-sm min-w-[120px]"
+                      className="min-h-[44px] bg-primary-600 text-white px-5 py-2.5 rounded-xl hover:bg-primary-700 transition-colors font-semibold text-sm min-w-[120px]"
                     >
                       Buy Now
                     </button>
                     <button
                       onClick={handleAddToCart}
-                      className="min-h-[44px] bg-[#F2631F] text-white px-5 py-2.5 rounded-xl hover:bg-[#e55a1a] transition-colors font-semibold text-sm min-w-[120px]"
+                      className="min-h-[44px] bg-primary-600 text-white px-5 py-2.5 rounded-xl hover:bg-primary-700 transition-colors font-semibold text-sm min-w-[120px]"
                     >
                       Add To Cart
                     </button>
@@ -3983,7 +3983,7 @@ const ProductDetail: React.FC = () => {
                   </div>
                   <button
                     className={`p-2.5 min-h-[44px] min-w-[44px] border rounded-xl hover:bg-gray-50 transition-colors flex items-center justify-center ${isInWishlist(Number(product?.product_id))
-                      ? "text-[#F2631F] border-[#F2631F]/30"
+                      ? "text-primary-600 border-primary-600/30"
                       : "text-gray-600 border-gray-200"
                       }`}
                     onClick={handleWishlist}
@@ -3991,7 +3991,7 @@ const ProductDetail: React.FC = () => {
                     aria-label="Add to Wishlist"
                   >
                     {wishlistLoading ? (
-                      <div className="animate-spin rounded-full h-5 w-5 border-2 border-[#F2631F]/30 border-t-[#F2631F]"></div>
+                      <div className="animate-spin rounded-full h-5 w-5 border-2 border-primary-600/30 border-t-primary-600"></div>
                     ) : (
                       <Heart size={20} className={isInWishlist(Number(product?.product_id)) ? "fill-current" : ""} />
                     )}
@@ -4014,7 +4014,7 @@ const ProductDetail: React.FC = () => {
                 aria-selected={activeTab === "product-details"}
                 onClick={() => setActiveTab("product-details")}
                 className={`py-3 px-4 sm:px-5 text-sm font-semibold rounded-t-lg whitespace-nowrap transition-colors ${activeTab === "product-details"
-                  ? "bg-[#F2631F]/10 text-[#F2631F] border-b-2 border-[#F2631F]"
+                  ? "bg-primary-600/10 text-primary-600 border-b-2 border-primary-600"
                   : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"
                   }`}
               >
@@ -4025,7 +4025,7 @@ const ProductDetail: React.FC = () => {
                 aria-selected={activeTab === "information"}
                 onClick={() => setActiveTab("information")}
                 className={`py-3 px-4 sm:px-5 text-sm font-semibold rounded-t-lg whitespace-nowrap transition-colors ${activeTab === "information"
-                  ? "bg-[#F2631F]/10 text-[#F2631F] border-b-2 border-[#F2631F]"
+                  ? "bg-primary-600/10 text-primary-600 border-b-2 border-primary-600"
                   : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"
                   }`}
               >
@@ -4036,7 +4036,7 @@ const ProductDetail: React.FC = () => {
                 aria-selected={activeTab === "reviews"}
                 onClick={() => setActiveTab("reviews")}
                 className={`py-3 px-4 sm:px-5 text-sm font-semibold rounded-t-lg whitespace-nowrap transition-colors ${activeTab === "reviews"
-                  ? "bg-[#F2631F]/10 text-[#F2631F] border-b-2 border-[#F2631F]"
+                  ? "bg-primary-600/10 text-primary-600 border-b-2 border-primary-600"
                   : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"
                   }`}
               >

@@ -465,7 +465,7 @@ const TrackOrder: React.FC = () => {
       case 'in_transit':
       case 'shipped':
       case 'at sorting facility':
-        return 'bg-[#FF4D00]';
+        return 'bg-primary-600';
       case 'processing':
       case 'pending':
       case 'confirmed':
@@ -511,7 +511,7 @@ const TrackOrder: React.FC = () => {
                 value={orderNumber}
                 onChange={(e) => setOrderNumber(e.target.value)}
                 placeholder="Enter your order number"
-                className="w-full px-4 py-3 pl-12 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF4D00] focus:border-[#FF4D00]"
+                className="w-full px-4 py-3 pl-12 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-primary-600"
                 disabled={loading}
               />
               {/* <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} /> */}
@@ -519,7 +519,7 @@ const TrackOrder: React.FC = () => {
             <button
               type="submit"
               disabled={loading}
-              className="px-6 py-3 bg-[#FF4D00] text-white rounded-lg hover:bg-[#FF4D00]/90 transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-600/90 transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? (
                 <>
@@ -555,7 +555,7 @@ const TrackOrder: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
               <div className="p-4 border rounded-lg">
                 <div className="flex items-center gap-3 mb-2">
-                  <Package className="text-[#FF4D00]" size={24} />
+                  <Package className="text-primary-600" size={24} />
                   <h3 className="font-medium">Order Status</h3>
                 </div>
                 <div className="flex items-center gap-2">
@@ -566,7 +566,7 @@ const TrackOrder: React.FC = () => {
 
               <div className="p-4 border rounded-lg">
                 <div className="flex items-center gap-3 mb-2">
-                  <Calendar className="text-[#FF4D00]" size={24} />
+                  <Calendar className="text-primary-600" size={24} />
                   <h3 className="font-medium">Estimated Delivery</h3>
                 </div>
                 <p>{getEstimatedDelivery(trackingInfo)}</p>
@@ -574,7 +574,7 @@ const TrackOrder: React.FC = () => {
 
               <div className="p-4 border rounded-lg">
                 <div className="flex items-center gap-3 mb-2">
-                  <MapPin className="text-[#FF4D00]" size={24} />
+                  <MapPin className="text-primary-600" size={24} />
                   <h3 className="font-medium">Current Location</h3>
                 </div>
                 <p>{getCurrentLocation(trackingInfo)}</p>
@@ -676,7 +676,7 @@ const TrackOrder: React.FC = () => {
                 {getTrackingSteps(trackingInfo).map((step, index) => (
                   <div key={index} className="relative flex gap-6">
                     <div className="flex flex-col items-center">
-                      <div className={`w-4 h-4 rounded-full ${index === getTrackingSteps(trackingInfo).length - 1 ? 'bg-[#FF4D00]' : 'bg-green-500'}`}></div>
+                      <div className={`w-4 h-4 rounded-full ${index === getTrackingSteps(trackingInfo).length - 1 ? 'bg-primary-600' : 'bg-green-500'}`}></div>
                       {index !== getTrackingSteps(trackingInfo).length - 1 && (
                         <div className="w-0.5 h-full bg-gray-200 absolute top-4"></div>
                       )}
@@ -699,7 +699,7 @@ const TrackOrder: React.FC = () => {
         <div className="mt-8 text-center">
           <button
             onClick={() => navigate('/orders')}
-            className="text-[#FF4D00] hover:text-[#FF4D00]/80 transition-colors flex items-center gap-2 mx-auto"
+            className="text-primary-600 hover:text-primary-600/80 transition-colors flex items-center gap-2 mx-auto"
           >
             View All Orders
             <ArrowRight size={16} />
