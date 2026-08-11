@@ -1,25 +1,51 @@
 import React, { useState, useEffect, useRef } from "react";
 
-const images = [
-  "https://res.cloudinary.com/do3vxz4gw/image/upload/v1751544913/svg_assets/rightcrousel_Image3.svg",
-  "https://res.cloudinary.com/do3vxz4gw/image/upload/v1751544854/svg_assets/rightcrousel_Image2.svg",
-  "https://res.cloudinary.com/do3vxz4gw/image/upload/v1751544854/svg_assets/rightcrousel_Image3.svg"
-];
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+interface ICarouselItem {
+  id: number;
+  image_url: string;
+  shareable_link?: string | null;
+  display_order: number;
+}
 
 const CAROUSEL_HEIGHT = 564; // px, adjust as needed for your SVG size + margin
 
 const RightCarousel: React.FC = () => {
+  const [items, setItems] = useState<ICarouselItem[]>([]);
   const [current, setCurrent] = useState(0);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        const response = await fetch(
+          `${API_BASE_URL}/api/homepage/carousels?type=sidebar_right&orientation=vertical`
+        );
+        if (!response.ok) throw new Error("Failed to fetch sidebar banners");
+        const data = await response.json();
+        const sorted = (Array.isArray(data) ? data : [])
+          .sort((a: ICarouselItem, b: ICarouselItem) => a.display_order - b.display_order);
+        setItems(sorted);
+      } catch (error) {
+        console.error("Error fetching right carousel items:", error);
+      }
+    };
+    fetchItems();
+  }, []);
+
+  useEffect(() => {
+    if (items.length < 2) return;
     timeoutRef.current = setTimeout(() => {
-      setCurrent((prev) => (prev + 1) % images.length);
+      setCurrent((prev) => (prev + 1) % items.length);
     }, 1400);
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
-  }, [current]);
+  }, [current, items.length]);
+
+  // Nothing to show yet — keep the layout clean (Hero grid handles spacing)
+  if (!items.length) return null;
 
   return (
     <div
@@ -40,19 +66,39 @@ const RightCarousel: React.FC = () => {
           transition: "transform 0.5s cubic-bezier(0.4,0,0.2,1)",
         }}
       >
-        {images.map((src, idx) => (
-          <div
-            key={idx}
-            style={{
-              height: CAROUSEL_HEIGHT,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <img src={src} alt={`SVG ${idx + 1}`} style={{ height: "100%", width: "auto" }} />
-          </div>
-        ))}
+        {items.map((item, idx) => {
+          const image = (
+            <img
+              src={item.image_url}
+              alt={`Banner ${idx + 1}`}
+              style={{ height: "100%", width: "auto" }}
+            />
+          );
+          return (
+            <div
+              key={item.id ?? idx}
+              style={{
+                height: CAROUSEL_HEIGHT,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              {item.shareable_link ? (
+                <a
+                  href={item.shareable_link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ height: "100%", display: "flex", alignItems: "center" }}
+                >
+                  {image}
+                </a>
+              ) : (
+                image
+              )}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
