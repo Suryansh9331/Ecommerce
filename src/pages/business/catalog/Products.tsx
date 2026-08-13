@@ -47,6 +47,9 @@ interface Product {
   created_at: string;
   updated_at: string;
   deleted_at: string | null;
+  deleted_by_role: 'merchant' | 'admin' | null;
+  deletion_reason: string | null;
+  removed_by_admin: boolean;
   parent_product_id: number | null;
   stock_qty: number;
   low_stock_threshold: number;
@@ -89,6 +92,27 @@ const ApprovalStatusBadge: React.FC<{ status: 'pending' | 'approved' | 'rejected
     </div>
   );
 };
+/**
+ * Shown when the AOIN team removed a listing.
+ *
+ * The reason is displayed verbatim and prominently: a merchant whose product
+ * disappeared without explanation raises a support ticket, which is the outcome
+ * the takedown flow exists to avoid. The call to action says what to do next,
+ * because the removed listing itself cannot be restored — the SKU is released
+ * so a corrected product can reuse it.
+ */
+const RemovedByAdminBadge: React.FC<{ reason?: string | null }> = ({ reason }) => (
+  <div className="flex flex-col gap-1">
+    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+      Removed by admin
+    </span>
+    {reason && <span className="text-xs text-red-700">Reason: {reason}</span>}
+    <span className="text-xs text-gray-500">
+      Fix the issue and create a new listing.
+    </span>
+  </div>
+);
+
 const formatINR = (amount: number) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(amount);
 
 
@@ -402,7 +426,9 @@ const Products: React.FC = () => {
                     <td className="px-2 py-1 whitespace-nowrap"><StatusBadge active={product.active_flag} /></td>
                     <td className="px-1 py-1 whitespace-nowrap text-center align-middle">
                       <div className="flex justify-center items-center h-full">
-                        <ApprovalStatusBadge status={product.approval_status} reason={product.rejection_reason} />
+                        {product.removed_by_admin
+                            ? <RemovedByAdminBadge reason={product.deletion_reason} />
+                            : <ApprovalStatusBadge status={product.approval_status} reason={product.rejection_reason} />}
                       </div>
                     </td>
                     <td className="px-2 py-1 whitespace-nowrap font-medium pl-4 sm:pl-10 min-w-[80px]">
@@ -424,7 +450,9 @@ const Products: React.FC = () => {
                       <td className="px-2 py-1 whitespace-nowrap"><StatusBadge active={product.active_flag} /></td>
                       <td className="px-1 py-1 whitespace-nowrap text-center align-middle">
                         <div className="flex justify-center items-center h-full">
-                          <ApprovalStatusBadge status={product.approval_status} reason={product.rejection_reason} />
+                          {product.removed_by_admin
+                            ? <RemovedByAdminBadge reason={product.deletion_reason} />
+                            : <ApprovalStatusBadge status={product.approval_status} reason={product.rejection_reason} />}
                         </div>
                       </td>
                       <td className="px-2 py-1 whitespace-nowrap font-medium pl-4 sm:pl-10 min-w-[80px]">

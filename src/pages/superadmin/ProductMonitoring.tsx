@@ -343,6 +343,12 @@ const ProductMonitoring: React.FC = () => {
     const navigate = useNavigate();
     const { accessToken, user } = useAuth();
     const [products, setProducts] = useState<Product[]>([]);
+    // Takedown selection. Held as a Set of product ids so toggling one card does
+    // not rebuild the whole list's identity on every click.
+    const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [deleteReason, setDeleteReason] = useState('');
+    const [deleting, setDeleting] = useState(false);
     const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -568,6 +574,62 @@ const ProductMonitoring: React.FC = () => {
         );
     }
 
+    const toggleSelected = (productId: number) => {
+        setSelectedIds((prev) => {
+            const next = new Set(prev);
+            if (next.has(productId)) next.delete(productId);
+            else next.add(productId);
+            return next;
+        });
+    };
+
+    const selectAllVisible = () => {
+        const visible = filteredProducts.map((p) => p.product_id);
+        const allSelected = visible.every((id) => selectedIds.has(id));
+        setSelectedIds(allSelected ? new Set() : new Set(visible));
+    };
+
+    const handleDelete = async () => {
+        const ids = Array.from(selectedIds);
+        if (ids.length === 0) return;
+        if (!deleteReason.trim()) {
+            toast.error('A reason is required — the merchant is shown it.');
+            return;
+        }
+
+        setDeleting(true);
+        try {
+            const token = localStorage.getItem('access_token');
+            const response = await fetch(`${API_BASE_URL}/api/superadmin/products/bulk-delete`, {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ product_ids: ids, reason: deleteReason.trim() }),
+            });
+            const body = await response.json();
+            if (!response.ok) throw new Error(body?.message || 'Failed to remove products');
+
+            // The server reports per-product outcomes, so say what actually
+            // happened rather than claiming every selected product was removed.
+            toast.success(body.message || 'Products removed');
+            const skipped = body?.data?.skipped_count ?? 0;
+            if (skipped > 0) {
+                toast(`${skipped} were already removed or no longer exist.`, { icon: 'ℹ️' });
+            }
+
+            setSelectedIds(new Set());
+            setDeleteReason('');
+            setShowDeleteModal(false);
+            await fetchProducts();
+        } catch (e) {
+            toast.error(e instanceof Error ? e.message : 'Failed to remove products');
+        } finally {
+            setDeleting(false);
+        }
+    };
+
     return (
         <div className="min-h-screen bg-gray-50 p-4 sm:p-6">
             <div className="max-w-full mx-auto">
@@ -605,6 +667,34 @@ const ProductMonitoring: React.FC = () => {
                     </div>
                 </div>
 
+                {/* Bulk selection bar. Only appears once something is selected, so
+                    the screen is unchanged for admins who never use takedown. */}
+                <div className="mb-4 flex flex-wrap items-center gap-3">
+                    <button
+                        onClick={selectAllVisible}
+                        className="text-sm text-blue-600 hover:text-blue-800 underline"
+                    >
+                        {filteredProducts.length > 0 &&
+                         filteredProducts.every((p) => selectedIds.has(p.product_id))
+                            ? 'Clear selection'
+                            : `Select all ${filteredProducts.length} shown`}
+                    </button>
+
+                    {selectedIds.size > 0 && (
+                        <>
+                            <span className="text-sm text-gray-600">
+                                {selectedIds.size} selected
+                            </span>
+                            <button
+                                onClick={() => setShowDeleteModal(true)}
+                                className="px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-md hover:bg-red-700"
+                            >
+                                Remove {selectedIds.size} product{selectedIds.size > 1 ? 's' : ''}
+                            </button>
+                        </>
+                    )}
+                </div>
+
                 {/* Products Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
                     {filteredProducts.map((product) => (
@@ -612,6 +702,17 @@ const ProductMonitoring: React.FC = () => {
                             key={product.product_id}
                             className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow relative"
                         >
+                            {/* Takedown checkbox */}
+                            <div className="absolute top-2 left-2 z-10">
+                                <input
+                                    type="checkbox"
+                                    checked={selectedIds.has(product.product_id)}
+                                    onChange={() => toggleSelected(product.product_id)}
+                                    aria-label={`Select ${product.product_name} for removal`}
+                                    className="h-5 w-5 rounded border-gray-300 text-red-600 focus:ring-red-500 cursor-pointer bg-white"
+                                />
+                            </div>
+
                             {/* Status Badge */}
                             <div className="absolute top-2 right-2 z-10">
                                 <span className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusBadgeClass(product.status)}`}>
@@ -705,6 +806,54 @@ const ProductMonitoring: React.FC = () => {
                     isActionLoading={isActionLoading}
                     getStatusBadgeClass={getStatusBadgeClass}
                 />
+            )}
+
+            {/* Takedown confirmation. The reason is mandatory because the merchant
+                is shown it verbatim — "removed" with no explanation is precisely
+                the outcome this feature exists to avoid. */}
+            {showDeleteModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+                    <div className="w-full max-w-lg rounded-lg bg-white p-6 shadow-xl">
+                        <h2 className="text-lg font-semibold text-gray-900">
+                            Remove {selectedIds.size} product{selectedIds.size > 1 ? 's' : ''}?
+                        </h2>
+                        <p className="mt-2 text-sm text-gray-600">
+                            The listing is removed from the marketplace immediately and can
+                            no longer be bought. The merchant is notified with the reason
+                            below and can create a corrected listing. Existing orders are
+                            unaffected.
+                        </p>
+
+                        <label className="mt-4 block text-sm font-medium text-gray-700">
+                            Reason (shown to the merchant) *
+                        </label>
+                        <textarea
+                            value={deleteReason}
+                            onChange={(e) => setDeleteReason(e.target.value)}
+                            rows={3}
+                            maxLength={500}
+                            placeholder="e.g. Counterfeit branding, prohibited item, misleading description"
+                            className="mt-1 w-full rounded-md border border-gray-300 p-2 text-sm focus:border-red-500 focus:ring-2 focus:ring-red-500"
+                        />
+
+                        <div className="mt-5 flex justify-end gap-3">
+                            <button
+                                onClick={() => { setShowDeleteModal(false); setDeleteReason(''); }}
+                                disabled={deleting}
+                                className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 disabled:opacity-50"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={handleDelete}
+                                disabled={deleting || !deleteReason.trim()}
+                                className="px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-md hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                {deleting ? 'Removing…' : 'Remove products'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
             )}
         </div>
     );
