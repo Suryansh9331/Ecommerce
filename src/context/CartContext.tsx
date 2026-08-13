@@ -93,7 +93,8 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             special_price: item.product.special_price,
             image_url: item.product.image_url,
             stock: item.product.stock,
-            is_deleted: item.product.is_deleted
+            is_deleted: item.product.is_deleted,
+            unavailable_reason: item.product.unavailable_reason
           }
         }));
 

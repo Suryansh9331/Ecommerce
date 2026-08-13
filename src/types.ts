@@ -13,6 +13,9 @@ export interface CartItem {
     image_url: string;
     stock: number;
     is_deleted: boolean;
+    /** Why this line can no longer be bought, when it cannot. Sent by the API
+     *  alongside is_deleted so the cart can explain a line rather than drop it. */
+    unavailable_reason?: string | null;
     sku?: string;
   };
 }
@@ -27,6 +30,9 @@ export interface Product {
   images?: string[];
   stock: number;
   is_deleted: boolean;
+  /** Why this product can no longer be bought, when it cannot. Set by the API
+   *  alongside is_deleted so the cart can explain a line rather than drop it. */
+  unavailable_reason?: string | null;
   sku?: string;
   description?: string;
   category?: {

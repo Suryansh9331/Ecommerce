@@ -43,6 +43,12 @@ const Cart: React.FC = () => {
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   const handleCheckout = () => {
+    // The server refuses to quote a basket containing a removed product, so
+    // stopping here gives a clear instruction instead of an error at payment.
+    if (cart.some((item: CartItemType) => item.product.is_deleted)) {
+      toast.error('Please remove the unavailable items before checking out.');
+      return;
+    }
     if (!accessToken) {
       toast.error(t('common.pleaseSignIn'));
       navigate("/signin", { state: { returnUrl: "/cart" } });
@@ -132,8 +138,15 @@ const Cart: React.FC = () => {
     );
   }
 
+  // Unavailable lines are shown, not silently dropped. A basket that quietly
+  // loses an item leaves the customer wondering where it went; a line marked
+  // "no longer available" with a Remove button tells them what happened and what
+  // to do. They are excluded from the total and block checkout until cleared.
   const activeCartItems = cart.filter(
     (item: CartItemType) => !item.product.is_deleted
+  );
+  const unavailableCartItems = cart.filter(
+    (item: CartItemType) => item.product.is_deleted
   );
   const finalTotal = totalPrice - discount;
 
@@ -180,6 +193,50 @@ const Cart: React.FC = () => {
                   onUpdateQuantity={updateQuantity}
                 />
               ))}
+
+              {unavailableCartItems.length > 0 && (
+                <div className="mt-6 border-t pt-4">
+                  <h3 className="text-sm font-semibold text-red-700 mb-3">
+                    No longer available ({unavailableCartItems.length})
+                  </h3>
+                  {unavailableCartItems.map((item: CartItemType) => (
+                    <div
+                      key={item.cart_item_id}
+                      className="flex items-center gap-4 py-3 opacity-60"
+                    >
+                      <img
+                        src={item.product.image_url || '/placeholder-image.png'}
+                        alt={item.product.name}
+                        className="w-16 h-16 rounded object-cover grayscale flex-shrink-0"
+                        onError={(e) => {
+                          const img = e.currentTarget as HTMLImageElement;
+                          if (img.dataset.fallbackApplied === "1") return;
+                          img.dataset.fallbackApplied = "1";
+                          img.src = "/placeholder-image.png";
+                        }}
+                      />
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium text-gray-700 line-through truncate">
+                          {item.product.name}
+                        </p>
+                        <p className="text-xs text-red-600 mt-0.5">
+                          {item.product.unavailable_reason ||
+                            'This product is no longer available.'}
+                        </p>
+                      </div>
+                      <button
+                        onClick={() => removeFromCart(item.cart_item_id)}
+                        className="text-sm font-medium text-red-600 hover:text-red-800 underline flex-shrink-0"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  ))}
+                  <p className="text-xs text-gray-500 mt-2">
+                    These are not included in your total and must be removed before checkout.
+                  </p>
+                </div>
+              )}
 
               <div className="flex flex-col sm:flex-row mt-6 gap-4 w-full justify-between">
                 <button
