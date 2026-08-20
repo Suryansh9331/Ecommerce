@@ -232,7 +232,7 @@ const MusicLibrary: React.FC = () => {
           </div>
           <button
             onClick={() => setShowAdd(true)}
-            className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700"
+            className="flex items-center gap-2 px-4 py-2 bg-primary-600 text-white text-sm font-medium rounded-md hover:bg-primary-700"
           >
             <Plus className="w-4 h-4" /> Add Song
           </button>
@@ -245,7 +245,7 @@ const MusicLibrary: React.FC = () => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by title, artist or tag…"
-            className="w-full pl-9 pr-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full pl-9 pr-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
           />
         </div>
 
@@ -292,7 +292,7 @@ const MusicLibrary: React.FC = () => {
                           <p className="font-medium text-gray-900 truncate">
                             {song.title}
                             {playingId === song.song_id && (
-                              <span className="ml-2 text-xs text-blue-600">playing…</span>
+                              <span className="ml-2 text-xs text-primary-600">playing…</span>
                             )}
                           </p>
                           <p className="text-xs text-gray-500 truncate">
@@ -324,7 +324,7 @@ const MusicLibrary: React.FC = () => {
                             patchSong(song.song_id, { trending_rank: 1 },
                                       `"${song.title}" featured in Trending.`)
                           }
-                          className="text-gray-500 hover:text-blue-600"
+                          className="text-gray-500 hover:text-primary-600"
                           title="Feature in Trending"
                         >
                           <Star className="w-4 h-4" />
@@ -392,7 +392,7 @@ const MusicLibrary: React.FC = () => {
                       }));
                     }
                   }}
-                  className="mt-1 w-full rounded-md border border-gray-300 p-2 text-sm file:mr-3 file:rounded file:border-0 file:bg-blue-50 file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-blue-700"
+                  className="mt-1 w-full rounded-md border border-gray-300 p-2 text-sm file:mr-3 file:rounded file:border-0 file:bg-primary-50 file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-primary-700"
                 />
                 {file && (
                   <p className="mt-1 text-xs text-gray-500">
@@ -413,7 +413,7 @@ const MusicLibrary: React.FC = () => {
                   value={form.audio_url}
                   onChange={(e) => setForm({ ...form, audio_url: e.target.value })}
                   placeholder="https://cdn.example.com/track.mp3"
-                  className="mt-1 w-full rounded-md border border-gray-300 p-2 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                  className="mt-1 w-full rounded-md border border-gray-300 p-2 text-sm focus:border-primary-500 focus:ring-2 focus:ring-primary-500"
                 />
                 <p className="mt-1 text-xs text-gray-400">
                   Must point straight at the audio file, not a player page.
@@ -443,7 +443,7 @@ const MusicLibrary: React.FC = () => {
                     setArtwork(picked);
                     setArtworkPreview(picked ? URL.createObjectURL(picked) : null);
                   }}
-                  className="flex-1 rounded-md border border-gray-300 p-2 text-sm file:mr-3 file:rounded file:border-0 file:bg-blue-50 file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-blue-700"
+                  className="flex-1 rounded-md border border-gray-300 p-2 text-sm file:mr-3 file:rounded file:border-0 file:bg-primary-50 file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-primary-700"
                 />
               </div>
               <p className="mt-1 text-xs text-gray-400">
@@ -466,7 +466,7 @@ const MusicLibrary: React.FC = () => {
                     value={(form as Record<string, string>)[key]}
                     onChange={(e) => setForm({ ...form, [key]: e.target.value })}
                     placeholder={placeholder}
-                    className="mt-1 w-full rounded-md border border-gray-300 p-2 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                    className="mt-1 w-full rounded-md border border-gray-300 p-2 text-sm focus:border-primary-500 focus:ring-2 focus:ring-primary-500"
                   />
                 </div>
               ))}
@@ -487,7 +487,7 @@ const MusicLibrary: React.FC = () => {
                   !form.title.trim() ||
                   (addMode === "file" ? !file : !form.audio_url.trim())
                 }
-                className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-4 py-2 bg-primary-600 text-white text-sm font-medium rounded-md hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {saving ? "Adding…" : "Add song"}
               </button>
