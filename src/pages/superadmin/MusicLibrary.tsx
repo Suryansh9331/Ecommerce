@@ -11,7 +11,9 @@
  * and that has to be a small, accountable group.
  */
 import React, { useCallback, useEffect, useState } from "react";
-import { Music, Plus, Search, Star, X } from "lucide-react";
+import {
+  Music, Pause, Play, Plus, Search, Star, Volume2, VolumeX, X,
+} from "lucide-react";
 import toast from "react-hot-toast";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -30,6 +32,12 @@ interface Song {
   attribution_required: boolean;
   attribution_text: string | null;
 }
+
+const formatClock = (seconds: number) => {
+  if (!Number.isFinite(seconds) || seconds < 0) return "0:00";
+  const total = Math.floor(seconds);
+  return `${Math.floor(total / 60)}:${String(total % 60).padStart(2, "0")}`;
+};
 
 const formatDuration = (ms: number) => {
   if (!ms) return "—";
@@ -59,13 +67,21 @@ const MusicLibrary: React.FC = () => {
   const [artwork, setArtwork] = useState<File | null>(null);
   const [artworkPreview, setArtworkPreview] = useState<string | null>(null);
 
-  // Whichever preview is playing. Held here rather than per-row so starting one
-  // track stops the last — otherwise a few clicks leaves several songs playing
-  // over each other.
-  const [playingId, setPlayingId] = useState<number | null>(null);
+  // One audio element for the whole page, so starting a track stops the last —
+  // per-row players leave four songs going at once after a few clicks.
   const [audio] = useState(() =>
     typeof Audio !== "undefined" ? new Audio() : null
   );
+  const [playingId, setPlayingId] = useState<number | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [volume, setVolume] = useState(1);
+  const [muted, setMuted] = useState(false);
+
+  // The track the bar is showing. Kept as an object rather than looked up by id
+  // each render, so the bar survives a search that filters the row away.
+  const [nowPlaying, setNowPlaying] = useState<Song | null>(null);
 
   const [form, setForm] = useState({
     title: "",
@@ -105,25 +121,78 @@ const MusicLibrary: React.FC = () => {
   }, [fetchSongs]);
 
   useEffect(() => {
+    if (!audio) return;
+
+    const onTime = () => setCurrentTime(audio.currentTime);
+    // Duration arrives asynchronously; reading it before metadata loads gives NaN
+    // and a seek bar that cannot be dragged.
+    const onMeta = () => setDuration(audio.duration || 0);
+    const onEnd = () => {
+      setIsPlaying(false);
+      setCurrentTime(0);
+    };
+    const onPlay = () => setIsPlaying(true);
+    const onPause = () => setIsPlaying(false);
+
+    audio.addEventListener("timeupdate", onTime);
+    audio.addEventListener("loadedmetadata", onMeta);
+    audio.addEventListener("durationchange", onMeta);
+    audio.addEventListener("ended", onEnd);
+    audio.addEventListener("play", onPlay);
+    audio.addEventListener("pause", onPause);
+
     return () => {
-      if (audio) audio.pause();
+      audio.removeEventListener("timeupdate", onTime);
+      audio.removeEventListener("loadedmetadata", onMeta);
+      audio.removeEventListener("durationchange", onMeta);
+      audio.removeEventListener("ended", onEnd);
+      audio.removeEventListener("play", onPlay);
+      audio.removeEventListener("pause", onPause);
+      audio.pause();
     };
   }, [audio]);
+
+  useEffect(() => {
+    if (audio) audio.volume = muted ? 0 : volume;
+  }, [audio, volume, muted]);
 
   const togglePreview = (song: Song) => {
     if (!audio || !song.preview_url) {
       toast.error("No preview available for this track.");
       return;
     }
+
+    // Same track: just pause or resume, keeping the position. Reloading the src
+    // would jump back to zero, which is maddening when auditing a long track.
     if (playingId === song.song_id) {
-      audio.pause();
-      setPlayingId(null);
+      if (audio.paused) audio.play().catch(() => toast.error("Could not play this track."));
+      else audio.pause();
       return;
     }
+
     audio.src = song.preview_url;
-    audio.play().catch(() => toast.error("Could not play this track."));
+    audio.currentTime = 0;
+    setCurrentTime(0);
+    setDuration(song.duration_ms ? song.duration_ms / 1000 : 0);
     setPlayingId(song.song_id);
-    audio.onended = () => setPlayingId(null);
+    setNowPlaying(song);
+    audio.play().catch(() => toast.error("Could not play this track."));
+  };
+
+  const seek = (seconds: number) => {
+    if (!audio) return;
+    audio.currentTime = seconds;
+    setCurrentTime(seconds);
+  };
+
+  const stopPlayback = () => {
+    if (audio) {
+      audio.pause();
+      audio.currentTime = 0;
+    }
+    setPlayingId(null);
+    setNowPlaying(null);
+    setCurrentTime(0);
   };
 
   const resetForm = () => {
@@ -218,7 +287,7 @@ const MusicLibrary: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 sm:p-6">
+    <div className={`min-h-screen bg-gray-50 p-4 sm:p-6 ${nowPlaying ? "pb-24" : ""}`}>
       <div className="max-w-6xl mx-auto">
         <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
           <div>
@@ -278,8 +347,10 @@ const MusicLibrary: React.FC = () => {
                       <div className="flex items-center gap-3">
                         <button
                           onClick={() => togglePreview(song)}
-                          className="w-10 h-10 rounded bg-gray-100 flex items-center justify-center flex-shrink-0 hover:bg-gray-200"
-                          aria-label={playingId === song.song_id ? "Pause" : "Play preview"}
+                          className="group relative w-10 h-10 rounded bg-gray-100 flex items-center justify-center flex-shrink-0 overflow-hidden hover:bg-gray-200"
+                          aria-label={
+                            playingId === song.song_id && isPlaying ? "Pause" : "Play"
+                          }
                         >
                           {song.artwork_url ? (
                             <img src={song.artwork_url} alt=""
@@ -287,13 +358,25 @@ const MusicLibrary: React.FC = () => {
                           ) : (
                             <Music className="w-4 h-4 text-gray-400" />
                           )}
+                          {/* Overlaid so the control is obvious on artwork as well
+                              as on the blank placeholder. */}
+                          <span
+                            className={`absolute inset-0 flex items-center justify-center bg-black/45 transition-opacity ${
+                              playingId === song.song_id
+                                ? "opacity-100"
+                                : "opacity-0 group-hover:opacity-100"
+                            }`}
+                          >
+                            {playingId === song.song_id && isPlaying ? (
+                              <Pause className="w-4 h-4 text-white" />
+                            ) : (
+                              <Play className="w-4 h-4 text-white" />
+                            )}
+                          </span>
                         </button>
                         <div className="min-w-0">
                           <p className="font-medium text-gray-900 truncate">
                             {song.title}
-                            {playingId === song.song_id && (
-                              <span className="ml-2 text-xs text-primary-600">playing…</span>
-                            )}
                           </p>
                           <p className="text-xs text-gray-500 truncate">
                             {song.artist || "Unknown artist"} · {song.provider}
@@ -345,6 +428,95 @@ const MusicLibrary: React.FC = () => {
           </div>
         )}
       </div>
+
+      {/* Sticky player. One bar rather than per-row controls: an admin auditing a
+          catalogue scrolls while listening, and inline controls scroll away with
+          the row they belong to. */}
+      {nowPlaying && (
+        <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-gray-200 bg-white shadow-[0_-2px_10px_rgba(0,0,0,0.06)]">
+          <div className="mx-auto flex max-w-6xl items-center gap-4 px-4 py-3">
+            {nowPlaying.artwork_url ? (
+              <img src={nowPlaying.artwork_url} alt=""
+                   className="h-11 w-11 flex-shrink-0 rounded object-cover" />
+            ) : (
+              <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded bg-gray-100">
+                <Music className="h-4 w-4 text-gray-400" />
+              </div>
+            )}
+
+            <div className="hidden min-w-0 w-44 sm:block">
+              <p className="truncate text-sm font-medium text-gray-900">
+                {nowPlaying.title}
+              </p>
+              <p className="truncate text-xs text-gray-500">
+                {nowPlaying.artist || "Unknown artist"}
+              </p>
+            </div>
+
+            <button
+              onClick={() => togglePreview(nowPlaying)}
+              className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-primary-600 text-white hover:bg-primary-700"
+              aria-label={isPlaying ? "Pause" : "Play"}
+            >
+              {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4 pl-0.5" />}
+            </button>
+
+            <div className="flex flex-1 items-center gap-2">
+              <span className="w-10 flex-shrink-0 text-right text-xs tabular-nums text-gray-500">
+                {formatClock(currentTime)}
+              </span>
+              <input
+                type="range"
+                min={0}
+                max={duration || 0}
+                step={0.1}
+                value={currentTime}
+                onChange={(e) => seek(Number(e.target.value))}
+                aria-label="Seek"
+                className="h-1 flex-1 cursor-pointer appearance-none rounded-full bg-gray-200 accent-primary-600"
+              />
+              <span className="w-10 flex-shrink-0 text-xs tabular-nums text-gray-500">
+                {formatClock(duration)}
+              </span>
+            </div>
+
+            <div className="hidden items-center gap-2 md:flex">
+              <button
+                onClick={() => setMuted((m) => !m)}
+                className="text-gray-500 hover:text-gray-800"
+                aria-label={muted ? "Unmute" : "Mute"}
+              >
+                {muted || volume === 0
+                  ? <VolumeX className="h-4 w-4" />
+                  : <Volume2 className="h-4 w-4" />}
+              </button>
+              <input
+                type="range"
+                min={0}
+                max={1}
+                step={0.05}
+                value={muted ? 0 : volume}
+                onChange={(e) => {
+                  setVolume(Number(e.target.value));
+                  // Dragging the slider up is an unmute in every player anyone
+                  // has used; leaving it muted would read as broken.
+                  if (Number(e.target.value) > 0) setMuted(false);
+                }}
+                aria-label="Volume"
+                className="h-1 w-24 cursor-pointer appearance-none rounded-full bg-gray-200 accent-primary-600"
+              />
+            </div>
+
+            <button
+              onClick={stopPlayback}
+              className="flex-shrink-0 text-gray-400 hover:text-gray-700"
+              aria-label="Close player"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          </div>
+        </div>
+      )}
 
       {showAdd && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
