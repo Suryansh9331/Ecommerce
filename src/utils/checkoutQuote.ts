@@ -33,6 +33,8 @@ export interface CheckoutQuoteItem {
 export interface CheckoutQuote {
   quote_id: string;
   status: string;
+  // Charge view: the currency and amounts the customer is actually charged
+  // (presentment/USD when set, otherwise the INR book figure).
   currency: string;
   subtotal_amount: string;
   discount_amount: string;
@@ -40,6 +42,11 @@ export interface CheckoutQuote {
   shipping_amount: string;
   total_amount: string;
   total_amount_minor: number;
+  // Book (INR) view + presentment metadata.
+  base_currency?: string;
+  base_total_amount?: string;
+  is_presentment?: boolean;
+  fx_rate_id?: number | null;
   expires_at: string;
   created_at: string;
   items: CheckoutQuoteItem[];
@@ -57,6 +64,9 @@ export interface QuoteRequest {
   shipping_address_id?: number | null;
   billing_address_id?: number | null;
   shipping_method_name?: string;
+  // The currency the customer is browsing in. The server validates it and either
+  // prices the quote in it (USD) or falls back to INR — it never trusts an amount.
+  presentment_currency?: string;
 }
 
 export class QuoteError extends Error {}

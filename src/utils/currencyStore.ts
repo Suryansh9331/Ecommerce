@@ -23,13 +23,32 @@ export const BASE_CURRENCY = "INR";
 interface CurrencyState {
   /** What prices are displayed in. */
   current: CurrencyCode;
-  /** What the customer is actually charged in. INR until Razorpay international. */
+  /** What the customer is actually charged in — derived, see computeCharge(). */
   charge: CurrencyCode;
   supported: CurrencyCode[];
+  /**
+   * True when the server actually charges in the displayed currency (Phase 7 live:
+   * FEATURE_MULTI_CURRENCY on + Razorpay international). When false the customer is
+   * charged in the base currency however they browse — the "shown for reference"
+   * case. An older server that omits the flag is treated as false, so it keeps
+   * saying "charged in INR", which is the truth there.
+   */
+  chargeInPresentment: boolean;
   /** True once the server's context response has been applied. */
   resolved: boolean;
   /** Set while a checkout is in flight — the currency must not change mid-payment. */
   locked: boolean;
+}
+
+/**
+ * The currency the customer is actually charged in. When presentment charging is
+ * live we charge in whatever supported currency they are viewing; otherwise the base
+ * currency. Derived so it can never disagree with `current`.
+ */
+function computeCharge(): CurrencyCode {
+  return state.chargeInPresentment && state.supported.includes(state.current)
+    ? state.current
+    : BASE_CURRENCY;
 }
 
 /** Read the persisted choice synchronously, at module load. */
@@ -51,6 +70,7 @@ const state: CurrencyState = {
   current: readPersisted() || BASE_CURRENCY,
   charge: BASE_CURRENCY,
   supported: [BASE_CURRENCY],
+  chargeInPresentment: false,
   resolved: false,
   locked: false,
 };
@@ -69,7 +89,7 @@ function emit() {
 }
 
 export function getState(): Readonly<CurrencyState> {
-  return { ...state };
+  return { ...state, charge: computeCharge() };
 }
 
 export function getCurrency(): CurrencyCode {
@@ -77,7 +97,7 @@ export function getCurrency(): CurrencyCode {
 }
 
 export function getChargeCurrency(): CurrencyCode {
-  return state.charge;
+  return computeCharge();
 }
 
 export function isBaseCurrency(): boolean {
@@ -118,11 +138,17 @@ export function applyServerContext(ctx: {
   suggested_currency?: string;
   charge_currency?: string;
   supported_currencies?: string[];
+  charge_in_presentment?: boolean;
 }) {
   state.supported = ctx.supported_currencies?.length
     ? ctx.supported_currencies
     : [BASE_CURRENCY];
-  state.charge = ctx.charge_currency || BASE_CURRENCY;
+  // Prefer the explicit Phase-7 signal. Fall back to inferring it from a server that
+  // only sends charge_currency: if it says it charges in something other than the
+  // base currency, presentment charging is live.
+  state.chargeInPresentment =
+    ctx.charge_in_presentment ??
+    (!!ctx.charge_currency && ctx.charge_currency !== BASE_CURRENCY);
 
   const chosen = loadPersistedCurrency();
   const next =
@@ -209,6 +235,7 @@ export function __resetForTests() {
   state.current = BASE_CURRENCY;
   state.charge = BASE_CURRENCY;
   state.supported = [BASE_CURRENCY];
+  state.chargeInPresentment = false;
   state.resolved = false;
   state.locked = false;
   listeners.clear();

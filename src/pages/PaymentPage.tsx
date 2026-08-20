@@ -18,6 +18,7 @@ import ConfirmationModal from "../components/common/ConfirmationModal";
 import { addressService, type Address as AddressModel } from "../services/address";
 import RazorpayPayment from "../components/RazorpayPayment";
 import { createCheckoutQuote } from "../utils/checkoutQuote";
+import { getCurrency, BASE_CURRENCY } from "../utils/currencyStore";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -88,6 +89,9 @@ const PaymentPage: React.FC = () => {
   // The server-issued quote this checkout is paying against. When set, the order
   // is created by verify-payment on the server, not by this page.
   const [checkoutQuoteId, setCheckoutQuoteId] = useState<string>("");
+  // The currency the gateway order was created in (presentment/USD or INR). Fed to
+  // the Razorpay widget so it renders the right amount and payment methods.
+  const [chargeCurrency, setChargeCurrency] = useState<string>(BASE_CURRENCY);
   const [showCountryCodes, setShowCountryCodes] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(COUNTRY_CODES.find(c => c.code === "IN") || COUNTRY_CODES[0]);
   const [postalCodeError, setPostalCodeError] = useState<string>("");
@@ -944,6 +948,10 @@ const PaymentPage: React.FC = () => {
             shipping_address_id: selectedAddressId,
             billing_address_id: selectedAddressId,
             shipping_method_name: "Standard Shipping",
+            // The currency the customer is browsing in. The server prices the quote
+            // in it (USD) when supported, or falls back to INR — it never trusts an
+            // amount from here.
+            presentment_currency: getCurrency(),
           },
           accessToken
         );
@@ -951,12 +959,20 @@ const PaymentPage: React.FC = () => {
         // If the server priced the basket differently from what the customer is
         // looking at, stop. Charging the quote silently would take a different
         // amount than the screen shows.
+        //
+        // This client-side reconciliation only holds in the book currency, where
+        // per-item prices sum exactly to the total. In a presentment currency the
+        // charged total is a single FX conversion of the INR total (with markup and
+        // charm rounding), which legitimately differs from summing charm-rounded
+        // per-item USD prices — so we don't block on it. The server quote is
+        // authoritative regardless (create-order ignores any client amount), and the
+        // customer sees the exact charge in the Razorpay modal before paying.
         const displayedSubtotal = itemsSource.reduce(
           (sum: number, item: any) => sum + item.product.price * item.quantity,
           0
         );
         const shown = (displayedSubtotal - discount + shippingCost).toFixed(2);
-        if (quote.total_amount !== shown) {
+        if (getCurrency() === BASE_CURRENCY && quote.total_amount !== shown) {
           console.warn(
             `Quote total ${quote.total_amount} differs from displayed ${shown}; ` +
             `prices may have changed.`
@@ -969,6 +985,7 @@ const PaymentPage: React.FC = () => {
         }
 
         setCheckoutQuoteId(quote.quote_id);
+        setChargeCurrency(quote.currency);
         const gatewayOrderId = await createRazorpayOrder(quote.quote_id);
         if (gatewayOrderId) {
           setRazorpayOrderId(gatewayOrderId);
@@ -2072,6 +2089,7 @@ const PaymentPage: React.FC = () => {
             return subtotal - discount + shippingCost;
           })()}
           orderId={razorpayOrderId}
+          currency={chargeCurrency}
           customerName={user?.name || formData.contact_name || ""}
           customerEmail={user?.email || ""}
           customerPhone={formData.contact_phone || ""}
