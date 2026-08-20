@@ -54,6 +54,10 @@ const MusicLibrary: React.FC = () => {
   // catalogues that already host their audio.
   const [addMode, setAddMode] = useState<"file" | "url">("file");
   const [file, setFile] = useState<File | null>(null);
+  // Cover image. An admin who downloaded a track downloaded its cover too, so a
+  // picker beats asking them to host it somewhere and paste a link.
+  const [artwork, setArtwork] = useState<File | null>(null);
+  const [artworkPreview, setArtworkPreview] = useState<string | null>(null);
 
   // Whichever preview is playing. Held here rather than per-row so starting one
   // track stops the last — otherwise a few clicks leaves several songs playing
@@ -125,6 +129,9 @@ const MusicLibrary: React.FC = () => {
   const resetForm = () => {
     setForm({ ...form, title: "", artist: "", audio_url: "", artwork_url: "", tags: "" });
     setFile(null);
+    if (artworkPreview) URL.revokeObjectURL(artworkPreview);
+    setArtwork(null);
+    setArtworkPreview(null);
   };
 
   const addSong = async () => {
@@ -148,6 +155,7 @@ const MusicLibrary: React.FC = () => {
       if (addMode === "file") {
         const fd = new FormData();
         fd.append("file", file as File);
+        if (artwork) fd.append("artwork", artwork);
         Object.entries(form).forEach(([k, v]) => {
           if (k !== "audio_url" && v) fd.append(k, v as string);
         });
@@ -224,7 +232,7 @@ const MusicLibrary: React.FC = () => {
           </div>
           <button
             onClick={() => setShowAdd(true)}
-            className="flex items-center gap-2 px-4 py-2 bg-orange-600 text-white text-sm font-medium rounded-md hover:bg-orange-700"
+            className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700"
           >
             <Plus className="w-4 h-4" /> Add Song
           </button>
@@ -237,7 +245,7 @@ const MusicLibrary: React.FC = () => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by title, artist or tag…"
-            className="w-full pl-9 pr-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+            className="w-full pl-9 pr-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           />
         </div>
 
@@ -284,7 +292,7 @@ const MusicLibrary: React.FC = () => {
                           <p className="font-medium text-gray-900 truncate">
                             {song.title}
                             {playingId === song.song_id && (
-                              <span className="ml-2 text-xs text-orange-600">playing…</span>
+                              <span className="ml-2 text-xs text-blue-600">playing…</span>
                             )}
                           </p>
                           <p className="text-xs text-gray-500 truncate">
@@ -316,7 +324,7 @@ const MusicLibrary: React.FC = () => {
                             patchSong(song.song_id, { trending_rank: 1 },
                                       `"${song.title}" featured in Trending.`)
                           }
-                          className="text-gray-500 hover:text-orange-600"
+                          className="text-gray-500 hover:text-blue-600"
                           title="Feature in Trending"
                         >
                           <Star className="w-4 h-4" />
@@ -384,7 +392,7 @@ const MusicLibrary: React.FC = () => {
                       }));
                     }
                   }}
-                  className="mt-1 w-full rounded-md border border-gray-300 p-2 text-sm file:mr-3 file:rounded file:border-0 file:bg-orange-50 file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-orange-700"
+                  className="mt-1 w-full rounded-md border border-gray-300 p-2 text-sm file:mr-3 file:rounded file:border-0 file:bg-blue-50 file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-blue-700"
                 />
                 {file && (
                   <p className="mt-1 text-xs text-gray-500">
@@ -405,7 +413,7 @@ const MusicLibrary: React.FC = () => {
                   value={form.audio_url}
                   onChange={(e) => setForm({ ...form, audio_url: e.target.value })}
                   placeholder="https://cdn.example.com/track.mp3"
-                  className="mt-1 w-full rounded-md border border-gray-300 p-2 text-sm focus:border-orange-500 focus:ring-2 focus:ring-orange-500"
+                  className="mt-1 w-full rounded-md border border-gray-300 p-2 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
                 />
                 <p className="mt-1 text-xs text-gray-400">
                   Must point straight at the audio file, not a player page.
@@ -413,11 +421,40 @@ const MusicLibrary: React.FC = () => {
               </div>
             )}
 
+            <div className="mt-3">
+              <label className="block text-sm font-medium text-gray-700">
+                Cover image
+              </label>
+              <div className="mt-1 flex items-center gap-3">
+                {artworkPreview ? (
+                  <img src={artworkPreview} alt=""
+                       className="w-14 h-14 rounded object-cover border border-gray-200" />
+                ) : (
+                  <div className="w-14 h-14 rounded bg-gray-100 flex items-center justify-center">
+                    <Music className="w-5 h-5 text-gray-400" />
+                  </div>
+                )}
+                <input
+                  type="file"
+                  accept="image/png,image/jpeg,image/webp"
+                  onChange={(e) => {
+                    const picked = e.target.files?.[0] || null;
+                    if (artworkPreview) URL.revokeObjectURL(artworkPreview);
+                    setArtwork(picked);
+                    setArtworkPreview(picked ? URL.createObjectURL(picked) : null);
+                  }}
+                  className="flex-1 rounded-md border border-gray-300 p-2 text-sm file:mr-3 file:rounded file:border-0 file:bg-blue-50 file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-blue-700"
+                />
+              </div>
+              <p className="mt-1 text-xs text-gray-400">
+                jpg, png or webp · up to 5MB · optional
+              </p>
+            </div>
+
             <div className="mt-4 space-y-3">
               {([
                 ["title", "Title *", "Happy Vibes"],
                 ["artist", "Artist", "Music Unlimited"],
-                ["artwork_url", "Artwork URL", "https://…/cover.jpg"],
                 ["tags", "Tags (comma separated)", "trending, happy, pop"],
                 ["licence_name", "Licence", "Pixabay Content License"],
                 ["attribution_text", "Attribution (if required)", ""],
@@ -429,7 +466,7 @@ const MusicLibrary: React.FC = () => {
                     value={(form as Record<string, string>)[key]}
                     onChange={(e) => setForm({ ...form, [key]: e.target.value })}
                     placeholder={placeholder}
-                    className="mt-1 w-full rounded-md border border-gray-300 p-2 text-sm focus:border-orange-500 focus:ring-2 focus:ring-orange-500"
+                    className="mt-1 w-full rounded-md border border-gray-300 p-2 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
               ))}
@@ -450,7 +487,7 @@ const MusicLibrary: React.FC = () => {
                   !form.title.trim() ||
                   (addMode === "file" ? !file : !form.audio_url.trim())
                 }
-                className="px-4 py-2 bg-orange-600 text-white text-sm font-medium rounded-md hover:bg-orange-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {saving ? "Adding…" : "Add song"}
               </button>
