@@ -195,6 +195,7 @@ const UserActivity = lazy(() => import('./pages/superadmin/UserActivity'));
 const UserManagement = lazy(() => import('./pages/superadmin/Usermanagement'));
 const ContentModeration = lazy(() => import('./pages/superadmin/ContentModeration'));
 const ProductMonitoring = lazy(() => import('./pages/superadmin/ProductMonitoring'));
+const MusicLibrary = lazy(() => import('./pages/superadmin/MusicLibrary'));
 const Settings = lazy(() => import('./pages/superadmin/Settings'));
 const RefundAndReturnManagement = lazy(() => import('./pages/superadmin/RefundAndReturnManagement'));
 const Promotions = lazy(() => import('./pages/superadmin/Promotions'));
@@ -467,6 +468,7 @@ const App: React.FC = () => {
 
                       <Route path="content-moderation" element={<ContentModeration />} />
                       <Route path="products" element={<ProductMonitoring />} />
+                      <Route path="music-library" element={<MusicLibrary />} />
                       <Route path="site-report" element={<TrafficAnalytics />} />
 
                     <Route path="sales-report" element={<SalesReportPage />} />

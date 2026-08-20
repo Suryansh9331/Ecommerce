@@ -17,6 +17,7 @@ import {
   FolderOpen,
   ShieldCheck,
   Smartphone,
+  Music,
   LucideIcon,
 } from "lucide-react";
 import { ChartBarIcon } from "@heroicons/react/24/outline";
@@ -96,6 +97,11 @@ export const dashboardSections: MenuSection[] = [
         title: "Products",
         icon: ShoppingBag,
         description: "Track product listings, categories, and inventory status",
+      },
+      {
+        title: "Music Library",
+        icon: Music,
+        description: "Curate the songs merchants can add to their reels",
       },
       /*
       {
