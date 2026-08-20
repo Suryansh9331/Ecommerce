@@ -49,6 +49,12 @@ const MusicLibrary: React.FC = () => {
   const [showAdd, setShowAdd] = useState(false);
   const [saving, setSaving] = useState(false);
 
+  // Upload is the default because it is the realistic one: downloading a track
+  // from Pixabay leaves a file on disk, not a link. The URL tab is for
+  // catalogues that already host their audio.
+  const [addMode, setAddMode] = useState<"file" | "url">("file");
+  const [file, setFile] = useState<File | null>(null);
+
   // Whichever preview is playing. Held here rather than per-row so starting one
   // track stops the last — otherwise a few clicks leaves several songs playing
   // over each other.
@@ -116,30 +122,62 @@ const MusicLibrary: React.FC = () => {
     audio.onended = () => setPlayingId(null);
   };
 
+  const resetForm = () => {
+    setForm({ ...form, title: "", artist: "", audio_url: "", artwork_url: "", tags: "" });
+    setFile(null);
+  };
+
   const addSong = async () => {
-    if (!form.title.trim() || !form.audio_url.trim()) {
-      toast.error("Title and audio URL are required.");
+    if (!form.title.trim()) {
+      toast.error("Title is required.");
       return;
     }
+    if (addMode === "file" && !file) {
+      toast.error("Choose an audio file.");
+      return;
+    }
+    if (addMode === "url" && !form.audio_url.trim()) {
+      toast.error("Audio URL is required.");
+      return;
+    }
+
     setSaving(true);
     try {
-      const resp = await fetch(`${API_BASE_URL}/api/superadmin/music/songs`, {
-        method: "POST",
-        headers: authHeaders(),
-        body: JSON.stringify({
-          ...form,
-          title: form.title.trim(),
-          audio_url: form.audio_url.trim(),
-        }),
-      });
+      let resp: Response;
+
+      if (addMode === "file") {
+        const fd = new FormData();
+        fd.append("file", file as File);
+        Object.entries(form).forEach(([k, v]) => {
+          if (k !== "audio_url" && v) fd.append(k, v as string);
+        });
+        // No Content-Type header: the browser must set the multipart boundary
+        // itself, and providing one breaks the upload.
+        resp = await fetch(`${API_BASE_URL}/api/superadmin/music/songs/upload`, {
+          method: "POST",
+          headers: { Authorization: `Bearer ${localStorage.getItem("access_token")}` },
+          body: fd,
+        });
+      } else {
+        resp = await fetch(`${API_BASE_URL}/api/superadmin/music/songs`, {
+          method: "POST",
+          headers: authHeaders(),
+          body: JSON.stringify({
+            ...form,
+            title: form.title.trim(),
+            audio_url: form.audio_url.trim(),
+          }),
+        });
+      }
+
       const body = await resp.json();
       if (!resp.ok) throw new Error(body?.message || "Could not add the song");
 
-      // The server downloads the track once to measure it, so this is not
-      // instant — say what happened rather than leaving a silent pause.
-      toast.success("Song added — duration and waveform generated.");
+      // Measuring the track and drawing its waveform takes a moment, so name
+      // what happened rather than leaving an unexplained pause.
+      toast.success("Song added — length and waveform generated.");
       setShowAdd(false);
-      setForm({ ...form, title: "", artist: "", audio_url: "", artwork_url: "", tags: "" });
+      resetForm();
       await fetchSongs();
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Could not add the song");
@@ -305,15 +343,80 @@ const MusicLibrary: React.FC = () => {
           <div className="w-full max-w-lg rounded-lg bg-white p-6 shadow-xl max-h-[90vh] overflow-y-auto">
             <h2 className="text-lg font-semibold text-gray-900">Add a song</h2>
             <p className="mt-1 text-sm text-gray-500">
-              Paste the direct audio file URL. The server downloads it once to read
-              its length and draw the waveform merchants trim against.
+              The server reads the track's length and draws the waveform merchants
+              trim against, so this takes a couple of seconds.
             </p>
+
+            {/* Upload first: a track downloaded from Pixabay is a file on disk,
+                not a link, so that is what an admin actually has to hand. */}
+            <div className="mt-4 flex gap-1 rounded-lg bg-gray-100 p-1">
+              {(["file", "url"] as const).map((mode) => (
+                <button
+                  key={mode}
+                  onClick={() => setAddMode(mode)}
+                  className={`flex-1 rounded-md px-3 py-1.5 text-sm font-medium transition ${
+                    addMode === mode
+                      ? "bg-white text-gray-900 shadow-sm"
+                      : "text-gray-600 hover:text-gray-900"
+                  }`}
+                >
+                  {mode === "file" ? "Upload file" : "From URL"}
+                </button>
+              ))}
+            </div>
+
+            {addMode === "file" ? (
+              <div className="mt-3">
+                <label className="block text-sm font-medium text-gray-700">
+                  Audio file *
+                </label>
+                <input
+                  type="file"
+                  accept="audio/*,.mp3,.m4a,.wav,.ogg,.flac,.aac"
+                  onChange={(e) => {
+                    const picked = e.target.files?.[0] || null;
+                    setFile(picked);
+                    // Save a step: the filename is almost always the track name.
+                    if (picked && !form.title.trim()) {
+                      setForm((f) => ({
+                        ...f,
+                        title: picked.name.replace(/\.[^.]+$/, ""),
+                      }));
+                    }
+                  }}
+                  className="mt-1 w-full rounded-md border border-gray-300 p-2 text-sm file:mr-3 file:rounded file:border-0 file:bg-orange-50 file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-orange-700"
+                />
+                {file && (
+                  <p className="mt-1 text-xs text-gray-500">
+                    {file.name} · {(file.size / (1024 * 1024)).toFixed(1)}MB
+                  </p>
+                )}
+                <p className="mt-1 text-xs text-gray-400">
+                  mp3, m4a, wav, ogg, flac or aac · up to 30MB
+                </p>
+              </div>
+            ) : (
+              <div className="mt-3">
+                <label className="block text-sm font-medium text-gray-700">
+                  Audio URL *
+                </label>
+                <input
+                  type="text"
+                  value={form.audio_url}
+                  onChange={(e) => setForm({ ...form, audio_url: e.target.value })}
+                  placeholder="https://cdn.example.com/track.mp3"
+                  className="mt-1 w-full rounded-md border border-gray-300 p-2 text-sm focus:border-orange-500 focus:ring-2 focus:ring-orange-500"
+                />
+                <p className="mt-1 text-xs text-gray-400">
+                  Must point straight at the audio file, not a player page.
+                </p>
+              </div>
+            )}
 
             <div className="mt-4 space-y-3">
               {([
                 ["title", "Title *", "Happy Vibes"],
                 ["artist", "Artist", "Music Unlimited"],
-                ["audio_url", "Audio URL *", "https://cdn.pixabay.com/…/track.mp3"],
                 ["artwork_url", "Artwork URL", "https://…/cover.jpg"],
                 ["tags", "Tags (comma separated)", "trending, happy, pop"],
                 ["licence_name", "Licence", "Pixabay Content License"],
@@ -342,7 +445,11 @@ const MusicLibrary: React.FC = () => {
               </button>
               <button
                 onClick={addSong}
-                disabled={saving || !form.title.trim() || !form.audio_url.trim()}
+                disabled={
+                  saving ||
+                  !form.title.trim() ||
+                  (addMode === "file" ? !file : !form.audio_url.trim())
+                }
                 className="px-4 py-2 bg-orange-600 text-white text-sm font-medium rounded-md hover:bg-orange-700 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {saving ? "Adding…" : "Add song"}
