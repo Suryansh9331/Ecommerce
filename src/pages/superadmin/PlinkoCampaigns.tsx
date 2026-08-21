@@ -11,6 +11,7 @@ const BLANK: PlinkoCampaignConfig = {
   headline: 'Tap to drop',
   subheadline: '',
   terms_text: '',
+  image_urls: ['', '', '', ''],
   coupon_prefix: 'PLK',
   validity_days: 1,
   min_order_value: null,
@@ -98,7 +99,10 @@ const PlinkoCampaigns: React.FC = () => {
     }
     setSaving(true);
     try {
-      const saved = await saveCampaign(draft);
+      const saved = await saveCampaign({
+        ...draft,
+        image_urls: (draft.image_urls ?? []).filter(Boolean),
+      });
       setDraft(saved);
       await reload();
       toast.success('Campaign saved');
@@ -177,6 +181,48 @@ const PlinkoCampaigns: React.FC = () => {
               onChange={(e) => setField('terms_text', e.target.value)}
               className={field}
             />
+          </div>
+
+          <div>
+            <label className={labelCls}>Popup images (4)</label>
+            <p className="mb-2 text-xs text-gray-400">
+              Shown beside the game. Paste full URLs or paths under <code>/public</code>.
+              Leave blank to show a plain branded panel instead.
+            </p>
+            <div className="space-y-2">
+              {[0, 1, 2, 3].map((i) => (
+                <input
+                  key={i}
+                  value={draft.image_urls?.[i] ?? ''}
+                  onChange={(e) => {
+                    const next = [...(draft.image_urls ?? ['', '', '', ''])];
+                    next[i] = e.target.value;
+                    setField('image_urls', next);
+                  }}
+                  placeholder={`Image ${i + 1} URL`}
+                  className={field}
+                />
+              ))}
+            </div>
+            {(draft.image_urls ?? []).some(Boolean) && (
+              <div className="mt-3 grid grid-cols-4 gap-2">
+                {(draft.image_urls ?? []).map((src, i) =>
+                  src ? (
+                    <img
+                      key={i}
+                      src={src}
+                      alt=""
+                      className="h-16 w-full rounded-md object-cover"
+                      onError={(e) => {
+                        (e.currentTarget as HTMLImageElement).style.opacity = '0.2';
+                      }}
+                    />
+                  ) : (
+                    <div key={i} className="h-16 rounded-md border border-dashed border-gray-200" />
+                  )
+                )}
+              </div>
+            )}
           </div>
 
           <label className="flex items-center gap-2 text-sm text-gray-700">

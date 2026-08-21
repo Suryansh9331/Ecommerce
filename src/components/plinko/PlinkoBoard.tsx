@@ -130,12 +130,12 @@ const PlinkoBoard: React.FC<PlinkoBoardProps> = ({ slotLabels, targetSlot, onLan
       // --- bin zone ------------------------------------------------------
       for (let i = 0; i < binCount; i += 1) {
         const isWinner = trajectory !== null && i === trajectory.bin && landedRef.current;
-        ctx.fillStyle = isWinner ? 'rgba(117,97,239,0.30)' : 'rgba(255,255,255,0.04)';
+        ctx.fillStyle = isWinner ? 'rgba(59,30,235,0.14)' : 'rgba(17,17,27,0.035)';
         ctx.beginPath();
         roundedRect(ctx, i * binWidth + 2, playHeight, binWidth - 4, BOARD.binZone - 6, 8);
         ctx.fill();
         if (isWinner) {
-          ctx.strokeStyle = 'rgba(164,151,247,0.85)';
+          ctx.strokeStyle = 'rgba(59,30,235,0.55)';
           ctx.lineWidth = 1.5;
           ctx.stroke();
         }
@@ -148,12 +148,12 @@ const PlinkoBoard: React.FC<PlinkoBoardProps> = ({ slotLabels, targetSlot, onLan
         if (intensity > 0) {
           ctx.beginPath();
           ctx.arc(peg.x, peg.y, BOARD.pegRadius + 7 * intensity, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(164,151,247,${0.28 * intensity})`;
+          ctx.fillStyle = `rgba(117,97,239,${0.30 * intensity})`;
           ctx.fill();
         }
         ctx.beginPath();
         ctx.arc(peg.x, peg.y, BOARD.pegRadius, 0, Math.PI * 2);
-        ctx.fillStyle = intensity > 0 ? '#FFFFFF' : 'rgba(255,255,255,0.34)';
+        ctx.fillStyle = intensity > 0 ? '#3B1EEB' : 'rgba(17,17,27,0.22)';
         ctx.fill();
       });
 
@@ -162,7 +162,7 @@ const PlinkoBoard: React.FC<PlinkoBoardProps> = ({ slotLabels, targetSlot, onLan
         const t = i / trail.length;
         ctx.beginPath();
         ctx.arc(point.x, point.y, BOARD.ballRadius * (0.25 + t * 0.6), 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(117,97,239,${t * 0.32})`;
+        ctx.fillStyle = `rgba(117,97,239,${t * 0.22})`;
         ctx.fill();
       });
 
@@ -171,7 +171,7 @@ const PlinkoBoard: React.FC<PlinkoBoardProps> = ({ slotLabels, targetSlot, onLan
       if (current) {
         ctx.beginPath();
         ctx.arc(current.x, current.y, BOARD.ballRadius * 2.4, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(117,97,239,0.22)';
+        ctx.fillStyle = 'rgba(117,97,239,0.16)';
         ctx.fill();
 
         const gradient = ctx.createRadialGradient(
@@ -179,8 +179,8 @@ const PlinkoBoard: React.FC<PlinkoBoardProps> = ({ slotLabels, targetSlot, onLan
           current.x, current.y, BOARD.ballRadius
         );
         gradient.addColorStop(0, '#FFFFFF');
-        gradient.addColorStop(0.45, '#C8C0FC');
-        gradient.addColorStop(1, '#3B1EEB');
+        gradient.addColorStop(0.35, '#7561EF');
+        gradient.addColorStop(1, '#1800AC');
         ctx.beginPath();
         ctx.arc(current.x, current.y, BOARD.ballRadius, 0, Math.PI * 2);
         ctx.fillStyle = gradient;
@@ -307,8 +307,8 @@ const PlinkoBoard: React.FC<PlinkoBoardProps> = ({ slotLabels, targetSlot, onLan
               key={`${label}-${index}`}
               className={`flex-1 rounded-lg px-1 py-2.5 text-center text-[11px] font-medium transition-all duration-300 sm:text-xs ${
                 won
-                  ? 'scale-105 bg-primary-500 text-white shadow-lg shadow-primary-500/40'
-                  : 'bg-white/5 text-white/55'
+                  ? 'scale-105 bg-primary-600 text-white shadow-lg shadow-primary-600/35'
+                  : 'bg-gray-100 text-gray-500'
               }`}
             >
               {label}

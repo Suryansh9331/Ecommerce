@@ -23,6 +23,7 @@ export interface PlinkoCampaign {
   popup_delay_seconds?: number;
   redisplay_after_days?: number;
   min_order_value?: number | null;
+  image_urls?: string[];
   prizes?: PlinkoPrizeSlot[];
 }
 

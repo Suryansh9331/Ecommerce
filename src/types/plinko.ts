@@ -57,6 +57,7 @@ export interface PlinkoCampaignConfig {
   headline: string;
   subheadline: string | null;
   terms_text: string | null;
+  image_urls: string[];
   coupon_prefix: string;
   validity_days: number;
   min_order_value: number | null;

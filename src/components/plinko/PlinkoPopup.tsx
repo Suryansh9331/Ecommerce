@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Loader2, Lock, X } from 'lucide-react';
+import { Loader2, Lock, Mail, PartyPopper, X } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 
+import Celebration from './Celebration';
 import CouponReveal from './CouponReveal';
 import PlinkoBoard from './PlinkoBoard';
 import { usePlinkoPopup } from '../../hooks/usePlinkoPopup';
@@ -13,40 +14,22 @@ import {
 } from '../../services/plinkoService';
 
 /**
- * Full-viewport lead-capture takeover.
+ * Lead-capture popup: play, win, then trade contact details for the code.
  *
- * Genuinely full-page — inset-0 with no max-width and no letterboxing — because a
- * centred card competes with the page behind it and reads as an ad. Filling the
- * viewport makes the game the only thing on screen, which is the point.
+ * Two panels — the game and form on the left, campaign artwork on the right. The
+ * artwork comes from the campaign record rather than being hardcoded; an earlier pass
+ * shipped empty gradient blocks as stand-ins and they read as a broken page.
  *
- * Not built on components/common/Modal: that is a centred card with no scroll lock and
- * no Esc handling.
+ * 90vw x 90vh on desktop rather than a full bleed: keeping a margin of the storefront
+ * visible around the edges makes this feel like a layer over the shop instead of a
+ * separate page the customer got navigated to.
  *
- * Deliberately no decorative image grid. An earlier pass had one filled with empty
- * gradient blocks standing in for photography that does not exist yet, which looked
- * broken. Until there is real art to put there, the game plus a dark field is a
- * stronger composition than placeholders.
+ * Once the ball lands the board is replaced, in place, by the celebration and the
+ * coupon — so the reward appears exactly where the player was looking.
  */
 type Stage = 'intro' | 'dropping' | 'email' | 'phone' | 'done';
 
 const PHONE_DIGITS = 10;
-
-const StepDots: React.FC<{ stage: Stage }> = ({ stage }) => {
-  const order: Stage[] = ['intro', 'email', 'phone', 'done'];
-  const active = stage === 'dropping' ? 0 : order.indexOf(stage);
-  return (
-    <div className="flex items-center justify-center gap-2" aria-hidden>
-      {order.map((_, i) => (
-        <span
-          key={i}
-          className={`h-1 rounded-full transition-all duration-500 ${
-            i <= active ? 'w-7 bg-primary-400' : 'w-3 bg-white/20'
-          }`}
-        />
-      ))}
-    </div>
-  );
-};
 
 const PlinkoPopup: React.FC = () => {
   const location = useLocation();
@@ -57,6 +40,7 @@ const PlinkoPopup: React.FC = () => {
   const [sessionToken, setSessionToken] = useState('');
   const [slotIndex, setSlotIndex] = useState<number | null>(null);
   const [prizeLabel, setPrizeLabel] = useState<string | null>(null);
+  const [codeLength, setCodeLength] = useState(12);
   const [maskedCode, setMaskedCode] = useState('');
   const [coupon, setCoupon] = useState<CouponResult | null>(null);
 
@@ -80,6 +64,8 @@ const PlinkoPopup: React.FC = () => {
   if (!isOpen || !campaign?.active) return null;
 
   const slots = (campaign.prizes ?? []).map((p) => p.label);
+  const images = campaign.image_urls ?? [];
+  const hasWon = stage === 'email' || stage === 'phone' || stage === 'done';
 
   const handlePlay = async () => {
     setError('');
@@ -88,8 +74,9 @@ const PlinkoPopup: React.FC = () => {
       const result = await playPlinko(location.pathname);
       setSessionToken(result.session_token);
       setPrizeLabel(result.prize_label);
+      setCodeLength(result.code_length);
       setStage('dropping');
-      // Set last: this is what starts the drop, and the solve is synchronous.
+      // Last: this is what starts the drop.
       setSlotIndex(result.slot_index);
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Could not start the game.');
@@ -129,178 +116,218 @@ const PlinkoPopup: React.FC = () => {
   };
 
   const inputClass =
-    'w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3.5 text-[15px] text-white placeholder:text-white/35 backdrop-blur transition-colors focus:border-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-500/40';
+    'w-full rounded-xl border border-gray-300 bg-white px-4 py-3.5 text-[15px] text-gray-900 placeholder:text-gray-400 transition-colors focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/25';
 
   const buttonClass =
-    'flex w-full items-center justify-center gap-2 rounded-xl bg-primary-500 py-3.5 text-[15px] font-semibold text-white shadow-lg shadow-primary-600/30 transition-all hover:bg-primary-400 hover:shadow-primary-500/40 active:scale-[0.99] disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-white/40 disabled:shadow-none';
+    'flex w-full items-center justify-center gap-2 rounded-xl bg-primary-600 py-3.5 text-[15px] font-semibold text-white shadow-lg shadow-primary-600/25 transition-all hover:bg-primary-700 active:scale-[0.99] disabled:cursor-not-allowed disabled:bg-gray-300 disabled:text-gray-500 disabled:shadow-none';
+
+  const couponState = stage === 'done' ? 'full' : stage === 'phone' ? 'half' : 'hidden';
+  const couponCode =
+    stage === 'done' && coupon
+      ? coupon.code
+      : stage === 'phone'
+      ? maskedCode
+      : '•'.repeat(codeLength);
 
   return (
     <div
-      className="fixed inset-0 z-[100] overflow-y-auto bg-primary-950"
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/55 p-0 backdrop-blur-sm sm:p-4"
       role="dialog"
       aria-modal="true"
       aria-label={campaign.headline || 'Win a discount'}
+      onMouseDown={(e) => e.target === e.currentTarget && dismiss()}
     >
-      {/* Depth: two soft light sources, so the field is not a flat block of colour. */}
-      <div
-        aria-hidden
-        className="pointer-events-none fixed inset-0"
-        style={{
-          background:
-            'radial-gradient(60rem 40rem at 50% -10%, rgba(59,30,235,0.42), transparent 65%),' +
-            'radial-gradient(40rem 32rem at 85% 105%, rgba(103,227,249,0.14), transparent 60%)',
-        }}
-      />
+      <div className="relative flex h-full w-full flex-col overflow-hidden bg-white sm:h-[90vh] sm:w-[90vw] sm:flex-row sm:rounded-2xl sm:shadow-2xl">
+        <button
+          type="button"
+          onClick={dismiss}
+          aria-label="Close"
+          className="absolute right-3 top-3 z-30 rounded-full bg-white/90 p-2.5 text-gray-400 shadow-sm transition-colors hover:bg-gray-100 hover:text-gray-700 sm:right-5 sm:top-5"
+        >
+          <X size={20} />
+        </button>
 
-      <button
-        type="button"
-        onClick={dismiss}
-        aria-label="Close"
-        className="fixed right-4 top-4 z-10 rounded-full border border-white/10 bg-white/5 p-2.5 text-white/60 backdrop-blur transition-colors hover:bg-white/10 hover:text-white sm:right-6 sm:top-6"
-      >
-        <X size={20} />
-      </button>
+        {/* ---------------- Left: game, then reward ---------------- */}
+        <div className="relative flex w-full flex-1 items-center justify-center overflow-y-auto px-6 py-10 sm:w-1/2 sm:px-10 lg:px-14">
+          {hasWon && stage !== 'done' && <Celebration />}
 
-      <div className="relative flex min-h-full items-center justify-center px-5 py-10 sm:px-8">
-        <div className="w-full max-w-[30rem]">
-          {stage === 'done' && coupon ? (
-            <div className="text-center">
-              <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-primary-300">
-                Unlocked
-              </p>
-              <h2 className="mb-2 text-4xl font-bold leading-tight text-white sm:text-5xl">
-                You&apos;ve got {coupon.label}
-              </h2>
-              <p className="mb-7 text-[15px] text-white/50">
-                This code is yours alone — use it at checkout.
-              </p>
-              <CouponReveal
-                code={coupon.code}
-                fullyRevealed
-                label={coupon.label}
-                validUntil={coupon.valid_until}
-                terms={coupon.terms}
-                minOrderValue={coupon.min_order_value}
-              />
-              <button type="button" onClick={dismiss} className={`${buttonClass} mt-6`}>
-                Start shopping
-              </button>
-            </div>
-          ) : (
-            <>
-              <div className="mb-6 text-center">
-                <h2 className="text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl">
+          <div className="relative z-10 w-full max-w-md">
+            {!hasWon ? (
+              <>
+                <h2 className="text-center text-4xl font-bold tracking-tight text-gray-900 lg:text-5xl">
                   {campaign.headline}
                 </h2>
-                <p className="mt-2 text-[15px] text-white/50">
+                <p className="mt-2 text-center text-[15px] text-gray-500">
                   {campaign.subheadline || 'Every drop wins a discount.'}
                 </p>
-              </div>
 
-              <PlinkoBoard
-                slotLabels={slots}
-                targetSlot={slotIndex}
-                onLanded={() => {
-                  setBusy(false);
-                  setStage('email');
-                }}
-              />
+                <div className="mt-7">
+                  <PlinkoBoard
+                    slotLabels={slots}
+                    targetSlot={slotIndex}
+                    onLanded={() => {
+                      setBusy(false);
+                      setStage('email');
+                    }}
+                  />
+                </div>
 
-              {error && (
-                <p
-                  role="alert"
-                  className="mt-4 rounded-xl border border-red-400/25 bg-red-500/10 px-4 py-3 text-sm text-red-200"
-                >
-                  {error}
-                </p>
-              )}
-
-              <div className="mt-6">
-                {stage === 'intro' && (
-                  <button
-                    type="button"
-                    onClick={handlePlay}
-                    disabled={busy}
-                    className={buttonClass}
-                  >
-                    {busy && <Loader2 size={17} className="animate-spin" />}
-                    {busy ? 'Dropping…' : 'Try your luck'}
-                  </button>
-                )}
-
-                {stage === 'dropping' && (
-                  <p className="text-center text-sm text-white/40">Watch it fall…</p>
-                )}
-
-                {stage === 'email' && (
-                  <form onSubmit={handleEmail} className="space-y-3">
-                    <p className="text-center text-[15px] text-white/80">
-                      You won{' '}
-                      <span className="font-semibold text-primary-300">{prizeLabel}</span>
-                      ! Enter your email to reveal your code.
-                    </p>
-                    <input
-                      type="email"
-                      required
-                      autoFocus
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="Your email address"
-                      className={inputClass}
-                      autoComplete="email"
-                    />
-                    <button type="submit" disabled={busy} className={buttonClass}>
-                      {busy && <Loader2 size={17} className="animate-spin" />}
-                      {busy ? 'Checking…' : 'Reveal my code'}
-                    </button>
-                  </form>
-                )}
-
-                {stage === 'phone' && (
-                  <form onSubmit={handlePhone} className="space-y-3">
-                    <CouponReveal
-                      code={maskedCode}
-                      fullyRevealed={false}
-                      label={prizeLabel}
-                    />
-                    <div className="flex">
-                      <span className="inline-flex select-none items-center rounded-l-xl border border-r-0 border-white/15 bg-white/5 px-3.5 text-[15px] text-white/50">
-                        +91
-                      </span>
-                      <input
-                        type="tel"
-                        inputMode="numeric"
-                        autoComplete="tel-national"
-                        required
-                        autoFocus
-                        value={phone}
-                        onChange={(e) =>
-                          setPhone(e.target.value.replace(/\D/g, '').slice(0, PHONE_DIGITS))
-                        }
-                        placeholder="98765 43210"
-                        className={`${inputClass} rounded-l-none`}
-                      />
-                    </div>
+                <div className="mt-7">
+                  {stage === 'intro' ? (
                     <button
-                      type="submit"
-                      disabled={busy || phone.length !== PHONE_DIGITS}
+                      type="button"
+                      onClick={handlePlay}
+                      disabled={busy}
                       className={buttonClass}
                     >
-                      {busy ? (
-                        <Loader2 size={17} className="animate-spin" />
-                      ) : (
-                        <Lock size={16} />
-                      )}
-                      {busy ? 'Unlocking…' : 'Unlock full code'}
+                      {busy && <Loader2 size={17} className="animate-spin" />}
+                      {busy ? 'Dropping…' : 'Try your luck'}
                     </button>
-                  </form>
-                )}
-              </div>
+                  ) : (
+                    <p className="text-center text-sm text-gray-400">Watch it fall…</p>
+                  )}
+                </div>
+              </>
+            ) : (
+              <>
+                {/* The board is gone; the prize takes its place. */}
+                <div className="text-center">
+                  <span className="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-full bg-primary-100 text-primary-600">
+                    <PartyPopper size={26} />
+                  </span>
+                  <h2 className="text-3xl font-bold tracking-tight text-gray-900 lg:text-4xl">
+                    {stage === 'done' ? 'Your code is ready' : 'Congratulations!'}
+                  </h2>
+                  <p className="mt-2 text-[15px] text-gray-500">
+                    You won{' '}
+                    <span className="font-semibold text-primary-600">{prizeLabel}</span>
+                    {stage === 'done' ? ' — use it at checkout.' : ' on today’s order.'}
+                  </p>
+                </div>
 
-              <div className="mt-7">
-                <StepDots stage={stage} />
-              </div>
-            </>
+                <div className="mt-6">
+                  <CouponReveal
+                    code={couponCode}
+                    state={couponState}
+                    label={prizeLabel}
+                    validUntil={coupon?.valid_until}
+                    terms={coupon?.terms}
+                    minOrderValue={coupon?.min_order_value}
+                  />
+                </div>
+
+                {error && (
+                  <p
+                    role="alert"
+                    className="mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+                  >
+                    {error}
+                  </p>
+                )}
+
+                <div className="mt-5">
+                  {stage === 'email' && (
+                    <form onSubmit={handleEmail} className="space-y-3">
+                      <input
+                        type="email"
+                        required
+                        autoFocus
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="Your email address"
+                        className={inputClass}
+                        autoComplete="email"
+                      />
+                      <button type="submit" disabled={busy} className={buttonClass}>
+                        {busy ? (
+                          <Loader2 size={17} className="animate-spin" />
+                        ) : (
+                          <Mail size={16} />
+                        )}
+                        {busy ? 'Checking…' : 'Reveal my code'}
+                      </button>
+                    </form>
+                  )}
+
+                  {stage === 'phone' && (
+                    <form onSubmit={handlePhone} className="space-y-3">
+                      <div className="flex">
+                        <span className="inline-flex select-none items-center rounded-l-xl border border-r-0 border-gray-300 bg-gray-50 px-3.5 text-[15px] text-gray-500">
+                          +91
+                        </span>
+                        <input
+                          type="tel"
+                          inputMode="numeric"
+                          autoComplete="tel-national"
+                          required
+                          autoFocus
+                          value={phone}
+                          onChange={(e) =>
+                            setPhone(e.target.value.replace(/\D/g, '').slice(0, PHONE_DIGITS))
+                          }
+                          placeholder="98765 43210"
+                          className={`${inputClass} rounded-l-none`}
+                        />
+                      </div>
+                      <button
+                        type="submit"
+                        disabled={busy || phone.length !== PHONE_DIGITS}
+                        className={buttonClass}
+                      >
+                        {busy ? (
+                          <Loader2 size={17} className="animate-spin" />
+                        ) : (
+                          <Lock size={16} />
+                        )}
+                        {busy ? 'Unlocking…' : 'Unlock full code'}
+                      </button>
+                    </form>
+                  )}
+
+                  {stage === 'done' && (
+                    <button type="button" onClick={dismiss} className={buttonClass}>
+                      Claim your discount
+                    </button>
+                  )}
+                </div>
+
+                <p className="mt-4 text-center text-[11px] text-gray-400">
+                  {stage === 'done'
+                    ? 'Apply the code at checkout to use your discount.'
+                    : 'We’ll only use these to send your coupon and order updates.'}
+                </p>
+              </>
+            )}
+          </div>
+        </div>
+
+        {/* ---------------- Right: campaign artwork ---------------- */}
+        <div className="hidden w-1/2 bg-primary-50 sm:block">
+          {images.length > 0 ? (
+            <div className="grid h-full grid-cols-2 grid-rows-2 gap-2.5 p-2.5">
+              {images.slice(0, 4).map((src, i) => (
+                <div key={`${src}-${i}`} className="overflow-hidden rounded-xl bg-primary-100">
+                  <img
+                    src={src}
+                    alt=""
+                    loading="lazy"
+                    aria-hidden
+                    className="h-full w-full object-cover"
+                    // A broken campaign URL should leave a clean tile, not a torn icon.
+                    onError={(e) => {
+                      (e.currentTarget as HTMLImageElement).style.visibility = 'hidden';
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
+          ) : (
+            // No artwork configured yet: a plain branded field beats placeholder boxes.
+            <div className="flex h-full items-center justify-center bg-gradient-to-br from-primary-100 to-primary-200">
+              <span className="text-5xl font-bold tracking-tight text-primary-600/30">
+                AOIN
+              </span>
+            </div>
           )}
         </div>
       </div>

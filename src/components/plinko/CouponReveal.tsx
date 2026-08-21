@@ -2,16 +2,17 @@ import React from 'react';
 import { Check, Copy } from 'lucide-react';
 
 /**
- * The progressive reveal.
+ * The coupon card, in one of three states: hidden, half revealed, fully revealed.
  *
- * This renders whatever string the server sent and nothing more. Before the phone
- * number arrives the server sends a masked string whose hidden half simply does not
- * exist client-side, so the blur below is a visual flourish rather than the thing
- * protecting the code.
+ * It renders exactly the string the server sent and nothing more. Before the phone
+ * number arrives that string genuinely does not contain the hidden characters, so the
+ * blur here is decoration on top of a server-side split — not the thing protecting the
+ * code. Reading it out of the DOM gets you bullets.
  */
 interface CouponRevealProps {
+  /** Server-supplied string: bullets, half code, or the whole thing. */
   code: string;
-  fullyRevealed: boolean;
+  state: 'hidden' | 'half' | 'full';
   label?: string | null;
   validUntil?: string | null;
   terms?: string | null;
@@ -20,13 +21,14 @@ interface CouponRevealProps {
 
 const CouponReveal: React.FC<CouponRevealProps> = ({
   code,
-  fullyRevealed,
+  state,
   label,
   validUntil,
   terms,
   minOrderValue,
 }) => {
   const [copied, setCopied] = React.useState(false);
+  const isFull = state === 'full';
 
   const copy = async () => {
     try {
@@ -39,44 +41,59 @@ const CouponReveal: React.FC<CouponRevealProps> = ({
   };
 
   return (
-    <div className="rounded-xl border border-dashed border-primary-400/40 bg-white/[0.04] p-5 text-center backdrop-blur">
+    <div className="relative overflow-hidden rounded-xl border-2 border-dashed border-primary-300 bg-primary-50 px-5 py-4">
+      {/* Ticket notches, so it reads as a coupon rather than an input box. */}
+      <span className="absolute -left-2.5 top-1/2 h-5 w-5 -translate-y-1/2 rounded-full bg-white" aria-hidden />
+      <span className="absolute -right-2.5 top-1/2 h-5 w-5 -translate-y-1/2 rounded-full bg-white" aria-hidden />
+
       {label && (
-        <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-primary-300">
-          {label}
+        <p className="mb-1.5 text-center text-[11px] font-bold uppercase tracking-[0.16em] text-primary-600">
+          {label} coupon
         </p>
       )}
 
       <div className="flex items-center justify-center gap-2.5">
         <span
-          className={`font-mono text-2xl font-bold tracking-[0.18em] text-white transition-all duration-500 ${
-            fullyRevealed ? '' : 'select-none blur-[4px]'
+          className={`font-mono text-xl font-bold tracking-[0.14em] text-gray-900 transition-all duration-500 sm:text-2xl ${
+            isFull ? '' : 'select-none blur-[5px]'
           }`}
         >
-          {code}
+          {code || '••••••••••••'}
         </span>
-        {fullyRevealed && (
+        {isFull && (
           <button
             type="button"
             onClick={copy}
             aria-label="Copy coupon code"
-            className="rounded-lg p-1.5 text-primary-300 transition-colors hover:bg-white/10 hover:text-white"
+            className="shrink-0 rounded-lg border border-primary-200 bg-white p-2 text-primary-600 transition-colors hover:bg-primary-100"
           >
-            {copied ? <Check size={17} /> : <Copy size={17} />}
+            {copied ? <Check size={16} /> : <Copy size={16} />}
           </button>
         )}
       </div>
 
-      {!fullyRevealed && (
-        <p className="mt-3 text-xs text-white/45">
-          Add your mobile number to unlock the full code.
+      {copied && (
+        <p className="mt-1.5 text-center text-[11px] font-medium text-emerald-600">
+          Copied to clipboard
         </p>
       )}
 
-      {fullyRevealed && (
-        <div className="mt-4 space-y-1 text-[11px] leading-relaxed text-white/45">
-          {validUntil && <p>Valid until {validUntil}.</p>}
-          {minOrderValue ? <p>Minimum order ₹{minOrderValue}.</p> : null}
-          {terms && <p>{terms}</p>}
+      {state === 'hidden' && (
+        <p className="mt-2 text-center text-xs text-gray-500">
+          Enter your email below to reveal it
+        </p>
+      )}
+      {state === 'half' && (
+        <p className="mt-2 text-center text-xs text-gray-500">
+          Half unlocked — add your mobile number for the rest
+        </p>
+      )}
+
+      {isFull && (
+        <div className="mt-3 space-y-0.5 border-t border-primary-200/70 pt-2.5 text-center text-[11px] leading-relaxed text-gray-500">
+          {validUntil && <p>Valid until {validUntil}</p>}
+          {minOrderValue ? <p>Minimum order ₹{minOrderValue}</p> : null}
+          {terms && <p className="text-gray-400">{terms}</p>}
         </div>
       )}
     </div>
