@@ -325,7 +325,29 @@ const PlinkoPopup: React.FC = () => {
 
         {/* ---------------- Right: campaign artwork ---------------- */}
         <div className="hidden w-1/2 bg-primary-50 sm:block">
-          {images.length > 0 ? (
+          {images.length === 1 ? (
+            // A lone image is treated as a finished poster, not a tile: campaign
+            // creatives carry their own headline, offer badge and CTA, and cropping
+            // one into a grid cell cuts that copy off. object-contain guarantees
+            // nothing is lost.
+            //
+            // The panel behind it is near-white rather than dark. A poster rarely
+            // matches this panel's proportions, so there will be letterbox bars, and
+            // the current artwork carries its own pale margin — dark bars around a
+            // white-edged poster look like a rendering fault, a light ground reads as
+            // matting. Swap this if a campaign's artwork is dark to its edges.
+            <div className="flex h-full items-center justify-center bg-[#F8F8F9]">
+              <img
+                src={images[0]}
+                alt=""
+                aria-hidden
+                className="h-full w-full object-contain"
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).style.visibility = 'hidden';
+                }}
+              />
+            </div>
+          ) : images.length > 1 ? (
             <div className="grid h-full grid-cols-2 grid-rows-2 gap-2.5 p-2.5">
               {images.slice(0, 4).map((src, i) => (
                 <div key={`${src}-${i}`} className="overflow-hidden rounded-xl bg-primary-100">

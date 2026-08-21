@@ -187,7 +187,10 @@ const PlinkoCampaigns: React.FC = () => {
             <label className={labelCls}>Popup images (4)</label>
             <p className="mb-2 text-xs text-gray-400">
               Shown beside the game. Paste full URLs or paths under <code>/public</code>.
-              Leave blank to show a plain branded panel instead.
+              <strong>One</strong> image fills the panel whole — use this for a finished
+              poster with its own copy. <strong>Two to four</strong> are tiled in a grid
+              and cropped to fit, so use plain photos there. Leave blank for a plain
+              branded panel.
             </p>
             <div className="space-y-2">
               {[0, 1, 2, 3].map((i) => (
