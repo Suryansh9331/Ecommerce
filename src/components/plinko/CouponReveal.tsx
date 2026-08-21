@@ -39,17 +39,17 @@ const CouponReveal: React.FC<CouponRevealProps> = ({
   };
 
   return (
-    <div className="rounded-lg border border-dashed border-primary-300 bg-primary-50 p-4 text-center">
+    <div className="rounded-xl border border-dashed border-primary-400/40 bg-white/[0.04] p-5 text-center backdrop-blur">
       {label && (
-        <p className="mb-1 text-xs font-medium uppercase tracking-wide text-primary-600">
+        <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-primary-300">
           {label}
         </p>
       )}
 
-      <div className="flex items-center justify-center gap-2">
+      <div className="flex items-center justify-center gap-2.5">
         <span
-          className={`font-mono text-xl font-bold tracking-[0.15em] text-gray-900 ${
-            fullyRevealed ? '' : 'blur-[3px] select-none'
+          className={`font-mono text-2xl font-bold tracking-[0.18em] text-white transition-all duration-500 ${
+            fullyRevealed ? '' : 'select-none blur-[4px]'
           }`}
         >
           {code}
@@ -59,21 +59,21 @@ const CouponReveal: React.FC<CouponRevealProps> = ({
             type="button"
             onClick={copy}
             aria-label="Copy coupon code"
-            className="rounded p-1 text-primary-600 hover:bg-primary-100"
+            className="rounded-lg p-1.5 text-primary-300 transition-colors hover:bg-white/10 hover:text-white"
           >
-            {copied ? <Check size={16} /> : <Copy size={16} />}
+            {copied ? <Check size={17} /> : <Copy size={17} />}
           </button>
         )}
       </div>
 
       {!fullyRevealed && (
-        <p className="mt-2 text-xs text-gray-500">
+        <p className="mt-3 text-xs text-white/45">
           Add your mobile number to unlock the full code.
         </p>
       )}
 
       {fullyRevealed && (
-        <div className="mt-3 space-y-1 text-[11px] leading-relaxed text-gray-500">
+        <div className="mt-4 space-y-1 text-[11px] leading-relaxed text-white/45">
           {validUntil && <p>Valid until {validUntil}.</p>}
           {minOrderValue ? <p>Minimum order ₹{minOrderValue}.</p> : null}
           {terms && <p>{terms}</p>}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { X } from 'lucide-react';
+import { Loader2, Lock, X } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 
 import CouponReveal from './CouponReveal';
@@ -13,17 +13,40 @@ import {
 } from '../../services/plinkoService';
 
 /**
- * Full-screen lead-capture popup.
+ * Full-viewport lead-capture takeover.
  *
- * Not built on components/common/Modal.tsx: that one is a centred card with no scroll
- * lock and no Esc handling, both of which a full-screen takeover needs.
+ * Genuinely full-page — inset-0 with no max-width and no letterboxing — because a
+ * centred card competes with the page behind it and reads as an ad. Filling the
+ * viewport makes the game the only thing on screen, which is the point.
  *
- * Layout follows the reference (board left, imagery right, prize strip under the
- * board) but the palette is AOIN's primary-* scale, not the reference's.
+ * Not built on components/common/Modal: that is a centred card with no scroll lock and
+ * no Esc handling.
+ *
+ * Deliberately no decorative image grid. An earlier pass had one filled with empty
+ * gradient blocks standing in for photography that does not exist yet, which looked
+ * broken. Until there is real art to put there, the game plus a dark field is a
+ * stronger composition than placeholders.
  */
 type Stage = 'intro' | 'dropping' | 'email' | 'phone' | 'done';
 
 const PHONE_DIGITS = 10;
+
+const StepDots: React.FC<{ stage: Stage }> = ({ stage }) => {
+  const order: Stage[] = ['intro', 'email', 'phone', 'done'];
+  const active = stage === 'dropping' ? 0 : order.indexOf(stage);
+  return (
+    <div className="flex items-center justify-center gap-2" aria-hidden>
+      {order.map((_, i) => (
+        <span
+          key={i}
+          className={`h-1 rounded-full transition-all duration-500 ${
+            i <= active ? 'w-7 bg-primary-400' : 'w-3 bg-white/20'
+          }`}
+        />
+      ))}
+    </div>
+  );
+};
 
 const PlinkoPopup: React.FC = () => {
   const location = useLocation();
@@ -42,7 +65,6 @@ const PlinkoPopup: React.FC = () => {
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
 
-  // Esc to close, and no background scrolling behind a full-screen takeover.
   useEffect(() => {
     if (!isOpen) return;
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && dismiss();
@@ -65,12 +87,12 @@ const PlinkoPopup: React.FC = () => {
     try {
       const result = await playPlinko(location.pathname);
       setSessionToken(result.session_token);
-      setSlotIndex(result.slot_index);
       setPrizeLabel(result.prize_label);
       setStage('dropping');
+      // Set last: this is what starts the drop, and the solve is synchronous.
+      setSlotIndex(result.slot_index);
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Could not start the game.');
-    } finally {
       setBusy(false);
     }
   };
@@ -107,34 +129,50 @@ const PlinkoPopup: React.FC = () => {
   };
 
   const inputClass =
-    'w-full rounded-md border border-gray-300 px-4 py-2.5 text-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary-600';
+    'w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3.5 text-[15px] text-white placeholder:text-white/35 backdrop-blur transition-colors focus:border-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-500/40';
+
+  const buttonClass =
+    'flex w-full items-center justify-center gap-2 rounded-xl bg-primary-500 py-3.5 text-[15px] font-semibold text-white shadow-lg shadow-primary-600/30 transition-all hover:bg-primary-400 hover:shadow-primary-500/40 active:scale-[0.99] disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-white/40 disabled:shadow-none';
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 p-0 sm:p-6"
+      className="fixed inset-0 z-[100] overflow-y-auto bg-primary-950"
       role="dialog"
       aria-modal="true"
       aria-label={campaign.headline || 'Win a discount'}
     >
-      <div className="relative flex h-full w-full max-w-5xl flex-col overflow-y-auto bg-white sm:h-auto sm:max-h-[90vh] sm:flex-row sm:rounded-xl">
-        <button
-          type="button"
-          onClick={dismiss}
-          aria-label="Close"
-          className="absolute right-3 top-3 z-20 rounded-full p-2 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-700"
-        >
-          <X size={20} />
-        </button>
+      {/* Depth: two soft light sources, so the field is not a flat block of colour. */}
+      <div
+        aria-hidden
+        className="pointer-events-none fixed inset-0"
+        style={{
+          background:
+            'radial-gradient(60rem 40rem at 50% -10%, rgba(59,30,235,0.42), transparent 65%),' +
+            'radial-gradient(40rem 32rem at 85% 105%, rgba(103,227,249,0.14), transparent 60%)',
+        }}
+      />
 
-        {/* Game */}
-        <div className="flex w-full flex-col justify-center px-6 py-10 sm:w-1/2 sm:px-10">
+      <button
+        type="button"
+        onClick={dismiss}
+        aria-label="Close"
+        className="fixed right-4 top-4 z-10 rounded-full border border-white/10 bg-white/5 p-2.5 text-white/60 backdrop-blur transition-colors hover:bg-white/10 hover:text-white sm:right-6 sm:top-6"
+      >
+        <X size={20} />
+      </button>
+
+      <div className="relative flex min-h-full items-center justify-center px-5 py-10 sm:px-8">
+        <div className="w-full max-w-[30rem]">
           {stage === 'done' && coupon ? (
-            <>
-              <h2 className="mb-1 text-2xl font-bold text-gray-900 sm:text-3xl">
+            <div className="text-center">
+              <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-primary-300">
+                Unlocked
+              </p>
+              <h2 className="mb-2 text-4xl font-bold leading-tight text-white sm:text-5xl">
                 You&apos;ve got {coupon.label}
               </h2>
-              <p className="mb-5 text-sm text-gray-500">
-                Use this code at checkout — it&apos;s yours alone.
+              <p className="mb-7 text-[15px] text-white/50">
+                This code is yours alone — use it at checkout.
               </p>
               <CouponReveal
                 code={coupon.code}
@@ -144,118 +182,126 @@ const PlinkoPopup: React.FC = () => {
                 terms={coupon.terms}
                 minOrderValue={coupon.min_order_value}
               />
-              <button
-                type="button"
-                onClick={dismiss}
-                className="mt-5 w-full rounded-md bg-primary-600 py-2.5 font-medium text-white transition-colors hover:bg-primary-700"
-              >
+              <button type="button" onClick={dismiss} className={`${buttonClass} mt-6`}>
                 Start shopping
               </button>
-            </>
+            </div>
           ) : (
             <>
-              <h2 className="mb-1 text-3xl font-bold text-gray-900 sm:text-4xl">
-                {campaign.headline}
-              </h2>
-              {campaign.subheadline && (
-                <p className="mb-4 text-sm text-gray-500">{campaign.subheadline}</p>
-              )}
+              <div className="mb-6 text-center">
+                <h2 className="text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl">
+                  {campaign.headline}
+                </h2>
+                <p className="mt-2 text-[15px] text-white/50">
+                  {campaign.subheadline || 'Every drop wins a discount.'}
+                </p>
+              </div>
 
               <PlinkoBoard
                 slotLabels={slots}
                 targetSlot={slotIndex}
-                onLanded={() => stage === 'dropping' && setStage('email')}
+                onLanded={() => {
+                  setBusy(false);
+                  setStage('email');
+                }}
               />
 
               {error && (
-                <p className="mt-3 rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
+                <p
+                  role="alert"
+                  className="mt-4 rounded-xl border border-red-400/25 bg-red-500/10 px-4 py-3 text-sm text-red-200"
+                >
                   {error}
                 </p>
               )}
 
-              {stage === 'intro' && (
-                <button
-                  type="button"
-                  onClick={handlePlay}
-                  disabled={busy}
-                  className="mt-5 w-full rounded-md bg-primary-600 py-3 font-medium text-white transition-colors hover:bg-primary-700 disabled:bg-gray-400"
-                >
-                  {busy ? 'Dropping…' : 'Try your luck'}
-                </button>
-              )}
-
-              {stage === 'dropping' && (
-                <p className="mt-5 text-center text-sm text-gray-500">Dropping…</p>
-              )}
-
-              {stage === 'email' && (
-                <form onSubmit={handleEmail} className="mt-5 space-y-3">
-                  <p className="text-center text-sm font-medium text-gray-700">
-                    You won {prizeLabel}! Enter your email to reveal your code.
-                  </p>
-                  <input
-                    type="email"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Your email address"
-                    className={inputClass}
-                    autoComplete="email"
-                  />
+              <div className="mt-6">
+                {stage === 'intro' && (
                   <button
-                    type="submit"
+                    type="button"
+                    onClick={handlePlay}
                     disabled={busy}
-                    className="w-full rounded-md bg-primary-600 py-2.5 font-medium text-white transition-colors hover:bg-primary-700 disabled:bg-gray-400"
+                    className={buttonClass}
                   >
-                    {busy ? 'Checking…' : 'Reveal my code'}
+                    {busy && <Loader2 size={17} className="animate-spin" />}
+                    {busy ? 'Dropping…' : 'Try your luck'}
                   </button>
-                </form>
-              )}
+                )}
 
-              {stage === 'phone' && (
-                <form onSubmit={handlePhone} className="mt-5 space-y-3">
-                  <CouponReveal code={maskedCode} fullyRevealed={false} label={prizeLabel} />
-                  <div className="flex">
-                    <span className="inline-flex select-none items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-sm text-gray-600">
-                      +91
-                    </span>
+                {stage === 'dropping' && (
+                  <p className="text-center text-sm text-white/40">Watch it fall…</p>
+                )}
+
+                {stage === 'email' && (
+                  <form onSubmit={handleEmail} className="space-y-3">
+                    <p className="text-center text-[15px] text-white/80">
+                      You won{' '}
+                      <span className="font-semibold text-primary-300">{prizeLabel}</span>
+                      ! Enter your email to reveal your code.
+                    </p>
                     <input
-                      type="tel"
-                      inputMode="numeric"
-                      autoComplete="tel-national"
+                      type="email"
                       required
-                      value={phone}
-                      onChange={(e) =>
-                        setPhone(e.target.value.replace(/\D/g, '').slice(0, PHONE_DIGITS))
-                      }
-                      placeholder="98765 43210"
-                      className={`${inputClass} rounded-l-none`}
+                      autoFocus
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="Your email address"
+                      className={inputClass}
+                      autoComplete="email"
                     />
-                  </div>
-                  <button
-                    type="submit"
-                    disabled={busy || phone.length !== PHONE_DIGITS}
-                    className="w-full rounded-md bg-primary-600 py-2.5 font-medium text-white transition-colors hover:bg-primary-700 disabled:bg-gray-400"
-                  >
-                    {busy ? 'Unlocking…' : 'Unlock full code'}
-                  </button>
-                </form>
-              )}
+                    <button type="submit" disabled={busy} className={buttonClass}>
+                      {busy && <Loader2 size={17} className="animate-spin" />}
+                      {busy ? 'Checking…' : 'Reveal my code'}
+                    </button>
+                  </form>
+                )}
+
+                {stage === 'phone' && (
+                  <form onSubmit={handlePhone} className="space-y-3">
+                    <CouponReveal
+                      code={maskedCode}
+                      fullyRevealed={false}
+                      label={prizeLabel}
+                    />
+                    <div className="flex">
+                      <span className="inline-flex select-none items-center rounded-l-xl border border-r-0 border-white/15 bg-white/5 px-3.5 text-[15px] text-white/50">
+                        +91
+                      </span>
+                      <input
+                        type="tel"
+                        inputMode="numeric"
+                        autoComplete="tel-national"
+                        required
+                        autoFocus
+                        value={phone}
+                        onChange={(e) =>
+                          setPhone(e.target.value.replace(/\D/g, '').slice(0, PHONE_DIGITS))
+                        }
+                        placeholder="98765 43210"
+                        className={`${inputClass} rounded-l-none`}
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      disabled={busy || phone.length !== PHONE_DIGITS}
+                      className={buttonClass}
+                    >
+                      {busy ? (
+                        <Loader2 size={17} className="animate-spin" />
+                      ) : (
+                        <Lock size={16} />
+                      )}
+                      {busy ? 'Unlocking…' : 'Unlock full code'}
+                    </button>
+                  </form>
+                )}
+              </div>
+
+              <div className="mt-7">
+                <StepDots stage={stage} />
+              </div>
             </>
           )}
-        </div>
-
-        {/* Imagery */}
-        <div className="hidden w-1/2 bg-primary-50 sm:block">
-          <div className="grid h-full grid-cols-2 gap-3 p-6">
-            {[0, 1, 2, 3].map((i) => (
-              <div
-                key={i}
-                className="rounded-lg bg-gradient-to-br from-primary-100 to-primary-200"
-                aria-hidden
-              />
-            ))}
-          </div>
         </div>
       </div>
     </div>
