@@ -30,6 +30,13 @@ const CouponReveal: React.FC<CouponRevealProps> = ({
   const [copied, setCopied] = React.useState(false);
   const isFull = state === 'full';
 
+  // The server sends the real prefix followed by bullets for whatever it is still
+  // withholding, so the split point is simply the first bullet.
+  const display = code || '••••••••••••';
+  const firstBullet = display.indexOf('\u2022');
+  const revealed = firstBullet === -1 ? display : display.slice(0, firstBullet);
+  const masked = firstBullet === -1 ? '' : display.slice(firstBullet);
+
   const copy = async () => {
     try {
       await navigator.clipboard.writeText(code);
@@ -53,12 +60,19 @@ const CouponReveal: React.FC<CouponRevealProps> = ({
       )}
 
       <div className="flex items-center justify-center gap-2.5">
-        <span
-          className={`font-mono text-xl font-bold tracking-[0.14em] text-gray-900 transition-all duration-500 sm:text-2xl ${
-            isFull ? '' : 'select-none blur-[5px]'
-          }`}
-        >
-          {code || '••••••••••••'}
+        {/* The revealed characters are rendered crisp and the masked ones blurred
+            separately. Blurring the whole string — which is what this did — made the
+            half-revealed state unreadable, so "half unlocked" showed the customer
+            nothing and the progressive reveal had no visible payoff. */}
+        <span className="font-mono text-xl font-bold tracking-[0.14em] sm:text-2xl">
+          {revealed && (
+            <span className="text-gray-900 transition-all duration-500">{revealed}</span>
+          )}
+          {masked && (
+            <span className="select-none text-gray-400 blur-[4px]" aria-hidden>
+              {masked}
+            </span>
+          )}
         </span>
         {isFull && (
           <button

@@ -27,7 +27,12 @@ import {
  * Once the ball lands the board is replaced, in place, by the celebration and the
  * coupon — so the reward appears exactly where the player was looking.
  */
-type Stage = 'intro' | 'dropping' | 'email' | 'phone' | 'done';
+// 'landed' is a deliberate beat between the ball settling and the form appearing.
+// Cutting straight to "give us your email" the instant it lands throws away the only
+// moment the player actually cares about, and reads as a bait-and-switch.
+type Stage = 'intro' | 'dropping' | 'landed' | 'email' | 'phone' | 'done';
+
+const CELEBRATION_HOLD_MS = 2400;
 
 const PHONE_DIGITS = 10;
 
@@ -61,10 +66,18 @@ const PlinkoPopup: React.FC = () => {
     };
   }, [isOpen, dismiss]);
 
+  // Hold on the result before asking for anything.
+  useEffect(() => {
+    if (stage !== 'landed') return;
+    const timer = setTimeout(() => setStage('email'), CELEBRATION_HOLD_MS);
+    return () => clearTimeout(timer);
+  }, [stage]);
+
   if (!isOpen || !campaign?.active) return null;
 
   const slots = (campaign.prizes ?? []).map((p) => p.label);
   const images = campaign.image_urls ?? [];
+  // 'landed' still shows the board, so the winning slot stays lit during the hold.
   const hasWon = stage === 'email' || stage === 'phone' || stage === 'done';
 
   const handlePlay = async () => {
@@ -149,7 +162,10 @@ const PlinkoPopup: React.FC = () => {
 
         {/* ---------------- Left: game, then reward ---------------- */}
         <div className="relative flex w-full flex-1 items-center justify-center overflow-y-auto px-6 py-10 sm:w-1/2 sm:px-10 lg:px-14">
-          {hasWon && stage !== 'done' && <Celebration />}
+          {(stage === 'landed' || stage === 'email' || stage === 'phone') && (
+            <Celebration key="win" />
+          )}
+          {stage === 'done' && <Celebration key="done" intensity="small" />}
 
           <div className="relative z-10 w-full max-w-md">
             {!hasWon ? (
@@ -167,13 +183,13 @@ const PlinkoPopup: React.FC = () => {
                     targetSlot={slotIndex}
                     onLanded={() => {
                       setBusy(false);
-                      setStage('email');
+                      setStage('landed');
                     }}
                   />
                 </div>
 
                 <div className="mt-7">
-                  {stage === 'intro' ? (
+                  {stage === 'intro' && (
                     <button
                       type="button"
                       onClick={handlePlay}
@@ -183,8 +199,14 @@ const PlinkoPopup: React.FC = () => {
                       {busy && <Loader2 size={17} className="animate-spin" />}
                       {busy ? 'Dropping…' : 'Try your luck'}
                     </button>
-                  ) : (
+                  )}
+                  {stage === 'dropping' && (
                     <p className="text-center text-sm text-gray-400">Watch it fall…</p>
+                  )}
+                  {stage === 'landed' && (
+                    <p className="animate-pulse text-center text-lg font-semibold text-primary-600">
+                      You won {prizeLabel}!
+                    </p>
                   )}
                 </div>
               </>

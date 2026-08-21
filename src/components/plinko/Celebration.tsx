@@ -24,7 +24,12 @@ interface Piece {
   h: number;
 }
 
-const Celebration: React.FC = () => {
+interface CelebrationProps {
+  /** 'big' for the win itself; 'small' for the quieter beat after the code unlocks. */
+  intensity?: 'big' | 'small';
+}
+
+const Celebration: React.FC<CelebrationProps> = ({ intensity = 'big' }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -61,11 +66,14 @@ const Celebration: React.FC = () => {
         });
       }
     };
-    spawn(rect.width * 0.5, rect.height * 0.45, Math.PI * 1.6, 70);
-    spawn(0, rect.height * 0.8, Math.PI * 0.5, 40);
-    spawn(rect.width, rect.height * 0.8, Math.PI * 0.5, 40);
-    pieces.forEach((p, i) => {
-      if (i >= 110) p.vx *= p.x === 0 ? 1 : -1;
+    const scale = intensity === 'small' ? 0.4 : 1;
+    spawn(rect.width * 0.5, rect.height * 0.45, Math.PI * 1.6, Math.round(70 * scale));
+    spawn(0, rect.height * 0.8, Math.PI * 0.5, Math.round(40 * scale));
+    spawn(rect.width, rect.height * 0.8, Math.PI * 0.5, Math.round(40 * scale));
+    // The side cannons fire inward; without this the left one throws off-screen.
+    pieces.forEach((p) => {
+      if (p.x === 0 && p.vx < 0) p.vx = -p.vx;
+      if (p.x === rect.width && p.vx > 0) p.vx = -p.vx;
     });
 
     let raf: number;
@@ -102,7 +110,7 @@ const Celebration: React.FC = () => {
 
     raf = requestAnimationFrame(frame);
     return () => cancelAnimationFrame(raf);
-  }, []);
+  }, [intensity]);
 
   return (
     <canvas
