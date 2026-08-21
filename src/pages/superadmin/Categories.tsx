@@ -5,6 +5,36 @@ import { toast } from 'react-hot-toast';
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 // Type definitions
+type StatusFilter = 'all' | 'active' | 'disabled';
+
+/** is_active is optional on the API payload; only an explicit false means disabled. */
+const isDisabled = (category: Category) => category.is_active === false;
+
+const matchesFilter = (category: Category, filter: StatusFilter) => {
+  if (filter === 'all') return true;
+  return filter === 'disabled' ? isDisabled(category) : !isDisabled(category);
+};
+
+/**
+ * Filter the tree without breaking it.
+ *
+ * A branch is kept when the category itself matches *or* any descendant does —
+ * otherwise filtering by a property that varies per node would hide the parent you
+ * need in order to reach a match. Kept-for-context parents are dimmed in the table so
+ * it is obvious they are not themselves part of the result.
+ */
+const filterTree = (nodes: Category[], filter: StatusFilter): Category[] =>
+  nodes.reduce<Category[]>((kept, node) => {
+    const children = filterTree(node.subcategories ?? [], filter);
+    if (matchesFilter(node, filter) || children.length > 0) {
+      kept.push({ ...node, subcategories: children });
+    }
+    return kept;
+  }, []);
+
+const flatten = (nodes: Category[]): Category[] =>
+  nodes.flatMap((node) => [node, ...flatten(node.subcategories ?? [])]);
+
 interface Category {
   category_id: number;
   name: string;
@@ -40,6 +70,7 @@ export default function Categories() {
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
   const [showConfirmDialog, setShowConfirmDialog] = useState<{ visible: boolean; categoryId: number | null; categoryName: string; } | null>(null);
   const [togglingActiveId, setTogglingActiveId] = useState<number | null>(null);
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
 
   useEffect(() => {
     fetchCategories();
@@ -402,14 +433,40 @@ export default function Categories() {
   };
 
   // Add function to render category rows recursively
+  const visibleCategories = React.useMemo(
+    () => filterTree(categories, statusFilter),
+    [categories, statusFilter]
+  );
+
+  const counts = React.useMemo(() => {
+    const all = flatten(categories);
+    const disabled = all.filter(isDisabled).length;
+    return { all: all.length, active: all.length - disabled, disabled };
+  }, [categories]);
+
+  // Expand everything while a filter is on. A match three levels down is useless if
+  // the admin has to guess which collapsed branch it is hiding in.
+  useEffect(() => {
+    if (statusFilter === 'all') return;
+    setExpandedCategories((previous) => {
+      const next = { ...previous };
+      flatten(visibleCategories).forEach((category) => {
+        next[category.category_id] = true;
+      });
+      return next;
+    });
+  }, [statusFilter, visibleCategories]);
+
   const renderCategoryRows = (category: Category, level: number = 0) => {
     const isExpanded = expandedCategories[category.category_id] || false;
     const hasSubcategories = category.subcategories && category.subcategories.length > 0;
     const isParentCategory = !category.parent_id;
+    // Only shown because a descendant matched — dimmed so it does not read as a result.
+    const isContextOnly = !matchesFilter(category, statusFilter);
 
     return (
       <React.Fragment key={category.category_id}>
-        <tr className="hover:bg-gray-50">
+        <tr className={`hover:bg-gray-50 ${isContextOnly ? 'opacity-50' : ''}`}>
           <td className="px-2 py-4">
             {hasSubcategories && (
               <button 
@@ -494,6 +551,29 @@ export default function Categories() {
         </button>
       </div>
 
+      <div className="mb-4 flex gap-1 rounded-lg border border-gray-200 bg-gray-50 p-1 w-fit">
+        {([
+          { key: 'all', label: 'All' },
+          { key: 'active', label: 'Active' },
+          { key: 'disabled', label: 'Disabled' },
+        ] as { key: StatusFilter; label: string }[]).map((tab) => (
+          <button
+            key={tab.key}
+            type="button"
+            onClick={() => setStatusFilter(tab.key)}
+            aria-pressed={statusFilter === tab.key}
+            className={`rounded-md px-4 py-2 text-sm font-medium transition-colors ${
+              statusFilter === tab.key
+                ? 'bg-white text-primary-600 shadow-sm'
+                : 'text-gray-500 hover:text-gray-700'
+            }`}
+          >
+            {tab.label}
+            <span className="ml-1.5 text-xs text-gray-400">{counts[tab.key]}</span>
+          </button>
+        ))}
+      </div>
+
       <div className="overflow-x-auto bg-white rounded-lg shadow">
         <table className="min-w-full table-auto">
           <thead className="bg-gray-50">
@@ -505,7 +585,15 @@ export default function Categories() {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {categories.map(category => renderCategoryRows(category))}
+            {visibleCategories.length === 0 ? (
+              <tr>
+                <td colSpan={4} className="px-6 py-10 text-center text-gray-500">
+                  No {statusFilter === 'all' ? '' : statusFilter} categories found.
+                </td>
+              </tr>
+            ) : (
+              visibleCategories.map(category => renderCategoryRows(category))
+            )}
           </tbody>
         </table>
       </div>
