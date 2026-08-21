@@ -2,18 +2,23 @@ import { useCallback, useEffect, useState } from 'react';
 import { getPlinkoCampaign, PlinkoCampaign } from '../services/plinkoService';
 
 /**
- * Decides whether the lead-capture popup should open, and remembers the answer.
+ * Owns whether the lead-capture popup is open, and remembers the answer.
  *
- * There is no existing precedent for this in the app — MessengerPopup keeps its
- * open/closed state in memory, so it reappears on every reload. A popup that does that
- * while asking for an email is just an annoyance, so the decision is persisted:
+ * There is no precedent for this in the app — MessengerPopup keeps its open state in
+ * memory, so it reappears on every reload. Acceptable for a chat bubble; not for
+ * something that asks for an email.
  *
- *   completed -> never show again
- *   dismissed -> show again after the campaign's redisplay_after_days
- *   unseen    -> show after popup_delay_seconds
+ *   completed -> never again
+ *   dismissed -> auto-opens again after the campaign's cooldown
+ *   unseen    -> auto-opens after the configured delay
  *
- * Keyed by campaign id, so launching a new campaign gives everyone a fresh look
- * without stale state suppressing it.
+ * Keyed by campaign id, so a new campaign gets everyone a fresh look rather than being
+ * suppressed by stale state.
+ *
+ * `autoOpen` gates only the automatic opening (homepage). The campaign is fetched
+ * everywhere so the manual re-entry trigger can follow the shopper around the site:
+ * someone who dismissed the popup and then went browsing is exactly the person who
+ * still needs a way back in.
  */
 const STORAGE_KEY = 'aoin_plinko_state';
 
@@ -30,7 +35,7 @@ const readState = (): StoredState | null => {
     const raw = localStorage.getItem(STORAGE_KEY);
     return raw ? (JSON.parse(raw) as StoredState) : null;
   } catch {
-    // A corrupt or unavailable localStorage must not stop the page rendering.
+    // Corrupt or unavailable storage must not stop the page rendering.
     return null;
   }
 };
@@ -45,12 +50,16 @@ const writeState = (state: StoredState) => {
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
-export const usePlinkoPopup = (enabled: boolean) => {
+export const usePlinkoPopup = (autoOpen: boolean) => {
   const [campaign, setCampaign] = useState<PlinkoCampaign | null>(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [status, setStatus] = useState<Status>('unseen');
+  // True once we have decided the popup is not opening by itself right now, which is
+  // the moment the manual trigger becomes useful. Without it the trigger would flash
+  // on screen during the opening delay and then be covered by the popup.
+  const [triggerReady, setTriggerReady] = useState(false);
 
   useEffect(() => {
-    if (!enabled) return;
     let cancelled = false;
     let timer: ReturnType<typeof setTimeout>;
 
@@ -61,17 +70,25 @@ export const usePlinkoPopup = (enabled: boolean) => {
 
         const stored = readState();
         const sameCampaign = stored?.campaignId === (data.campaign_id ?? null);
+        const storedStatus = sameCampaign ? stored?.status ?? 'unseen' : 'unseen';
+        setStatus(storedStatus);
 
-        if (sameCampaign && stored?.status === 'completed') return;
-        if (sameCampaign && stored?.status === 'dismissed') {
-          const cooldown = (data.redisplay_after_days ?? 7) * DAY_MS;
-          if (Date.now() - stored.lastShownAt < cooldown) return;
+        if (storedStatus === 'completed') return;
+
+        const cooldownPassed =
+          storedStatus !== 'dismissed' ||
+          Date.now() - (stored?.lastShownAt ?? 0) >=
+            (data.redisplay_after_days ?? 7) * DAY_MS;
+
+        if (autoOpen && cooldownPassed) {
+          timer = setTimeout(() => {
+            if (cancelled) return;
+            setIsOpen(true);
+            setTriggerReady(true);
+          }, (data.popup_delay_seconds ?? 5) * 1000);
+        } else {
+          setTriggerReady(true);
         }
-
-        timer = setTimeout(
-          () => !cancelled && setIsOpen(true),
-          (data.popup_delay_seconds ?? 5) * 1000
-        );
       })
       .catch(() => {
         /* No campaign, or the API is down. The storefront carries on regardless. */
@@ -81,12 +98,13 @@ export const usePlinkoPopup = (enabled: boolean) => {
       cancelled = true;
       clearTimeout(timer);
     };
-  }, [enabled]);
+  }, [autoOpen]);
 
   const remember = useCallback(
-    (status: Status) => {
+    (next: Status) => {
+      setStatus(next);
       writeState({
-        status,
+        status: next,
         lastShownAt: Date.now(),
         campaignId: campaign?.campaign_id ?? null,
       });
@@ -96,10 +114,24 @@ export const usePlinkoPopup = (enabled: boolean) => {
 
   const dismiss = useCallback(() => {
     setIsOpen(false);
-    remember('dismissed');
-  }, [remember]);
+    setTriggerReady(true);
+    // Only downgrade to 'dismissed' if they had not already finished — closing the
+    // popup after claiming a code must not put it back in the rotation.
+    if (status !== 'completed') remember('dismissed');
+  }, [status, remember]);
 
   const complete = useCallback(() => remember('completed'), [remember]);
 
-  return { campaign, isOpen, dismiss, complete };
+  const reopen = useCallback(() => setIsOpen(true), []);
+
+  return {
+    campaign,
+    isOpen,
+    dismiss,
+    complete,
+    reopen,
+    // The way back in for someone who closed the popup without playing.
+    showTrigger:
+      !!campaign?.active && !isOpen && triggerReady && status !== 'completed',
+  };
 };

@@ -3,6 +3,7 @@ import { Loader2, Lock, Mail, PartyPopper, X } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 
 import Celebration from './Celebration';
+import PlinkoTrigger from './PlinkoTrigger';
 import CouponReveal from './CouponReveal';
 import PlinkoBoard from './PlinkoBoard';
 import { usePlinkoPopup } from '../../hooks/usePlinkoPopup';
@@ -38,8 +39,13 @@ const PHONE_DIGITS = 10;
 
 const PlinkoPopup: React.FC = () => {
   const location = useLocation();
+  // The popup opens by itself only on the homepage; the re-entry badge follows the
+  // shopper everywhere, since someone who dismissed it and went browsing is exactly
+  // who still needs a way back to the offer.
   const onHomepage = location.pathname === '/';
-  const { campaign, isOpen, dismiss, complete } = usePlinkoPopup(onHomepage);
+  const { campaign, isOpen, dismiss, complete, reopen, showTrigger } =
+    usePlinkoPopup(onHomepage);
+  const [triggerHidden, setTriggerHidden] = useState(false);
 
   const [stage, setStage] = useState<Stage>('intro');
   const [sessionToken, setSessionToken] = useState('');
@@ -73,7 +79,12 @@ const PlinkoPopup: React.FC = () => {
     return () => clearTimeout(timer);
   }, [stage]);
 
-  if (!isOpen || !campaign?.active) return null;
+  if (!isOpen || !campaign?.active) {
+    if (!showTrigger || triggerHidden) return null;
+    return (
+      <PlinkoTrigger onOpen={reopen} onHide={() => setTriggerHidden(true)} />
+    );
+  }
 
   const slots = (campaign.prizes ?? []).map((p) => p.label);
   const images = campaign.image_urls ?? [];
