@@ -276,6 +276,16 @@ export const dashboardSections: MenuSection[] = [
         icon: MessageSquare,
         description: "View and export newsletter subscribers",
       },
+      {
+        title: "Plinko Leads",
+        icon: MessageSquare,
+        description: "Leads captured by the homepage game",
+      },
+      {
+        title: "Plinko Campaigns",
+        icon: MessageSquare,
+        description: "Board copy, prize odds and coupon rules",
+      },
     ],
   },
 ];

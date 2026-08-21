@@ -4,6 +4,7 @@ import { Toaster } from 'react-hot-toast';
 import Navbar from './components/common/Navbar';
 import Footer from './components/common/Footer';
 import MessengerPopup from './components/MessengerPopup';
+import PlinkoPopup from './components/plinko/PlinkoPopup';
 import AdminLayout from './components/business/AdminLayout';
 import CreatorLayout from './pages/creator/CreatorLayout';
 import SuperAdminLayout from './pages/superadmin/SuperAdminLayout';
@@ -224,6 +225,8 @@ const ShopGSTManagement = lazy(() => import('./components/superadmin/shop/ShopGS
 const YouTubeManagement = lazy(() => import('./pages/superadmin/YouTubeManagement'));
 const MerchantPaymentReport = lazy(() => import('./pages/superadmin/reports/MerchantPaymentReport'));
 const NewsletterSubscribers = lazy(() => import('./pages/superadmin/NewsletterSubscribers'));
+const PlinkoLeads = lazy(() => import('./pages/superadmin/PlinkoLeads'));
+const PlinkoCampaigns = lazy(() => import('./pages/superadmin/PlinkoCampaigns'));
 const ShopAnalytics = lazy(() => import('./pages/superadmin/shop/ShopAnalytics'));
 const ShopInventoryManagement = lazy(() => import('./pages/superadmin/shop/ShopInventoryManagement'));
 const ShopOrders = lazy(() => import('./pages/superadmin/shop/ShopOrders'));
@@ -511,6 +514,8 @@ const App: React.FC = () => {
 
                     <Route path="shop-analytics" element={<ShopAnalytics />} />
                     <Route path="newsletter-subscribers" element={<NewsletterSubscribers />} />
+                    <Route path="plinko-leads" element={<PlinkoLeads />} />
+                    <Route path="plinko-campaigns" element={<PlinkoCampaigns />} />
 
 
                     {/* Shop Management Routes */}
@@ -686,6 +691,9 @@ const App: React.FC = () => {
                 </div>
                 {/* Add MessengerPopup here, outside of routes so it appears on all pages */}
                 <MessengerPopup />
+                {/* Lead-capture game. Mounted globally so its timer survives navigation;
+                    it gates itself to the homepage internally. */}
+                <PlinkoPopup />
               </VisitTracker>
             </Router>
 
