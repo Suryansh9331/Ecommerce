@@ -47,7 +47,7 @@ const inputCls =
 
 const Tab3AdditionalDetails: React.FC<Props> = ({ data, errors, onChange }) => {
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       {/* Tax & Compliance */}
       <section>
         <h2 className="text-sm font-semibold text-gray-800 mb-3">
