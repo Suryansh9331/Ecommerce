@@ -55,7 +55,7 @@ const Tab1AddProduct: React.FC<Props> = ({ data, errors, onChange }) => {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       {/* Category + Brand */}
       <section>
         <label className="block text-sm font-semibold text-gray-800 mb-2">
@@ -89,11 +89,11 @@ const Tab1AddProduct: React.FC<Props> = ({ data, errors, onChange }) => {
           </span>
         </div>
 
-        <div className="mt-4 flex flex-wrap gap-3">
+        <div className="mt-4 grid grid-cols-3 xs:grid-cols-4 sm:flex sm:flex-wrap gap-2 sm:gap-3">
           {data.media.map((m, idx) => (
             <div
               key={m.url}
-              className="relative w-28 h-28 border border-gray-200 rounded-md overflow-hidden group"
+              className="relative aspect-square sm:w-28 sm:h-28 border border-gray-200 rounded-md overflow-hidden group"
             >
               <img src={m.url} alt="" className="w-full h-full object-cover" />
               {idx === 0 && (
@@ -116,9 +116,9 @@ const Tab1AddProduct: React.FC<Props> = ({ data, errors, onChange }) => {
             type="button"
             onClick={() => fileInputRef.current?.click()}
             disabled={uploading}
-            className="w-28 h-28 border-2 border-dashed border-primary-400 bg-primary-50 rounded-md flex flex-col items-center justify-center text-primary-700 hover:bg-primary-100 disabled:opacity-60"
+            className="aspect-square sm:w-28 sm:h-28 border-2 border-dashed border-primary-400 bg-primary-50 rounded-md flex flex-col items-center justify-center text-primary-700 hover:bg-primary-100 disabled:opacity-60"
           >
-            <ArrowUpTrayIcon className="h-6 w-6 mb-1" />
+            <ArrowUpTrayIcon className="h-5 w-5 sm:h-6 sm:w-6 mb-1" />
             <span className="text-xs font-medium">{uploading ? 'Uploading…' : 'Upload'}</span>
           </button>
           <input
