@@ -85,7 +85,7 @@ const Tab2BasicDetails: React.FC<Props> = ({ data, errors, onChange }) => {
 
   const setAttr = (attr: Attribute, patch: Partial<CategoryAttributeValue>) => {
     const next = { ...attrValueMap };
-    next[attr.attribute_id] = { attribute_id: attr.attribute_id, ...(next[attr.attribute_id] || {}), ...patch };
+    next[attr.attribute_id] = { ...(next[attr.attribute_id] || {}), ...patch, attribute_id: attr.attribute_id };
     onChange({ attributes: Object.values(next) });
   };
 

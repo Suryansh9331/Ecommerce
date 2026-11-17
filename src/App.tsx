@@ -188,6 +188,7 @@ const BusinessReelCampaignsPayouts = lazy(() => import('./pages/business/reel-ca
 
 const CatalogProducts = lazy(() => import('./pages/business/catalog/Products'));
 const AddProducts = lazy(() => import('./pages/business/catalog/product/steps/AddProducts'));
+const MeeshoProductWizard = lazy(() => import('./pages/business/catalog/product/wizard/MeeshoProductWizard'));
 const EditProduct = lazy(() => import('./pages/business/catalog/product/components/EditProduct'));
 
 // Superadmin
@@ -448,6 +449,7 @@ const App: React.FC = () => {
                         <Route path="products" element={<CatalogProducts />} />
                         <Route path="aoinlive" element={<Aoinlive />} />
                         <Route path="product/new" element={<AddProducts />} />
+                        <Route path="product/new-wizard" element={<MeeshoProductWizard />} />
                         <Route path="product/:id/view" element={<AddProducts mode="view" />} />
                         <Route path="product/:id/edit" element={<EditProduct />} />
                       </Route>
