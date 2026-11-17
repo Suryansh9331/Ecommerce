@@ -180,10 +180,10 @@ const Tab2BasicDetails: React.FC<Props> = ({ data, errors, onChange }) => {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       {/* Product details */}
       <section>
-        <div className="flex items-center justify-between mb-3">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 mb-3">
           <h2 className="text-sm font-semibold text-gray-800">
             Product details<span className="text-red-500">*</span>
           </h2>
@@ -236,7 +236,7 @@ const Tab2BasicDetails: React.FC<Props> = ({ data, errors, onChange }) => {
 
       {/* Price & Tax */}
       <section>
-        <div className="flex items-center justify-between mb-3">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 mb-3">
           <h2 className="text-sm font-semibold text-gray-800">
             Price &amp; Tax details<span className="text-red-500">*</span>
           </h2>
@@ -360,7 +360,7 @@ const Tab2BasicDetails: React.FC<Props> = ({ data, errors, onChange }) => {
               ₹{customerPrice.toFixed(2)}
             </span>
           </div>
-          <div className="pl-8 text-xs text-gray-600 space-y-1">
+          <div className="pl-6 sm:pl-8 text-xs text-gray-600 space-y-1">
             <div className="flex justify-between">
               <span>Selling Price</span>
               <span>₹{listed.toFixed(2)}</span>
@@ -380,7 +380,7 @@ const Tab2BasicDetails: React.FC<Props> = ({ data, errors, onChange }) => {
               ₹{bankSettlement.toFixed(2)}
             </span>
           </div>
-          <div className="pl-8 text-xs text-gray-600 space-y-1">
+          <div className="pl-6 sm:pl-8 text-xs text-gray-600 space-y-1">
             <div className="flex justify-between">
               <span>Commission @ {commissionPct}%</span>
               <span>− ₹{commissionAmt.toFixed(2)}</span>
