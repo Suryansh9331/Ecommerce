@@ -154,66 +154,80 @@ const MeeshoProductWizard: React.FC = () => {
   );
 
   return (
-    <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-6 max-w-5xl">
-      {/* Header */}
-      <div className="mb-3 sm:mb-4 flex items-center gap-2 sm:gap-3">
+    <div className="max-w-5xl mx-auto">
+      {/* Header — scrolls away with content (Meesho hides its app bar too) */}
+      <div className="px-3 sm:px-4 pt-3 sm:pt-6 pb-2 sm:pb-3 flex items-center gap-2 sm:gap-3">
         <button
           type="button"
           onClick={() => navigate('/business/catalog/products')}
-          className="p-2 rounded hover:bg-gray-100 shrink-0"
+          className="p-1.5 sm:p-2 rounded hover:bg-gray-100 shrink-0"
           aria-label="Back to products"
         >
           <ArrowLeftIcon className="h-5 w-5 text-gray-600" />
         </button>
-        <h1 className="text-lg sm:text-xl font-semibold text-gray-900 truncate">Catalog Upload</h1>
+        <h1 className="text-base sm:text-xl font-semibold text-gray-900 truncate">
+          Catalog Upload
+        </h1>
       </div>
 
-      {/* Tab strip — Meesho-style */}
-      <div className="bg-white border border-gray-200 rounded-lg mb-4 sm:mb-6 overflow-hidden">
-        <div className="grid grid-cols-4 divide-x divide-gray-200">
-          {WIZARD_STEPS.map((step, idx) => {
-            const isActive = idx === stepIndex;
-            const isDone = idx < stepIndex;
-            return (
-              <button
-                key={step.key}
-                type="button"
-                onClick={() => goTo(idx)}
-                className={`flex flex-col items-center justify-center py-3 sm:py-4 px-1 sm:px-2 text-center transition ${
-                  isActive ? 'border-b-2 border-primary-600' : ''
-                }`}
-                aria-current={isActive ? 'step' : undefined}
-              >
-                {isDone ? (
-                  <CheckCircleIcon className="h-5 w-5 sm:h-6 sm:w-6 text-primary-600 mb-0.5 sm:mb-1" />
-                ) : (
-                  <CheckCircleOutline
-                    className={`h-5 w-5 sm:h-6 sm:w-6 mb-0.5 sm:mb-1 ${isActive ? 'text-primary-600' : 'text-gray-400'}`}
-                  />
-                )}
-                {/* Short label on mobile, full label from sm up */}
-                <span
-                  className={`text-[11px] leading-tight sm:text-sm font-medium ${
-                    isActive ? 'text-primary-700' : isDone ? 'text-gray-700' : 'text-gray-500'
+      {/* Sticky tab strip — stays visible on scroll, like Meesho's supplier app */}
+      <div className="sticky top-0 z-20 bg-gray-50/95 backdrop-blur-sm border-b border-gray-200 px-3 sm:px-4 pb-2 sm:pb-3 pt-1 sm:pt-2 shadow-sm">
+        <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+          <div className="grid grid-cols-4 divide-x divide-gray-200">
+            {WIZARD_STEPS.map((step, idx) => {
+              const isActive = idx === stepIndex;
+              const isDone = idx < stepIndex;
+              return (
+                <button
+                  key={step.key}
+                  type="button"
+                  onClick={() => goTo(idx)}
+                  className={`relative flex flex-col items-center justify-center py-2.5 sm:py-4 px-1 sm:px-2 text-center transition ${
+                    isActive ? 'bg-primary-50' : 'bg-white hover:bg-gray-50'
                   }`}
+                  aria-current={isActive ? 'step' : undefined}
                 >
-                  <span className="sm:hidden">{step.short}</span>
-                  <span className="hidden sm:inline">{step.label}</span>
-                </span>
-              </button>
-            );
-          })}
-        </div>
-        <div className="h-1 bg-gray-100">
-          <div
-            className="h-1 bg-primary-600 transition-all"
-            style={{ width: `${progressPct}%` }}
-          />
+                  {isDone ? (
+                    <CheckCircleIcon className="h-5 w-5 sm:h-6 sm:w-6 text-primary-600 mb-0.5 sm:mb-1" />
+                  ) : (
+                    <CheckCircleOutline
+                      className={`h-5 w-5 sm:h-6 sm:w-6 mb-0.5 sm:mb-1 ${
+                        isActive ? 'text-primary-600' : 'text-gray-400'
+                      }`}
+                    />
+                  )}
+                  <span
+                    className={`text-[10px] leading-tight sm:text-sm ${
+                      isActive
+                        ? 'text-primary-700 font-semibold'
+                        : isDone
+                        ? 'text-gray-700 font-medium'
+                        : 'text-gray-500 font-medium'
+                    }`}
+                  >
+                    <span className="sm:hidden">{step.short}</span>
+                    <span className="hidden sm:inline">{step.label}</span>
+                  </span>
+                  {/* Active-tab indicator — a thick bar at the bottom edge */}
+                  {isActive && (
+                    <span className="absolute bottom-0 left-2 right-2 h-0.5 bg-primary-600 rounded-t" />
+                  )}
+                </button>
+              );
+            })}
+          </div>
+          <div className="h-1 bg-gray-100">
+            <div
+              className="h-1 bg-primary-600 transition-all"
+              style={{ width: `${progressPct}%` }}
+            />
+          </div>
         </div>
       </div>
 
       {/* Tab body */}
-      <div className="bg-white border border-gray-200 rounded-lg p-3 sm:p-6">
+      <div className="px-3 sm:px-4 py-3 sm:py-6">
+        <div className="bg-white border border-gray-200 rounded-lg p-3 sm:p-6">
         {currentStep === 'add-product' && (
           <Tab1AddProduct data={formData} errors={errors} onChange={update} />
         )}
@@ -256,6 +270,7 @@ const MeeshoProductWizard: React.FC = () => {
               {submitting ? 'Submitting…' : 'Submit Catalog'}
             </button>
           )}
+        </div>
         </div>
       </div>
     </div>
