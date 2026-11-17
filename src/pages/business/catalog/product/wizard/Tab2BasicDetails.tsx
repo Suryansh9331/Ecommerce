@@ -163,7 +163,7 @@ const Tab2BasicDetails: React.FC<Props> = ({ data, errors, onChange }) => {
             })
           }
           placeholder="e.g. 350"
-          className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
+          className="w-full border border-gray-300 rounded-md px-3 py-1.5 sm:py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
         />
       );
     }
@@ -174,7 +174,7 @@ const Tab2BasicDetails: React.FC<Props> = ({ data, errors, onChange }) => {
         value={val?.value_text ?? ''}
         onChange={(e) => setAttr(attr, { value_text: e.target.value })}
         placeholder="Select"
-        className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
+        className="w-full border border-gray-300 rounded-md px-3 py-1.5 sm:py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
       />
     );
   };
@@ -184,7 +184,7 @@ const Tab2BasicDetails: React.FC<Props> = ({ data, errors, onChange }) => {
       {/* Product details */}
       <section>
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 mb-3">
-          <h2 className="text-sm font-semibold text-gray-800">
+          <h2 className="text-xs sm:text-sm font-semibold text-gray-800">
             Product details<span className="text-red-500">*</span>
           </h2>
           <span className="text-xs text-gray-500">All fields are required</span>
@@ -201,9 +201,9 @@ const Tab2BasicDetails: React.FC<Props> = ({ data, errors, onChange }) => {
           {attributes.map((attr) => (
             <div
               key={attr.attribute_id}
-              className="grid grid-cols-1 sm:grid-cols-[180px,1fr] gap-2 sm:gap-4 items-start"
+              className="grid grid-cols-1 sm:grid-cols-[180px,1fr] gap-1 sm:gap-4 items-start"
             >
-              <label className="text-sm text-gray-700 pt-2 sm:text-right capitalize">
+              <label className="text-xs sm:text-sm text-gray-700 sm:pt-2 sm:text-right capitalize">
                 {attr.name}
                 {attr.required && <span className="text-red-500">*</span>}
               </label>
@@ -237,7 +237,7 @@ const Tab2BasicDetails: React.FC<Props> = ({ data, errors, onChange }) => {
       {/* Price & Tax */}
       <section>
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 mb-3">
-          <h2 className="text-sm font-semibold text-gray-800">
+          <h2 className="text-xs sm:text-sm font-semibold text-gray-800">
             Price &amp; Tax details<span className="text-red-500">*</span>
           </h2>
           <span className="text-xs text-gray-500">All fields are required</span>
@@ -245,8 +245,8 @@ const Tab2BasicDetails: React.FC<Props> = ({ data, errors, onChange }) => {
 
         <div className="space-y-4">
           {/* Supplier Listed Price */}
-          <div className="grid grid-cols-1 sm:grid-cols-[180px,1fr] gap-2 sm:gap-4 items-start">
-            <label className="text-sm text-gray-700 pt-2 sm:text-right">
+          <div className="grid grid-cols-1 sm:grid-cols-[180px,1fr] gap-1 sm:gap-4 items-start">
+            <label className="text-xs sm:text-sm text-gray-700 sm:pt-2 sm:text-right">
               Selling Price<span className="text-red-500">*</span>
             </label>
             <div>
@@ -255,7 +255,7 @@ const Tab2BasicDetails: React.FC<Props> = ({ data, errors, onChange }) => {
                 value={data.selling_price}
                 onChange={(e) => onChange({ selling_price: e.target.value })}
                 placeholder="e.g. 350.00"
-                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
+                className="w-full border border-gray-300 rounded-md px-3 py-1.5 sm:py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
               />
               <p className="mt-1 text-xs text-gray-500">All return reasons allowed at this price.</p>
               {errors.selling_price && (
@@ -265,8 +265,8 @@ const Tab2BasicDetails: React.FC<Props> = ({ data, errors, onChange }) => {
           </div>
 
           {/* WDRP */}
-          <div className="grid grid-cols-1 sm:grid-cols-[180px,1fr] gap-2 sm:gap-4 items-start">
-            <label className="text-sm text-gray-700 pt-2 sm:text-right">
+          <div className="grid grid-cols-1 sm:grid-cols-[180px,1fr] gap-1 sm:gap-4 items-start">
+            <label className="text-xs sm:text-sm text-gray-700 sm:pt-2 sm:text-right">
               Wrong/Defective Returns Price
             </label>
             <div>
@@ -275,7 +275,7 @@ const Tab2BasicDetails: React.FC<Props> = ({ data, errors, onChange }) => {
                 value={data.wdrp}
                 onChange={(e) => onChange({ wdrp: e.target.value })}
                 placeholder="e.g. 325 (OPTIONAL)"
-                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
+                className="w-full border border-gray-300 rounded-md px-3 py-1.5 sm:py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
               />
               <p className="mt-1 text-xs text-gray-500">
                 Only wrong / defective return reasons allowed at this price.
@@ -285,8 +285,8 @@ const Tab2BasicDetails: React.FC<Props> = ({ data, errors, onChange }) => {
           </div>
 
           {/* MRP */}
-          <div className="grid grid-cols-1 sm:grid-cols-[180px,1fr] gap-2 sm:gap-4 items-start">
-            <label className="text-sm text-gray-700 pt-2 sm:text-right">
+          <div className="grid grid-cols-1 sm:grid-cols-[180px,1fr] gap-1 sm:gap-4 items-start">
+            <label className="text-xs sm:text-sm text-gray-700 sm:pt-2 sm:text-right">
               MRP<span className="text-red-500">*</span>
             </label>
             <div>
@@ -295,15 +295,15 @@ const Tab2BasicDetails: React.FC<Props> = ({ data, errors, onChange }) => {
                 value={data.mrp}
                 onChange={(e) => onChange({ mrp: e.target.value })}
                 placeholder="e.g. 700.00"
-                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
+                className="w-full border border-gray-300 rounded-md px-3 py-1.5 sm:py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
               />
               {errors.mrp && <p className="mt-1 text-xs text-red-600">{errors.mrp}</p>}
             </div>
           </div>
 
           {/* GST rate */}
-          <div className="grid grid-cols-1 sm:grid-cols-[180px,1fr] gap-2 sm:gap-4 items-start">
-            <label className="text-sm text-gray-700 pt-2 sm:text-right">GST Rate (%)</label>
+          <div className="grid grid-cols-1 sm:grid-cols-[180px,1fr] gap-1 sm:gap-4 items-start">
+            <label className="text-xs sm:text-sm text-gray-700 sm:pt-2 sm:text-right">GST Rate (%)</label>
             <div>
               <select
                 value={data.gst_rate}
@@ -321,40 +321,40 @@ const Tab2BasicDetails: React.FC<Props> = ({ data, errors, onChange }) => {
           </div>
 
           {/* Stock quantity */}
-          <div className="grid grid-cols-1 sm:grid-cols-[180px,1fr] gap-2 sm:gap-4 items-start">
-            <label className="text-sm text-gray-700 pt-2 sm:text-right">Stock Quantity</label>
+          <div className="grid grid-cols-1 sm:grid-cols-[180px,1fr] gap-1 sm:gap-4 items-start">
+            <label className="text-xs sm:text-sm text-gray-700 sm:pt-2 sm:text-right">Stock Quantity</label>
             <div>
               <input
                 type="number"
                 value={data.stock_qty}
                 onChange={(e) => onChange({ stock_qty: e.target.value })}
                 placeholder="e.g. 100"
-                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
+                className="w-full border border-gray-300 rounded-md px-3 py-1.5 sm:py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
               />
             </div>
           </div>
 
           {/* SKU */}
-          <div className="grid grid-cols-1 sm:grid-cols-[180px,1fr] gap-2 sm:gap-4 items-start">
-            <label className="text-sm text-gray-700 pt-2 sm:text-right">SKU</label>
+          <div className="grid grid-cols-1 sm:grid-cols-[180px,1fr] gap-1 sm:gap-4 items-start">
+            <label className="text-xs sm:text-sm text-gray-700 sm:pt-2 sm:text-right">SKU</label>
             <div>
               <input
                 type="text"
                 value={data.sku}
                 onChange={(e) => onChange({ sku: e.target.value })}
                 placeholder="Auto-generated if left blank"
-                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
+                className="w-full border border-gray-300 rounded-md px-3 py-1.5 sm:py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
               />
             </div>
           </div>
         </div>
 
         {/* Live price summary */}
-        <div className="mt-6 bg-gray-50 border border-gray-200 rounded-md p-4 space-y-3">
+        <div className="mt-4 sm:mt-6 bg-gray-50 border border-gray-200 rounded-md p-3 sm:p-4 space-y-2.5 sm:space-y-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <span className="w-6 h-6 inline-flex items-center justify-center rounded bg-white border border-gray-300 text-xs font-semibold">₹</span>
-              <span className="text-sm font-semibold text-gray-800">Customer Price</span>
+              <span className="text-xs sm:text-sm font-semibold text-gray-800">Customer Price</span>
             </div>
             <span className="text-sm font-semibold text-gray-900">
               ₹{customerPrice.toFixed(2)}
@@ -374,7 +374,7 @@ const Tab2BasicDetails: React.FC<Props> = ({ data, errors, onChange }) => {
           <div className="border-t pt-3 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <span className="w-6 h-6 inline-flex items-center justify-center rounded bg-white border border-gray-300 text-xs font-semibold">🏦</span>
-              <span className="text-sm font-semibold text-gray-800">Bank settlement amount</span>
+              <span className="text-xs sm:text-sm font-semibold text-gray-800">Bank settlement amount</span>
             </div>
             <span className="text-sm font-semibold text-gray-900">
               ₹{bankSettlement.toFixed(2)}
