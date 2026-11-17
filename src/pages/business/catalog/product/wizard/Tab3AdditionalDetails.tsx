@@ -29,8 +29,8 @@ const Field: React.FC<{
   children: React.ReactNode;
   hint?: string;
 }> = ({ label, required, error, children, hint }) => (
-  <div className="grid grid-cols-1 sm:grid-cols-[180px,1fr] gap-2 sm:gap-4 items-start">
-    <label className="text-sm text-gray-700 pt-2 sm:text-right">
+  <div className="grid grid-cols-1 sm:grid-cols-[180px,1fr] gap-1 sm:gap-4 items-start">
+    <label className="text-xs sm:text-sm text-gray-700 sm:pt-2 sm:text-right">
       {label}
       {required && <span className="text-red-500">*</span>}
     </label>
@@ -43,14 +43,14 @@ const Field: React.FC<{
 );
 
 const inputCls =
-  'w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500';
+  'w-full border border-gray-300 rounded-md px-3 py-1.5 sm:py-2 text-sm focus:border-primary-500 focus:ring-primary-500';
 
 const Tab3AdditionalDetails: React.FC<Props> = ({ data, errors, onChange }) => {
   return (
     <div className="space-y-6 sm:space-y-8">
       {/* Tax & Compliance */}
       <section>
-        <h2 className="text-sm font-semibold text-gray-800 mb-3">
+        <h2 className="text-xs sm:text-sm font-semibold text-gray-800 mb-2 sm:mb-3">
           Tax &amp; Compliance<span className="text-red-500">*</span>
         </h2>
         <div className="space-y-4">
@@ -83,7 +83,7 @@ const Tab3AdditionalDetails: React.FC<Props> = ({ data, errors, onChange }) => {
 
       {/* Legal Metrology (Manufacturer / Packer / Importer) */}
       <section>
-        <h2 className="text-sm font-semibold text-gray-800 mb-3">
+        <h2 className="text-xs sm:text-sm font-semibold text-gray-800 mb-2 sm:mb-3">
           Manufacturer / Packer / Importer
         </h2>
         <p className="text-xs text-gray-500 mb-4">
@@ -123,7 +123,7 @@ const Tab3AdditionalDetails: React.FC<Props> = ({ data, errors, onChange }) => {
 
       {/* Package & Shipping dimensions */}
       <section>
-        <h2 className="text-sm font-semibold text-gray-800 mb-3">
+        <h2 className="text-xs sm:text-sm font-semibold text-gray-800 mb-2 sm:mb-3">
           Package &amp; Shipping<span className="text-red-500">*</span>
         </h2>
         <div className="space-y-4">
@@ -136,8 +136,8 @@ const Tab3AdditionalDetails: React.FC<Props> = ({ data, errors, onChange }) => {
               className={inputCls}
             />
           </Field>
-          <div className="grid grid-cols-1 sm:grid-cols-[180px,1fr] gap-2 sm:gap-4 items-start">
-            <label className="text-sm text-gray-700 pt-2 sm:text-right">Dimensions (cm)</label>
+          <div className="grid grid-cols-1 sm:grid-cols-[180px,1fr] gap-1 sm:gap-4 items-start">
+            <label className="text-xs sm:text-sm text-gray-700 sm:pt-2 sm:text-right">Dimensions (cm)</label>
             <div className="grid grid-cols-3 gap-2">
               <input
                 type="number"
@@ -167,7 +167,7 @@ const Tab3AdditionalDetails: React.FC<Props> = ({ data, errors, onChange }) => {
 
       {/* SEO / Catalog quality */}
       <section>
-        <h2 className="text-sm font-semibold text-gray-800 mb-3">
+        <h2 className="text-xs sm:text-sm font-semibold text-gray-800 mb-2 sm:mb-3">
           Listing SEO <span className="text-xs font-normal text-gray-500">(optional)</span>
         </h2>
         <div className="space-y-4">
