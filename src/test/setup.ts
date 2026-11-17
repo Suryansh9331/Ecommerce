@@ -3,11 +3,12 @@
 // render.
 import '@testing-library/jest-dom/vitest';
 
-// Default to a sensible API base so components that read it don't crash.
-// Individual tests can still override via vi.stubEnv().
+// Default to a sentinel API base so components that read it don't crash
+// in tests. This file is test-only and is NOT bundled into the production
+// build — the sentinel URL will never leak to users.
 if (!import.meta.env.VITE_API_BASE_URL) {
   (import.meta.env as Record<string, string>).VITE_API_BASE_URL =
-    'http://localhost:5110';
+    'http://test.invalid';
 }
 
 // jsdom doesn't implement matchMedia, which the i18n language detector

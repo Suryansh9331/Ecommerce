@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { PlusIcon, TrashIcon, PhotoIcon } from '@heroicons/react/24/outline';
+import toast from 'react-hot-toast';
 import { cloudinaryService } from '../../../../../services/cloudinaryService';
 import { VariantRow, WizardFormData } from './types';
 
@@ -53,7 +54,7 @@ const Tab4AddVariants: React.FC<Props> = ({ data, onChange }) => {
         ],
       });
     } catch (err) {
-      alert(err instanceof Error ? err.message : 'Variant image upload failed');
+      toast.error(err instanceof Error ? err.message : 'Variant image upload failed');
     } finally {
       setUploadingId(null);
       const input = fileRefs.current[id];

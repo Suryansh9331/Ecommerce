@@ -12,6 +12,7 @@ import {
   Draggable,
   DropResult,
 } from 'react-beautiful-dnd';
+import toast from 'react-hot-toast';
 import CategorySelection from '../components/CategorySelection';
 import { cloudinaryService } from '../../../../../services/cloudinaryService';
 import { MediaItem, WizardFormData } from './types';
@@ -50,7 +51,7 @@ const Tab1AddProduct: React.FC<Props> = ({ data, errors, onChange }) => {
       }
       onChange({ media: normalizeMedia([...data.media, ...uploaded]) });
     } catch (err) {
-      alert(err instanceof Error ? err.message : 'Upload failed');
+      toast.error(err instanceof Error ? err.message : 'Upload failed');
     } finally {
       setUploading(false);
       if (fileInputRef.current) fileInputRef.current.value = '';
