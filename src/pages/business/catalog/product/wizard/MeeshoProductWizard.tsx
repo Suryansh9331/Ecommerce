@@ -5,6 +5,7 @@ import { CheckCircleIcon as CheckCircleOutline, ArrowLeftIcon } from '@heroicons
 import toast from 'react-hot-toast';
 
 import { INITIAL_FORM_DATA, WIZARD_STEPS, WizardFormData, WizardStepKey } from './types';
+import { validateWizardStep } from './wizard-helpers';
 import Tab1AddProduct from './Tab1AddProduct';
 import Tab2BasicDetails from './Tab2BasicDetails';
 import Tab3AdditionalDetails from './Tab3AdditionalDetails';
@@ -25,36 +26,8 @@ const MeeshoProductWizard: React.FC = () => {
     setFormData((prev) => ({ ...prev, ...patch }));
   };
 
-  const validateStep = (idx: number): Record<string, string> => {
-    const e: Record<string, string> = {};
-    const d = formData;
-    if (idx === 0) {
-      if (!d.category_id) e.category_id = 'Select a category';
-      if (!d.brand_id) e.brand_id = 'Select a brand';
-      if (!d.product_name.trim()) e.product_name = 'Product name is required';
-      else if (d.product_name.trim().length < 3) e.product_name = 'Use at least 3 characters';
-      if (!d.product_description.trim()) e.product_description = 'Description is required';
-      if (d.media.length < 1) e.media = 'Upload at least one product image';
-    }
-    if (idx === 1) {
-      if (!d.selling_price) e.selling_price = 'Selling price is required';
-      if (!d.mrp) e.mrp = 'MRP is required';
-      if (d.mrp && d.selling_price && Number(d.mrp) < Number(d.selling_price)) {
-        e.mrp = 'MRP must be greater than or equal to selling price';
-      }
-      if (d.wdrp && d.selling_price && Number(d.wdrp) > Number(d.selling_price)) {
-        e.wdrp = 'WDRP must be less than or equal to selling price';
-      }
-    }
-    if (idx === 2) {
-      if (!d.hsn_code.trim()) e.hsn_code = 'HSN code is required';
-      else if (!/^\d{4,10}$/.test(d.hsn_code.trim())) e.hsn_code = 'HSN must be 4 to 10 digits';
-      if (!d.country_of_origin.trim()) e.country_of_origin = 'Country of origin is required';
-      if (!d.manufacturer_details.trim()) e.manufacturer_details = 'Manufacturer details required by Legal Metrology';
-      if (!d.weight_g) e.weight_g = 'Package weight is required for shipping';
-    }
-    return e;
-  };
+  const validateStep = (idx: number): Record<string, string> =>
+    validateWizardStep(idx, formData);
 
   const next = () => {
     const stepErrors = validateStep(stepIndex);

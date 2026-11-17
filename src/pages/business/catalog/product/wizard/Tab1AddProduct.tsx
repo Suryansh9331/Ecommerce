@@ -15,6 +15,7 @@ import {
 import CategorySelection from '../components/CategorySelection';
 import { cloudinaryService } from '../../../../../services/cloudinaryService';
 import { MediaItem, WizardFormData } from './types';
+import { normalizeMedia, reorderMedia } from './wizard-helpers';
 
 type Props = {
   data: WizardFormData;
@@ -47,7 +48,7 @@ const Tab1AddProduct: React.FC<Props> = ({ data, errors, onChange }) => {
           is_thumbnail: false,
         });
       }
-      onChange({ media: normalize([...data.media, ...uploaded]) });
+      onChange({ media: normalizeMedia([...data.media, ...uploaded]) });
     } catch (err) {
       alert(err instanceof Error ? err.message : 'Upload failed');
     } finally {
@@ -56,27 +57,14 @@ const Tab1AddProduct: React.FC<Props> = ({ data, errors, onChange }) => {
     }
   };
 
-  // Re-apply sort_order + MAIN/thumbnail flags after any mutation so index 0
-  // is always the hero image. The backend stores whichever item has
-  // is_main_image=true as the primary product image.
-  const normalize = (list: MediaItem[]): MediaItem[] =>
-    list.map((m, i) => ({
-      ...m,
-      sort_order: i,
-      is_main_image: i === 0,
-      is_thumbnail: i === 0,
-    }));
-
   const removeImage = (idx: number) => {
-    onChange({ media: normalize(data.media.filter((_, i) => i !== idx)) });
+    onChange({
+      media: normalizeMedia(data.media.filter((_, i) => i !== idx)),
+    });
   };
 
   const moveImage = (from: number, to: number) => {
-    if (to < 0 || to >= data.media.length || from === to) return;
-    const next = Array.from(data.media);
-    const [item] = next.splice(from, 1);
-    next.splice(to, 0, item);
-    onChange({ media: normalize(next) });
+    onChange({ media: reorderMedia(data.media, from, to) });
   };
 
   const handleDragEnd = (result: DropResult) => {
