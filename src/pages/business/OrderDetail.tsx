@@ -967,25 +967,25 @@ const OrderDetail: React.FC = () => {
               Order #{order.order_id}
             </h1>
           </div>
-          <div className="flex space-x-2">
+          <div className="flex flex-wrap gap-2">
             <button
               onClick={handleDownloadInvoice}
               disabled={downloadingInvoice}
-              className="inline-flex items-center px-3 sm:px-4 py-2 rounded-md shadow-sm text-sm font-medium bg-primary-600 text-white hover:bg-primary-700 transition-colors border border-primary-600 disabled:opacity-60"
+              className="inline-flex items-center justify-center px-3 sm:px-4 py-2 rounded-md shadow-sm text-sm font-medium bg-primary-600 text-white hover:bg-primary-700 transition-colors border border-primary-600 disabled:opacity-60 flex-1 sm:flex-none min-w-0"
               style={{ fontWeight: 500 }}
             >
-              <ArrowDownTrayIcon className="h-4 w-4 mr-2" />
+              <ArrowDownTrayIcon className="h-4 w-4 mr-2 shrink-0" />
               <span className="hidden sm:inline">
                 {downloadingInvoice ? "Preparing…" : "Download Invoice"}
               </span>
-              <span className="sm:hidden">{downloadingInvoice ? "…" : "PDF"}</span>
+              <span className="sm:hidden">{downloadingInvoice ? "…" : "Download"}</span>
             </button>
             <button
               onClick={handlePrint}
-              className="inline-flex items-center px-3 sm:px-4 py-2 rounded-md shadow-sm text-sm font-medium bg-white text-primary-700 hover:bg-primary-50 transition-colors border border-primary-600"
+              className="inline-flex items-center justify-center px-3 sm:px-4 py-2 rounded-md shadow-sm text-sm font-medium bg-white text-primary-700 hover:bg-primary-50 transition-colors border border-primary-600 flex-1 sm:flex-none min-w-0"
               style={{ fontWeight: 500 }}
             >
-              <PrinterIcon className="h-4 w-4 mr-2" />
+              <PrinterIcon className="h-4 w-4 mr-2 shrink-0" />
               <span className="hidden sm:inline">Print Invoice</span>
               <span className="sm:hidden">Print</span>
             </button>
