@@ -68,8 +68,8 @@ const Tab4AddVariants: React.FC<Props> = ({ data, onChange }) => {
     <div className="space-y-5 sm:space-y-6">
       {/* Style code (shared across all variants) */}
       <section>
-        <div className="grid grid-cols-1 sm:grid-cols-[180px,1fr] gap-2 sm:gap-4 items-start">
-          <label className="text-sm font-semibold text-gray-800 pt-2 sm:text-right">
+        <div className="grid grid-cols-1 sm:grid-cols-[180px,1fr] gap-1 sm:gap-4 items-start">
+          <label className="text-xs sm:text-sm font-semibold text-gray-800 sm:pt-2 sm:text-right">
             Style Code
           </label>
           <div>
@@ -77,12 +77,12 @@ const Tab4AddVariants: React.FC<Props> = ({ data, onChange }) => {
               type="text"
               value={data.style_code}
               onChange={(e) => onChange({ style_code: e.target.value })}
-              placeholder="e.g. ST-W-0012 (shared across all variants of this design)"
-              className="w-full sm:max-w-sm border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
+              placeholder="e.g. ST-W-0012"
+              className="w-full sm:max-w-sm border border-gray-300 rounded-md px-3 py-1.5 sm:py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
             />
-            <p className="mt-1 text-xs text-gray-500">
-              Groups color/size variations of the same base product. Leave blank for a
-              single-variant listing.
+            <p className="mt-1 text-[11px] sm:text-xs text-gray-500">
+              Groups color/size variations of the same base product. Leave blank
+              for a single-variant listing.
             </p>
           </div>
         </div>
@@ -91,7 +91,7 @@ const Tab4AddVariants: React.FC<Props> = ({ data, onChange }) => {
       {/* Variants grid */}
       <section>
         <div className="flex items-center justify-between mb-3">
-          <h2 className="text-sm font-semibold text-gray-800">Variants</h2>
+          <h2 className="text-xs sm:text-sm font-semibold text-gray-800">Variants</h2>
           <button
             type="button"
             onClick={addRow}
@@ -168,7 +168,7 @@ const Tab4AddVariants: React.FC<Props> = ({ data, onChange }) => {
                             value={v.color}
                             onChange={(e) => updateRow(v.localId, { color: e.target.value })}
                             placeholder="e.g. Red"
-                            className="mt-1 w-full border border-gray-300 rounded px-2 py-1.5 text-sm"
+                            className="mt-0.5 w-full border border-gray-300 rounded px-2 py-1.5 text-sm"
                           />
                         </label>
                         <label className="text-xs text-gray-600">
@@ -178,7 +178,7 @@ const Tab4AddVariants: React.FC<Props> = ({ data, onChange }) => {
                             value={v.size}
                             onChange={(e) => updateRow(v.localId, { size: e.target.value })}
                             placeholder="e.g. M"
-                            className="mt-1 w-full border border-gray-300 rounded px-2 py-1.5 text-sm"
+                            className="mt-0.5 w-full border border-gray-300 rounded px-2 py-1.5 text-sm"
                           />
                         </label>
                         <label className="text-xs text-gray-600 col-span-2">
@@ -188,7 +188,7 @@ const Tab4AddVariants: React.FC<Props> = ({ data, onChange }) => {
                             value={v.sku}
                             onChange={(e) => updateRow(v.localId, { sku: e.target.value })}
                             placeholder="Auto-generated if blank"
-                            className="mt-1 w-full border border-gray-300 rounded px-2 py-1.5 text-sm"
+                            className="mt-0.5 w-full border border-gray-300 rounded px-2 py-1.5 text-sm"
                           />
                         </label>
                         <label className="text-xs text-gray-600">
@@ -198,7 +198,7 @@ const Tab4AddVariants: React.FC<Props> = ({ data, onChange }) => {
                             value={v.selling_price}
                             onChange={(e) => updateRow(v.localId, { selling_price: e.target.value })}
                             placeholder={data.selling_price || '0'}
-                            className="mt-1 w-full border border-gray-300 rounded px-2 py-1.5 text-sm"
+                            className="mt-0.5 w-full border border-gray-300 rounded px-2 py-1.5 text-sm"
                           />
                         </label>
                         <label className="text-xs text-gray-600">
@@ -208,7 +208,7 @@ const Tab4AddVariants: React.FC<Props> = ({ data, onChange }) => {
                             value={v.mrp}
                             onChange={(e) => updateRow(v.localId, { mrp: e.target.value })}
                             placeholder={data.mrp || '0'}
-                            className="mt-1 w-full border border-gray-300 rounded px-2 py-1.5 text-sm"
+                            className="mt-0.5 w-full border border-gray-300 rounded px-2 py-1.5 text-sm"
                           />
                         </label>
                         <label className="text-xs text-gray-600 col-span-2">
@@ -218,7 +218,7 @@ const Tab4AddVariants: React.FC<Props> = ({ data, onChange }) => {
                             value={v.stock_qty}
                             onChange={(e) => updateRow(v.localId, { stock_qty: e.target.value })}
                             placeholder="0"
-                            className="mt-1 w-full border border-gray-300 rounded px-2 py-1.5 text-sm"
+                            className="mt-0.5 w-full border border-gray-300 rounded px-2 py-1.5 text-sm"
                           />
                         </label>
                       </div>
@@ -335,7 +335,7 @@ const Tab4AddVariants: React.FC<Props> = ({ data, onChange }) => {
       </section>
 
       {/* Summary */}
-      <section className="bg-gray-50 border border-gray-200 rounded-md p-4 text-sm text-gray-700">
+      <section className="bg-gray-50 border border-gray-200 rounded-md p-3 sm:p-4 text-xs sm:text-sm text-gray-700">
         <div className="flex items-center justify-between">
           <span>Total variants</span>
           <span className="font-semibold">{data.variants.length}</span>
