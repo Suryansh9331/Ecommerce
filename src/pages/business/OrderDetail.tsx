@@ -6,6 +6,7 @@ import {
   UserIcon,
   ShoppingBagIcon,
   CreditCardIcon,
+  ArrowDownTrayIcon,
 } from "@heroicons/react/24/outline";
 import { useAuth } from "../../context/AuthContext";
 import { toast } from "react-hot-toast";
@@ -484,6 +485,49 @@ const OrderDetail: React.FC = () => {
     `;
   };
 
+  // Download a server-rendered GST tax invoice PDF from the backend.
+  // Falls back silently if the endpoint is not reachable or the order has no
+  // items for this merchant.
+  const [downloadingInvoice, setDownloadingInvoice] = useState(false);
+  const handleDownloadInvoice = async () => {
+    if (!order) return;
+    setDownloadingInvoice(true);
+    try {
+      const token = localStorage.getItem("access_token");
+      const res = await fetch(
+        `${API_BASE_URL}/api/merchant-dashboard/orders/${order.order_id}/invoice.pdf`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      const contentType = res.headers.get("Content-Type") || "";
+      if (res.ok && contentType.includes("application/pdf")) {
+        const blob = await res.blob();
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `invoice-${order.order_id}.pdf`;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        window.URL.revokeObjectURL(url);
+        toast.success("Invoice downloaded");
+        return;
+      }
+      let msg = "Failed to download invoice";
+      try {
+        const data = await res.json();
+        msg = data?.message || data?.error || msg;
+      } catch {
+        /* non-JSON error body */
+      }
+      toast.error(msg);
+    } catch (err) {
+      console.error("Invoice download failed:", err);
+      toast.error("Unable to download invoice. Check your connection.");
+    } finally {
+      setDownloadingInvoice(false);
+    }
+  };
+
   // UPDATED: This function now creates an iframe and prints it
   const handlePrint = () => {
     // Ensure we have order data
@@ -925,11 +969,23 @@ const OrderDetail: React.FC = () => {
           </div>
           <div className="flex space-x-2">
             <button
-              onClick={handlePrint}
-              className="inline-flex items-center px-3 sm:px-4 py-2 rounded-md shadow-sm text-sm font-medium bg-primary-600 text-white hover:bg-primary-600 transition-colors border border-primary-600"
+              onClick={handleDownloadInvoice}
+              disabled={downloadingInvoice}
+              className="inline-flex items-center px-3 sm:px-4 py-2 rounded-md shadow-sm text-sm font-medium bg-primary-600 text-white hover:bg-primary-700 transition-colors border border-primary-600 disabled:opacity-60"
               style={{ fontWeight: 500 }}
             >
-              <PrinterIcon className="h-4 w-4 mr-2" /> 
+              <ArrowDownTrayIcon className="h-4 w-4 mr-2" />
+              <span className="hidden sm:inline">
+                {downloadingInvoice ? "Preparing…" : "Download Invoice"}
+              </span>
+              <span className="sm:hidden">{downloadingInvoice ? "…" : "PDF"}</span>
+            </button>
+            <button
+              onClick={handlePrint}
+              className="inline-flex items-center px-3 sm:px-4 py-2 rounded-md shadow-sm text-sm font-medium bg-white text-primary-700 hover:bg-primary-50 transition-colors border border-primary-600"
+              style={{ fontWeight: 500 }}
+            >
+              <PrinterIcon className="h-4 w-4 mr-2" />
               <span className="hidden sm:inline">Print Invoice</span>
               <span className="sm:hidden">Print</span>
             </button>
