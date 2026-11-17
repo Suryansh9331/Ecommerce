@@ -273,7 +273,7 @@ const Order: React.FC = () => {
         return;
       }
 
-      const response = await fetch(`${API_BASE_URL}/api/orders/${orderId}/invoice.pdf`, {
+      const response = await fetch(`${API_BASE_URL}/api/orders/${orderId}/invoice`, {
         headers: { 'Authorization': `Bearer ${token}` },
       });
 
