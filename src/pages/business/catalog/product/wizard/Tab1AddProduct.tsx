@@ -77,7 +77,7 @@ const Tab1AddProduct: React.FC<Props> = ({ data, errors, onChange }) => {
     <div className="space-y-6 sm:space-y-8">
       {/* Category + Brand */}
       <section>
-        <label className="block text-sm font-semibold text-gray-800 mb-2">
+        <label className="block text-xs sm:text-sm font-semibold text-gray-800 mb-1.5 sm:mb-2">
           Select Category<span className="text-red-500">*</span>
         </label>
         <CategorySelection
@@ -97,10 +97,10 @@ const Tab1AddProduct: React.FC<Props> = ({ data, errors, onChange }) => {
 
       {/* Product Images */}
       <section>
-        <label className="block text-sm font-semibold text-gray-800">
+        <label className="block text-xs sm:text-sm font-semibold text-gray-800">
           Product Image<span className="text-red-500">*</span>
         </label>
-        <div className="mt-1 flex items-start gap-2 bg-amber-50 border border-amber-200 text-amber-800 text-xs rounded-md px-3 py-2">
+        <div className="mt-1 flex items-start gap-1.5 sm:gap-2 bg-amber-50 border border-amber-200 text-amber-800 text-[11px] sm:text-xs rounded-md px-2.5 sm:px-3 py-1.5 sm:py-2">
           <span className="font-semibold">!</span>
           <span>
             Upload the same product from different angles. Minimum {MIN_IMAGES},
@@ -226,8 +226,8 @@ const Tab1AddProduct: React.FC<Props> = ({ data, errors, onChange }) => {
       </section>
 
       {/* Product Name */}
-      <section className="grid grid-cols-1 sm:grid-cols-[180px,1fr] gap-2 sm:gap-4 items-start">
-        <label className="text-sm font-semibold text-gray-800 pt-2">
+      <section className="grid grid-cols-1 sm:grid-cols-[180px,1fr] gap-1 sm:gap-4 items-start">
+        <label className="text-xs sm:text-sm font-semibold text-gray-800 sm:pt-2">
           Product Name<span className="text-red-500">*</span>
         </label>
         <div>
@@ -237,7 +237,7 @@ const Tab1AddProduct: React.FC<Props> = ({ data, errors, onChange }) => {
             onChange={(e) => onChange({ product_name: e.target.value })}
             placeholder="e.g. Brown leather wallet"
             maxLength={120}
-            className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
+            className="w-full border border-gray-300 rounded-md px-3 py-1.5 sm:py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
           />
           {errors.product_name && (
             <p className="mt-1 text-xs text-red-600">{errors.product_name}</p>
@@ -246,8 +246,8 @@ const Tab1AddProduct: React.FC<Props> = ({ data, errors, onChange }) => {
       </section>
 
       {/* Product Description */}
-      <section className="grid grid-cols-1 sm:grid-cols-[180px,1fr] gap-2 sm:gap-4 items-start">
-        <label className="text-sm font-semibold text-gray-800 pt-2">
+      <section className="grid grid-cols-1 sm:grid-cols-[180px,1fr] gap-1 sm:gap-4 items-start">
+        <label className="text-xs sm:text-sm font-semibold text-gray-800 sm:pt-2">
           Product Description
         </label>
         <div>
@@ -256,9 +256,9 @@ const Tab1AddProduct: React.FC<Props> = ({ data, errors, onChange }) => {
             onChange={(e) =>
               onChange({ product_description: e.target.value.slice(0, MAX_DESCRIPTION) })
             }
-            placeholder="e.g. Solid two-fold wallet with clean details. Crafted in high-quality leather."
-            rows={4}
-            className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
+            placeholder="e.g. Solid two-fold wallet with clean details."
+            rows={3}
+            className="w-full border border-gray-300 rounded-md px-3 py-1.5 sm:py-2 text-sm focus:border-primary-500 focus:ring-primary-500 sm:min-h-[96px]"
           />
           <div className="flex justify-between mt-1 text-xs">
             {errors.product_description ? (
