@@ -113,10 +113,10 @@ export const INITIAL_FORM_DATA: WizardFormData = {
 };
 
 export const WIZARD_STEPS = [
-  { key: 'add-product',        label: 'Add Product' },
-  { key: 'basic-details',      label: 'Basic Details' },
-  { key: 'additional-details', label: 'Additional Details' },
-  { key: 'add-variants',       label: 'Add Variant(s)' },
+  { key: 'add-product',        label: 'Add Product',        short: 'Product' },
+  { key: 'basic-details',      label: 'Basic Details',      short: 'Basics' },
+  { key: 'additional-details', label: 'Additional Details', short: 'More' },
+  { key: 'add-variants',       label: 'Add Variant(s)',     short: 'Variants' },
 ] as const;
 
 export type WizardStepKey = typeof WIZARD_STEPS[number]['key'];

@@ -181,22 +181,22 @@ const MeeshoProductWizard: React.FC = () => {
   );
 
   return (
-    <div className="container mx-auto px-4 py-6 max-w-5xl">
+    <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-6 max-w-5xl">
       {/* Header */}
-      <div className="mb-4 flex items-center gap-3">
+      <div className="mb-3 sm:mb-4 flex items-center gap-2 sm:gap-3">
         <button
           type="button"
           onClick={() => navigate('/business/catalog/products')}
-          className="p-2 rounded hover:bg-gray-100"
+          className="p-2 rounded hover:bg-gray-100 shrink-0"
           aria-label="Back to products"
         >
           <ArrowLeftIcon className="h-5 w-5 text-gray-600" />
         </button>
-        <h1 className="text-xl font-semibold text-gray-900">Catalog Upload</h1>
+        <h1 className="text-lg sm:text-xl font-semibold text-gray-900 truncate">Catalog Upload</h1>
       </div>
 
       {/* Tab strip — Meesho-style */}
-      <div className="bg-white border border-gray-200 rounded-lg mb-6 overflow-hidden">
+      <div className="bg-white border border-gray-200 rounded-lg mb-4 sm:mb-6 overflow-hidden">
         <div className="grid grid-cols-4 divide-x divide-gray-200">
           {WIZARD_STEPS.map((step, idx) => {
             const isActive = idx === stepIndex;
@@ -206,23 +206,26 @@ const MeeshoProductWizard: React.FC = () => {
                 key={step.key}
                 type="button"
                 onClick={() => goTo(idx)}
-                className={`flex flex-col items-center justify-center py-4 px-2 text-center transition ${
+                className={`flex flex-col items-center justify-center py-3 sm:py-4 px-1 sm:px-2 text-center transition ${
                   isActive ? 'border-b-2 border-primary-600' : ''
                 }`}
+                aria-current={isActive ? 'step' : undefined}
               >
                 {isDone ? (
-                  <CheckCircleIcon className="h-6 w-6 text-primary-600 mb-1" />
+                  <CheckCircleIcon className="h-5 w-5 sm:h-6 sm:w-6 text-primary-600 mb-0.5 sm:mb-1" />
                 ) : (
                   <CheckCircleOutline
-                    className={`h-6 w-6 mb-1 ${isActive ? 'text-primary-600' : 'text-gray-400'}`}
+                    className={`h-5 w-5 sm:h-6 sm:w-6 mb-0.5 sm:mb-1 ${isActive ? 'text-primary-600' : 'text-gray-400'}`}
                   />
                 )}
+                {/* Short label on mobile, full label from sm up */}
                 <span
-                  className={`text-xs sm:text-sm font-medium ${
+                  className={`text-[11px] leading-tight sm:text-sm font-medium ${
                     isActive ? 'text-primary-700' : isDone ? 'text-gray-700' : 'text-gray-500'
                   }`}
                 >
-                  {step.label}
+                  <span className="sm:hidden">{step.short}</span>
+                  <span className="hidden sm:inline">{step.label}</span>
                 </span>
               </button>
             );
@@ -237,7 +240,7 @@ const MeeshoProductWizard: React.FC = () => {
       </div>
 
       {/* Tab body */}
-      <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6">
+      <div className="bg-white border border-gray-200 rounded-lg p-3 sm:p-6">
         {currentStep === 'add-product' && (
           <Tab1AddProduct data={formData} errors={errors} onChange={update} />
         )}
@@ -252,12 +255,12 @@ const MeeshoProductWizard: React.FC = () => {
         )}
 
         {/* Nav buttons */}
-        <div className="mt-8 pt-6 border-t flex justify-between items-center">
+        <div className="mt-6 sm:mt-8 pt-5 sm:pt-6 border-t flex flex-col-reverse sm:flex-row justify-between items-stretch sm:items-center gap-3 sm:gap-0">
           <button
             type="button"
             onClick={back}
             disabled={stepIndex === 0 || submitting}
-            className="px-6 py-2.5 text-sm font-medium rounded-md border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full sm:w-auto px-5 sm:px-6 py-2.5 text-sm font-medium rounded-md border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Back
           </button>
@@ -266,7 +269,7 @@ const MeeshoProductWizard: React.FC = () => {
               type="button"
               onClick={next}
               disabled={submitting}
-              className="px-6 py-2.5 text-sm font-medium rounded-md bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50"
+              className="w-full sm:w-auto px-5 sm:px-6 py-2.5 text-sm font-medium rounded-md bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50"
             >
               Next
             </button>
@@ -275,7 +278,7 @@ const MeeshoProductWizard: React.FC = () => {
               type="button"
               onClick={submit}
               disabled={submitting}
-              className="px-6 py-2.5 text-sm font-medium rounded-md bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50"
+              className="w-full sm:w-auto px-5 sm:px-6 py-2.5 text-sm font-medium rounded-md bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50"
             >
               {submitting ? 'Submitting…' : 'Submit Catalog'}
             </button>
