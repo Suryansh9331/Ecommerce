@@ -1,17 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  FunnelIcon, 
-  ArrowUpIcon, 
+import {
+  FunnelIcon,
+  ArrowUpIcon,
   ArrowDownIcon,
   EyeIcon,
   MagnifyingGlassPlusIcon,
-  MagnifyingGlassMinusIcon
+  MagnifyingGlassMinusIcon,
+  CheckCircleIcon,
+  TruckIcon,
+  PrinterIcon,
+  ExclamationTriangleIcon,
 } from '@heroicons/react/24/outline';
 import { useAuth } from '../../context/AuthContext';
 import { toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAmazonTranslate } from '../../hooks/useAmazonTranslate';
+import OrderStatusStepper from '../../components/business/OrderStatusStepper';
+import {
+  acceptOrder,
+  markRts,
+  bulkRts,
+  tabForStatus,
+  OrderTab,
+} from '../../services/merchantOrderApi';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -61,6 +73,11 @@ interface Order {
   shipping_method_name: string;
   customer_notes: string;
   status_history: unknown[];
+  // Phase 2 Sprint 2 lifecycle fields
+  accepted_at?: string | null;
+  rts_marked_at?: string | null;
+  sla_breached?: boolean;
+  eway_bill_number?: string | null;
 }
 
 interface PaginationInfo {
@@ -151,48 +168,133 @@ const StatusBadge: React.FC<{ status: string }> = ({ status }) => {
 };
 
 // Mobile Order Card Component
-const MobileOrderCard: React.FC<{ order: Order; tAddr1?: string }> = ({ order, tAddr1 }) => (
-  <div className="bg-white border border-gray-200 rounded-lg p-4 mb-4 shadow-sm">
-    <div className="flex justify-between items-start mb-3">
-      <div className="flex-1">
-        <h3 className="text-sm font-medium text-gray-900 truncate">{order.order_id}</h3>
-        <p className="text-xs text-gray-500">{new Date(order.order_date).toLocaleDateString()}</p>
-      </div>
-      <div className="flex space-x-2">
+interface MobileOrderCardProps {
+  order: Order;
+  tAddr1?: string;
+  onAccept?: (id: string) => void;
+  onMarkRts?: (id: string) => void;
+  busy?: 'accept' | 'rts' | null;
+  selected?: boolean;
+  onToggleSelect?: (id: string) => void;
+  showActions?: boolean;
+  canSelect?: boolean;
+}
+
+const MobileOrderCard: React.FC<MobileOrderCardProps> = ({
+  order,
+  tAddr1,
+  onAccept,
+  onMarkRts,
+  busy,
+  selected,
+  onToggleSelect,
+  showActions,
+  canSelect,
+}) => {
+  const status = order.order_status.toLowerCase();
+  const canAccept = status === 'pending_payment' || status === 'awaiting_fulfillment';
+  const canRts = status === 'processing' || status === 'awaiting_fulfillment';
+
+  return (
+    <div
+      className={`bg-white border rounded-lg p-4 mb-4 shadow-sm ${
+        order.sla_breached ? 'border-rose-300' : 'border-gray-200'
+      }`}
+    >
+      <div className="flex justify-between items-start mb-3">
+        <div className="flex items-start gap-2 flex-1 min-w-0">
+          {canSelect && onToggleSelect && (
+            <input
+              type="checkbox"
+              checked={!!selected}
+              onChange={() => onToggleSelect(order.order_id)}
+              className="mt-1 h-4 w-4 rounded border-gray-300 text-primary-600"
+              aria-label={`Select ${order.order_id}`}
+            />
+          )}
+          <div className="min-w-0">
+            <h3 className="text-sm font-medium text-gray-900 truncate">{order.order_id}</h3>
+            <p className="text-xs text-gray-500">{new Date(order.order_date).toLocaleDateString()}</p>
+            {order.sla_breached && (
+              <span className="mt-1 inline-flex items-center gap-1 text-xs text-rose-700">
+                <ExclamationTriangleIcon className="h-3 w-3" />
+                SLA breach
+              </span>
+            )}
+          </div>
+        </div>
         <Link to={`/business/orders/${order.order_id}`} className="text-primary-600 hover:text-primary-900">
           <EyeIcon className="h-4 w-4" />
         </Link>
       </div>
+
+      <div className="mb-3">
+        <OrderStatusStepper
+          status={order.order_status}
+          accepted_at={order.accepted_at}
+          rts_marked_at={order.rts_marked_at}
+          slaBreached={order.sla_breached}
+          compact
+        />
+      </div>
+
+      <div className="space-y-2 text-sm">
+        <div className="flex justify-between">
+          <span className="text-gray-500">Customer:</span>
+          <span className="text-gray-900 truncate max-w-32">
+            {tAddr1 || order.shipping_address_details?.address_line1 || 'N/A'}
+          </span>
+        </div>
+        <div className="flex justify-between">
+          <span className="text-gray-500">Items:</span>
+          <span className="text-gray-900">{order.items.length}</span>
+        </div>
+        <div className="flex justify-between">
+          <span className="text-gray-500">Total:</span>
+          <span className="text-gray-900 font-medium">
+            {order.currency} {parseFloat(order.total_amount).toFixed(2)}
+          </span>
+        </div>
+        <div className="flex justify-between items-center">
+          <span className="text-gray-500">Payment:</span>
+          <StatusBadge status={order.payment_status} />
+        </div>
+      </div>
+
+      {showActions && (canAccept || canRts) && (
+        <div className="mt-3 flex gap-2">
+          {canAccept && onAccept && (
+            <button
+              onClick={() => onAccept(order.order_id)}
+              disabled={busy === 'accept'}
+              className="flex-1 inline-flex items-center justify-center gap-1 rounded-md bg-emerald-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-emerald-700 disabled:opacity-60"
+            >
+              <CheckCircleIcon className="h-3.5 w-3.5" />
+              {busy === 'accept' ? 'Accepting…' : 'Accept'}
+            </button>
+          )}
+          {canRts && onMarkRts && (
+            <button
+              onClick={() => onMarkRts(order.order_id)}
+              disabled={busy === 'rts'}
+              className="flex-1 inline-flex items-center justify-center gap-1 rounded-md bg-primary-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-primary-700 disabled:opacity-60"
+            >
+              <TruckIcon className="h-3.5 w-3.5" />
+              {busy === 'rts' ? 'Marking…' : 'Mark RTS'}
+            </button>
+          )}
+        </div>
+      )}
     </div>
-    
-    <div className="space-y-2 text-sm">
-      <div className="flex justify-between">
-        <span className="text-gray-500">Customer:</span>
-        <span className="text-gray-900 truncate max-w-32">
-          {tAddr1 || order.shipping_address_details?.address_line1 || 'N/A'}
-        </span>
-      </div>
-      <div className="flex justify-between">
-        <span className="text-gray-500">Items:</span>
-        <span className="text-gray-900">{order.items.length}</span>
-      </div>
-      <div className="flex justify-between">
-        <span className="text-gray-500">Total:</span>
-        <span className="text-gray-900 font-medium">
-          {order.currency} {parseFloat(order.total_amount).toFixed(2)}
-        </span>
-      </div>
-      <div className="flex justify-between items-center">
-        <span className="text-gray-500">Status:</span>
-        <StatusBadge status={order.order_status} />
-      </div>
-      <div className="flex justify-between items-center">
-        <span className="text-gray-500">Payment:</span>
-        <StatusBadge status={order.payment_status} />
-      </div>
-    </div>
-  </div>
-);
+  );
+};
+
+const TABS: { key: OrderTab; label: string }[] = [
+  { key: 'to_ship', label: 'To Ship' },
+  { key: 'shipped', label: 'Shipped' },
+  { key: 'delivered', label: 'Delivered' },
+  { key: 'returns', label: 'Returns' },
+];
 
 const Orders: React.FC = () => {
   useAuth();
@@ -200,8 +302,12 @@ const Orders: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [activeTab, setActiveTab] = useState<OrderTab>('to_ship');
   const [selectedStatus, setSelectedStatus] = useState('All');
   const [selectedPayment, setSelectedPayment] = useState('All');
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [bulkBusy, setBulkBusy] = useState(false);
+  const [rowBusy, setRowBusy] = useState<Record<string, 'accept' | 'rts' | null>>({});
   const [dateRange, setDateRange] = useState<{ start: string, end: string }>({
     start: '',
     end: '',
@@ -344,7 +450,7 @@ const Orders: React.FC = () => {
   // Filter orders based on search term only (since other filters are handled by API)
   const filteredOrders = React.useMemo(() => {
     if (!searchTerm) return orders;
-    
+
     return orders.filter((order) => {
       return order.order_id.toLowerCase().includes(searchTerm.toLowerCase()) ||
         (order.shipping_address_details?.address_line1 || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -352,9 +458,113 @@ const Orders: React.FC = () => {
     });
   }, [orders, searchTerm]);
 
+  // Group by tab bucket (client-side) so the tab bar can show live counts
+  // and the switch is instant.
+  const tabCounts = React.useMemo(() => {
+    const counts: Record<OrderTab, number> = {
+      to_ship: 0, shipped: 0, delivered: 0, returns: 0,
+    };
+    for (const o of filteredOrders) {
+      const t = tabForStatus(o.order_status);
+      if (t) counts[t] += 1;
+    }
+    return counts;
+  }, [filteredOrders]);
+
+  const tabOrders = React.useMemo(
+    () => filteredOrders.filter(o => tabForStatus(o.order_status) === activeTab),
+    [filteredOrders, activeTab]
+  );
+
+  const toShipActionableIds = React.useMemo(
+    () =>
+      tabOrders
+        .filter(o => {
+          const s = o.order_status.toLowerCase();
+          return s === 'processing' || s === 'awaiting_fulfillment';
+        })
+        .map(o => o.order_id),
+    [tabOrders]
+  );
+
+  const handleAccept = async (orderId: string) => {
+    setRowBusy(prev => ({ ...prev, [orderId]: 'accept' }));
+    try {
+      const r = await acceptOrder(orderId);
+      if (r.already_accepted) {
+        toast.success('Order was already accepted');
+      } else {
+        toast.success('Order accepted — SLA timer started');
+      }
+      await fetchOrders();
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : 'Accept failed');
+    } finally {
+      setRowBusy(prev => ({ ...prev, [orderId]: null }));
+    }
+  };
+
+  const handleMarkRts = async (orderId: string) => {
+    setRowBusy(prev => ({ ...prev, [orderId]: 'rts' }));
+    try {
+      const r = await markRts(orderId);
+      if (r.label_url) {
+        toast.success(`Ready to Ship — invoice ${r.invoice_number || 'pending'} · label ready`);
+        window.open(r.label_url, '_blank', 'noopener,noreferrer');
+      } else if (r.shiprocket && r.shiprocket.success === false) {
+        toast.error(
+          `RTS saved but Shiprocket errored (${r.shiprocket.error || 'unknown'}). Retry from order detail.`
+        );
+      } else {
+        toast.success(`Ready to Ship — invoice ${r.invoice_number || 'pending'}`);
+      }
+      await fetchOrders();
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : 'Mark RTS failed');
+    } finally {
+      setRowBusy(prev => ({ ...prev, [orderId]: null }));
+    }
+  };
+
+  const handleBulkRts = async () => {
+    const ids = Array.from(selectedIds).filter(id => toShipActionableIds.includes(id));
+    if (!ids.length) {
+      toast.error('Nothing to mark — select Processing orders only');
+      return;
+    }
+    setBulkBusy(true);
+    try {
+      const r = await bulkRts(ids);
+      toast.success(`${r.succeeded} / ${r.requested} marked Ready to Ship${r.failed ? ` (${r.failed} failed)` : ''}`);
+      setSelectedIds(new Set());
+      await fetchOrders();
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : 'Bulk RTS failed');
+    } finally {
+      setBulkBusy(false);
+    }
+  };
+
+  const toggleSelect = (orderId: string) => {
+    setSelectedIds(prev => {
+      const next = new Set(prev);
+      if (next.has(orderId)) next.delete(orderId);
+      else next.add(orderId);
+      return next;
+    });
+  };
+
+  const toggleSelectAll = () => {
+    if (selectedIds.size === toShipActionableIds.length && toShipActionableIds.length > 0) {
+      setSelectedIds(new Set());
+    } else {
+      setSelectedIds(new Set(toShipActionableIds));
+    }
+  };
+
   // Sort orders
   const sortedOrders = React.useMemo(() => {
-    const sortableOrders = [...filteredOrders];
+    const sortableOrders = [...tabOrders];
     if (sortConfig.key !== null) {
       sortableOrders.sort((a, b) => {
         if (sortConfig.key?.includes('.')) {
@@ -392,7 +602,7 @@ const Orders: React.FC = () => {
       });
     }
     return sortableOrders;
-  }, [filteredOrders, sortConfig]);
+  }, [tabOrders, sortConfig]);
 
   // Generate sort indicator
   const getSortIndicator = (key: string) => {
@@ -431,7 +641,68 @@ const Orders: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">Orders</h1>
       </div>
-      
+
+      {/* Tabs */}
+      <div className="border-b border-gray-200 overflow-x-auto" role="tablist" data-testid="order-tabs">
+        <nav className="flex min-w-max gap-2 sm:gap-6">
+          {TABS.map(t => {
+            const count = tabCounts[t.key];
+            const active = activeTab === t.key;
+            return (
+              <button
+                key={t.key}
+                role="tab"
+                aria-selected={active}
+                data-testid={`tab-${t.key}`}
+                onClick={() => { setActiveTab(t.key); setSelectedIds(new Set()); }}
+                className={`relative px-2 sm:px-3 py-3 text-sm font-medium whitespace-nowrap border-b-2 transition-colors ${
+                  active
+                    ? 'border-primary-500 text-primary-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                {t.label}
+                <span
+                  className={`ml-2 inline-flex items-center justify-center px-2 py-0.5 rounded-full text-xs font-medium ${
+                    active ? 'bg-primary-100 text-primary-700' : 'bg-gray-100 text-gray-600'
+                  }`}
+                >
+                  {count}
+                </span>
+              </button>
+            );
+          })}
+        </nav>
+      </div>
+
+      {/* Bulk action bar — only on To-Ship tab */}
+      {activeTab === 'to_ship' && selectedIds.size > 0 && (
+        <div
+          data-testid="bulk-action-bar"
+          className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-primary-200 bg-primary-50 px-3 py-2 sm:px-4 sm:py-3"
+        >
+          <span className="text-sm text-primary-900">
+            {selectedIds.size} selected
+          </span>
+          <div className="flex gap-2">
+            <button
+              onClick={() => setSelectedIds(new Set())}
+              className="px-3 py-1.5 text-sm text-primary-700 hover:text-primary-900"
+            >
+              Clear
+            </button>
+            <button
+              onClick={handleBulkRts}
+              disabled={bulkBusy}
+              className="inline-flex items-center gap-1 rounded-md bg-primary-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-primary-700 disabled:opacity-60"
+            >
+              <TruckIcon className="h-4 w-4" />
+              {bulkBusy ? 'Marking…' : 'Mark Ready to Ship'}
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Filters */}
       <div className="bg-white p-3 sm:p-4 rounded-lg shadow-sm border border-gray-200">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
@@ -518,7 +789,21 @@ const Orders: React.FC = () => {
             ) : (
               <div className="space-y-4">
                 {sortedOrders.map((order) => (
-                  <MobileOrderCard key={order.order_id} order={order} tAddr1={tAddr1Map[order.order_id]} />
+                  <MobileOrderCard
+                    key={order.order_id}
+                    order={order}
+                    tAddr1={tAddr1Map[order.order_id]}
+                    onAccept={handleAccept}
+                    onMarkRts={handleMarkRts}
+                    busy={rowBusy[order.order_id] || null}
+                    selected={selectedIds.has(order.order_id)}
+                    onToggleSelect={toggleSelect}
+                    showActions={activeTab === 'to_ship'}
+                    canSelect={activeTab === 'to_ship' && (
+                      order.order_status.toLowerCase() === 'processing' ||
+                      order.order_status.toLowerCase() === 'awaiting_fulfillment'
+                    )}
+                  />
                 ))}
               </div>
             )}
@@ -534,6 +819,21 @@ const Orders: React.FC = () => {
             >
               <thead className="bg-gray-50">
                 <tr>
+                  {activeTab === 'to_ship' && (
+                    <th className="text-left" style={{ padding: cellPadding }}>
+                      <input
+                        type="checkbox"
+                        checked={
+                          toShipActionableIds.length > 0 &&
+                          selectedIds.size === toShipActionableIds.length
+                        }
+                        onChange={toggleSelectAll}
+                        className="h-4 w-4 rounded border-gray-300 text-primary-600"
+                        aria-label="Select all actionable orders"
+                        data-testid="select-all-checkbox"
+                      />
+                    </th>
+                  )}
                   {['Order ID', 'Date', 'Customer', 'Items', 'Total', 'Status', 'Payment', 'Actions'].map((header) => (
                     <th
                       key={header}
@@ -550,27 +850,97 @@ const Orders: React.FC = () => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {sortedOrders.map((order) => (
-                  <tr key={order.order_id} className="hover:bg-primary-50">
-                    <td className="text-sm font-medium text-gray-900" style={{ padding: cellPadding }}>{order.order_id}</td>
-                    <td className="text-sm text-gray-500" style={{ padding: cellPadding }}>{new Date(order.order_date).toLocaleDateString()}</td>
-                    <td className="whitespace-normal text-sm text-gray-900 max-w-xs" style={{ padding: cellPadding }}>
-                      <div>{tAddr1Map[order.order_id] || order.shipping_address_details?.address_line1 || 'N/A'}</div>
-                      <div className="text-gray-500">{tCityMap[order.order_id] || order.shipping_address_details?.city || 'N/A'}</div>
-                    </td>
-                    <td className="text-sm text-gray-500" style={{ padding: cellPadding }}>{order.items.length}</td>
-                    <td className="text-sm text-gray-900" style={{ padding: cellPadding }}>{order.currency} {parseFloat(order.total_amount).toFixed(2)}</td>
-                    <td style={{ padding: cellPadding }}><StatusBadge status={order.order_status} /></td>
-                    <td style={{ padding: cellPadding }}><StatusBadge status={order.payment_status} /></td>
-                    <td className="text-sm text-gray-500" style={{ padding: cellPadding }}>
-                      <div className="flex space-x-2">
-                         <Link to={`/business/orders/${order.order_id}`} className="text-primary-600 hover:text-primary-900">
-                          <EyeIcon className="h-5 w-5" />
-                        </Link>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                {sortedOrders.map((order) => {
+                  const s = order.order_status.toLowerCase();
+                  const canAccept = s === 'pending_payment' || s === 'awaiting_fulfillment';
+                  const canRts = s === 'processing' || s === 'awaiting_fulfillment';
+                  const busy = rowBusy[order.order_id] || null;
+                  const selectable = activeTab === 'to_ship' && canRts;
+
+                  return (
+                    <tr
+                      key={order.order_id}
+                      className={`hover:bg-primary-50 ${order.sla_breached ? 'bg-rose-50/40' : ''}`}
+                      data-testid={`order-row-${order.order_id}`}
+                    >
+                      {activeTab === 'to_ship' && (
+                        <td style={{ padding: cellPadding }}>
+                          {selectable && (
+                            <input
+                              type="checkbox"
+                              checked={selectedIds.has(order.order_id)}
+                              onChange={() => toggleSelect(order.order_id)}
+                              className="h-4 w-4 rounded border-gray-300 text-primary-600"
+                              aria-label={`Select ${order.order_id}`}
+                            />
+                          )}
+                        </td>
+                      )}
+                      <td className="text-sm font-medium text-gray-900" style={{ padding: cellPadding }}>
+                        <div className="flex items-center gap-2">
+                          <span>{order.order_id}</span>
+                          {order.sla_breached && (
+                            <span
+                              className="inline-flex items-center gap-1 text-xs text-rose-700"
+                              title="SLA breached — accepted but not RTS'd within 48h"
+                              data-testid="sla-breach-badge"
+                            >
+                              <ExclamationTriangleIcon className="h-3.5 w-3.5" />
+                              SLA
+                            </span>
+                          )}
+                        </div>
+                        <div className="mt-1">
+                          <OrderStatusStepper
+                            status={order.order_status}
+                            accepted_at={order.accepted_at}
+                            rts_marked_at={order.rts_marked_at}
+                            slaBreached={order.sla_breached}
+                            compact
+                          />
+                        </div>
+                      </td>
+                      <td className="text-sm text-gray-500" style={{ padding: cellPadding }}>{new Date(order.order_date).toLocaleDateString()}</td>
+                      <td className="whitespace-normal text-sm text-gray-900 max-w-xs" style={{ padding: cellPadding }}>
+                        <div>{tAddr1Map[order.order_id] || order.shipping_address_details?.address_line1 || 'N/A'}</div>
+                        <div className="text-gray-500">{tCityMap[order.order_id] || order.shipping_address_details?.city || 'N/A'}</div>
+                      </td>
+                      <td className="text-sm text-gray-500" style={{ padding: cellPadding }}>{order.items.length}</td>
+                      <td className="text-sm text-gray-900" style={{ padding: cellPadding }}>{order.currency} {parseFloat(order.total_amount).toFixed(2)}</td>
+                      <td style={{ padding: cellPadding }}><StatusBadge status={order.order_status} /></td>
+                      <td style={{ padding: cellPadding }}><StatusBadge status={order.payment_status} /></td>
+                      <td className="text-sm text-gray-500" style={{ padding: cellPadding }}>
+                        <div className="flex items-center gap-2 flex-wrap">
+                          {activeTab === 'to_ship' && canAccept && (
+                            <button
+                              onClick={() => handleAccept(order.order_id)}
+                              disabled={busy === 'accept'}
+                              className="inline-flex items-center gap-1 rounded-md bg-emerald-600 px-2 py-1 text-xs font-medium text-white hover:bg-emerald-700 disabled:opacity-60"
+                              data-testid={`accept-${order.order_id}`}
+                            >
+                              <CheckCircleIcon className="h-3.5 w-3.5" />
+                              {busy === 'accept' ? '…' : 'Accept'}
+                            </button>
+                          )}
+                          {activeTab === 'to_ship' && canRts && (
+                            <button
+                              onClick={() => handleMarkRts(order.order_id)}
+                              disabled={busy === 'rts'}
+                              className="inline-flex items-center gap-1 rounded-md bg-primary-600 px-2 py-1 text-xs font-medium text-white hover:bg-primary-700 disabled:opacity-60"
+                              data-testid={`rts-${order.order_id}`}
+                            >
+                              <TruckIcon className="h-3.5 w-3.5" />
+                              {busy === 'rts' ? '…' : 'Mark RTS'}
+                            </button>
+                          )}
+                          <Link to={`/business/orders/${order.order_id}`} className="text-primary-600 hover:text-primary-900">
+                            <EyeIcon className="h-5 w-5" />
+                          </Link>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
