@@ -8,6 +8,7 @@ import {
   MagnifyingGlassMinusIcon,
   CheckCircleIcon,
   TruckIcon,
+  PrinterIcon,
   ExclamationTriangleIcon,
 } from '@heroicons/react/24/outline';
 import { useAuth } from '../../context/AuthContext';
@@ -20,6 +21,7 @@ import {
   acceptOrder,
   markRts,
   bulkRts,
+  getLabel,
   tabForStatus,
   OrderTab,
 } from '../../services/merchantOrderApi';
@@ -172,10 +174,12 @@ interface MobileOrderCardProps {
   tAddr1?: string;
   onAccept?: (id: string) => void;
   onMarkRts?: (id: string) => void;
-  busy?: 'accept' | 'rts' | null;
+  onPrintLabel?: (id: string) => void;
+  busy?: 'accept' | 'rts' | 'label' | null;
   selected?: boolean;
   onToggleSelect?: (id: string) => void;
   showActions?: boolean;
+  showPrintLabel?: boolean;
   canSelect?: boolean;
 }
 
@@ -184,10 +188,12 @@ const MobileOrderCard: React.FC<MobileOrderCardProps> = ({
   tAddr1,
   onAccept,
   onMarkRts,
+  onPrintLabel,
   busy,
   selected,
   onToggleSelect,
   showActions,
+  showPrintLabel,
   canSelect,
 }) => {
   const status = order.order_status.toLowerCase();
@@ -284,6 +290,19 @@ const MobileOrderCard: React.FC<MobileOrderCardProps> = ({
           )}
         </div>
       )}
+
+      {showPrintLabel && onPrintLabel && (
+        <div className="mt-3">
+          <button
+            onClick={() => onPrintLabel(order.order_id)}
+            disabled={busy === 'label'}
+            className="w-full inline-flex items-center justify-center gap-1 rounded-md border border-gray-300 bg-white px-3 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-60"
+          >
+            <PrinterIcon className="h-3.5 w-3.5" />
+            {busy === 'label' ? 'Opening…' : 'Print Label'}
+          </button>
+        </div>
+      )}
     </div>
   );
 };
@@ -306,7 +325,7 @@ const Orders: React.FC = () => {
   const [selectedPayment, setSelectedPayment] = useState('All');
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [bulkBusy, setBulkBusy] = useState(false);
-  const [rowBusy, setRowBusy] = useState<Record<string, 'accept' | 'rts' | null>>({});
+  const [rowBusy, setRowBusy] = useState<Record<string, 'accept' | 'rts' | 'label' | null>>({});
   const [dateRange, setDateRange] = useState<{ start: string, end: string }>({
     start: '',
     end: '',
@@ -520,6 +539,18 @@ const Orders: React.FC = () => {
       await fetchOrders();
     } catch (e) {
       toast.error(e instanceof Error ? e.message : 'Mark RTS failed');
+    } finally {
+      setRowBusy(prev => ({ ...prev, [orderId]: null }));
+    }
+  };
+
+  const handlePrintLabel = async (orderId: string) => {
+    setRowBusy(prev => ({ ...prev, [orderId]: 'label' }));
+    try {
+      const r = await getLabel(orderId);
+      window.open(r.label_url, '_blank', 'noopener,noreferrer');
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : 'Label fetch failed');
     } finally {
       setRowBusy(prev => ({ ...prev, [orderId]: null }));
     }
@@ -794,10 +825,16 @@ const Orders: React.FC = () => {
                     tAddr1={tAddr1Map[order.order_id]}
                     onAccept={handleAccept}
                     onMarkRts={handleMarkRts}
+                    onPrintLabel={handlePrintLabel}
                     busy={rowBusy[order.order_id] || null}
                     selected={selectedIds.has(order.order_id)}
                     onToggleSelect={toggleSelect}
                     showActions={activeTab === 'to_ship'}
+                    showPrintLabel={
+                      activeTab === 'shipped' ||
+                      (activeTab === 'to_ship' &&
+                        order.order_status.toLowerCase() === 'pending_shipment')
+                    }
                     canSelect={activeTab === 'to_ship' && (
                       order.order_status.toLowerCase() === 'processing' ||
                       order.order_status.toLowerCase() === 'awaiting_fulfillment'
@@ -930,6 +967,17 @@ const Orders: React.FC = () => {
                             >
                               <TruckIcon className="h-3.5 w-3.5" />
                               {busy === 'rts' ? '…' : 'Mark RTS'}
+                            </button>
+                          )}
+                          {(activeTab === 'shipped' || (activeTab === 'to_ship' && s === 'pending_shipment')) && (
+                            <button
+                              onClick={() => handlePrintLabel(order.order_id)}
+                              disabled={busy === 'label'}
+                              className="inline-flex items-center gap-1 rounded-md border border-gray-300 bg-white px-2 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-60"
+                              data-testid={`label-${order.order_id}`}
+                            >
+                              <PrinterIcon className="h-3.5 w-3.5" />
+                              {busy === 'label' ? '…' : 'Print Label'}
                             </button>
                           )}
                           <Link to={`/business/orders/${order.order_id}`} className="text-primary-600 hover:text-primary-900">

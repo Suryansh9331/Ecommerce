@@ -70,6 +70,13 @@ export interface EwayBillResponse {
   eway_bill_number: string;
 }
 
+export interface LabelResponse {
+  order_id: string;
+  shipment_id: number;
+  label_url: string;
+  cached: boolean;
+}
+
 export async function acceptOrder(orderId: string): Promise<AcceptOrderResponse> {
   const resp = await fetch(
     `${API_BASE_URL}/api/merchant-dashboard/orders/${orderId}/accept`,
@@ -109,6 +116,17 @@ export async function bulkRts(
     }
   );
   return parseJsonOrThrow<BulkRtsResponse>(resp);
+}
+
+export async function getLabel(
+  orderId: string,
+  refresh = false
+): Promise<LabelResponse> {
+  const url = `${API_BASE_URL}/api/merchant-dashboard/orders/${orderId}/label${
+    refresh ? '?refresh=1' : ''
+  }`;
+  const resp = await fetch(url, { headers: authHeaders() });
+  return parseJsonOrThrow<LabelResponse>(resp);
 }
 
 export async function setEwayBill(
