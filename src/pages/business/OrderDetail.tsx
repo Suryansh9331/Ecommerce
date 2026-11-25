@@ -11,6 +11,8 @@ import { useAuth } from "../../context/AuthContext";
 import { toast } from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import { useAmazonTranslate } from "../../hooks/useAmazonTranslate";
+import OrderStatusStepper from "../../components/business/OrderStatusStepper";
+import { setEwayBill, EWAY_BILL_THRESHOLD } from "../../services/merchantOrderApi";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -65,6 +67,11 @@ interface Order {
   shipping_method_name: string;
   customer_notes: string;
   status_history: any[]; // TODO: Replace 'any' with a proper type
+  // Phase 2 Sprint 2 lifecycle fields
+  accepted_at?: string | null;
+  rts_marked_at?: string | null;
+  sla_breached?: boolean;
+  eway_bill_number?: string | null;
 }
 
 // Status badge component
@@ -157,6 +164,87 @@ const AddressBlock: React.FC<{ address: Address | null }> = ({ address }) => {
         {address.city}, {address.state} {address.postal_code}
       </p>
       <p className="text-sm text-gray-900">{address.country}</p>
+    </div>
+  );
+};
+
+interface EwayBillPanelProps {
+  order: Order;
+  onUpdated: () => void;
+}
+
+const EwayBillPanel: React.FC<EwayBillPanelProps> = ({ order, onUpdated }) => {
+  const [value, setValue] = useState(order.eway_bill_number || "");
+  const [busy, setBusy] = useState(false);
+  const hasExisting = !!order.eway_bill_number;
+
+  const handleSave = async () => {
+    const trimmed = value.trim();
+    if (!/^\d{12}$/.test(trimmed)) {
+      toast.error("E-way bill must be a 12-digit number");
+      return;
+    }
+    setBusy(true);
+    try {
+      await setEwayBill(order.order_id, trimmed);
+      toast.success("E-way bill saved");
+      onUpdated();
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Failed to save e-way bill");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <div
+      className="bg-amber-50 border border-amber-200 p-4 sm:p-6 rounded-lg"
+      data-testid="eway-bill-panel"
+    >
+      <div className="flex items-start gap-3">
+        <div className="flex-1">
+          <h3 className="text-sm sm:text-base font-medium text-amber-900">
+            E-way bill required
+          </h3>
+          <p className="text-xs sm:text-sm text-amber-800 mt-1">
+            Order total exceeds ₹50,000. Generate the e-way bill on{" "}
+            <a
+              href="https://ewaybillgst.gov.in"
+              target="_blank"
+              rel="noreferrer"
+              className="underline font-medium"
+            >
+              ewaybillgst.gov.in
+            </a>{" "}
+            and paste the 12-digit number below. This will print on the invoice.
+          </p>
+          <div className="mt-3 flex flex-col sm:flex-row gap-2">
+            <input
+              type="text"
+              inputMode="numeric"
+              maxLength={12}
+              value={value}
+              onChange={(e) => setValue(e.target.value.replace(/\D/g, ""))}
+              placeholder="123456789012"
+              className="flex-1 rounded-md border-amber-300 text-sm focus:border-amber-500 focus:ring-amber-500"
+              data-testid="eway-bill-input"
+            />
+            <button
+              onClick={handleSave}
+              disabled={busy || value.length !== 12}
+              className="rounded-md bg-amber-600 px-3 py-2 text-sm font-medium text-white hover:bg-amber-700 disabled:opacity-60"
+              data-testid="eway-bill-save"
+            >
+              {busy ? "Saving…" : hasExisting ? "Update" : "Save"}
+            </button>
+          </div>
+          {hasExisting && (
+            <p className="text-xs text-amber-800 mt-2">
+              Saved: <span className="font-mono">{order.eway_bill_number}</span>
+            </p>
+          )}
+        </div>
+      </div>
     </div>
   );
 };
@@ -522,52 +610,53 @@ const OrderDetail: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    const fetchOrderDetails = async () => {
-      if (!orderId) return;
-      try {
-        setLoading(true);
-        setError(null);
-        const token = localStorage.getItem("access_token");
-        if (!token) throw new Error("No authentication token found");
-        const headers = {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        };
+  const fetchOrderDetail = React.useCallback(async () => {
+    if (!orderId) return;
+    try {
+      setLoading(true);
+      setError(null);
+      const token = localStorage.getItem("access_token");
+      if (!token) throw new Error("No authentication token found");
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      };
 
-        const orderResponse = await fetch(
-          `${API_BASE_URL}/api/merchant-dashboard/orders/${orderId}`,
-          { headers }
+      const orderResponse = await fetch(
+        `${API_BASE_URL}/api/merchant-dashboard/orders/${orderId}`,
+        { headers }
+      );
+      if (!orderResponse.ok) {
+        const errorData = await orderResponse.json().catch(() => null);
+        throw new Error(
+          errorData?.error ||
+            `Failed to fetch order details: ${orderResponse.status}`
         );
-        if (!orderResponse.ok) {
-          const errorData = await orderResponse.json().catch(() => null);
-          throw new Error(
-            errorData?.error ||
-              `Failed to fetch order details: ${orderResponse.status}`
-          );
-        }
-        const orderData = await orderResponse.json();
-        setOrder(orderData);
-
-        const profileResponse = await fetch(
-          `${API_BASE_URL}/api/merchants/profile`,
-          { headers }
-        );
-        if (profileResponse.ok) {
-          const profileData = await profileResponse.json();
-          setMerchantProfile(profileData.profile);
-        }
-      } catch (err) {
-        const errorMessage =
-          err instanceof Error ? err.message : "Failed to fetch order details";
-        setError(errorMessage);
-        toast.error(errorMessage);
-      } finally {
-        setLoading(false);
       }
-    };
-    fetchOrderDetails();
+      const orderData = await orderResponse.json();
+      setOrder(orderData);
+
+      const profileResponse = await fetch(
+        `${API_BASE_URL}/api/merchants/profile`,
+        { headers }
+      );
+      if (profileResponse.ok) {
+        const profileData = await profileResponse.json();
+        setMerchantProfile(profileData.profile);
+      }
+    } catch (err) {
+      const errorMessage =
+        err instanceof Error ? err.message : "Failed to fetch order details";
+      setError(errorMessage);
+      toast.error(errorMessage);
+    } finally {
+      setLoading(false);
+    }
   }, [orderId]);
+
+  useEffect(() => {
+    fetchOrderDetail();
+  }, [fetchOrderDetail]);
 
   // Translate dynamic texts for display only (fail-open)
   useEffect(() => {
@@ -958,7 +1047,21 @@ const OrderDetail: React.FC = () => {
               </div>
             </div>
           </div>
+
+          <div className="mt-4 overflow-x-auto" data-testid="order-detail-stepper">
+            <OrderStatusStepper
+              status={order.order_status}
+              accepted_at={order.accepted_at}
+              rts_marked_at={order.rts_marked_at}
+              slaBreached={order.sla_breached}
+            />
+          </div>
         </div>
+
+        {/* E-way Bill — mandatory for shipments > Rs 50,000 */}
+        {parseFloat(order.total_amount) > EWAY_BILL_THRESHOLD && (
+          <EwayBillPanel order={order} onUpdated={fetchOrderDetail} />
+        )}
 
         {/* Main Content Grid - Made responsive */}
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 sm:gap-6">
