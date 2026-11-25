@@ -8,7 +8,6 @@ import {
   MagnifyingGlassMinusIcon,
   CheckCircleIcon,
   TruckIcon,
-  PrinterIcon,
   ExclamationTriangleIcon,
 } from '@heroicons/react/24/outline';
 import { useAuth } from '../../context/AuthContext';

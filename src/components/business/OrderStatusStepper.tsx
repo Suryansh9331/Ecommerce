@@ -90,8 +90,8 @@ export const OrderStatusStepper: React.FC<OrderStatusStepperProps> = ({
       data-testid="status-stepper"
     >
       {STEPS.map((step, i) => {
-        const done = i <= activeIdx;
         const isCurrent = i === activeIdx;
+        const done = i < activeIdx;
         const breached =
           slaBreached &&
           step.key === 'rts' &&
@@ -104,10 +104,10 @@ export const OrderStatusStepper: React.FC<OrderStatusStepperProps> = ({
         let cls = 'rounded-full font-medium';
         if (breached) {
           cls += ' bg-rose-100 text-rose-800';
-        } else if (done) {
-          cls += ' bg-emerald-100 text-emerald-800';
         } else if (isCurrent) {
           cls += ' bg-amber-100 text-amber-800';
+        } else if (done) {
+          cls += ' bg-emerald-100 text-emerald-800';
         } else {
           cls += ' bg-gray-100 text-gray-500';
         }
